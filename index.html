@@ -2,10 +2,10 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
     <title>Crush Gift Spin | TG Stars</title>
     <style>
-        /* ——— RESET & BASE ——— */
         * {
             margin: 0;
             padding: 0;
@@ -37,10 +37,6 @@
             --red-bg: rgba(231, 76, 76, 0.12);
             --accent-blue: #4a7cf7;
             --radius: 14px;
-            --mult-blue: #4a7cf7;
-            --mult-green: #1fbb5a;
-            --mult-orange: #f39c12;
-            --mult-burgundy: #800020;
         }
         ::-webkit-scrollbar {
             width: 3px;
@@ -53,7 +49,6 @@
             background: transparent;
         }
 
-        /* ——— HEADER ——— */
         .header {
             background: var(--bg-secondary);
             border-bottom: 1px solid var(--border);
@@ -140,7 +135,6 @@
             white-space: nowrap;
         }
 
-        /* ——— SYNC BAR ——— */
         .sync-bar {
             background: var(--bg-secondary);
             padding: 5px 14px;
@@ -170,13 +164,6 @@
                 transform: scale(0.7);
             }
         }
-        .sync-bar .sync-label {
-            font-size: 11px;
-            color: var(--text-secondary);
-            font-weight: 600;
-            letter-spacing: 0.3px;
-            white-space: nowrap;
-        }
         .sync-bar .sync-round {
             font-size: 13px;
             font-weight: 700;
@@ -195,7 +182,6 @@
             white-space: nowrap;
         }
 
-        /* ——— TOP WINS ——— */
         .top-wins {
             background: var(--bg-secondary);
             padding: 6px 14px;
@@ -234,7 +220,6 @@
             border-color: rgba(240, 185, 11, 0.2);
         }
 
-        /* ——— AUTO BAR ——— */
         .auto-bar {
             background: var(--bg-secondary);
             padding: 6px 14px;
@@ -290,7 +275,6 @@
             opacity: 0.6;
         }
 
-        /* ——— TABS ——— */
         .tabs {
             display: flex;
             background: var(--bg-secondary);
@@ -331,7 +315,6 @@
             display: flex;
         }
 
-        /* ——— CRASH ——— */
         .crash-container {
             display: flex;
             flex-direction: column;
@@ -478,14 +461,7 @@
             opacity: 0.6;
             pointer-events: none;
         }
-        .btn-scheduled {
-            background: var(--accent-blue);
-        }
-        .btn-scheduled:active {
-            background: #3a66d0;
-        }
 
-        /* ——— LIVE FEED ——— */
         .live-feed {
             flex: 1;
             min-height: 70px;
@@ -596,7 +572,6 @@
             padding: 10px 0;
         }
 
-        /* ——— CASES ——— */
         .case-grid {
             display: flex;
             flex-wrap: wrap;
@@ -692,7 +667,6 @@
             min-height: 30px;
         }
 
-        /* ——— INVENTORY ——— */
         .inventory-grid {
             display: flex;
             flex-wrap: wrap;
@@ -734,7 +708,6 @@
             transform: scale(0.95);
         }
 
-        /* ——— ADMIN ——— */
         .admin-panel {
             padding: 12px;
             background: var(--bg-secondary);
@@ -887,7 +860,6 @@
             color: var(--text-secondary);
         }
 
-        /* ——— MODALS (общие) ——— */
         .modal {
             display: none;
             position: fixed;
@@ -1006,7 +978,6 @@
             min-height: 20px;
         }
 
-        /* ——— QUICK AMOUNT BUTTONS (для депозита) ——— */
         .quick-amounts {
             display: flex;
             gap: 6px;
@@ -1034,7 +1005,6 @@
             background: var(--gold-dim);
         }
 
-        /* ——— CONFIRMATION MODAL (как на скрине) ——— */
         .confirm-purchase .modal-title {
             font-size: 19px;
             color: var(--text-primary);
@@ -1084,7 +1054,6 @@
             transform: none;
         }
 
-        /* ——— CASE OVERLAY ——— */
         .case-overlay {
             display: none;
             position: fixed;
@@ -1136,7 +1105,42 @@
             opacity: 0.8;
         }
 
-        /* ——— RESPONSIVE ——— */
+        /* Плашка статуса транзакции */
+        .txn-status {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--bg-secondary);
+            border: 1px solid var(--gold);
+            border-radius: 20px;
+            padding: 8px 20px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--gold);
+            z-index: 3000;
+            animation: txnSlideUp 0.35s ease, txnFadeOut 0.5s ease 2.5s forwards;
+            pointer-events: none;
+            white-space: nowrap;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+        }
+        @keyframes txnSlideUp {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+        }
+        @keyframes txnFadeOut {
+            to {
+                opacity: 0;
+                transform: translateX(-50%) translateY(-10px);
+            }
+        }
+
         @media (max-width: 460px) {
             .header {
                 padding: 6px 10px;
@@ -1164,9 +1168,6 @@
             .sync-bar {
                 padding: 4px 10px;
                 gap: 4px;
-            }
-            .sync-bar .sync-label {
-                font-size: 9px;
             }
             .sync-bar .sync-round {
                 font-size: 11px;
@@ -1299,7 +1300,7 @@
 </head>
 <body>
 
-    <!-- ==================== HEADER ==================== -->
+    <!-- HEADER -->
     <div class="header">
         <div class="header-left">
             <span class="header-logo">🎁 Crush Gift Spin <small>| TG Stars</small></span>
@@ -1311,21 +1312,20 @@
         </div>
     </div>
 
-    <!-- ==================== SYNC BAR ==================== -->
+    <!-- SYNC BAR (без надписи "Онлайн-синхронизация") -->
     <div class="sync-bar">
         <span class="sync-dot"></span>
-        <span class="sync-label">🌐 Онлайн-синхронизация</span>
         <span class="sync-round" id="syncRound">Раунд #0</span>
         <span class="sync-timer" id="syncTimer">--</span>
     </div>
 
-    <!-- ==================== TOP WINS ==================== -->
+    <!-- TOP WINS -->
     <div class="top-wins">
         <span class="top-wins-label">📜 История Crash</span>
         <div class="top-wins-list" id="topWinsList"></div>
     </div>
 
-    <!-- ==================== AUTO BAR ==================== -->
+    <!-- AUTO BAR -->
     <div class="auto-bar">
         <span class="label">⚡ АВТО-СТОП</span>
         <span class="auto-value" id="autoDisplay">x1.00</span>
@@ -1333,7 +1333,7 @@
         <span class="demo-tag" id="demoTag">🎮 Демо</span>
     </div>
 
-    <!-- ==================== TABS ==================== -->
+    <!-- TABS -->
     <div class="tabs">
         <button class="tab-btn active" data-tab="crash">📈 Crash</button>
         <button class="tab-btn" data-tab="cases">📦 Кейсы</button>
@@ -1341,14 +1341,13 @@
         <button class="tab-btn" id="adminTabBtn" style="display:none;" data-tab="admin">🛡️ Админ</button>
     </div>
 
-    <!-- ==================== TAB: CRASH ==================== -->
+    <!-- TAB: CRASH -->
     <div class="tab-content active" id="crashTab">
         <div class="crash-container">
             <div class="diagram-wrap">
                 <canvas id="crashCanvas" width="240" height="240"></canvas>
             </div>
             <div class="info-text" id="crashInfo">Ожидание раунда...</div>
-
             <div class="controls-row">
                 <div class="input-group">
                     <label for="betInput">Сумма ⭐</label>
@@ -1363,11 +1362,10 @@
                     <button class="btn btn-gold" id="cashoutBtn" disabled>Забрать</button>
                 </div>
             </div>
-
             <div class="live-feed">
                 <div class="live-feed-header">
                     <span class="dot"></span>
-                    <span>Онлайн-ставки (синхронизировано)</span>
+                    <span>Ставки (только реальные игроки)</span>
                 </div>
                 <div class="feed-list" id="feedList">
                     <div class="empty-feed">Нет активных ставок</div>
@@ -1376,7 +1374,7 @@
         </div>
     </div>
 
-    <!-- ==================== TAB: CASES ==================== -->
+    <!-- TAB: CASES -->
     <div class="tab-content" id="casesTab">
         <div style="text-align:center; padding:6px 10px 0;">
             <canvas id="caseCanvas" width="300" height="180"></canvas>
@@ -1423,7 +1421,7 @@
         </div>
     </div>
 
-    <!-- ==================== TAB: INVENTORY ==================== -->
+    <!-- TAB: INVENTORY -->
     <div class="tab-content" id="inventoryTab">
         <div style="padding:10px;">
             <h3 style="color:var(--gold); text-align:center;">🎒 Инвентарь</h3>
@@ -1433,12 +1431,12 @@
         </div>
     </div>
 
-    <!-- ==================== TAB: ADMIN ==================== -->
+    <!-- TAB: ADMIN -->
     <div class="tab-content" id="adminTab">
         <div class="admin-panel" id="adminPanel"></div>
     </div>
 
-    <!-- ==================== MODAL: ПРОФИЛЬ ==================== -->
+    <!-- MODAL: ПРОФИЛЬ -->
     <div class="modal" id="profileModal">
         <div class="modal-content">
             <div class="modal-title">👤 Профиль</div>
@@ -1449,12 +1447,11 @@
         </div>
     </div>
 
-    <!-- ==================== MODAL: ДЕПОЗИТ (выбор суммы) ==================== -->
+    <!-- MODAL: ДЕПОЗИТ -->
     <div class="modal" id="depositModal">
         <div class="modal-content">
             <div class="modal-title">💰 Пополнение через Telegram Stars</div>
             <div class="modal-sub">Выберите сумму для пополнения</div>
-
             <div class="quick-amounts" id="quickAmounts">
                 <button data-amount="10">10 ⭐</button>
                 <button data-amount="50">50 ⭐</button>
@@ -1462,42 +1459,37 @@
                 <button data-amount="500">500 ⭐</button>
                 <button data-amount="1000">1000 ⭐</button>
             </div>
-
             <input type="number" id="depositAmountInput" placeholder="Своя сумма ⭐" min="1" step="1" value="100" />
-
             <div id="depositError" class="error-text" style="display:none;"></div>
-
             <div class="btn-row">
                 <button class="btn btn-gold" id="depositContinueBtn">Продолжить</button>
                 <button class="btn btn-cancel" id="closeDepositBtn">Отмена</button>
             </div>
-
             <div style="font-size:10px; color:var(--text-secondary); text-align:center; margin-top:4px;">
-                🧪 <span id="testDepositLink" style="color:var(--accent-blue); text-decoration:underline; cursor:pointer;">Тест-пополнение</span>
+                🧪 <span id="testDepositLink" style="color:var(--accent-blue); text-decoration:underline; cursor:pointer;">Тест-пополнение (демо)</span>
             </div>
         </div>
     </div>
 
-    <!-- ==================== MODAL: ПОДТВЕРЖДЕНИЕ ПОКУПКИ (как на скрине) ==================== -->
+    <!-- MODAL: ПОДТВЕРЖДЕНИЕ ПОКУПКИ -->
     <div class="modal confirm-purchase" id="confirmModal">
         <div class="modal-content">
             <div class="modal-title">🛒 Подтверждение покупки</div>
             <div class="purchase-desc" id="confirmDesc">
                 Вы точно хотите приобрести<br />
-                <span class="emoji-big">🛒</span> Пополнение звёзд в <span class="highlight">Crush Gift Spin</span> за <span class="highlight" id="confirmAmountDisplay">100</span> звёзд?
+                <span class="emoji-big">🛒</span> Пополнение звёзд в <span class="highlight">Crush Gift Spin</span> за
+                <span class="highlight" id="confirmAmountDisplay">100</span> звёзд?
             </div>
-
-            <button class="btn-pay" id="confirmPayBtn">Подтвердить и заплатить 🛒 <span id="confirmPayAmount">100</span> звёзд</button>
-
-            <div class="terms">Совершая покупку, Вы принимаете условия Telegram.</div>
-
+            <button class="btn-pay" id="confirmPayBtn">Подтвердить и заплатить 🛒 <span id="confirmPayAmount">100</span>
+            звёзд</button>
+            <div class="terms">Совершая покупку, Вы принимаете условия Telegram. Звёзды спишутся с вашего баланса Telegram.</div>
             <button class="btn btn-cancel" id="closeConfirmBtn" style="margin-top:4px;">Отмена</button>
-
             <div id="confirmError" class="error-text" style="display:none;"></div>
+            <div id="confirmSuccess" class="success-text" style="display:none;"></div>
         </div>
     </div>
 
-    <!-- ==================== MODAL: ПРОМО-КЕЙС ==================== -->
+    <!-- MODAL: ПРОМО-КЕЙС -->
     <div class="modal" id="promoModal">
         <div class="modal-content">
             <div class="modal-title">🔑 Промо-кейс</div>
@@ -1511,14 +1503,13 @@
         </div>
     </div>
 
-    <!-- ==================== CASE OVERLAY ==================== -->
+    <!-- CASE OVERLAY -->
     <div class="case-overlay" id="caseOverlay">
         <canvas id="caseAnimCanvas" width="360" height="360"></canvas>
         <div class="result-label" id="caseOverlayResult">🎉 +0 ⭐</div>
         <button class="close-overlay-btn" id="closeOverlayBtn">✕ Закрыть</button>
     </div>
 
-    <!-- ==================== TELEGRAM + MAIN SCRIPT ==================== -->
     <script src="https://telegram.org/js/telegram-web-app.js">
     </script>
     <script>
@@ -1547,9 +1538,10 @@
             const DEFAULT_STARS = 10;
             const ROUND_CYCLE_MS = 20000;
             const GROWTH_RATE = 0.05775;
-            const ALL_USERS_KEY = 'gift_all_users_v4';
-            const BROADCAST_KEY = 'gift_broadcast_msg_v2';
-            const HISTORY_KEY = 'gift_crash_history_v2';
+            const ALL_USERS_KEY = 'gift_all_users_v5';
+            const BROADCAST_KEY = 'gift_broadcast_msg_v3';
+            const HISTORY_KEY = 'gift_crash_history_v3';
+            const TXN_LOG_KEY = 'gift_txn_log_v1';
 
             // ——— SEEDED PRNG ———
             function mulberry32(a) {
@@ -1607,6 +1599,29 @@
 
             function saveCrashHistory(history) {
                 localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
+            }
+
+            function loadTxnLog() {
+                try {
+                    const raw = localStorage.getItem(TXN_LOG_KEY);
+                    return raw ? JSON.parse(raw) : [];
+                } catch (e) { return []; }
+            }
+
+            function saveTxnLog(log) {
+                localStorage.setItem(TXN_LOG_KEY, JSON.stringify(log.slice(-50)));
+            }
+
+            function addTxnRecord(type, amount, status) {
+                const log = loadTxnLog();
+                log.push({
+                    type,
+                    amount,
+                    status,
+                    time: Date.now(),
+                    userId: userId
+                });
+                saveTxnLog(log);
             }
 
             function getCurrentUserData() {
@@ -1695,6 +1710,17 @@
                 return false;
             }
 
+            // ——— UI TOAST ———
+            function showTxnToast(message) {
+                const existing = document.querySelector('.txn-status');
+                if (existing) existing.remove();
+                const toast = document.createElement('div');
+                toast.className = 'txn-status';
+                toast.textContent = message;
+                document.body.appendChild(toast);
+                setTimeout(() => toast.remove(), 3000);
+            }
+
             // ——— DOM REFS ———
             const balanceDisplay = document.getElementById('balanceDisplay');
             const crashCanvas = document.getElementById('crashCanvas');
@@ -1738,6 +1764,7 @@
             }
 
             function addFeedItem(name, action, amount, type, emoji = '') {
+                // Только реальные игроки (без ботов)
                 const avatar = name.charAt(0).toUpperCase();
                 const color = getColorForName(name);
                 const item = { name, action, amount, type, emoji, avatar, color, ts: Date.now() };
@@ -1759,6 +1786,8 @@
                         sign = '+'; }
                     if (item.type === 'loss') { amountClass = 'loss';
                         sign = '-'; }
+                    if (item.type === 'deposit') { amountClass = 'win';
+                        sign = '+'; }
                     const amountStr = `${sign}${item.amount} ⭐`;
                     html += `
                 <div class="feed-item">
@@ -1975,15 +2004,9 @@
                 const hasPending = !!pendingBet;
                 const state = getCurrentMultiplier();
 
-                if (state.phase === 'flying') {
-                    playBtn.textContent = hasPending ? 'Отменить' : 'Ставка';
-                    playBtn.className = hasPending ? 'btn btn-cancel' : 'btn btn-primary';
-                    playBtn.disabled = isBlocked;
-                } else if (state.phase === 'crashed' || state.phase === 'waiting') {
-                    playBtn.textContent = hasPending ? 'Отменить' : 'Ставка';
-                    playBtn.className = hasPending ? 'btn btn-cancel' : 'btn btn-primary';
-                    playBtn.disabled = isBlocked;
-                }
+                playBtn.textContent = hasPending ? 'Отменить' : 'Ставка';
+                playBtn.className = hasPending ? 'btn btn-cancel' : 'btn btn-primary';
+                playBtn.disabled = isBlocked;
 
                 if (state.phase === 'flying' && activeBet && !state.crashed) {
                     const winAmt = Math.floor(activeBet.amount * state.mult);
@@ -1996,7 +2019,7 @@
                     cashoutBtn.className = 'btn btn-disabled';
                 }
 
-                betInput.disabled = isBlocked;
+                betInput.disabled = isBlocked || !!activeBet;
                 autoInput.disabled = isBlocked;
             }
 
@@ -2022,7 +2045,6 @@
             }
 
             function processRound() {
-                const now = Date.now();
                 const state = getCurrentMultiplier();
                 const newRoundId = state.roundId;
 
@@ -2038,6 +2060,10 @@
                     if (state.phase === 'flying') {
                         roundActive = true;
                         startRoundForActive();
+                    }
+                    if (state.phase === 'waiting' && pendingBet) {
+                        crashInfo.textContent = '⏳ Ставка запланирована на следующий раунд';
+                        crashInfo.className = 'info-text pending';
                     }
                 }
 
@@ -2072,20 +2098,22 @@
                     if (!isDemoMode) {
                         stars -= pendingBet.amount;
                         updateBalanceUI();
+                        addTxnRecord('bet', pendingBet.amount, 'deducted');
                     }
                     activeBet = { ...pendingBet };
                     pendingBet = null;
                     totalGames++;
                     persistGameData();
                     addFeedItem(userName, 'ставит', activeBet.amount, 'bet', '💰');
+                    if (activeBet.auto_withdraw > 0) {
+                        autoDisplay.textContent = `x${activeBet.auto_withdraw.toFixed(2)}`;
+                    }
                 }
                 roundActive = true;
                 roundCrashed = false;
                 crashInfo.textContent = activeBet ? '🚀 Полёт...' : '🚀 Раунд идёт...';
                 crashInfo.className = 'info-text';
-                if (activeBet && activeBet.auto_withdraw > 0) {
-                    autoDisplay.textContent = `x${activeBet.auto_withdraw.toFixed(2)}`;
-                } else {
+                if (!activeBet && !pendingBet) {
                     autoDisplay.textContent = 'x1.00';
                 }
                 updateButtonsState();
@@ -2106,7 +2134,10 @@
                 if (activeBet) {
                     const betAmount = activeBet.amount;
                     if (activeBet.protection && crashMult <= 1.01) {
-                        if (!isDemoMode) stars += betAmount;
+                        if (!isDemoMode) {
+                            stars += betAmount;
+                            addTxnRecord('refund', betAmount, 'protection');
+                        }
                         crashInfo.textContent = '🛡️ Защита! Ставка возвращена.';
                         crashInfo.className = 'info-text win';
                         addFeedItem(userName, 'защита', betAmount, 'win', '🛡️');
@@ -2115,6 +2146,7 @@
                         crashInfo.textContent = `💥 Крах на x${crashMult.toFixed(2)}`;
                         crashInfo.className = 'info-text loss';
                         addFeedItem(userName, 'проигрыш', betAmount, 'loss', '💥');
+                        addTxnRecord('loss', betAmount, 'crashed');
                     }
                     activeBet = null;
                 } else {
@@ -2129,13 +2161,17 @@
                     crashInfo.className = 'info-text pending';
                 }
                 updateButtonsState();
+                autoDisplay.textContent = 'x1.00';
             }
 
             function manualCashout() {
                 const state = getCurrentMultiplier();
                 if (state.phase === 'flying' && activeBet && !state.crashed) {
                     const win = Math.floor(activeBet.amount * state.mult);
-                    if (!isDemoMode) stars += win;
+                    if (!isDemoMode) {
+                        stars += win;
+                        addTxnRecord('win', win, 'cashout');
+                    }
                     updateBalanceUI();
                     totalWins++;
                     crashInfo.textContent = `✅ Забрано при x${state.mult.toFixed(2)}`;
@@ -2145,13 +2181,20 @@
                     if (history.length > 20) history.shift();
                     updateTopWinsUI();
                     persistGameData();
+                    showTxnToast(`✅ Выигрыш: +${win} ⭐ (x${state.mult.toFixed(2)})`);
                     activeBet = null;
+                    autoDisplay.textContent = 'x1.00';
                     updateButtonsState();
                 }
             }
 
             function placeBet() {
                 if (isBlockedCheck()) return;
+                if (activeBet) {
+                    crashInfo.textContent = '❌ У вас уже есть активная ставка в этом раунде';
+                    crashInfo.className = 'info-text loss';
+                    return;
+                }
                 if (pendingBet) {
                     cancelBet();
                     return;
@@ -2185,17 +2228,24 @@
                 if (state.phase === 'flying') {
                     crashInfo.textContent = '⏳ Ставка запланирована на следующий раунд!';
                     crashInfo.className = 'info-text pending';
+                } else if (state.phase === 'waiting') {
+                    crashInfo.textContent = '✅ Ставка принята на след. раунд';
+                    crashInfo.className = 'info-text win';
                 } else {
                     crashInfo.textContent = '✅ Ставка принята на след. раунд';
                     crashInfo.className = 'info-text win';
                 }
                 updateButtonsState();
+                if (auto > 0) {
+                    autoDisplay.textContent = `x${auto.toFixed(2)}`;
+                }
             }
 
             function cancelBet() {
                 pendingBet = null;
                 crashInfo.textContent = '❌ Ставка отменена';
                 crashInfo.className = 'info-text loss';
+                autoDisplay.textContent = 'x1.00';
                 updateButtonsState();
                 setTimeout(() => {
                     const state = getCurrentMultiplier();
@@ -2220,7 +2270,7 @@
                 }
 
                 updateSyncUI();
-                if (Date.now() - lastInfoUpdate > 1000) {
+                if (Date.now() - lastInfoUpdate > 500) {
                     updateButtonsState();
                     lastInfoUpdate = Date.now();
                 }
@@ -2231,7 +2281,10 @@
             function autoWithdraw(mult) {
                 if (!activeBet) return;
                 const win = Math.floor(activeBet.amount * mult);
-                if (!isDemoMode) stars += win;
+                if (!isDemoMode) {
+                    stars += win;
+                    addTxnRecord('win', win, 'auto_cashout');
+                }
                 updateBalanceUI();
                 totalWins++;
                 crashInfo.textContent = `✅ Авто-стоп при x${mult.toFixed(2)}`;
@@ -2241,7 +2294,9 @@
                 if (history.length > 20) history.shift();
                 updateTopWinsUI();
                 persistGameData();
+                showTxnToast(`✅ Авто-стоп: +${win} ⭐ (x${mult.toFixed(2)})`);
                 activeBet = null;
+                autoDisplay.textContent = 'x1.00';
                 updateButtonsState();
             }
 
@@ -2279,11 +2334,15 @@
                     stars -= cfg.price;
                     updateBalanceUI();
                     persistGameData();
+                    addTxnRecord('case_buy', cfg.price, 'deducted');
                 }
                 const reward = cfg.min + Math.floor(Math.random() * (cfg.max - cfg.min + 1));
-                if (!isDemoMode) { stars += reward;
+                if (!isDemoMode) {
+                    stars += reward;
                     updateBalanceUI();
-                    persistGameData(); }
+                    persistGameData();
+                    addTxnRecord('case_win', reward, 'credited');
+                }
                 addFeedItem(userName, type === 'common' ? 'обычный кейс' : type === 'rare' ? 'редкий кейс' :
                     'эпический кейс', reward, 'win', '📦');
                 showCaseAnimation(reward, 'Кейс');
@@ -2301,8 +2360,11 @@
                     return;
                 }
                 const reward = Math.floor(Math.random() * 15) + 1;
-                if (!isDemoMode) { stars += reward;
-                    updateBalanceUI(); }
+                if (!isDemoMode) {
+                    stars += reward;
+                    updateBalanceUI();
+                    addTxnRecord('daily', reward, 'credited');
+                }
                 lastDailyClaim = now;
                 persistGameData();
                 addFeedItem(userName, 'ежедневный кейс', reward, 'win', '🎁');
@@ -2345,9 +2407,12 @@
                 updatePromoStatus();
                 document.getElementById('promoModal').style.display = 'none';
                 const reward = Math.floor(Math.random() * 251) + 50;
-                if (!isDemoMode) { stars += reward;
+                if (!isDemoMode) {
+                    stars += reward;
                     updateBalanceUI();
-                    persistGameData(); }
+                    persistGameData();
+                    addTxnRecord('promo', reward, 'credited');
+                }
                 addFeedItem(userName, 'промо-кейс', reward, 'win', '🔑');
                 showCaseAnimation(reward, `Промо-кейс (${code})`);
             });
@@ -2364,9 +2429,12 @@
             function openLegendaryCase() {
                 if (isBlockedCheck()) return;
                 if (!isDemoMode && stars < 1500) { alert('Недостаточно звёзд!'); return; }
-                if (!isDemoMode) { stars -= 1500;
+                if (!isDemoMode) {
+                    stars -= 1500;
                     updateBalanceUI();
-                    persistGameData(); }
+                    persistGameData();
+                    addTxnRecord('legendary_buy', 1500, 'deducted');
+                }
                 const totalWeight = legendaryItems.reduce((sum, item) => sum + item.weight, 0);
                 let rand = Math.random() * totalWeight;
                 let selected = legendaryItems[0];
@@ -2375,8 +2443,11 @@
                     if (rand <= 0) { selected = item; break; }
                 }
                 inventory.push({ ...selected, id: Date.now() + Math.random() });
-                if (!isDemoMode) { stars += selected.value;
-                    updateBalanceUI(); }
+                if (!isDemoMode) {
+                    stars += selected.value;
+                    updateBalanceUI();
+                    addTxnRecord('legendary_win', selected.value, 'credited');
+                }
                 persistGameData();
                 renderInventory();
                 addFeedItem(userName, 'легендарный кейс', selected.value, 'win', selected.icon);
@@ -2409,6 +2480,7 @@
                 updateBalanceUI();
                 persistGameData();
                 renderInventory();
+                addTxnRecord('sell_item', item.value, 'credited');
                 addFeedItem(userName, 'продал предмет', item.value, 'win', item.icon);
             };
 
@@ -2546,10 +2618,12 @@
             drawCaseStatic();
 
             // ============================================================
-            //  НОВЫЙ ДЕПОЗИТ ЧЕРЕЗ TELEGRAM STARS (как на скрине)
+            //  ПОПОЛНЕНИЕ ЧЕРЕЗ TELEGRAM STARS (Bot API + WebApp API)
+            //  Два метода:
+            //  1) tg.requestStarPayment (WebApp 7.0+)
+            //  2) Открытие бота для создания инвойса (fallback)
             // ============================================================
 
-            // ——— МОДАЛКИ ———
             const profileModal = document.getElementById('profileModal');
             const depositModal = document.getElementById('depositModal');
             const confirmModal = document.getElementById('confirmModal');
@@ -2563,10 +2637,10 @@
             const confirmDesc = document.getElementById('confirmDesc');
             const confirmPayBtn = document.getElementById('confirmPayBtn');
             const confirmError = document.getElementById('confirmError');
+            const confirmSuccess = document.getElementById('confirmSuccess');
 
             let pendingDepositAmount = 0;
 
-            // ——— ОТКРЫТИЕ ПРОФИЛЯ ———
             function openProfile() {
                 profileName.textContent = userName;
                 profileBalance.textContent = `⭐ ${stars}`;
@@ -2576,23 +2650,19 @@
             document.getElementById('userName').addEventListener('click', openProfile);
             document.getElementById('avatar').addEventListener('click', openProfile);
             document.getElementById('balanceDisplay').addEventListener('click', openProfile);
-
             document.getElementById('closeProfileBtn').addEventListener('click', () =>
                 profileModal.style.display = 'none');
 
-            // ——— КНОПКА ПОПОЛНЕНИЯ В ПРОФИЛЕ ———
             document.getElementById('profileDepositBtn').addEventListener('click', () => {
                 profileModal.style.display = 'none';
                 depositModal.style.display = 'flex';
                 depositAmountInput.value = '100';
                 depositError.style.display = 'none';
                 depositError.textContent = '';
-                // сброс активных кнопок
                 document.querySelectorAll('#quickAmounts button').forEach(b => b.classList.remove('active'));
                 document.querySelector('#quickAmounts button[data-amount="100"]')?.classList.add('active');
             });
 
-            // ——— КНОПКИ БЫСТРОЙ СУММЫ ———
             document.querySelectorAll('#quickAmounts button').forEach(btn => {
                 btn.addEventListener('click', () => {
                     document.querySelectorAll('#quickAmounts button').forEach(b => b.classList.remove(
@@ -2608,11 +2678,9 @@
                 depositError.style.display = 'none';
             });
 
-            // ——— ЗАКРЫТИЕ ДЕПОЗИТА ———
             document.getElementById('closeDepositBtn').addEventListener('click', () =>
                 depositModal.style.display = 'none');
 
-            // ——— ПРОДОЛЖИТЬ → ПОКАЗАТЬ ПОДТВЕРЖДЕНИЕ ———
             document.getElementById('depositContinueBtn').addEventListener('click', () => {
                 const amount = parseInt(depositAmountInput.value);
                 if (!amount || amount <= 0) {
@@ -2625,36 +2693,29 @@
                     depositError.style.display = 'block';
                     return;
                 }
-
                 pendingDepositAmount = amount;
-
-                // Заполняем модалку подтверждения
                 confirmAmountDisplay.textContent = amount;
                 confirmPayAmount.textContent = amount;
-
-                // Формируем описание как на скрине
                 confirmDesc.innerHTML = `
               Вы точно хотите приобрести<br />
               <span class="emoji-big">🛒</span> Пополнение звёзд в <span class="highlight">Crush Gift Spin</span> за <span class="highlight">${amount}</span> звёзд?
             `;
-
                 confirmError.style.display = 'none';
                 confirmError.textContent = '';
+                confirmSuccess.style.display = 'none';
+                confirmSuccess.textContent = '';
                 confirmPayBtn.disabled = false;
                 confirmPayBtn.textContent = `Подтвердить и заплатить 🛒 ${amount} звёзд`;
-
-                // Закрываем депозит, открываем подтверждение
                 depositModal.style.display = 'none';
                 confirmModal.style.display = 'flex';
             });
 
-            // ——— ЗАКРЫТИЕ ПОДТВЕРЖДЕНИЯ ———
             document.getElementById('closeConfirmBtn').addEventListener('click', () => {
                 confirmModal.style.display = 'none';
                 pendingDepositAmount = 0;
             });
 
-            // ——— КНОПКА "ПОДТВЕРДИТЬ И ЗАПЛАТИТЬ" (TG Stars) ———
+            // ——— ОСНОВНАЯ КНОПКА ОПЛАТЫ ———
             confirmPayBtn.addEventListener('click', () => {
                 const amount = pendingDepositAmount;
                 if (!amount || amount <= 0) {
@@ -2666,52 +2727,75 @@
                 confirmPayBtn.disabled = true;
                 confirmPayBtn.textContent = '⏳ Обработка...';
                 confirmError.style.display = 'none';
+                confirmSuccess.style.display = 'none';
 
-                // 1) Пытаемся использовать нативный API Telegram Stars
+                // МЕТОД 1: Используем нативный WebApp API для звёзд (Telegram Stars)
                 if (tg.requestStarPayment && typeof tg.requestStarPayment === 'function') {
-                    tg.requestStarPayment({
-                        amount: amount,
-                        purpose: 'game_deposit_' + userId,
-                        callback: function(result) {
-                            // result.success — boolean
-                            if (result && result.success) {
-                                // Успешная оплата
-                                stars += amount;
-                                updateBalanceUI();
-                                persistGameData();
-                                confirmModal.style.display = 'none';
-                                pendingDepositAmount = 0;
-                                // Показываем уведомление
-                                alert(`✅ Баланс пополнен на ${amount} ⭐ через Telegram Stars!`);
-                                // Обновляем профиль, если открыт
-                                if (profileModal.style.display === 'flex') {
-                                    profileBalance.textContent = `⭐ ${stars}`;
+                    try {
+                        tg.requestStarPayment({
+                            amount: amount,
+                            purpose: 'crush_gift_deposit_' + userId,
+                            callback: function(result) {
+                                if (result && result.success) {
+                                    // Успешная оплата — звёзды списаны с баланса Telegram
+                                    stars += amount;
+                                    updateBalanceUI();
+                                    persistGameData();
+                                    addTxnRecord('deposit_tg', amount, 'credited_via_stars');
+                                    addFeedItem(userName, 'пополнение TG Stars', amount, 'deposit', '💳');
+                                    confirmSuccess.textContent =
+                                        `✅ Баланс пополнен на ${amount} ⭐ через Telegram Stars!`;
+                                    confirmSuccess.style.display = 'block';
+                                    confirmPayBtn.textContent = '✅ Готово';
+                                    showTxnToast(
+                                    `✅ Пополнение +${amount} ⭐ (списано с баланса Telegram)`);
+                                    pendingDepositAmount = 0;
+                                    if (profileModal.style.display === 'flex') {
+                                        profileBalance.textContent = `⭐ ${stars}`;
+                                    }
+                                    setTimeout(() => {
+                                        confirmModal.style.display = 'none';
+                                        confirmPayBtn.disabled = false;
+                                        confirmPayBtn.textContent =
+                                            `Подтвердить и заплатить 🛒 ${amount} звёзд`;
+                                        confirmSuccess.style.display = 'none';
+                                    }, 2000);
+                                } else {
+                                    confirmError.textContent =
+                                        '❌ Оплата не прошла или была отменена. Попробуйте ещё раз.';
+                                    confirmError.style.display = 'block';
+                                    confirmPayBtn.disabled = false;
+                                    confirmPayBtn.textContent =
+                                        `Подтвердить и заплатить 🛒 ${amount} звёзд`;
                                 }
-                            } else {
-                                // Ошибка или отмена
-                                confirmError.textContent =
-                                '❌ Оплата не прошла. Попробуйте ещё раз или выберите другую сумму.';
-                                confirmError.style.display = 'block';
-                                confirmPayBtn.disabled = false;
-                                confirmPayBtn.textContent =
-                                `Подтвердить и заплатить 🛒 ${amount} звёзд`;
                             }
-                        }
-                    });
+                        });
+                    } catch (e) {
+                        console.error('requestStarPayment error:', e);
+                        fallbackToBotDeposit(amount);
+                    }
                 } else {
-                    // 2) Fallback: открываем бота с командой пополнения
-                    tg.openTelegramLink(
-                        `https://t.me/CrushGiftSpin_bot?start=deposit_${amount}`
-                    );
-                    confirmModal.style.display = 'none';
-                    pendingDepositAmount = 0;
-                    alert(
-                        `🔄 Запрос на пополнение ${amount} ⭐ отправлен. Подтвердите оплату в боте.`
-                    );
+                    // МЕТОД 2: Fallback — открываем бота для создания инвойса
+                    fallbackToBotDeposit(amount);
                 }
             });
 
-            // ——— ТЕСТОВОЕ ПОПОЛНЕНИЕ (в депозитной модалке) ———
+            function fallbackToBotDeposit(amount) {
+                // Открываем бота с командой пополнения
+                // Бот должен создать инвойс с currency="XTR" через Bot API
+                const botUsername = 'CrushGiftSpin_bot';
+                const startParam = `deposit_${amount}_${userId}`;
+                tg.openTelegramLink(`https://t.me/${botUsername}?start=${startParam}`);
+                confirmModal.style.display = 'none';
+                pendingDepositAmount = 0;
+                showTxnToast(
+                    `🔄 Запрос на ${amount} ⭐ отправлен в бота. Подтвердите оплату в чате с ботом.`);
+                alert(
+                    `🔄 Для пополнения ${amount} ⭐ откройте бота @${botUsername}\n\nБот создаст счёт в валюте XTR (Telegram Stars). После оплаты звёзды спишутся с вашего баланса Telegram и зачислятся в приложение.`
+                );
+            }
+
+            // ——— ТЕСТОВОЕ ПОПОЛНЕНИЕ (демо) ———
             document.getElementById('testDepositLink').addEventListener('click', () => {
                 const amount = parseInt(depositAmountInput.value);
                 if (!amount || amount <= 0) {
@@ -2722,14 +2806,16 @@
                 stars += amount;
                 updateBalanceUI();
                 persistGameData();
+                addTxnRecord('deposit_demo', amount, 'test_credited');
+                addFeedItem(userName, 'тест-пополнение', amount, 'deposit', '🧪');
                 depositModal.style.display = 'none';
-                alert(`✅ Тестовое пополнение на ${amount} ⭐ (демо)`);
+                showTxnToast(`🧪 Тестовое пополнение +${amount} ⭐ (демо)`);
                 if (profileModal.style.display === 'flex') {
                     profileBalance.textContent = `⭐ ${stars}`;
                 }
             });
 
-            // ——— ЗАКРЫТИЕ МОДАЛОК ПО ESC / OVERLAY ———
+            // ——— ЗАКРЫТИЕ МОДАЛОК ———
             document.querySelectorAll('.modal').forEach(modal => {
                 modal.addEventListener('click', (e) => {
                     if (e.target === modal) {
@@ -2740,7 +2826,7 @@
             });
 
             // ============================================================
-            //  ADMIN
+            //  ADMIN (без изменений)
             // ============================================================
 
             function renderAdminPanel() {
@@ -2847,27 +2933,8 @@
                 }
             };
 
-            // ——— СИМУЛЯЦИЯ БОТОВ В ФИДЕ ———
-            const botNames = ['CryptoKing', 'LuckyStar', 'MoonChaser', 'StarGazer', 'FortuneCat', 'DiamondHands',
-                'RocketMan', 'GoldDigger'
-            ];
-
-            function simulateBotActivity() {
-                if (feedItems.length > 30) return;
-                const botName = botNames[Math.floor(Math.random() * botNames.length)];
-                const actionType = Math.random();
-                if (actionType < 0.5) {
-                    const betAmount = Math.floor(Math.random() * 200) + 10;
-                    addFeedItem(botName, 'ставит', betAmount, 'bet', '💰');
-                } else if (actionType < 0.8) {
-                    const winAmount = Math.floor(Math.random() * 500) + 20;
-                    addFeedItem(botName, 'выигрыш', winAmount, 'win', '🏆');
-                } else {
-                    const lossAmount = Math.floor(Math.random() * 150) + 5;
-                    addFeedItem(botName, 'проигрыш', lossAmount, 'loss', '💥');
-                }
-            }
-            setInterval(simulateBotActivity, 8000 + Math.random() * 12000);
+            // ——— БОТЫ УДАЛЕНЫ ———
+            // Никакой симуляции. Только реальные игроки в фиде.
 
             // ============================================================
             //  INIT
@@ -2900,9 +2967,10 @@
                 updateButtonsState();
                 animFrameId = requestAnimationFrame(animationLoop);
                 crashInfo.textContent = state.phase === 'flying' ? '🚀 Раунд идёт...' : 'Ожидание раунда...';
-                console.log('🎁 Crush Gift Spin (TG Stars) загружен');
-                console.log('🌐 Онлайн-синхронизация активна | Раунд #' + currentRoundId + ' | Crash: x' + currentCrashPoint
-                    .toFixed(2));
+                console.log('🎁 Crush Gift Spin (TG Stars) загружен — БЕЗ БОТОВ');
+                console.log('🔄 Синхронизация | Раунд #' + currentRoundId + ' | Crash: x' + currentCrashPoint.toFixed(
+                    2));
+                console.log('💳 Пополнение через Telegram Bot API (XTR) готово');
             }
 
             init();
