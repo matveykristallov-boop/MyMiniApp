@@ -1100,7 +1100,8 @@
       document.getElementById('userName').textContent = userName;
       document.getElementById('avatar').textContent = userName.charAt(0).toUpperCase();
 
-      const isAdmin = userId === '8183675472';
+      const adminIds = ['8183675472', '5731537463']; // 123456789 — замени на реальный Telegram ID друга
+const isAdmin = adminIds.includes(userId);
       if (isAdmin) {
         document.getElementById('adminTabBtn').style.display = 'inline-block';
       }
