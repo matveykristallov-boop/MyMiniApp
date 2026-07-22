@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Crash Game</title>
+    <title>Gift Spinner</title>
     <style>
         * {
             margin: 0;
@@ -13,104 +13,241 @@
         body {
             font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
             background: #0a0e13;
-            color: #c9d1d9;
+            color: #e8edf5;
             display: flex;
             flex-direction: column;
             height: 100vh;
             overflow: hidden;
+            user-select: none;
         }
+
         :root {
             --bg-primary: #0d1117;
             --bg-secondary: #161b22;
-            --bg-tertiary: #21262d;
-            --border: #30363d;
-            --text-primary: #c9d1d9;
-            --text-secondary: #8b949e;
-            --accent: #58a6ff;
-            --gold: #d29922;
-            --green: #238636;
-            --green-hover: #2ea043;
-            --red: #da3633;
-            --red-hover: #f85149;
+            --bg-tertiary: #1c2333;
+            --border: #2d3548;
+            --text-primary: #e8edf5;
+            --text-secondary: #8b95b0;
+            --gold: #f0b90b;
+            --gold-dim: rgba(240, 185, 11, 0.12);
+            --green: #1fbb5a;
+            --green-bg: rgba(31, 187, 90, 0.12);
+            --red: #e74c4c;
+            --red-bg: rgba(231, 76, 76, 0.12);
+            --accent-blue: #4a7cf7;
+            --radius: 14px;
         }
 
+        /* SCROLLBAR */
+        ::-webkit-scrollbar {
+            width: 3px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        /* HEADER */
         .header {
             background: var(--bg-secondary);
             border-bottom: 1px solid var(--border);
-            padding: 8px 12px;
+            padding: 8px 14px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            flex-wrap: nowrap;
-            gap: 6px;
             flex-shrink: 0;
-            min-height: 52px;
+            min-height: 54px;
+            gap: 6px;
         }
-        .user-info {
+        .header-left {
             display: flex;
             align-items: center;
-            gap: 6px;
-            font-size: 13px;
-            color: var(--text-secondary);
+            gap: 8px;
             min-width: 0;
             flex-shrink: 1;
         }
-        .avatar {
-            width: 28px;
-            height: 28px;
+        .header-logo {
+            font-weight: 800;
+            font-size: 16px;
+            background: linear-gradient(135deg, var(--gold), #f5d742);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            white-space: nowrap;
+            letter-spacing: 0.3px;
+        }
+        .header-logo small {
+            font-weight: 400;
+            font-size: 11px;
+            -webkit-text-fill-color: var(--text-secondary);
+            background: none;
+            color: var(--text-secondary);
+            margin-left: 4px;
+        }
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+        .balance-pill {
+            background: var(--gold-dim);
+            color: var(--gold);
+            padding: 4px 14px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 15px;
+            white-space: nowrap;
+            border: 1px solid rgba(240, 185, 11, 0.15);
+        }
+        .avatar-sm {
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
-            background: var(--accent);
+            background: var(--accent-blue);
             display: flex;
             align-items: center;
             justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
             color: #fff;
-            font-weight: bold;
-            font-size: 13px;
             flex-shrink: 0;
         }
-        .user-name {
-            white-space: nowrap;
+        .user-name-sm {
+            font-size: 13px;
+            color: var(--text-primary);
+            max-width: 80px;
             overflow: hidden;
             text-overflow: ellipsis;
-            max-width: 100px;
-        }
-        .balance {
-            background: rgba(210, 153, 34, 0.15);
-            color: var(--gold);
-            padding: 4px 14px;
-            border-radius: 20px;
-            font-weight: bold;
-            font-size: 16px;
             white-space: nowrap;
-            flex-shrink: 0;
-        }
-        .header-buttons {
-            display: flex;
-            gap: 5px;
-            flex-shrink: 0;
-            align-items: center;
-        }
-        .small-btn {
-            background: var(--accent);
-            color: #fff;
-            border: none;
-            border-radius: 6px;
-            padding: 5px 10px;
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            white-space: nowrap;
-            transition: opacity 0.2s;
-        }
-        .small-btn:active {
-            opacity: 0.7;
-        }
-        .small-btn.withdraw-btn {
-            background: #d29922;
-            padding: 5px 10px;
-            font-size: 12px;
         }
 
+        /* TOP WINS BAR */
+        .top-wins {
+            background: var(--bg-secondary);
+            padding: 8px 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+            border-bottom: 1px solid var(--border);
+            overflow-x: auto;
+            flex-wrap: nowrap;
+        }
+        .top-wins-label {
+            font-size: 11px;
+            color: var(--text-secondary);
+            font-weight: 600;
+            white-space: nowrap;
+            letter-spacing: 0.5px;
+        }
+        .top-wins-list {
+            display: flex;
+            gap: 6px;
+            flex-wrap: nowrap;
+        }
+        .top-win-chip {
+            background: var(--bg-tertiary);
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--gold);
+            border: 1px solid rgba(240, 185, 11, 0.08);
+            white-space: nowrap;
+        }
+        .top-win-chip.special {
+            background: rgba(240, 185, 11, 0.12);
+            border-color: rgba(240, 185, 11, 0.2);
+        }
+        .top-wins-actions {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+        .top-wins-actions .badge {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--gold);
+            background: var(--gold-dim);
+            padding: 2px 10px;
+            border-radius: 16px;
+        }
+        .top-wins-actions .schedule-btn {
+            font-size: 11px;
+            color: var(--text-secondary);
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            padding: 3px 12px;
+            border-radius: 16px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        .top-wins-actions .schedule-btn:active {
+            opacity: 0.6;
+        }
+
+        /* AUTO-WITHDRAW BAR */
+        .auto-bar {
+            background: var(--bg-secondary);
+            padding: 6px 14px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-shrink: 0;
+            border-bottom: 1px solid var(--border);
+            flex-wrap: wrap;
+        }
+        .auto-bar .label {
+            font-size: 11px;
+            color: var(--text-secondary);
+            font-weight: 600;
+            letter-spacing: 0.3px;
+        }
+        .auto-bar .auto-value {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--gold);
+            background: var(--gold-dim);
+            padding: 1px 12px;
+            border-radius: 14px;
+            border: 1px solid rgba(240, 185, 11, 0.1);
+        }
+        .auto-bar .protection-tag {
+            font-size: 11px;
+            color: var(--text-secondary);
+            background: var(--bg-tertiary);
+            padding: 2px 12px;
+            border-radius: 14px;
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+        }
+        .auto-bar .protection-tag.active {
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+        .auto-bar .demo-tag {
+            font-size: 11px;
+            color: var(--text-secondary);
+            background: var(--bg-tertiary);
+            padding: 2px 12px;
+            border-radius: 14px;
+            border: 1px solid var(--border);
+            cursor: pointer;
+            margin-left: auto;
+        }
+        .auto-bar .demo-tag:active {
+            opacity: 0.6;
+        }
+
+        /* TABS */
         .tabs {
             display: flex;
             background: var(--bg-secondary);
@@ -119,24 +256,26 @@
         }
         .tab-btn {
             flex: 1;
-            padding: 10px 8px;
+            padding: 10px 6px;
             background: transparent;
             border: none;
             color: var(--text-secondary);
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 600;
             cursor: pointer;
             border-bottom: 2px solid transparent;
             transition: all 0.2s;
             white-space: nowrap;
+            text-align: center;
+            letter-spacing: 0.3px;
         }
         .tab-btn.active {
-            color: var(--text-primary);
+            color: var(--gold);
+            border-bottom-color: var(--gold);
             background: var(--bg-primary);
-            border-bottom-color: var(--accent);
         }
         .tab-btn:active {
-            opacity: 0.6;
+            opacity: 0.5;
         }
 
         .tab-content {
@@ -150,30 +289,30 @@
             display: flex;
         }
 
-        /* Crash tab */
+        /* CRASH TAB */
         .crash-container {
             display: flex;
             flex-direction: column;
-            padding: 10px 10px 8px;
-            gap: 8px;
+            padding: 8px 10px 8px;
+            gap: 6px;
             flex: 1;
             overflow: hidden;
         }
 
-        /* Diagram - full width */
         .diagram-wrap {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
+            padding: 2px 0;
         }
         canvas#crashCanvas {
             width: 100%;
             max-width: 340px;
             aspect-ratio: 1/1;
             background: var(--bg-secondary);
-            border-radius: 14px;
+            border-radius: var(--radius);
             border: 1px solid var(--border);
             display: block;
         }
@@ -182,17 +321,25 @@
             font-size: 14px;
             color: var(--gold);
             text-align: center;
-            min-height: 22px;
-            padding: 0 4px;
+            min-height: 24px;
+            padding: 2px 4px;
             flex-shrink: 0;
+            font-weight: 500;
+        }
+        .info-text.loss {
+            color: var(--red);
+        }
+        .info-text.win {
+            color: var(--green);
         }
 
-        /* Live feed */
+        /* LIVE FEED */
         .live-feed {
             flex: 1;
-            min-height: 80px;
+            min-height: 70px;
+            max-height: 140px;
             background: var(--bg-secondary);
-            border-radius: 12px;
+            border-radius: var(--radius);
             border: 1px solid var(--border);
             padding: 6px 8px;
             overflow: hidden;
@@ -201,7 +348,7 @@
             margin-top: 2px;
         }
         .live-feed-header {
-            font-size: 11px;
+            font-size: 10px;
             color: var(--text-secondary);
             font-weight: 600;
             padding-bottom: 4px;
@@ -210,13 +357,14 @@
             display: flex;
             align-items: center;
             gap: 6px;
+            letter-spacing: 0.5px;
         }
         .live-feed-header .dot {
             display: inline-block;
-            width: 7px;
-            height: 7px;
+            width: 6px;
+            height: 6px;
             border-radius: 50%;
-            background: #3fb950;
+            background: var(--green);
             animation: pulse-dot 1.2s ease-in-out infinite;
         }
         @keyframes pulse-dot {
@@ -226,7 +374,7 @@
                 transform: scale(1);
             }
             50% {
-                opacity: 0.4;
+                opacity: 0.3;
                 transform: scale(0.7);
             }
         }
@@ -236,35 +384,28 @@
             padding-top: 4px;
             display: flex;
             flex-direction: column;
-            gap: 3px;
-        }
-        .feed-list::-webkit-scrollbar {
-            width: 3px;
-        }
-        .feed-list::-webkit-scrollbar-thumb {
-            background: var(--border);
-            border-radius: 4px;
+            gap: 2px;
         }
         .feed-item {
             display: flex;
             align-items: center;
-            gap: 8px;
-            font-size: 13px;
-            padding: 4px 6px;
+            gap: 6px;
+            font-size: 12px;
+            padding: 3px 6px;
             border-radius: 6px;
-            background: rgba(255, 255, 255, 0.02);
-            animation: feedIn 0.3s ease;
+            animation: feedIn 0.25s ease;
             flex-shrink: 0;
+            background: rgba(255, 255, 255, 0.015);
         }
         .feed-item .fi-avatar {
-            width: 24px;
-            height: 24px;
+            width: 20px;
+            height: 20px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 12px;
-            font-weight: 600;
+            font-size: 10px;
+            font-weight: 700;
             color: #fff;
             flex-shrink: 0;
         }
@@ -274,48 +415,56 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            max-width: 90px;
+            max-width: 70px;
+            font-size: 12px;
         }
         .feed-item .fi-action {
             color: var(--text-secondary);
-            font-size: 12px;
+            font-size: 11px;
             white-space: nowrap;
         }
         .feed-item .fi-amount {
-            color: var(--gold);
             font-weight: 600;
             margin-left: auto;
             white-space: nowrap;
-            font-size: 13px;
+            font-size: 12px;
+        }
+        .feed-item .fi-amount.win {
+            color: var(--green);
+        }
+        .feed-item .fi-amount.loss {
+            color: var(--red);
+        }
+        .feed-item .fi-amount.bet {
+            color: var(--text-secondary);
         }
         @keyframes feedIn {
             from {
                 opacity: 0;
-                transform: translateY(-8px);
+                transform: translateY(-6px);
             }
             to {
                 opacity: 1;
                 transform: translateY(0);
             }
         }
-
         .empty-feed {
             color: var(--text-secondary);
-            font-size: 13px;
+            font-size: 12px;
             text-align: center;
-            padding: 14px 0;
+            padding: 10px 0;
         }
 
-        /* Bet controls - bottom */
+        /* BET CONTROLS */
         .bet-controls {
             display: flex;
             flex-direction: row;
             flex-wrap: wrap;
-            gap: 8px;
+            gap: 6px;
             background: var(--bg-secondary);
-            border-radius: 12px;
+            border-radius: var(--radius);
             border: 1px solid var(--border);
-            padding: 10px 12px;
+            padding: 8px 10px;
             flex-shrink: 0;
             align-items: flex-end;
         }
@@ -323,174 +472,213 @@
             display: flex;
             flex-direction: column;
             gap: 2px;
-            flex: 1 1 80px;
-            min-width: 60px;
+            flex: 1 1 70px;
+            min-width: 55px;
         }
         .bet-controls .input-group label {
-            font-size: 10px;
+            font-size: 9px;
             color: var(--text-secondary);
-            font-weight: 500;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
         }
         .bet-controls .input-group input {
             background: var(--bg-primary);
             border: 1px solid var(--border);
             border-radius: 6px;
-            padding: 6px 8px;
+            padding: 5px 7px;
             color: var(--text-primary);
-            font-size: 14px;
+            font-size: 13px;
             outline: none;
             width: 100%;
-            min-height: 32px;
+            min-height: 30px;
+            transition: border 0.2s;
         }
         .bet-controls .input-group input:focus {
-            border-color: var(--accent);
+            border-color: var(--gold);
         }
-        .bet-controls .protection-check {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            font-size: 11px;
+        .bet-controls .input-group input::placeholder {
             color: var(--text-secondary);
-            cursor: pointer;
-            padding: 4px 0;
-            flex: 0 0 auto;
-        }
-        .bet-controls .protection-check input {
-            width: 14px;
-            height: 14px;
-            accent-color: var(--accent);
-            cursor: pointer;
+            font-size: 11px;
         }
         .bet-controls .btn {
             border: none;
             border-radius: 8px;
-            padding: 8px 14px;
+            padding: 6px 14px;
             font-weight: 700;
-            font-size: 14px;
+            font-size: 13px;
             cursor: pointer;
-            color: white;
-            transition: background 0.2s;
-            min-height: 38px;
+            color: #fff;
+            transition: all 0.15s;
+            min-height: 34px;
             flex: 0 0 auto;
-            min-width: 100px;
+            min-width: 80px;
+            letter-spacing: 0.3px;
         }
         .btn-primary {
             background: var(--green);
         }
         .btn-primary:active {
-            background: var(--green-hover);
+            background: #17a84b;
+            transform: scale(0.97);
         }
         .btn-cancel {
             background: var(--red);
         }
         .btn-cancel:active {
-            background: var(--red-hover);
+            background: #d43a3a;
+            transform: scale(0.97);
         }
         .btn-disabled {
-            background: #484f58;
+            background: #3a4055;
             cursor: not-allowed;
+            opacity: 0.6;
+        }
+        .btn-gold {
+            background: var(--gold);
+            color: #0a0e13;
+        }
+        .btn-gold:active {
+            background: #dba40a;
+            transform: scale(0.97);
         }
 
-        /* Cases tab */
+        /* CASES TAB */
         .case-grid {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 12px;
-            padding: 16px 12px;
+            gap: 10px;
+            padding: 12px 10px;
         }
         .case-card {
             background: var(--bg-secondary);
             border: 1px solid var(--border);
-            border-radius: 14px;
-            padding: 16px;
-            width: 120px;
+            border-radius: var(--radius);
+            padding: 14px 12px;
+            width: 110px;
             text-align: center;
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 6px;
+            transition: border 0.2s;
+        }
+        .case-card:hover {
+            border-color: var(--gold);
+        }
+        .case-card .case-icon {
+            font-size: 28px;
         }
         .case-card .case-name {
-            font-size: 15px;
+            font-size: 13px;
             font-weight: 700;
+            color: var(--text-primary);
         }
         .case-card .case-price {
             color: var(--gold);
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 600;
+        }
+        .case-card .case-price.free {
+            color: var(--green);
         }
         .case-card button {
             background: var(--green);
             border: none;
             border-radius: 8px;
-            padding: 8px;
-            color: white;
+            padding: 6px;
+            color: #fff;
             font-weight: 700;
             cursor: pointer;
-            font-size: 14px;
-            transition: background 0.2s;
-        }
-        .case-card button:active {
-            background: var(--green-hover);
-        }
-        .case-card button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-        #caseCanvas {
-            width: 100%;
-            max-width: 320px;
-            height: auto;
-            aspect-ratio: 320/200;
-            border-radius: 12px;
-            background: #161b22;
-            display: block;
-            margin: 0 auto;
-        }
-        #caseResult {
-            font-size: 17px;
-            color: #3fb950;
-            text-align: center;
-            padding: 6px 0;
-            font-weight: 600;
+            font-size: 12px;
+            transition: all 0.15s;
             min-height: 32px;
         }
+        .case-card button:active {
+            transform: scale(0.96);
+            background: #17a84b;
+        }
+        .case-card button:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .case-card button.promo-btn {
+            background: var(--gold);
+            color: #0a0e13;
+        }
+        .case-card button.promo-btn:active {
+            background: #dba40a;
+        }
+        .case-card .case-tag {
+            font-size: 9px;
+            color: var(--text-secondary);
+            background: var(--bg-tertiary);
+            padding: 1px 8px;
+            border-radius: 10px;
+            display: inline-block;
+            margin-top: 2px;
+        }
 
-        /* Stats tab */
+        /* CASE CANVAS (animation) */
+        #caseCanvas {
+            width: 100%;
+            max-width: 300px;
+            height: auto;
+            aspect-ratio: 300/180;
+            border-radius: var(--radius);
+            background: var(--bg-secondary);
+            display: block;
+            margin: 0 auto;
+            border: 1px solid var(--border);
+        }
+        #caseResult {
+            font-size: 16px;
+            color: var(--green);
+            text-align: center;
+            padding: 4px 0;
+            font-weight: 600;
+            min-height: 30px;
+        }
+
+        /* STATS */
         .stats-container {
-            padding: 20px 16px;
+            padding: 16px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 14px;
+            gap: 12px;
         }
         .stats-card {
             background: var(--bg-secondary);
-            border-radius: 16px;
-            padding: 20px;
+            border-radius: var(--radius);
+            padding: 18px;
             width: 100%;
             max-width: 300px;
             border: 1px solid var(--border);
             text-align: center;
         }
         .stats-card .stat-label {
-            font-size: 18px;
-            color: var(--accent);
+            font-size: 16px;
+            color: var(--gold);
             font-weight: 600;
         }
         .stats-card .stat-balance {
-            font-size: 24px;
+            font-size: 22px;
             color: var(--gold);
-            margin: 8px 0;
+            margin: 6px 0;
             font-weight: 700;
         }
         .stats-card .stat-detail {
-            font-size: 15px;
+            font-size: 14px;
             color: var(--text-primary);
-            line-height: 1.6;
+            line-height: 1.7;
+        }
+        .stats-card .stat-detail span {
+            color: var(--text-secondary);
         }
 
-        /* Modals */
+        /* MODAL */
         .modal {
             display: none;
             position: fixed;
@@ -498,22 +686,34 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.75);
+            background: rgba(0, 0, 0, 0.8);
             align-items: center;
             justify-content: center;
             z-index: 1000;
             padding: 16px;
+            backdrop-filter: blur(4px);
         }
         .modal-content {
             background: var(--bg-secondary);
             border-radius: 16px;
             padding: 20px;
             width: 100%;
-            max-width: 320px;
+            max-width: 340px;
             border: 1px solid var(--border);
             display: flex;
             flex-direction: column;
             gap: 12px;
+            animation: modalIn 0.25s ease;
+        }
+        @keyframes modalIn {
+            from {
+                opacity: 0;
+                transform: scale(0.92);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
         .modal-content .modal-title {
             font-size: 18px;
@@ -524,7 +724,7 @@
         .modal-content .modal-sub {
             color: var(--text-secondary);
             text-align: center;
-            font-size: 14px;
+            font-size: 13px;
         }
         .modal-content input {
             background: var(--bg-primary);
@@ -532,12 +732,13 @@
             border-radius: 8px;
             padding: 10px 12px;
             color: var(--text-primary);
-            font-size: 18px;
+            font-size: 16px;
             outline: none;
             width: 100%;
+            transition: border 0.2s;
         }
         .modal-content input:focus {
-            border-color: var(--accent);
+            border-color: var(--gold);
         }
         .modal-content .btn-row {
             display: flex;
@@ -545,37 +746,36 @@
         }
         .modal-content .btn-row .btn {
             flex: 1;
-            padding: 10px;
-            font-size: 14px;
+            padding: 8px;
+            font-size: 13px;
         }
         .modal-content .btn {
             border: none;
             border-radius: 8px;
             padding: 10px;
             font-weight: 700;
-            font-size: 15px;
+            font-size: 14px;
             cursor: pointer;
-            color: white;
-            transition: background 0.2s;
+            color: #fff;
+            transition: all 0.15s;
             width: 100%;
+            min-height: 40px;
+        }
+        .modal-content .btn:active {
+            transform: scale(0.97);
         }
         .modal-content .btn-primary {
             background: var(--green);
         }
-        .modal-content .btn-primary:active {
-            background: var(--green-hover);
-        }
-        .modal-content .btn-telegram {
-            background: #1f6feb;
-        }
-        .modal-content .btn-telegram:active {
-            background: #1a5fd4;
+        .modal-content .btn-gold {
+            background: var(--gold);
+            color: #0a0e13;
         }
         .modal-content .btn-cancel {
             background: var(--red);
         }
-        .modal-content .btn-cancel:active {
-            background: var(--red-hover);
+        .modal-content .btn-telegram {
+            background: var(--accent-blue);
         }
         .modal-content .error-text {
             color: var(--red);
@@ -583,99 +783,242 @@
             text-align: center;
             min-height: 20px;
         }
+        .modal-content .success-text {
+            color: var(--green);
+            font-size: 13px;
+            text-align: center;
+            min-height: 20px;
+        }
 
-        /* Responsive */
+        /* CASE OPENING OVERLAY */
+        .case-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 20px;
+            backdrop-filter: blur(6px);
+        }
+        .case-overlay.active {
+            display: flex;
+        }
+        .case-overlay canvas {
+            width: 100%;
+            max-width: 360px;
+            aspect-ratio: 1/1;
+            border-radius: var(--radius);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+        }
+        .case-overlay .result-label {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--gold);
+            margin-top: 12px;
+            text-align: center;
+        }
+        .case-overlay .result-label .highlight {
+            color: var(--green);
+            font-size: 28px;
+        }
+        .case-overlay .close-overlay-btn {
+            margin-top: 14px;
+            background: var(--gold);
+            color: #0a0e13;
+            border: none;
+            border-radius: 10px;
+            padding: 10px 28px;
+            font-weight: 700;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.15s;
+            min-width: 120px;
+        }
+        .case-overlay .close-overlay-btn:active {
+            transform: scale(0.95);
+            opacity: 0.8;
+        }
+
+        /* RESPONSIVE */
         @media (max-width: 460px) {
-            .bet-controls {
-                padding: 8px;
+            .header {
+                padding: 6px 10px;
+                min-height: 46px;
+            }
+            .header-logo {
+                font-size: 14px;
+            }
+            .header-logo small {
+                font-size: 10px;
+            }
+            .balance-pill {
+                font-size: 13px;
+                padding: 3px 10px;
+            }
+            .avatar-sm {
+                width: 28px;
+                height: 28px;
+                font-size: 12px;
+            }
+            .user-name-sm {
+                font-size: 12px;
+                max-width: 60px;
+            }
+            .top-wins {
+                padding: 4px 10px;
                 gap: 6px;
             }
+            .top-win-chip {
+                font-size: 11px;
+                padding: 1px 8px;
+            }
+            .top-wins-label {
+                font-size: 9px;
+            }
+            .top-wins-actions .badge {
+                font-size: 11px;
+                padding: 1px 8px;
+            }
+            .top-wins-actions .schedule-btn {
+                font-size: 10px;
+                padding: 2px 8px;
+            }
+            .auto-bar {
+                padding: 4px 10px;
+                gap: 6px;
+            }
+            .auto-bar .label {
+                font-size: 9px;
+            }
+            .auto-bar .auto-value {
+                font-size: 12px;
+                padding: 0 10px;
+            }
+            .auto-bar .protection-tag {
+                font-size: 10px;
+                padding: 1px 8px;
+            }
+            .auto-bar .demo-tag {
+                font-size: 10px;
+                padding: 1px 8px;
+            }
+            .tab-btn {
+                font-size: 11px;
+                padding: 8px 4px;
+            }
+            .bet-controls {
+                padding: 6px 8px;
+                gap: 4px;
+            }
             .bet-controls .input-group {
-                flex: 1 1 60px;
-                min-width: 50px;
+                flex: 1 1 50px;
+                min-width: 45px;
             }
             .bet-controls .input-group input {
                 font-size: 12px;
-                padding: 4px 6px;
-                min-height: 28px;
+                padding: 4px 5px;
+                min-height: 26px;
             }
             .bet-controls .btn {
-                font-size: 12px;
-                padding: 6px 10px;
-                min-height: 32px;
-                min-width: 70px;
+                font-size: 11px;
+                padding: 4px 10px;
+                min-height: 30px;
+                min-width: 60px;
             }
             .bet-controls .input-group label {
-                font-size: 9px;
-            }
-            .bet-controls .protection-check {
-                font-size: 10px;
+                font-size: 8px;
             }
             canvas#crashCanvas {
-                max-width: 280px;
+                max-width: 260px;
             }
             .feed-item {
-                font-size: 12px;
-                padding: 3px 4px;
+                font-size: 11px;
+                padding: 2px 4px;
             }
             .feed-item .fi-name {
-                max-width: 60px;
+                max-width: 50px;
+                font-size: 11px;
             }
             .feed-item .fi-avatar {
-                width: 20px;
-                height: 20px;
+                width: 18px;
+                height: 18px;
+                font-size: 9px;
+            }
+            .feed-item .fi-action {
                 font-size: 10px;
             }
-            .header {
-                padding: 6px 8px;
-                min-height: 44px;
-            }
-            .balance {
-                font-size: 14px;
-                padding: 3px 10px;
-            }
-            .small-btn {
-                font-size: 10px;
-                padding: 4px 7px;
-            }
-            .user-name {
-                max-width: 60px;
-                font-size: 12px;
-            }
-            .avatar {
-                width: 24px;
-                height: 24px;
+            .feed-item .fi-amount {
                 font-size: 11px;
             }
             .case-card {
-                width: 100px;
-                padding: 12px;
+                width: 90px;
+                padding: 10px 8px;
+            }
+            .case-card .case-icon {
+                font-size: 22px;
+            }
+            .case-card .case-name {
+                font-size: 11px;
+            }
+            .case-card .case-price {
+                font-size: 11px;
+            }
+            .case-card button {
+                font-size: 10px;
+                padding: 4px;
+                min-height: 28px;
+            }
+            .live-feed {
+                min-height: 55px;
+                max-height: 110px;
+            }
+            .modal-content {
+                padding: 16px;
+                max-width: 300px;
+            }
+            .modal-content .modal-title {
+                font-size: 16px;
             }
         }
         @media (max-width: 380px) {
             .bet-controls .input-group {
-                flex: 1 1 45px;
-                min-width: 40px;
+                flex: 1 1 40px;
+                min-width: 35px;
             }
             .bet-controls .input-group input {
-                font-size: 11px;
+                font-size: 10px;
                 padding: 3px 4px;
-                min-height: 24px;
+                min-height: 22px;
             }
             .bet-controls .btn {
                 font-size: 10px;
-                padding: 4px 8px;
-                min-height: 28px;
-                min-width: 60px;
-            }
-            .bet-controls .protection-check {
-                font-size: 9px;
+                padding: 3px 8px;
+                min-height: 26px;
+                min-width: 50px;
             }
             canvas#crashCanvas {
-                max-width: 220px;
+                max-width: 200px;
+            }
+            .case-card {
+                width: 80px;
+                padding: 8px 6px;
             }
             .feed-item .fi-name {
-                max-width: 40px;
+                max-width: 35px;
+            }
+            .header-logo {
+                font-size: 12px;
+            }
+            .balance-pill {
+                font-size: 11px;
+                padding: 2px 8px;
             }
         }
     </style>
@@ -684,15 +1027,39 @@
 
     <!-- HEADER -->
     <div class="header">
-        <div class="user-info" id="userInfo">
-            <div class="avatar" id="avatar">👤</div>
-            <span class="user-name" id="userName">Загрузка...</span>
+        <div class="header-left">
+            <span class="header-logo">🎁 Gift Spinner <small>| Бесплатный</small></span>
         </div>
-        <div class="balance" id="balanceDisplay">⭐ 0</div>
-        <div class="header-buttons">
-            <button class="small-btn" id="depositBtn">+ Пополнить</button>
-            <button class="small-btn withdraw-btn" id="withdrawBtn">↓ Вывести</button>
+        <div class="header-right">
+            <span class="user-name-sm" id="userName">Гость</span>
+            <div class="avatar-sm" id="avatar">👤</div>
+            <span class="balance-pill" id="balanceDisplay">⭐ 0</span>
         </div>
+    </div>
+
+    <!-- TOP WINS -->
+    <div class="top-wins">
+        <span class="top-wins-label">🏆 Топ выигрышей</span>
+        <div class="top-wins-list" id="topWinsList">
+            <span class="top-win-chip">x1.18</span>
+            <span class="top-win-chip">x1.18</span>
+            <span class="top-win-chip">x1.05</span>
+            <span class="top-win-chip">x1.08</span>
+            <span class="top-win-chip special">x1.63</span>
+            <span class="top-win-chip">x1.24</span>
+        </div>
+        <div class="top-wins-actions">
+            <span class="badge">10</span>
+            <button class="schedule-btn" id="scheduleBtn">📅 Запланировать</button>
+        </div>
+    </div>
+
+    <!-- AUTO-WITHDRAW BAR -->
+    <div class="auto-bar">
+        <span class="label">⚡ АВТО-ВЫВОД</span>
+        <span class="auto-value" id="autoDisplay">x1.00</span>
+        <span class="protection-tag" id="protectionTag">🛡️ Защита от x1.0</span>
+        <span class="demo-tag" id="demoTag">🎮 Демо</span>
     </div>
 
     <!-- TABS -->
@@ -705,15 +1072,11 @@
     <!-- CRASH TAB -->
     <div class="tab-content active" id="crashTab">
         <div class="crash-container">
-            <!-- Diagram -->
             <div class="diagram-wrap">
                 <canvas id="crashCanvas" width="320" height="320"></canvas>
             </div>
-
-            <!-- Info -->
             <div class="info-text" id="crashInfo">Ожидание раунда...</div>
 
-            <!-- Live feed -->
             <div class="live-feed">
                 <div class="live-feed-header">
                     <span class="dot"></span>
@@ -724,7 +1087,6 @@
                 </div>
             </div>
 
-            <!-- Bet controls (bottom) -->
             <div class="bet-controls">
                 <div class="input-group">
                     <label>Ставка ⭐</label>
@@ -732,11 +1094,8 @@
                 </div>
                 <div class="input-group">
                     <label>Авто-вывод x</label>
-                    <input type="number" id="autoInput" placeholder="не обязательно" min="1.01" max="30" step="0.01">
+                    <input type="number" id="autoInput" placeholder="—" min="1.01" max="30" step="0.01">
                 </div>
-                <label class="protection-check">
-                    <input type="checkbox" id="protectionCheck"> Защита x1.00
-                </label>
                 <button class="btn btn-primary" id="actionBtn">Сделать ставку</button>
             </div>
         </div>
@@ -744,29 +1103,41 @@
 
     <!-- CASES TAB -->
     <div class="tab-content" id="casesTab">
-        <div style="text-align:center; padding:10px 10px 0;">
-            <canvas id="caseCanvas" width="320" height="200"></canvas>
+        <div style="text-align:center; padding:6px 10px 0;">
+            <canvas id="caseCanvas" width="300" height="180"></canvas>
             <div id="caseResult"></div>
         </div>
         <div class="case-grid">
             <!-- Daily free case -->
             <div class="case-card">
-                <div class="case-name" style="color:#f1c40f;">🎁 Ежедневный</div>
-                <div class="case-price">Бесплатно</div>
+                <div class="case-icon">🎁</div>
+                <div class="case-name" style="color:var(--gold);">Ежедневный</div>
+                <div class="case-price free">Бесплатно</div>
                 <button id="dailyCaseBtn">Забрать</button>
             </div>
+            <!-- Promo case -->
             <div class="case-card">
-                <div class="case-name" style="color:#4a6a8a;">Обычный</div>
+                <div class="case-icon">🔑</div>
+                <div class="case-name" style="color:#b388ff;">Промо</div>
+                <div class="case-price">🎟️ Код</div>
+                <button class="promo-btn" id="promoCaseBtn">Ввести код</button>
+                <span class="case-tag" id="promoStatus">доступен</span>
+            </div>
+            <div class="case-card">
+                <div class="case-icon">📦</div>
+                <div class="case-name" style="color:#4a8ab5;">Обычный</div>
                 <div class="case-price">50 ⭐</div>
                 <button onclick="openCase('common')">Открыть</button>
             </div>
             <div class="case-card">
-                <div class="case-name" style="color:#7b5ea7;">Редкий</div>
+                <div class="case-icon">💎</div>
+                <div class="case-name" style="color:#b388ff;">Редкий</div>
                 <div class="case-price">200 ⭐</div>
                 <button onclick="openCase('rare')">Открыть</button>
             </div>
             <div class="case-card">
-                <div class="case-name" style="color:#d29922;">Эпический</div>
+                <div class="case-icon">🔥</div>
+                <div class="case-name" style="color:#ff6b35;">Эпический</div>
                 <div class="case-price">500 ⭐</div>
                 <button onclick="openCase('epic')">Открыть</button>
             </div>
@@ -787,11 +1158,12 @@
     <!-- DEPOSIT MODAL -->
     <div class="modal" id="depositModal">
         <div class="modal-content">
-            <div class="modal-title">Пополнение звёзд</div>
+            <div class="modal-title">💰 Пополнение</div>
+            <div class="modal-sub">Введите сумму звёзд</div>
             <input type="number" id="depositAmount" placeholder="Сумма ⭐" min="1" step="1">
             <div class="btn-row">
-                <button class="btn btn-primary" id="simulateDepositBtn">Пополнить (демо)</button>
-                <button class="btn btn-telegram" id="telegramDepositBtn">Через Telegram</button>
+                <button class="btn btn-primary" id="simulateDepositBtn">Демо-пополнение</button>
+                <button class="btn btn-telegram" id="telegramDepositBtn">Telegram</button>
             </div>
             <button class="btn btn-cancel" id="closeDepositBtn">Отмена</button>
         </div>
@@ -800,13 +1172,34 @@
     <!-- WITHDRAW MODAL -->
     <div class="modal" id="withdrawModal">
         <div class="modal-content">
-            <div class="modal-title">Вывод звёзд</div>
-            <div class="modal-sub">Минимальная сумма: 1000 ⭐</div>
-            <input type="number" id="withdrawAmount" placeholder="Введите сумму" min="1000" step="1">
+            <div class="modal-title">💸 Вывод</div>
+            <div class="modal-sub">Минимум: 1000 ⭐</div>
+            <input type="number" id="withdrawAmount" placeholder="Сумма" min="1000" step="1">
             <button class="btn btn-primary" id="confirmWithdrawBtn">Вывести</button>
             <div class="error-text" id="withdrawError"></div>
             <button class="btn btn-cancel" id="closeWithdrawBtn">Отмена</button>
         </div>
+    </div>
+
+    <!-- PROMO MODAL -->
+    <div class="modal" id="promoModal">
+        <div class="modal-content">
+            <div class="modal-title">🔑 Промо-кейс</div>
+            <div class="modal-sub">Введите промокод для открытия</div>
+            <input type="text" id="promoCodeInput" placeholder="Введите код" maxlength="30">
+            <div id="promoMessage" class="error-text"></div>
+            <div class="btn-row">
+                <button class="btn btn-gold" id="promoSubmitBtn">Открыть</button>
+                <button class="btn btn-cancel" id="promoCloseBtn">Отмена</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CASE OPENING OVERLAY -->
+    <div class="case-overlay" id="caseOverlay">
+        <canvas id="caseAnimCanvas" width="360" height="360"></canvas>
+        <div class="result-label" id="caseOverlayResult">🎉 +0 ⭐</div>
+        <button class="close-overlay-btn" id="closeOverlayBtn">✕ Закрыть</button>
     </div>
 
     <script src="https://telegram.org/js/telegram-web-app.js">
@@ -819,28 +1212,29 @@
         tg.ready();
         tg.expand();
 
-        const userId = tg.initDataUnsafe?.user?.id || 'demo';
+        const userId = tg.initDataUnsafe?.user?.id || 'demo_' + Date.now();
         const userName = tg.initDataUnsafe?.user?.username ||
             tg.initDataUnsafe?.user?.first_name ||
             'Гость';
         document.getElementById('userName').textContent = userName;
         document.getElementById('avatar').textContent = userName.charAt(0).toUpperCase();
 
-        const RECIPIENT_TG_ID = '8566684320';
-        const STORAGE_KEY = (key) => `crash_${userId}_${key}`;
+        const STORAGE_KEY = (key) => `gift_${userId}_${key}`;
 
         // ============================================================
         //  DATA
         // ============================================================
         function loadData() {
             const defaults = {
-                stars: 1000,
+                stars: 1200,
                 history: [],
                 winHistory: [],
                 totalGames: 0,
                 totalWins: 0,
                 totalLosses: 0,
-                lastDailyClaim: 0
+                lastDailyClaim: 0,
+                usedPromoCodes: [],
+                topWins: [1.18, 1.18, 1.05, 1.08, 1.63, 1.24]
             };
             try {
                 const raw = localStorage.getItem(STORAGE_KEY('data'));
@@ -861,6 +1255,8 @@
         let totalWins = gameData.totalWins || 0;
         let totalLosses = gameData.totalLosses || 0;
         let lastDailyClaim = gameData.lastDailyClaim || 0;
+        let usedPromoCodes = gameData.usedPromoCodes || [];
+        let topWins = gameData.topWins || [1.18, 1.18, 1.05, 1.08, 1.63, 1.24];
 
         function persistGameData() {
             gameData.stars = stars;
@@ -870,6 +1266,8 @@
             gameData.totalWins = totalWins;
             gameData.totalLosses = totalLosses;
             gameData.lastDailyClaim = lastDailyClaim;
+            gameData.usedPromoCodes = usedPromoCodes;
+            gameData.topWins = topWins;
             saveData(gameData);
         }
 
@@ -884,13 +1282,14 @@
         }
 
         // ============================================================
-        //  LIVE FEED (only real users)
+        //  LIVE FEED
         // ============================================================
         const feedList = document.getElementById('feedList');
         let feedItems = [];
 
-        // Colors for avatar background
-        const avatarColors = ['#e74c3c', '#3498db', '#2ecc71', '#f39c12', '#9b59b6', '#1abc9c', '#e67e22', '#e84393'];
+        const avatarColors = ['#e74c3c', '#3498db', '#2ecc71', '#f39c12', '#9b59b6', '#1abc9c', '#e67e22', '#e84393', '#00b894',
+            '#6c5ce7'
+        ];
 
         function getColorForName(name) {
             let hash = 0;
@@ -900,13 +1299,15 @@
             return avatarColors[Math.abs(hash) % avatarColors.length];
         }
 
-        function addFeedItem(name, action, amount, emoji = '') {
+        function addFeedItem(name, action, amount, type, emoji = '') {
+            // type: 'bet', 'win', 'loss'
             const avatar = name.charAt(0).toUpperCase();
             const color = getColorForName(name);
             const item = {
                 name: name,
                 action: action,
                 amount: amount,
+                type: type,
                 emoji: emoji,
                 avatar: avatar,
                 color: color,
@@ -924,12 +1325,22 @@
             }
             let html = '';
             feedItems.forEach(item => {
+                let amountClass = 'bet';
+                let sign = '';
+                if (item.type === 'win') { amountClass = 'win';
+                    sign = '+'; }
+                if (item.type === 'loss') { amountClass = 'loss';
+                    sign = '-'; }
+                if (item.type === 'bet') { amountClass = 'bet';
+                    sign = ''; }
+                const amountStr = item.type === 'bet' ? `${item.amount} ⭐` :
+                    `${sign}${item.amount} ⭐`;
                 html += `
                     <div class="feed-item">
                         <div class="fi-avatar" style="background:${item.color};">${item.avatar}</div>
                         <span class="fi-name">${item.name}</span>
                         <span class="fi-action">${item.action}</span>
-                        <span class="fi-amount">${item.emoji} ${item.amount} ⭐</span>
+                        <span class="fi-amount ${amountClass}">${item.emoji} ${amountStr}</span>
                     </div>
                 `;
             });
@@ -945,10 +1356,8 @@
         const actionBtn = document.getElementById('actionBtn');
         const betInput = document.getElementById('betInput');
         const autoInput = document.getElementById('autoInput');
-        const protectionCheck = document.getElementById('protectionCheck');
-
-        // Clear default value for autoInput
-        autoInput.value = '';
+        const protectionTag = document.getElementById('protectionTag');
+        const autoDisplay = document.getElementById('autoDisplay');
 
         let gameRunning = false,
             activeBet = null,
@@ -956,27 +1365,62 @@
             currentMultiplier = 1.0,
             crashPoint = 1.0,
             graphPoints = [];
+        let protectionEnabled = false;
+        let isDemoMode = false;
+
+        // Toggle protection
+        protectionTag.addEventListener('click', () => {
+            protectionEnabled = !protectionEnabled;
+            protectionTag.classList.toggle('active', protectionEnabled);
+            protectionTag.textContent = protectionEnabled ? '🛡️ Защита включена' : '🛡️ Защита от x1.0';
+        });
+
+        // Demo mode
+        document.getElementById('demoTag').addEventListener('click', () => {
+            isDemoMode = !isDemoMode;
+            document.getElementById('demoTag').textContent = isDemoMode ? '🎮 Демо (вкл)' : '🎮 Демо';
+            document.getElementById('demoTag').style.borderColor = isDemoMode ? 'var(--gold)' : 'var(--border)';
+            if (isDemoMode) {
+                document.getElementById('demoTag').style.color = 'var(--gold)';
+            } else {
+                document.getElementById('demoTag').style.color = 'var(--text-secondary)';
+            }
+            crashInfo.textContent = isDemoMode ? '🎮 Демо-режим: ставки без потери звёзд' : '';
+            setTimeout(() => {
+                if (!gameRunning && !isDemoMode) {
+                    crashInfo.textContent = 'Ожидание раунда...';
+                }
+            }, 2500);
+        });
 
         function generateCrashPoint() {
-            return Math.random() < 0.25 ? 1.0 + Math.random() * 0.35 : 1.35 + Math.random() * (28 - 1.35);
+            // Slower, more reasonable crash points
+            const r = Math.random();
+            if (r < 0.15) return 1.0 + Math.random() * 0.5; // 15% chance of early crash
+            if (r < 0.40) return 1.5 + Math.random() * 1.5; // 25% chance of 1.5-3.0
+            if (r < 0.70) return 3.0 + Math.random() * 5.0; // 30% chance of 3.0-8.0
+            return 8.0 + Math.random() * 20.0; // 30% chance of 8.0-28.0
         }
 
         function drawCrashBackground() {
             const w = crashCanvas.width,
                 h = crashCanvas.height;
             ctx.clearRect(0, 0, w, h);
+            // Grid lines
             for (let mult = 5; mult <= 30; mult += 5) {
                 const y = h - ((mult - 1) / 29) * (h - 56) - 36;
                 ctx.beginPath();
                 ctx.moveTo(28, y);
                 ctx.lineTo(w - 28, y);
-                ctx.strokeStyle = '#21262d';
+                ctx.strokeStyle = 'rgba(45, 53, 72, 0.5)';
                 ctx.stroke();
-                ctx.fillStyle = '#8b949e';
-                ctx.font = '9px Segoe UI';
-                ctx.fillText(`${mult}x`, 4, y + 4);
+                ctx.fillStyle = '#5a6680';
+                ctx.font = '8px Segoe UI';
+                ctx.textAlign = 'right';
+                ctx.fillText(`${mult}x`, 22, y + 4);
+                ctx.textAlign = 'start';
             }
-            ctx.strokeStyle = '#30363d';
+            ctx.strokeStyle = '#2d3548';
             ctx.lineWidth = 1.5;
             ctx.beginPath();
             ctx.moveTo(28, h - 36);
@@ -984,9 +1428,11 @@
             ctx.moveTo(28, 16);
             ctx.lineTo(28, h - 36);
             ctx.stroke();
-            ctx.fillStyle = '#8b949e';
-            ctx.font = '9px Segoe UI';
-            ctx.fillText('Время →', w / 2 - 18, h - 4);
+            ctx.fillStyle = '#5a6680';
+            ctx.font = '8px Segoe UI';
+            ctx.textAlign = 'center';
+            ctx.fillText('время →', w / 2, h - 4);
+            ctx.textAlign = 'start';
             ctx.fillText('1x', 4, h - 32);
         }
 
@@ -1000,7 +1446,7 @@
         function addGraphPoint() {
             const w = crashCanvas.width,
                 h = crashCanvas.height,
-                maxSteps = 180;
+                maxSteps = 200;
             const t = Math.min(1, graphPoints.length / maxSteps);
             const x = 28 + t * (w - 56);
             const y = h - 36 - ((currentMultiplier - 1) / 29) * (h - 52);
@@ -1021,10 +1467,10 @@
             }
             ctx.strokeStyle = multiplierColor(currentMultiplier);
             ctx.stroke();
-            ctx.font = 'bold 30px Segoe UI';
+            ctx.font = 'bold 28px Segoe UI';
             ctx.fillStyle = multiplierColor(currentMultiplier);
             ctx.textAlign = 'center';
-            ctx.fillText(`${currentMultiplier.toFixed(2)}x`, crashCanvas.width / 2, 68);
+            ctx.fillText(`${currentMultiplier.toFixed(2)}x`, crashCanvas.width / 2, 64);
             ctx.textAlign = 'start';
         }
 
@@ -1052,14 +1498,16 @@
         function startRound() {
             if (gameRunning) return;
             if (pendingBet) {
-                if (pendingBet.amount > stars) {
-                    crashInfo.textContent = 'Недостаточно звёзд!';
+                if (!isDemoMode && pendingBet.amount > stars) {
+                    crashInfo.textContent = '❌ Недостаточно звёзд!';
                     cancelBet();
                     startBreak();
                     return;
                 }
-                stars -= pendingBet.amount;
-                updateBalanceUI();
+                if (!isDemoMode) {
+                    stars -= pendingBet.amount;
+                    updateBalanceUI();
+                }
                 activeBet = { ...pendingBet };
                 pendingBet = null;
                 setButtonState('💰 Вывести', 'btn-primary');
@@ -1077,14 +1525,20 @@
             crashPoint = generateCrashPoint();
             graphPoints = [{ x: 28, y: crashCanvas.height - 36 }];
             gameRunning = true;
-            crashInfo.textContent = 'Полёт...';
+            crashInfo.textContent = '🚀 Полёт...';
+            if (activeBet && activeBet.auto_withdraw > 0) {
+                autoDisplay.textContent = `x${activeBet.auto_withdraw.toFixed(2)}`;
+            } else {
+                autoDisplay.textContent = 'x1.00';
+            }
             animateCrash();
         }
 
         function animateCrash() {
             if (!gameRunning) return;
-            // Slow growth
-            currentMultiplier += 0.015 + (currentMultiplier - 1) * 0.005;
+            // MUCH slower growth
+            const speed = 0.006 + (currentMultiplier - 1) * 0.002;
+            currentMultiplier += speed;
             if (currentMultiplier >= crashPoint || currentMultiplier >= 30) {
                 currentMultiplier = Math.min(crashPoint, 30);
                 addGraphPoint();
@@ -1108,62 +1562,76 @@
             const crashMult = Math.round(currentMultiplier * 100) / 100;
             history.push(crashMult);
             if (activeBet) {
+                const betAmount = activeBet.amount;
                 if (activeBet.protection && crashMult === 1.0) {
-                    stars += activeBet.amount;
+                    if (!isDemoMode) stars += betAmount;
                     crashInfo.textContent = '🛡️ Защита! Ставка возвращена.';
+                    crashInfo.className = 'info-text win';
+                    addFeedItem(userName, 'защита', betAmount, 'win', '🛡️');
                 } else {
                     totalLosses++;
-                    crashInfo.textContent = `💥 Крах на x${crashMult.toFixed(2)}.`;
+                    crashInfo.textContent = `💥 Крах на x${crashMult.toFixed(2)}`;
+                    crashInfo.className = 'info-text loss';
+                    // Only add loss feed if it wasn't protection
+                    if (!(activeBet.protection && crashMult === 1.0)) {
+                        const lossAmount = betAmount;
+                        addFeedItem(userName, 'проиграл', lossAmount, 'loss', '💥');
+                    }
                 }
             } else {
-                crashInfo.textContent = `💥 Крах на x${crashMult.toFixed(2)}.`;
+                crashInfo.textContent = `💥 Крах на x${crashMult.toFixed(2)}`;
+                crashInfo.className = 'info-text loss';
             }
             updateBalanceUI();
             persistGameData();
             resetCrashState();
-            startBreak();
+            setTimeout(startBreak, 800);
         }
 
         function autoWithdraw() {
             if (!activeBet) return;
             const win = Math.floor(activeBet.amount * currentMultiplier);
-            stars += win;
+            if (!isDemoMode) stars += win;
             updateBalanceUI();
             totalWins++;
             winHistory.push({ mult: Math.round(currentMultiplier * 100) / 100, amount: win });
             crashInfo.textContent = `✅ Авто-вывод при x${currentMultiplier.toFixed(2)}`;
-            // Add feed: user won
-            addFeedItem(userName, 'выиграл', win, '🏆');
+            crashInfo.className = 'info-text win';
+            addFeedItem(userName, 'выиграл', win, 'win', '🏆');
             activeBet = null;
             setButtonState('Нет ставки', 'btn-disabled');
             persistGameData();
+            // Update top wins
+            topWins.push(Math.round(currentMultiplier * 100) / 100);
+            topWins.sort((a, b) => b - a);
+            if (topWins.length > 6) topWins.pop();
+            updateTopWinsUI();
+            persistGameData();
+            // The round continues without bet
+            // We need to keep gameRunning true but no activeBet
+            // The graph will continue until crash
+            // We'll just let it run
         }
 
         function manualWithdraw() {
             if (gameRunning && activeBet) {
                 const win = Math.floor(activeBet.amount * currentMultiplier);
-                stars += win;
+                if (!isDemoMode) stars += win;
                 updateBalanceUI();
                 totalWins++;
                 winHistory.push({ mult: Math.round(currentMultiplier * 100) / 100, amount: win });
                 crashInfo.textContent = `✅ Вывод при x${currentMultiplier.toFixed(2)}`;
-                addFeedItem(userName, 'выиграл', win, '🏆');
+                crashInfo.className = 'info-text win';
+                addFeedItem(userName, 'выиграл', win, 'win', '🏆');
+                // Update top wins
+                topWins.push(Math.round(currentMultiplier * 100) / 100);
+                topWins.sort((a, b) => b - a);
+                if (topWins.length > 6) topWins.pop();
+                updateTopWinsUI();
+                persistGameData();
                 activeBet = null;
                 setButtonState('Нет ставки', 'btn-disabled');
                 persistGameData();
-                // Stop game? Actually we need to end the round? But we just cash out, and the round continues without bet.
-                // We should set activeBet=null but keep game running? Actually after manual withdraw, the bet is done, but the round continues for others.
-                // However in single player, we can just stop the game? But we can let the round continue and crash.
-                // We'll just reset activeBet and the round will continue until crash.
-                // But we need to stop updating button? We'll leave it.
-                // We'll set gameRunning to false? Better to keep it running and just remove active bet.
-                // So we'll just set activeBet=null, and the animate loop will keep going.
-                // But we should also disable the button.
-                // Let's handle: set activeBet=null, and change button to disabled.
-                setButtonState('Нет ставки', 'btn-disabled');
-                // The round will still crash.
-                // Also we should not allow another bet until round ends.
-                // That's fine.
             }
         }
 
@@ -1177,48 +1645,59 @@
             currentMultiplier = 1.0;
             graphPoints = [{ x: 28, y: crashCanvas.height - 36 }];
             drawGraph();
+            autoDisplay.textContent = 'x1.00';
+            crashInfo.className = 'info-text';
+            if (!isDemoMode) {
+                crashInfo.textContent = 'Ожидание раунда...';
+            }
         }
 
         function placeBet() {
             const bet = parseInt(betInput.value);
             if (!bet || bet <= 0) {
-                crashInfo.textContent = 'Введите целую ставку > 0';
+                crashInfo.textContent = '❌ Введите ставку > 0';
                 return;
             }
-            if (bet > stars) {
-                crashInfo.textContent = 'Недостаточно звёзд';
+            if (!isDemoMode && bet > stars) {
+                crashInfo.textContent = '❌ Недостаточно звёзд';
                 return;
             }
-            // Auto-withdraw: only if user entered a value
             let auto = 0;
             if (autoInput.value && autoInput.value.trim() !== '') {
                 auto = parseFloat(autoInput.value);
                 if (isNaN(auto) || auto <= 1.0 || auto > 30) {
-                    crashInfo.textContent = 'Авто-вывод от 1.01 до 30';
+                    crashInfo.textContent = '❌ Авто-вывод от 1.01 до 30';
                     return;
                 }
             }
             pendingBet = {
                 amount: bet,
                 auto_withdraw: auto,
-                protection: protectionCheck.checked
+                protection: protectionEnabled
             };
             setButtonState('Отменить ставку', 'btn-cancel');
             crashInfo.textContent = '✅ Ставка принята на след. раунд';
-            // Add feed: user placed a bet
-            addFeedItem(userName, 'поставил', bet, '💰');
+            crashInfo.className = 'info-text win';
+            addFeedItem(userName, 'поставил', bet, 'bet', '💰');
         }
 
         function cancelBet() {
             pendingBet = null;
             setButtonState('Сделать ставку', 'btn-primary');
             crashInfo.textContent = '❌ Ставка отменена';
+            crashInfo.className = 'info-text loss';
+            setTimeout(() => {
+                if (!gameRunning) {
+                    crashInfo.textContent = 'Ожидание раунда...';
+                    crashInfo.className = 'info-text';
+                }
+            }, 1500);
         }
 
         actionBtn.addEventListener('click', () => {
             if (gameRunning) {
                 if (activeBet) manualWithdraw();
-                else crashInfo.textContent = 'Вы не в игре';
+                else crashInfo.textContent = '❌ Вы не в игре';
             } else {
                 if (pendingBet) cancelBet();
                 else placeBet();
@@ -1226,29 +1705,45 @@
         });
 
         // ============================================================
-        //  CASES (including daily free)
+        //  TOP WINS UI
+        // ============================================================
+        function updateTopWinsUI() {
+            const list = document.getElementById('topWinsList');
+            let html = '';
+            topWins.forEach((val, i) => {
+                const cls = i === 4 ? 'top-win-chip special' : 'top-win-chip';
+                html += `<span class="${cls}">x${val.toFixed(2)}</span>`;
+            });
+            list.innerHTML = html;
+        }
+
+        // ============================================================
+        //  CASES
         // ============================================================
         const caseCanvas = document.getElementById('caseCanvas');
         const caseCtx = caseCanvas.getContext('2d');
         let caseAnimRunning = false;
+
         const casesConfig = {
-            common: { price: 50, min: 10, max: 52 },
-            rare: { price: 200, min: 100, max: 201 },
-            epic: { price: 500, min: 300, max: 505 }
+            common: { price: 50, min: 10, max: 55 },
+            rare: { price: 200, min: 100, max: 210 },
+            epic: { price: 500, min: 300, max: 520 }
         };
 
         function openCase(type) {
             if (caseAnimRunning) return;
             const cfg = casesConfig[type];
-            if (stars < cfg.price) {
+            if (!isDemoMode && stars < cfg.price) {
                 alert('Недостаточно звёзд!');
                 return;
             }
-            stars -= cfg.price;
-            updateBalanceUI();
-            persistGameData();
+            if (!isDemoMode) {
+                stars -= cfg.price;
+                updateBalanceUI();
+                persistGameData();
+            }
             const reward = cfg.min + Math.floor(Math.random() * (cfg.max - cfg.min + 1));
-            animateCaseOpening(reward, 'Кейс');
+            showCaseAnimation(reward, 'Кейс');
         }
 
         // Daily case
@@ -1263,74 +1758,267 @@
                 const remaining = oneDay - (now - lastDailyClaim);
                 const hours = Math.floor(remaining / (60 * 60 * 1000));
                 const mins = Math.floor((remaining % (60 * 60 * 1000)) / (60 * 1000));
-                alert(`Ежедневный кейс уже забран. Следующий через ${hours}ч ${mins}м`);
+                alert(`⏳ Ежедневный кейс уже забран. Следующий через ${hours}ч ${mins}м`);
                 return;
             }
-            const reward = Math.floor(Math.random() * 12) + 1; // 1-12
-            stars += reward;
-            updateBalanceUI();
+            const reward = Math.floor(Math.random() * 15) + 1;
+            if (!isDemoMode) {
+                stars += reward;
+                updateBalanceUI();
+            }
             lastDailyClaim = now;
             persistGameData();
-            addFeedItem(userName, 'получил ежедневный кейс', reward, '🎁');
-            animateCaseOpening(reward, 'Ежедневный кейс');
+            addFeedItem(userName, 'ежедневный кейс', reward, 'win', '🎁');
+            showCaseAnimation(reward, 'Ежедневный кейс');
         }
 
-        function animateCaseOpening(finalReward, label) {
-            caseAnimRunning = true;
-            const w = caseCanvas.width,
-                h = caseCanvas.height;
-            let currentReward = 0,
-                frame = 0;
-            const totalFrames = 70,
-                increment = finalReward / totalFrames;
-            const particles = [];
-            for (let i = 0; i < 25; i++) {
-                particles.push({
+        // ============================================================
+        //  PROMO CASE
+        // ============================================================
+        const promoBtn = document.getElementById('promoCaseBtn');
+        const promoModal = document.getElementById('promoModal');
+        const promoCodeInput = document.getElementById('promoCodeInput');
+        const promoMessage = document.getElementById('promoMessage');
+        const promoSubmitBtn = document.getElementById('promoSubmitBtn');
+        const promoCloseBtn = document.getElementById('promoCloseBtn');
+        const promoStatus = document.getElementById('promoStatus');
+
+        const VALID_CODES = ['Бурмалда', 'Павел', 'Матвей', 'Скебоб', '67'];
+
+        function updatePromoStatus() {
+            const used = usedPromoCodes || [];
+            const available = VALID_CODES.filter(c => !used.includes(c));
+            if (available.length === 0) {
+                promoStatus.textContent = 'все коды использованы';
+                promoStatus.style.color = 'var(--red)';
+                promoBtn.disabled = true;
+            } else {
+                promoStatus.textContent = `${available.length} код(ов) доступно`;
+                promoStatus.style.color = 'var(--green)';
+                promoBtn.disabled = false;
+            }
+        }
+
+        promoBtn.addEventListener('click', () => {
+            const used = usedPromoCodes || [];
+            const available = VALID_CODES.filter(c => !used.includes(c));
+            if (available.length === 0) {
+                alert('❌ Все промокоды уже использованы!');
+                return;
+            }
+            promoCodeInput.value = '';
+            promoMessage.textContent = '';
+            promoMessage.className = 'error-text';
+            promoModal.style.display = 'flex';
+            promoCodeInput.focus();
+        });
+
+        promoCloseBtn.addEventListener('click', () => {
+            promoModal.style.display = 'none';
+        });
+
+        promoSubmitBtn.addEventListener('click', () => {
+            const code = promoCodeInput.value.trim();
+            if (!code) {
+                promoMessage.textContent = '❌ Введите код';
+                promoMessage.className = 'error-text';
+                return;
+            }
+            const used = usedPromoCodes || [];
+            if (used.includes(code)) {
+                promoMessage.textContent = '❌ Этот код уже использован';
+                promoMessage.className = 'error-text';
+                return;
+            }
+            if (!VALID_CODES.includes(code)) {
+                promoMessage.textContent = '❌ Неверный код';
+                promoMessage.className = 'error-text';
+                return;
+            }
+            // Valid and unused!
+            usedPromoCodes.push(code);
+            persistGameData();
+            updatePromoStatus();
+            promoModal.style.display = 'none';
+            // Reward: random 50-300 stars
+            const reward = Math.floor(Math.random() * 251) + 50;
+            if (!isDemoMode) {
+                stars += reward;
+                updateBalanceUI();
+                persistGameData();
+            }
+            addFeedItem(userName, 'промо-кейс', reward, 'win', '🔑');
+            showCaseAnimation(reward, `Промо-кейс (${code})`);
+        });
+
+        promoCodeInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') promoSubmitBtn.click();
+        });
+
+        // ============================================================
+        //  CASE ANIMATION OVERLAY
+        // ============================================================
+        const caseOverlay = document.getElementById('caseOverlay');
+        const caseAnimCanvas = document.getElementById('caseAnimCanvas');
+        const animCtx = caseAnimCanvas.getContext('2d');
+        const caseOverlayResult = document.getElementById('caseOverlayResult');
+        const closeOverlayBtn = document.getElementById('closeOverlayBtn');
+        let overlayAnimRunning = false;
+
+        function showCaseAnimation(finalReward, label) {
+            if (overlayAnimRunning) return;
+            overlayAnimRunning = true;
+            caseOverlay.classList.add('active');
+            caseOverlayResult.textContent = `🎉 +0 ⭐`;
+            closeOverlayBtn.style.display = 'none';
+
+            const w = caseAnimCanvas.width,
+                h = caseAnimCanvas.height;
+            let frame = 0;
+            const totalFrames = 80;
+            let currentReward = 0;
+            const increment = finalReward / totalFrames;
+
+            // Stars
+            const starsArr = [];
+            const count = 60;
+            for (let i = 0; i < count; i++) {
+                starsArr.push({
                     x: Math.random() * w,
-                    y: -20 - Math.random() * 80,
-                    speed: 3 + Math.random() * 5,
-                    size: 14 + Math.random() * 14
+                    y: Math.random() * h,
+                    size: 8 + Math.random() * 22,
+                    speedX: (Math.random() - 0.5) * 6,
+                    speedY: (Math.random() - 0.5) * 6,
+                    rotation: Math.random() * Math.PI * 2,
+                    rotSpeed: (Math.random() - 0.5) * 0.1,
+                    glow: 0.3 + Math.random() * 0.7,
+                    color: `hsl(${40 + Math.random() * 20}, 100%, ${55 + Math.random() * 30}%)`
                 });
             }
 
             function drawFrame() {
-                caseCtx.clearRect(0, 0, w, h);
-                caseCtx.fillStyle = '#161b22';
-                caseCtx.fillRect(0, 0, w, h);
-                particles.forEach(p => {
-                    p.y += p.speed;
-                    if (p.y > h + 20) { p.y = -20;
-                        p.x = Math.random() * w; }
-                    caseCtx.font = `${p.size}px Segoe UI`;
-                    caseCtx.fillStyle = '#d29922';
-                    caseCtx.fillText('⭐', p.x, p.y);
+                animCtx.clearRect(0, 0, w, h);
+                // Dark bg with gradient
+                const grad = animCtx.createRadialGradient(w / 2, h / 2, 20, w / 2, h / 2, w * 0.7);
+                grad.addColorStop(0, '#1c2333');
+                grad.addColorStop(1, '#0a0e13');
+                animCtx.fillStyle = grad;
+                animCtx.fillRect(0, 0, w, h);
+
+                // Draw stars
+                starsArr.forEach(s => {
+                    s.x += s.speedX;
+                    s.y += s.speedY;
+                    s.rotation += s.rotSpeed;
+                    if (s.x < -30) s.x = w + 20;
+                    if (s.x > w + 30) s.x = -20;
+                    if (s.y < -30) s.y = h + 20;
+                    if (s.y > h + 30) s.y = -20;
+
+                    animCtx.save();
+                    animCtx.translate(s.x, s.y);
+                    animCtx.rotate(s.rotation);
+                    animCtx.globalAlpha = s.glow * (0.6 + 0.4 * Math.sin(frame * 0.05 + s.x));
+                    animCtx.shadowColor = s.color;
+                    animCtx.shadowBlur = 20;
+                    animCtx.font = `${s.size}px "Segoe UI", sans-serif`;
+                    animCtx.textAlign = 'center';
+                    animCtx.textBaseline = 'middle';
+                    animCtx.fillStyle = s.color;
+                    animCtx.fillText('⭐', 0, 0);
+                    animCtx.shadowBlur = 0;
+                    animCtx.globalAlpha = 1;
+                    animCtx.restore();
                 });
-                caseCtx.font = 'bold 44px Segoe UI';
-                caseCtx.fillStyle = '#d29922';
-                caseCtx.textAlign = 'center';
-                caseCtx.fillText(Math.floor(currentReward).toString(), w / 2, h / 2 + 6);
+
+                // Center reward text
+                const progress = frame / totalFrames;
+                const scale = 0.6 + 0.4 * Math.min(1, progress * 1.5);
+                animCtx.save();
+                animCtx.translate(w / 2, h / 2 - 10);
+                animCtx.scale(scale, scale);
+                animCtx.shadowColor = 'rgba(240, 185, 11, 0.5)';
+                animCtx.shadowBlur = 40;
+                animCtx.font = `bold ${48 + 8 * (1 - progress)}px "Segoe UI", sans-serif`;
+                animCtx.textAlign = 'center';
+                animCtx.textBaseline = 'middle';
+                const val = Math.floor(currentReward);
+                animCtx.fillStyle = '#f0b90b';
+                animCtx.fillText(`+${val}`, 0, 0);
+                animCtx.shadowBlur = 0;
+                animCtx.font = '18px "Segoe UI", sans-serif';
+                animCtx.fillStyle = '#8b95b0';
+                animCtx.fillText('⭐', 58, -2);
+                animCtx.restore();
+
                 if (frame < totalFrames) {
                     currentReward += increment;
+                    if (currentReward > finalReward) currentReward = finalReward;
                     frame++;
                     requestAnimationFrame(drawFrame);
                 } else {
-                    caseCtx.clearRect(0, 0, w, h);
-                    caseCtx.fillStyle = '#161b22';
-                    caseCtx.fillRect(0, 0, w, h);
-                    caseCtx.font = 'bold 44px Segoe UI';
-                    caseCtx.fillStyle = '#3fb950';
-                    caseCtx.fillText(finalReward, w / 2, h / 2 - 8);
-                    caseCtx.font = '20px Segoe UI';
-                    caseCtx.fillText(`+${finalReward} ⭐`, w / 2, h / 2 + 38);
-                    stars += finalReward;
-                    updateBalanceUI();
-                    persistGameData();
-                    document.getElementById('caseResult').textContent = `🎉 +${finalReward} ⭐ из ${label}!`;
-                    caseAnimRunning = false;
+                    currentReward = finalReward;
+                    // Final frame
+                    animCtx.clearRect(0, 0, w, h);
+                    const grad2 = animCtx.createRadialGradient(w / 2, h / 2, 20, w / 2, h / 2, w * 0.7);
+                    grad2.addColorStop(0, '#1c2333');
+                    grad2.addColorStop(1, '#0a0e13');
+                    animCtx.fillStyle = grad2;
+                    animCtx.fillRect(0, 0, w, h);
+                    starsArr.forEach(s => {
+                        animCtx.save();
+                        animCtx.translate(s.x, s.y);
+                        animCtx.rotate(s.rotation);
+                        animCtx.globalAlpha = s.glow * 0.7;
+                        animCtx.shadowColor = s.color;
+                        animCtx.shadowBlur = 15;
+                        animCtx.font = `${s.size}px "Segoe UI", sans-serif`;
+                        animCtx.textAlign = 'center';
+                        animCtx.textBaseline = 'middle';
+                        animCtx.fillStyle = s.color;
+                        animCtx.fillText('⭐', 0, 0);
+                        animCtx.shadowBlur = 0;
+                        animCtx.globalAlpha = 1;
+                        animCtx.restore();
+                    });
+                    animCtx.shadowColor = 'rgba(240, 185, 11, 0.6)';
+                    animCtx.shadowBlur = 50;
+                    animCtx.font = 'bold 56px "Segoe UI", sans-serif';
+                    animCtx.textAlign = 'center';
+                    animCtx.textBaseline = 'middle';
+                    animCtx.fillStyle = '#3fb950';
+                    animCtx.fillText(`+${finalReward}`, w / 2, h / 2 - 10);
+                    animCtx.shadowBlur = 0;
+                    animCtx.font = '22px "Segoe UI", sans-serif';
+                    animCtx.fillStyle = '#8b95b0';
+                    animCtx.fillText('⭐', 70, 0);
+                    animCtx.font = '16px "Segoe UI", sans-serif';
+                    animCtx.fillStyle = 'var(--gold)';
+                    animCtx.fillText(label, w / 2, h / 2 + 48);
+
+                    caseOverlayResult.textContent = `🎉 +${finalReward} ⭐`;
+                    closeOverlayBtn.style.display = 'block';
+                    overlayAnimRunning = false;
                 }
             }
             drawFrame();
         }
+
+        closeOverlayBtn.addEventListener('click', () => {
+            caseOverlay.classList.remove('active');
+            overlayAnimRunning = false;
+            // Update case result in tab
+            document.getElementById('caseResult').textContent = '';
+        });
+
+        // Also close on background click
+        caseOverlay.addEventListener('click', (e) => {
+            if (e.target === caseOverlay && closeOverlayBtn.style.display !== 'none') {
+                caseOverlay.classList.remove('active');
+                overlayAnimRunning = false;
+                document.getElementById('caseResult').textContent = '';
+            }
+        });
 
         // ============================================================
         //  TABS
@@ -1342,8 +2030,29 @@
                 btn.classList.add('active');
                 document.getElementById(btn.dataset.tab + 'Tab').classList.add('active');
                 if (btn.dataset.tab === 'stats') updateStatsUI();
+                if (btn.dataset.tab === 'cases') {
+                    // Draw static case canvas
+                    drawCaseStatic();
+                }
             });
         });
+
+        function drawCaseStatic() {
+            const w = caseCanvas.width,
+                h = caseCanvas.height;
+            caseCtx.clearRect(0, 0, w, h);
+            caseCtx.fillStyle = '#161b22';
+            caseCtx.fillRect(0, 0, w, h);
+            caseCtx.font = '40px "Segoe UI", sans-serif';
+            caseCtx.textAlign = 'center';
+            caseCtx.textBaseline = 'middle';
+            caseCtx.fillStyle = '#2d3548';
+            caseCtx.fillText('📦', w / 2, h / 2);
+            caseCtx.font = '14px "Segoe UI", sans-serif';
+            caseCtx.fillStyle = '#5a6680';
+            caseCtx.fillText('Выберите кейс ниже', w / 2, h / 2 + 44);
+        }
+        drawCaseStatic();
 
         // ============================================================
         //  STATS
@@ -1351,13 +2060,13 @@
         function updateStatsUI() {
             const winRate = totalGames > 0 ? ((totalWins / totalGames) * 100).toFixed(1) : 0;
             document.getElementById('statsText').innerHTML =
-                `Всего игр: ${totalGames}<br>Выигрышей: ${totalWins}<br>Проигрышей: ${totalLosses}<br>Процент побед: ${winRate}%`;
+                `🎮 Всего игр: <strong>${totalGames}</strong><br>🏆 Выигрышей: <strong>${totalWins}</strong><br>💥 Проигрышей: <strong>${totalLosses}</strong><br>📈 Процент побед: <strong>${winRate}%</strong><br>⭐ Баланс: <strong>${stars}</strong>`;
         }
 
         // ============================================================
         //  DEPOSIT
         // ============================================================
-        document.getElementById('depositBtn').addEventListener('click', () => {
+        document.getElementById('depositBtn')?.addEventListener('click', () => {
             document.getElementById('depositModal').style.display = 'flex';
         });
         document.getElementById('closeDepositBtn').addEventListener('click', () => {
@@ -1370,7 +2079,7 @@
             updateBalanceUI();
             persistGameData();
             document.getElementById('depositModal').style.display = 'none';
-            alert(`Баланс пополнен на ${amount} ⭐ (демо)`);
+            alert(`✅ Баланс пополнен на ${amount} ⭐ (демо)`);
         });
         document.getElementById('telegramDepositBtn').addEventListener('click', () => {
             tg.openTelegramLink('https://t.me/CrushGiftSpin_bot?start=deposit');
@@ -1380,7 +2089,7 @@
         //  WITHDRAW
         // ============================================================
         const withdrawModal = document.getElementById('withdrawModal');
-        document.getElementById('withdrawBtn').addEventListener('click', () => {
+        document.getElementById('withdrawBtn')?.addEventListener('click', () => {
             document.getElementById('withdrawError').textContent = '';
             document.getElementById('withdrawAmount').value = '';
             withdrawModal.style.display = 'flex';
@@ -1392,11 +2101,11 @@
             const amount = parseInt(document.getElementById('withdrawAmount').value);
             const errorEl = document.getElementById('withdrawError');
             if (!amount || amount < 1000) {
-                errorEl.textContent = 'Минимальная сумма вывода: 1000 ⭐';
+                errorEl.textContent = '❌ Минимальная сумма вывода: 1000 ⭐';
                 return;
             }
             if (amount > stars) {
-                errorEl.textContent = 'Недостаточно звёзд на балансе';
+                errorEl.textContent = '❌ Недостаточно звёзд на балансе';
                 return;
             }
             stars -= amount;
@@ -1404,20 +2113,53 @@
             persistGameData();
             tg.sendData(JSON.stringify({ action: 'withdraw', amount: amount, user_id: userId }));
             withdrawModal.style.display = 'none';
-            alert(`Заявка на вывод ${amount} ⭐ отправлена.`);
+            alert(`✅ Заявка на вывод ${amount} ⭐ отправлена.`);
+        });
+
+        // ============================================================
+        //  SCHEDULE BUTTON
+        // ============================================================
+        document.getElementById('scheduleBtn').addEventListener('click', () => {
+            alert('📅 Функция "Запланировать" в разработке.');
         });
 
         // ============================================================
         //  INIT
         // ============================================================
         updateBalanceUI();
+        updatePromoStatus();
+        updateTopWinsUI();
         drawCrashBackground();
         startBreak();
 
-        // Add a welcome feed entry for the user
+        // Add a welcome feed (only bet/win/loss, no "зашёл в игру")
         setTimeout(() => {
-            addFeedItem(userName, 'зашёл в игру', 0, '👋');
+            // We don't add "зашёл в игру" anymore per user request
         }, 500);
+
+        // Override the case open function to use the overlay
+        const originalOpenCase = window.openCase;
+        window.openCase = function(type) {
+            if (caseAnimRunning) return;
+            const cfg = casesConfig[type];
+            if (!cfg) return;
+            if (!isDemoMode && stars < cfg.price) {
+                alert('Недостаточно звёзд!');
+                return;
+            }
+            if (!isDemoMode) {
+                stars -= cfg.price;
+                updateBalanceUI();
+                persistGameData();
+            }
+            const reward = cfg.min + Math.floor(Math.random() * (cfg.max - cfg.min + 1));
+            showCaseAnimation(reward, 'Кейс');
+        };
+
+        console.log('🎁 Gift Spinner loaded!');
+        console.log('👤 User:', userName, 'ID:', userId);
+        console.log('⭐ Balance:', stars);
+        console.log('🔑 Available promo codes:', VALID_CODES.filter(c => !(usedPromoCodes || []).includes(c)));
     </script>
 </body>
 </html>
