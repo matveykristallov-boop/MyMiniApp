@@ -155,108 +155,22 @@
             display: flex;
             flex-direction: column;
             padding: 10px 10px 8px;
-            gap: 10px;
+            gap: 8px;
             flex: 1;
             overflow: hidden;
         }
 
-        .crash-row {
-            display: flex;
-            gap: 10px;
-            flex: 0 0 auto;
-            align-items: stretch;
-            min-height: 0;
-        }
-
-        /* Bet controls - left side */
-        .bet-controls {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            flex: 0 0 140px;
-            min-width: 120px;
-            max-width: 170px;
-        }
-        .bet-controls .input-row {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-        }
-        .bet-controls .input-row label {
-            font-size: 11px;
-            color: var(--text-secondary);
-            font-weight: 500;
-        }
-        .bet-controls .input-row input {
-            background: var(--bg-secondary);
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            padding: 6px 8px;
-            color: var(--text-primary);
-            font-size: 14px;
-            outline: none;
-            width: 100%;
-            min-height: 32px;
-        }
-        .bet-controls .input-row input:focus {
-            border-color: var(--accent);
-        }
-        .protection-check {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            font-size: 11px;
-            color: var(--text-secondary);
-            cursor: pointer;
-            padding-top: 2px;
-        }
-        .protection-check input {
-            width: 14px;
-            height: 14px;
-            accent-color: var(--accent);
-            cursor: pointer;
-        }
-        .bet-controls .btn {
-            border: none;
-            border-radius: 8px;
-            padding: 8px 6px;
-            font-weight: 700;
-            font-size: 14px;
-            cursor: pointer;
-            color: white;
-            width: 100%;
-            transition: background 0.2s;
-            min-height: 38px;
-        }
-        .btn-primary {
-            background: var(--green);
-        }
-        .btn-primary:active {
-            background: var(--green-hover);
-        }
-        .btn-cancel {
-            background: var(--red);
-        }
-        .btn-cancel:active {
-            background: var(--red-hover);
-        }
-        .btn-disabled {
-            background: #484f58;
-            cursor: not-allowed;
-        }
-
-        /* Diagram - right side */
+        /* Diagram - full width */
         .diagram-wrap {
-            flex: 1;
-            min-width: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            flex-shrink: 0;
         }
         canvas#crashCanvas {
             width: 100%;
-            max-width: 320px;
+            max-width: 340px;
             aspect-ratio: 1/1;
             background: var(--bg-secondary);
             border-radius: 14px;
@@ -276,7 +190,7 @@
         /* Live feed */
         .live-feed {
             flex: 1;
-            min-height: 0;
+            min-height: 80px;
             background: var(--bg-secondary);
             border-radius: 12px;
             border: 1px solid var(--border);
@@ -392,6 +306,91 @@
             padding: 14px 0;
         }
 
+        /* Bet controls - bottom */
+        .bet-controls {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 8px;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            padding: 10px 12px;
+            flex-shrink: 0;
+            align-items: flex-end;
+        }
+        .bet-controls .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            flex: 1 1 80px;
+            min-width: 60px;
+        }
+        .bet-controls .input-group label {
+            font-size: 10px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+        .bet-controls .input-group input {
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 6px 8px;
+            color: var(--text-primary);
+            font-size: 14px;
+            outline: none;
+            width: 100%;
+            min-height: 32px;
+        }
+        .bet-controls .input-group input:focus {
+            border-color: var(--accent);
+        }
+        .bet-controls .protection-check {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 11px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 4px 0;
+            flex: 0 0 auto;
+        }
+        .bet-controls .protection-check input {
+            width: 14px;
+            height: 14px;
+            accent-color: var(--accent);
+            cursor: pointer;
+        }
+        .bet-controls .btn {
+            border: none;
+            border-radius: 8px;
+            padding: 8px 14px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            color: white;
+            transition: background 0.2s;
+            min-height: 38px;
+            flex: 0 0 auto;
+            min-width: 100px;
+        }
+        .btn-primary {
+            background: var(--green);
+        }
+        .btn-primary:active {
+            background: var(--green-hover);
+        }
+        .btn-cancel {
+            background: var(--red);
+        }
+        .btn-cancel:active {
+            background: var(--red-hover);
+        }
+        .btn-disabled {
+            background: #484f58;
+            cursor: not-allowed;
+        }
+
         /* Cases tab */
         .case-grid {
             display: flex;
@@ -433,6 +432,10 @@
         }
         .case-card button:active {
             background: var(--green-hover);
+        }
+        .case-card button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
         #caseCanvas {
             width: 100%;
@@ -584,28 +587,32 @@
         /* Responsive */
         @media (max-width: 460px) {
             .bet-controls {
-                flex: 0 0 110px;
-                min-width: 90px;
-                max-width: 140px;
+                padding: 8px;
+                gap: 6px;
             }
-            .bet-controls .input-row input {
+            .bet-controls .input-group {
+                flex: 1 1 60px;
+                min-width: 50px;
+            }
+            .bet-controls .input-group input {
                 font-size: 12px;
                 padding: 4px 6px;
                 min-height: 28px;
             }
             .bet-controls .btn {
                 font-size: 12px;
-                padding: 6px 4px;
+                padding: 6px 10px;
                 min-height: 32px;
+                min-width: 70px;
             }
-            .bet-controls .input-row label {
-                font-size: 10px;
+            .bet-controls .input-group label {
+                font-size: 9px;
             }
-            .protection-check {
+            .bet-controls .protection-check {
                 font-size: 10px;
             }
             canvas#crashCanvas {
-                max-width: 240px;
+                max-width: 280px;
             }
             .feed-item {
                 font-size: 12px;
@@ -646,29 +653,26 @@
             }
         }
         @media (max-width: 380px) {
-            .bet-controls {
-                flex: 0 0 85px;
-                min-width: 70px;
-                max-width: 110px;
+            .bet-controls .input-group {
+                flex: 1 1 45px;
+                min-width: 40px;
             }
-            .bet-controls .input-row input {
+            .bet-controls .input-group input {
                 font-size: 11px;
                 padding: 3px 4px;
                 min-height: 24px;
             }
             .bet-controls .btn {
                 font-size: 10px;
-                padding: 4px 2px;
+                padding: 4px 8px;
                 min-height: 28px;
+                min-width: 60px;
             }
-            .bet-controls .input-row label {
-                font-size: 9px;
-            }
-            .protection-check {
+            .bet-controls .protection-check {
                 font-size: 9px;
             }
             canvas#crashCanvas {
-                max-width: 180px;
+                max-width: 220px;
             }
             .feed-item .fi-name {
                 max-width: 40px;
@@ -701,25 +705,9 @@
     <!-- CRASH TAB -->
     <div class="tab-content active" id="crashTab">
         <div class="crash-container">
-            <!-- Row: Bet controls left + Diagram right -->
-            <div class="crash-row">
-                <div class="bet-controls">
-                    <div class="input-row">
-                        <label>Ставка ⭐</label>
-                        <input type="number" id="betInput" placeholder="0" min="1" step="1">
-                    </div>
-                    <div class="input-row">
-                        <label>Авто-вывод x</label>
-                        <input type="number" id="autoInput" placeholder="2.0" min="1.01" max="30" step="0.01" value="2.0">
-                    </div>
-                    <label class="protection-check">
-                        <input type="checkbox" id="protectionCheck"> Защита от x1.00
-                    </label>
-                    <button class="btn btn-primary" id="actionBtn">Сделать ставку</button>
-                </div>
-                <div class="diagram-wrap">
-                    <canvas id="crashCanvas" width="320" height="320"></canvas>
-                </div>
+            <!-- Diagram -->
+            <div class="diagram-wrap">
+                <canvas id="crashCanvas" width="320" height="320"></canvas>
             </div>
 
             <!-- Info -->
@@ -732,8 +720,24 @@
                     <span>Онлайн-ставки</span>
                 </div>
                 <div class="feed-list" id="feedList">
-                    <div class="empty-feed">Ожидание первых ставок...</div>
+                    <div class="empty-feed">Нет активных ставок</div>
                 </div>
+            </div>
+
+            <!-- Bet controls (bottom) -->
+            <div class="bet-controls">
+                <div class="input-group">
+                    <label>Ставка ⭐</label>
+                    <input type="number" id="betInput" placeholder="0" min="1" step="1">
+                </div>
+                <div class="input-group">
+                    <label>Авто-вывод x</label>
+                    <input type="number" id="autoInput" placeholder="не обязательно" min="1.01" max="30" step="0.01">
+                </div>
+                <label class="protection-check">
+                    <input type="checkbox" id="protectionCheck"> Защита x1.00
+                </label>
+                <button class="btn btn-primary" id="actionBtn">Сделать ставку</button>
             </div>
         </div>
     </div>
@@ -745,6 +749,12 @@
             <div id="caseResult"></div>
         </div>
         <div class="case-grid">
+            <!-- Daily free case -->
+            <div class="case-card">
+                <div class="case-name" style="color:#f1c40f;">🎁 Ежедневный</div>
+                <div class="case-price">Бесплатно</div>
+                <button id="dailyCaseBtn">Забрать</button>
+            </div>
             <div class="case-card">
                 <div class="case-name" style="color:#4a6a8a;">Обычный</div>
                 <div class="case-price">50 ⭐</div>
@@ -823,7 +833,15 @@
         //  DATA
         // ============================================================
         function loadData() {
-            const defaults = { stars: 1000, history: [], winHistory: [], totalGames: 0, totalWins: 0, totalLosses: 0 };
+            const defaults = {
+                stars: 1000,
+                history: [],
+                winHistory: [],
+                totalGames: 0,
+                totalWins: 0,
+                totalLosses: 0,
+                lastDailyClaim: 0
+            };
             try {
                 const raw = localStorage.getItem(STORAGE_KEY('data'));
                 if (raw) return { ...defaults, ...JSON.parse(raw) };
@@ -842,6 +860,7 @@
         let totalGames = gameData.totalGames || 0;
         let totalWins = gameData.totalWins || 0;
         let totalLosses = gameData.totalLosses || 0;
+        let lastDailyClaim = gameData.lastDailyClaim || 0;
 
         function persistGameData() {
             gameData.stars = stars;
@@ -850,6 +869,7 @@
             gameData.totalGames = totalGames;
             gameData.totalWins = totalWins;
             gameData.totalLosses = totalLosses;
+            gameData.lastDailyClaim = lastDailyClaim;
             saveData(gameData);
         }
 
@@ -864,47 +884,42 @@
         }
 
         // ============================================================
-        //  LIVE FEED
+        //  LIVE FEED (only real users)
         // ============================================================
         const feedList = document.getElementById('feedList');
-        const feedAvatars = ['🟢', '🔵', '🟣', '🟠', '🔴', '🟡', '🟤', '⚪', '🟢', '🔵', '🟣', '🟠'];
-        const feedNames = [
-            'Alex', 'Mira', 'Max', 'Lena', 'Dima', 'Sonya', 'Igor', 'Olya',
-            'Vlad', 'Nastya', 'Roma', 'Katya', 'Pavel', 'Anya', 'Artem', 'Vika',
-            'Sergey', 'Tanya', 'Nikita', 'Elena', 'Andrey', 'Ira', 'Misha', 'Sveta'
-        ];
-
         let feedItems = [];
 
-        function getRandomName() {
-            return feedNames[Math.floor(Math.random() * feedNames.length)];
+        // Colors for avatar background
+        const avatarColors = ['#e74c3c', '#3498db', '#2ecc71', '#f39c12', '#9b59b6', '#1abc9c', '#e67e22', '#e84393'];
+
+        function getColorForName(name) {
+            let hash = 0;
+            for (let i = 0; i < name.length; i++) {
+                hash = name.charCodeAt(i) + ((hash << 5) - hash);
+            }
+            return avatarColors[Math.abs(hash) % avatarColors.length];
         }
 
-        function getRandomAvatar() {
-            return feedAvatars[Math.floor(Math.random() * feedAvatars.length)];
-        }
-
-        function getRandomColor() {
-            const colors = ['#e74c3c', '#3498db', '#2ecc71', '#f39c12', '#9b59b6', '#1abc9c', '#e67e22', '#e84393'];
-            return colors[Math.floor(Math.random() * colors.length)];
-        }
-
-        function addFeedItem(name, amount, avatar, color) {
+        function addFeedItem(name, action, amount, emoji = '') {
+            const avatar = name.charAt(0).toUpperCase();
+            const color = getColorForName(name);
             const item = {
-                name: name || getRandomName(),
-                amount: amount || Math.floor(Math.random() * 480) + 20,
-                avatar: avatar || getRandomAvatar(),
-                color: color || getRandomColor(),
+                name: name,
+                action: action,
+                amount: amount,
+                emoji: emoji,
+                avatar: avatar,
+                color: color,
                 ts: Date.now()
             };
             feedItems.unshift(item);
-            if (feedItems.length > 40) feedItems.pop();
+            if (feedItems.length > 50) feedItems.pop();
             renderFeed();
         }
 
         function renderFeed() {
             if (feedItems.length === 0) {
-                feedList.innerHTML = '<div class="empty-feed">Ожидание первых ставок...</div>';
+                feedList.innerHTML = '<div class="empty-feed">Нет активных ставок</div>';
                 return;
             }
             let html = '';
@@ -913,37 +928,13 @@
                     <div class="feed-item">
                         <div class="fi-avatar" style="background:${item.color};">${item.avatar}</div>
                         <span class="fi-name">${item.name}</span>
-                        <span class="fi-action">поставил</span>
-                        <span class="fi-amount">${item.amount} ⭐</span>
+                        <span class="fi-action">${item.action}</span>
+                        <span class="fi-amount">${item.emoji} ${item.amount} ⭐</span>
                     </div>
                 `;
             });
             feedList.innerHTML = html;
         }
-
-        // Simulate live bets every 1.8–4.2s
-        function simulateLiveBet() {
-            const name = getRandomName();
-            const amount = Math.floor(Math.random() * 500) + 15;
-            const avatar = getRandomAvatar();
-            const color = getRandomColor();
-            addFeedItem(name, amount, avatar, color);
-            const delay = 1800 + Math.random() * 2400;
-            setTimeout(simulateLiveBet, delay);
-        }
-
-        // Generate some initial entries
-        for (let i = 0; i < 6; i++) {
-            setTimeout(() => {
-                addFeedItem(
-                    getRandomName(),
-                    Math.floor(Math.random() * 480) + 20,
-                    getRandomAvatar(),
-                    getRandomColor()
-                );
-            }, i * 300);
-        }
-        setTimeout(simulateLiveBet, 2000);
 
         // ============================================================
         //  CRASH GAME
@@ -955,6 +946,9 @@
         const betInput = document.getElementById('betInput');
         const autoInput = document.getElementById('autoInput');
         const protectionCheck = document.getElementById('protectionCheck');
+
+        // Clear default value for autoInput
+        autoInput.value = '';
 
         let gameRunning = false,
             activeBet = null,
@@ -971,7 +965,6 @@
             const w = crashCanvas.width,
                 h = crashCanvas.height;
             ctx.clearRect(0, 0, w, h);
-            // grid lines
             for (let mult = 5; mult <= 30; mult += 5) {
                 const y = h - ((mult - 1) / 29) * (h - 56) - 36;
                 ctx.beginPath();
@@ -1010,7 +1003,7 @@
                 maxSteps = 180;
             const t = Math.min(1, graphPoints.length / maxSteps);
             const x = 28 + t * (w - 56);
-            const y = h - 36 - ((currentMultiplier - 1) / 23) * (h - 12);
+            const y = h - 36 - ((currentMultiplier - 1) / 29) * (h - 52);
             graphPoints.push({ x, y });
             while (graphPoints.length > maxSteps + 5) graphPoints.shift();
             drawGraph();
@@ -1090,8 +1083,8 @@
 
         function animateCrash() {
             if (!gameRunning) return;
-            // Slower growth: reduced from 0.03 to 0.015, and 0.01 to 0.005
-            currentMultiplier += 0.001 + (currentMultiplier - 1) * 0.001;
+            // Slow growth
+            currentMultiplier += 0.015 + (currentMultiplier - 1) * 0.005;
             if (currentMultiplier >= crashPoint || currentMultiplier >= 30) {
                 currentMultiplier = Math.min(crashPoint, 30);
                 addGraphPoint();
@@ -1139,16 +1132,39 @@
             totalWins++;
             winHistory.push({ mult: Math.round(currentMultiplier * 100) / 100, amount: win });
             crashInfo.textContent = `✅ Авто-вывод при x${currentMultiplier.toFixed(2)}`;
+            // Add feed: user won
+            addFeedItem(userName, 'выиграл', win, '🏆');
             activeBet = null;
             setButtonState('Нет ставки', 'btn-disabled');
             persistGameData();
-            // Add to live feed as a win
-            const wName = userName || 'Игрок';
-            addFeedItem('🏆 ' + wName, win, '⭐', '#d29922');
         }
 
         function manualWithdraw() {
-            if (gameRunning && activeBet) autoWithdraw();
+            if (gameRunning && activeBet) {
+                const win = Math.floor(activeBet.amount * currentMultiplier);
+                stars += win;
+                updateBalanceUI();
+                totalWins++;
+                winHistory.push({ mult: Math.round(currentMultiplier * 100) / 100, amount: win });
+                crashInfo.textContent = `✅ Вывод при x${currentMultiplier.toFixed(2)}`;
+                addFeedItem(userName, 'выиграл', win, '🏆');
+                activeBet = null;
+                setButtonState('Нет ставки', 'btn-disabled');
+                persistGameData();
+                // Stop game? Actually we need to end the round? But we just cash out, and the round continues without bet.
+                // We should set activeBet=null but keep game running? Actually after manual withdraw, the bet is done, but the round continues for others.
+                // However in single player, we can just stop the game? But we can let the round continue and crash.
+                // We'll just reset activeBet and the round will continue until crash.
+                // But we need to stop updating button? We'll leave it.
+                // We'll set gameRunning to false? Better to keep it running and just remove active bet.
+                // So we'll just set activeBet=null, and the animate loop will keep going.
+                // But we should also disable the button.
+                // Let's handle: set activeBet=null, and change button to disabled.
+                setButtonState('Нет ставки', 'btn-disabled');
+                // The round will still crash.
+                // Also we should not allow another bet until round ends.
+                // That's fine.
+            }
         }
 
         function resetCrashState() {
@@ -1173,10 +1189,14 @@
                 crashInfo.textContent = 'Недостаточно звёзд';
                 return;
             }
-            const auto = parseFloat(autoInput.value) || 0;
-            if (auto > 0 && (auto <= 1.0 || auto > 30)) {
-                crashInfo.textContent = 'Авто-вывод от 1.01 до 30';
-                return;
+            // Auto-withdraw: only if user entered a value
+            let auto = 0;
+            if (autoInput.value && autoInput.value.trim() !== '') {
+                auto = parseFloat(autoInput.value);
+                if (isNaN(auto) || auto <= 1.0 || auto > 30) {
+                    crashInfo.textContent = 'Авто-вывод от 1.01 до 30';
+                    return;
+                }
             }
             pendingBet = {
                 amount: bet,
@@ -1185,8 +1205,8 @@
             };
             setButtonState('Отменить ставку', 'btn-cancel');
             crashInfo.textContent = '✅ Ставка принята на след. раунд';
-            // Add to feed as a bet
-            addFeedItem(userName || 'Игрок', bet, '💰', '#58a6ff');
+            // Add feed: user placed a bet
+            addFeedItem(userName, 'поставил', bet, '💰');
         }
 
         function cancelBet() {
@@ -1206,7 +1226,7 @@
         });
 
         // ============================================================
-        //  CASES
+        //  CASES (including daily free)
         // ============================================================
         const caseCanvas = document.getElementById('caseCanvas');
         const caseCtx = caseCanvas.getContext('2d');
@@ -1228,10 +1248,34 @@
             updateBalanceUI();
             persistGameData();
             const reward = cfg.min + Math.floor(Math.random() * (cfg.max - cfg.min + 1));
-            animateCaseOpening(reward);
+            animateCaseOpening(reward, 'Кейс');
         }
 
-        function animateCaseOpening(finalReward) {
+        // Daily case
+        const dailyBtn = document.getElementById('dailyCaseBtn');
+        dailyBtn.addEventListener('click', claimDailyCase);
+
+        function claimDailyCase() {
+            if (caseAnimRunning) return;
+            const now = Date.now();
+            const oneDay = 24 * 60 * 60 * 1000;
+            if (now - lastDailyClaim < oneDay) {
+                const remaining = oneDay - (now - lastDailyClaim);
+                const hours = Math.floor(remaining / (60 * 60 * 1000));
+                const mins = Math.floor((remaining % (60 * 60 * 1000)) / (60 * 1000));
+                alert(`Ежедневный кейс уже забран. Следующий через ${hours}ч ${mins}м`);
+                return;
+            }
+            const reward = Math.floor(Math.random() * 12) + 1; // 1-12
+            stars += reward;
+            updateBalanceUI();
+            lastDailyClaim = now;
+            persistGameData();
+            addFeedItem(userName, 'получил ежедневный кейс', reward, '🎁');
+            animateCaseOpening(reward, 'Ежедневный кейс');
+        }
+
+        function animateCaseOpening(finalReward, label) {
             caseAnimRunning = true;
             const w = caseCanvas.width,
                 h = caseCanvas.height;
@@ -1281,10 +1325,8 @@
                     stars += finalReward;
                     updateBalanceUI();
                     persistGameData();
-                    document.getElementById('caseResult').textContent = `🎉 +${finalReward} ⭐ из кейса!`;
+                    document.getElementById('caseResult').textContent = `🎉 +${finalReward} ⭐ из ${label}!`;
                     caseAnimRunning = false;
-                    // Add to feed as a case win
-                    addFeedItem('📦 ' + userName, finalReward, '🎁', '#9b59b6');
                 }
             }
             drawFrame();
@@ -1372,12 +1414,10 @@
         drawCrashBackground();
         startBreak();
 
-        // Also add a few feed items on start
+        // Add a welcome feed entry for the user
         setTimeout(() => {
-            addFeedItem('Alex', 120, '🟢', '#2ecc71');
-            addFeedItem('Mira', 55, '🔵', '#3498db');
-            addFeedItem('Max', 200, '🟣', '#9b59b6');
-        }, 400);
+            addFeedItem(userName, 'зашёл в игру', 0, '👋');
+        }, 500);
     </script>
 </body>
 </html>
