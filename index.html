@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport"
-    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-    <title>Crush Gift Spin | TG Stars</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Crush Gift Spin</title>
     <style>
         * {
             margin: 0;
@@ -20,7 +19,6 @@
             height: 100vh;
             overflow: hidden;
             user-select: none;
-            -webkit-tap-highlight-color: transparent;
         }
         :root {
             --bg-primary: #0d1117;
@@ -37,6 +35,10 @@
             --red-bg: rgba(231, 76, 76, 0.12);
             --accent-blue: #4a7cf7;
             --radius: 14px;
+            --mult-blue: #4a7cf7;
+            --mult-green: #1fbb5a;
+            --mult-orange: #f39c12;
+            --mult-burgundy: #800020;
         }
         ::-webkit-scrollbar {
             width: 3px;
@@ -99,10 +101,6 @@
             font-size: 15px;
             white-space: nowrap;
             border: 1px solid rgba(240, 185, 11, 0.15);
-            cursor: pointer;
-        }
-        .balance-pill:active {
-            opacity: 0.6;
         }
         .avatar-sm,
         .user-name-sm {
@@ -135,56 +133,9 @@
             white-space: nowrap;
         }
 
-        .sync-bar {
-            background: var(--bg-secondary);
-            padding: 5px 14px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            flex-shrink: 0;
-            border-bottom: 1px solid var(--border);
-            flex-wrap: wrap;
-        }
-        .sync-bar .sync-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: var(--green);
-            animation: pulse-dot 1.2s ease-in-out infinite;
-            flex-shrink: 0;
-        }
-        @keyframes pulse-dot {
-            0%,
-            100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-            50% {
-                opacity: 0.3;
-                transform: scale(0.7);
-            }
-        }
-        .sync-bar .sync-round {
-            font-size: 13px;
-            font-weight: 700;
-            color: var(--gold);
-            background: var(--gold-dim);
-            padding: 1px 10px;
-            border-radius: 14px;
-            border: 1px solid rgba(240, 185, 11, 0.1);
-            white-space: nowrap;
-        }
-        .sync-bar .sync-timer {
-            font-size: 12px;
-            color: var(--text-primary);
-            font-weight: 600;
-            margin-left: auto;
-            white-space: nowrap;
-        }
-
         .top-wins {
             background: var(--bg-secondary);
-            padding: 6px 14px;
+            padding: 8px 14px;
             display: flex;
             align-items: center;
             gap: 10px;
@@ -261,6 +212,19 @@
             border-color: var(--gold);
             color: var(--gold);
         }
+        .auto-bar .demo-tag {
+            font-size: 11px;
+            color: var(--text-secondary);
+            background: var(--bg-tertiary);
+            padding: 2px 12px;
+            border-radius: 14px;
+            border: 1px solid var(--border);
+            cursor: pointer;
+            margin-left: auto;
+        }
+        .auto-bar .demo-tag:active {
+            opacity: 0.6;
+        }
 
         .tabs {
             display: flex;
@@ -291,6 +255,7 @@
         .tab-btn:active {
             opacity: 0.5;
         }
+
         .tab-content {
             flex: 1;
             overflow-y: auto;
@@ -310,6 +275,7 @@
             flex: 1;
             overflow: hidden;
         }
+
         .diagram-wrap {
             display: flex;
             flex-direction: column;
@@ -328,6 +294,7 @@
             border: 1px solid var(--border);
             display: block;
         }
+
         .info-text {
             font-size: 14px;
             color: var(--gold);
@@ -347,6 +314,7 @@
         .info-text.pending {
             color: var(--accent-blue);
         }
+
         .controls-row {
             display: flex;
             flex-wrap: wrap;
@@ -391,6 +359,7 @@
             opacity: 0.4;
             cursor: not-allowed;
         }
+
         .controls-row .button-group {
             display: flex;
             gap: 6px;
@@ -448,6 +417,12 @@
             opacity: 0.6;
             pointer-events: none;
         }
+        .btn-scheduled {
+            background: var(--accent-blue);
+        }
+        .btn-scheduled:active {
+            background: #3a66d0;
+        }
 
         .live-feed {
             flex: 1;
@@ -481,6 +456,17 @@
             border-radius: 50%;
             background: var(--green);
             animation: pulse-dot 1.2s ease-in-out infinite;
+        }
+        @keyframes pulse-dot {
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.3;
+                transform: scale(0.7);
+            }
         }
         .feed-list {
             flex: 1;
@@ -634,6 +620,7 @@
             display: inline-block;
             margin-top: 2px;
         }
+
         #caseCanvas {
             width: 100%;
             max-width: 300px;
@@ -652,6 +639,168 @@
             padding: 4px 0;
             font-weight: 600;
             min-height: 30px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 16px;
+            backdrop-filter: blur(4px);
+        }
+        .modal-content {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 20px;
+            width: 100%;
+            max-width: 340px;
+            border: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            animation: modalIn 0.25s ease;
+        }
+        @keyframes modalIn {
+            from {
+                opacity: 0;
+                transform: scale(0.92);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        .modal-content .modal-title {
+            font-size: 18px;
+            font-weight: 700;
+            text-align: center;
+            color: var(--text-primary);
+        }
+        .modal-content .modal-sub {
+            color: var(--text-secondary);
+            text-align: center;
+            font-size: 13px;
+        }
+        .modal-content input {
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 10px 12px;
+            color: var(--text-primary);
+            font-size: 16px;
+            outline: none;
+            width: 100%;
+            transition: border 0.2s;
+        }
+        .modal-content input:focus {
+            border-color: var(--gold);
+        }
+        .modal-content .btn-row {
+            display: flex;
+            gap: 8px;
+        }
+        .modal-content .btn-row .btn {
+            flex: 1;
+            padding: 8px;
+            font-size: 13px;
+        }
+        .modal-content .btn {
+            border: none;
+            border-radius: 8px;
+            padding: 10px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            color: #fff;
+            transition: all 0.15s;
+            width: 100%;
+            min-height: 40px;
+        }
+        .modal-content .btn:active {
+            transform: scale(0.97);
+        }
+        .modal-content .btn-primary {
+            background: var(--green);
+        }
+        .modal-content .btn-gold {
+            background: var(--gold);
+            color: #0a0e13;
+        }
+        .modal-content .btn-cancel {
+            background: var(--red);
+        }
+        .modal-content .btn-telegram {
+            background: var(--accent-blue);
+        }
+        .modal-content .error-text {
+            color: var(--red);
+            font-size: 13px;
+            text-align: center;
+            min-height: 20px;
+        }
+        .modal-content .success-text {
+            color: var(--green);
+            font-size: 13px;
+            text-align: center;
+            min-height: 20px;
+        }
+
+        .case-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 20px;
+            backdrop-filter: blur(6px);
+        }
+        .case-overlay.active {
+            display: flex;
+        }
+        .case-overlay canvas {
+            width: 100%;
+            max-width: 360px;
+            aspect-ratio: 1/1;
+            border-radius: var(--radius);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+        }
+        .case-overlay .result-label {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--gold);
+            margin-top: 12px;
+            text-align: center;
+        }
+        .case-overlay .close-overlay-btn {
+            margin-top: 14px;
+            background: var(--gold);
+            color: #0a0e13;
+            border: none;
+            border-radius: 10px;
+            padding: 10px 28px;
+            font-weight: 700;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.15s;
+            min-width: 120px;
+        }
+        .case-overlay .close-overlay-btn:active {
+            transform: scale(0.95);
+            opacity: 0.8;
         }
 
         .inventory-grid {
@@ -814,12 +963,16 @@
             transition: 0.1s;
             color: #fff;
         }
+        .admin-panel .broadcast-area .btn-row button:active {
+            transform: scale(0.97);
+        }
         .admin-panel .broadcast-area .btn-row .btn-broadcast {
             background: var(--accent-blue);
         }
         .admin-panel .broadcast-area .btn-row .btn-reset {
             background: var(--red);
         }
+
         .admin-stats {
             display: flex;
             gap: 12px;
@@ -842,287 +995,6 @@
         .admin-stats .stat-card .label {
             font-size: 11px;
             color: var(--text-secondary);
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            padding: 16px;
-            backdrop-filter: blur(4px);
-        }
-        .modal-content {
-            background: var(--bg-secondary);
-            border-radius: 16px;
-            padding: 20px;
-            width: 100%;
-            max-width: 340px;
-            border: 1px solid var(--border);
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            animation: modalIn 0.25s ease;
-        }
-        @keyframes modalIn {
-            from {
-                opacity: 0;
-                transform: scale(0.92);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-        .modal-content .modal-title {
-            font-size: 18px;
-            font-weight: 700;
-            text-align: center;
-            color: var(--text-primary);
-        }
-        .modal-content .modal-sub {
-            color: var(--text-secondary);
-            text-align: center;
-            font-size: 13px;
-        }
-        .modal-content input {
-            background: var(--bg-primary);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 10px 12px;
-            color: var(--text-primary);
-            font-size: 16px;
-            outline: none;
-            width: 100%;
-            transition: border 0.2s;
-        }
-        .modal-content input:focus {
-            border-color: var(--gold);
-        }
-        .modal-content .btn-row {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-        .modal-content .btn-row .btn {
-            flex: 1;
-            padding: 8px;
-            font-size: 13px;
-        }
-        .modal-content .btn {
-            border: none;
-            border-radius: 8px;
-            padding: 10px;
-            font-weight: 700;
-            font-size: 14px;
-            cursor: pointer;
-            color: #fff;
-            transition: all 0.15s;
-            width: 100%;
-            min-height: 40px;
-        }
-        .modal-content .btn:active {
-            transform: scale(0.97);
-        }
-        .modal-content .btn-primary {
-            background: var(--green);
-        }
-        .modal-content .btn-gold {
-            background: var(--gold);
-            color: #0a0e13;
-        }
-        .modal-content .btn-gold:active {
-            background: #dba40a;
-        }
-        .modal-content .btn-cancel {
-            background: var(--red);
-        }
-        .modal-content .btn-cancel:active {
-            background: #d43a3a;
-        }
-        .modal-content .btn-telegram {
-            background: var(--accent-blue);
-        }
-        .modal-content .error-text {
-            color: var(--red);
-            font-size: 13px;
-            text-align: center;
-            min-height: 20px;
-        }
-        .modal-content .success-text {
-            color: var(--green);
-            font-size: 13px;
-            text-align: center;
-            min-height: 20px;
-        }
-
-        .quick-amounts {
-            display: flex;
-            gap: 6px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        .quick-amounts button {
-            background: var(--bg-tertiary);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 6px 14px;
-            color: var(--text-primary);
-            font-weight: 600;
-            font-size: 13px;
-            cursor: pointer;
-            transition: all 0.15s;
-            min-height: 34px;
-        }
-        .quick-amounts button:active {
-            transform: scale(0.95);
-        }
-        .quick-amounts button.active {
-            border-color: var(--gold);
-            color: var(--gold);
-            background: var(--gold-dim);
-        }
-
-        .confirm-purchase .modal-title {
-            font-size: 19px;
-            color: var(--text-primary);
-        }
-        .confirm-purchase .purchase-desc {
-            font-size: 14px;
-            color: var(--text-primary);
-            text-align: center;
-            line-height: 1.5;
-            padding: 4px 0;
-        }
-        .confirm-purchase .purchase-desc .highlight {
-            color: var(--gold);
-            font-weight: 700;
-        }
-        .confirm-purchase .purchase-desc .emoji-big {
-            font-size: 20px;
-        }
-        .confirm-purchase .terms {
-            font-size: 11px;
-            color: var(--text-secondary);
-            text-align: center;
-            margin-top: 4px;
-            padding-top: 6px;
-            border-top: 1px solid var(--border);
-        }
-        .confirm-purchase .btn-pay {
-            background: var(--gold);
-            color: #0a0e13;
-            font-size: 15px;
-            padding: 12px;
-            border: none;
-            border-radius: 10px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: 0.15s;
-            width: 100%;
-            min-height: 48px;
-        }
-        .confirm-purchase .btn-pay:active {
-            transform: scale(0.97);
-            background: #dba40a;
-        }
-        .confirm-purchase .btn-pay:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .case-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            z-index: 2000;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            padding: 20px;
-            backdrop-filter: blur(6px);
-        }
-        .case-overlay.active {
-            display: flex;
-        }
-        .case-overlay canvas {
-            width: 100%;
-            max-width: 360px;
-            aspect-ratio: 1/1;
-            border-radius: var(--radius);
-            background: var(--bg-secondary);
-            border: 1px solid var(--border);
-        }
-        .case-overlay .result-label {
-            font-size: 22px;
-            font-weight: 700;
-            color: var(--gold);
-            margin-top: 12px;
-            text-align: center;
-        }
-        .case-overlay .close-overlay-btn {
-            margin-top: 14px;
-            background: var(--gold);
-            color: #0a0e13;
-            border: none;
-            border-radius: 10px;
-            padding: 10px 28px;
-            font-weight: 700;
-            font-size: 15px;
-            cursor: pointer;
-            transition: all 0.15s;
-            min-width: 120px;
-        }
-        .case-overlay .close-overlay-btn:active {
-            transform: scale(0.95);
-            opacity: 0.8;
-        }
-
-        /* Плашка статуса транзакции */
-        .txn-status {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--bg-secondary);
-            border: 1px solid var(--gold);
-            border-radius: 20px;
-            padding: 8px 20px;
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--gold);
-            z-index: 3000;
-            animation: txnSlideUp 0.35s ease, txnFadeOut 0.5s ease 2.5s forwards;
-            pointer-events: none;
-            white-space: nowrap;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-        }
-        @keyframes txnSlideUp {
-            from {
-                opacity: 0;
-                transform: translateX(-50%) translateY(40px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(-50%) translateY(0);
-            }
-        }
-        @keyframes txnFadeOut {
-            to {
-                opacity: 0;
-                transform: translateX(-50%) translateY(-10px);
-            }
         }
 
         @media (max-width: 460px) {
@@ -1149,17 +1021,6 @@
                 font-size: 12px;
                 max-width: 60px;
             }
-            .sync-bar {
-                padding: 4px 10px;
-                gap: 4px;
-            }
-            .sync-bar .sync-round {
-                font-size: 11px;
-                padding: 1px 8px;
-            }
-            .sync-bar .sync-timer {
-                font-size: 10px;
-            }
             .top-wins {
                 padding: 4px 10px;
                 gap: 6px;
@@ -1183,6 +1044,10 @@
                 padding: 0 10px;
             }
             .auto-bar .protection-tag {
+                font-size: 10px;
+                padding: 1px 8px;
+            }
+            .auto-bar .demo-tag {
                 font-size: 10px;
                 padding: 1px 8px;
             }
@@ -1265,54 +1130,34 @@
                 font-size: 10px;
                 padding: 1px 6px;
             }
-            .quick-amounts button {
-                font-size: 12px;
-                padding: 4px 12px;
-                min-height: 30px;
-            }
-            .confirm-purchase .btn-pay {
-                font-size: 13px;
-                padding: 10px;
-                min-height: 42px;
-            }
         }
     </style>
 </head>
 <body>
 
-    <!-- HEADER -->
     <div class="header">
         <div class="header-left">
-            <span class="header-logo">🎁 Crush Gift Spin <small>| TG Stars</small></span>
+            <span class="header-logo">🎁 Crush Gift Spin <small>| MiniApp</small></span>
         </div>
         <div class="header-right">
             <span class="user-name-sm" id="userName">Гость</span>
             <div class="avatar-sm" id="avatar">👤</div>
-            <span class="balance-pill" id="balanceDisplay">⭐ 10</span>
+            <span class="balance-pill" id="balanceDisplay">⭐ 0</span>
         </div>
     </div>
 
-    <!-- SYNC BAR -->
-    <div class="sync-bar">
-        <span class="sync-dot"></span>
-        <span class="sync-round" id="syncRound">Раунд #0</span>
-        <span class="sync-timer" id="syncTimer">--</span>
-    </div>
-
-    <!-- TOP WINS -->
     <div class="top-wins">
         <span class="top-wins-label">📜 История Crash</span>
         <div class="top-wins-list" id="topWinsList"></div>
     </div>
 
-    <!-- AUTO BAR -->
     <div class="auto-bar">
-        <span class="label">⚡ АВТО-СТОП</span>
+        <span class="label">⚡ АВТО-ВЫВОД</span>
         <span class="auto-value" id="autoDisplay">x1.00</span>
         <span class="protection-tag" id="protectionTag">🛡️ Защита от x1.0</span>
+        <span class="demo-tag" id="demoTag">🎮 Демо</span>
     </div>
 
-    <!-- TABS -->
     <div class="tabs">
         <button class="tab-btn active" data-tab="crash">📈 Crash</button>
         <button class="tab-btn" data-tab="cases">📦 Кейсы</button>
@@ -1320,13 +1165,13 @@
         <button class="tab-btn" id="adminTabBtn" style="display:none;" data-tab="admin">🛡️ Админ</button>
     </div>
 
-    <!-- TAB: CRASH -->
     <div class="tab-content active" id="crashTab">
         <div class="crash-container">
             <div class="diagram-wrap">
                 <canvas id="crashCanvas" width="240" height="240"></canvas>
             </div>
             <div class="info-text" id="crashInfo">Ожидание раунда...</div>
+
             <div class="controls-row">
                 <div class="input-group">
                     <label for="betInput">Сумма ⭐</label>
@@ -1338,13 +1183,14 @@
                 </div>
                 <div class="button-group">
                     <button class="btn btn-primary" id="playBtn">Ставка</button>
-                    <button class="btn btn-gold" id="cashoutBtn" disabled>Забрать</button>
+                    <button class="btn btn-gold" id="withdrawBtn" disabled>Вывести</button>
                 </div>
             </div>
+
             <div class="live-feed">
                 <div class="live-feed-header">
                     <span class="dot"></span>
-                    <span>Ставки (только реальные игроки)</span>
+                    <span>Онлайн-ставки</span>
                 </div>
                 <div class="feed-list" id="feedList">
                     <div class="empty-feed">Нет активных ставок</div>
@@ -1353,7 +1199,6 @@
         </div>
     </div>
 
-    <!-- TAB: CASES -->
     <div class="tab-content" id="casesTab">
         <div style="text-align:center; padding:6px 10px 0;">
             <canvas id="caseCanvas" width="300" height="180"></canvas>
@@ -1400,7 +1245,6 @@
         </div>
     </div>
 
-    <!-- TAB: INVENTORY -->
     <div class="tab-content" id="inventoryTab">
         <div style="padding:10px;">
             <h3 style="color:var(--gold); text-align:center;">🎒 Инвентарь</h3>
@@ -1410,67 +1254,50 @@
         </div>
     </div>
 
-    <!-- TAB: ADMIN -->
     <div class="tab-content" id="adminTab">
         <div class="admin-panel" id="adminPanel"></div>
     </div>
 
-    <!-- MODAL: ПРОФИЛЬ -->
     <div class="modal" id="profileModal">
         <div class="modal-content">
             <div class="modal-title">👤 Профиль</div>
             <div class="modal-sub" id="profileName"></div>
-            <div style="font-size:28px; text-align:center; color:var(--gold);" id="profileBalance">⭐ 0</div>
-            <button class="btn btn-gold" id="profileDepositBtn">💰 Пополнить (TG Stars)</button>
+            <div class="stat-balance" style="font-size:28px;" id="profileBalance"></div>
+            <button class="btn btn-gold" id="profileDepositBtn">💰 Пополнить</button>
+            <button class="btn btn-primary" id="profileWithdrawBtn">💸 Вывести</button>
             <button class="btn btn-cancel" id="closeProfileBtn">✕ Закрыть</button>
         </div>
     </div>
 
-    <!-- MODAL: ДЕПОЗИТ -->
     <div class="modal" id="depositModal">
         <div class="modal-content">
-            <div class="modal-title">💰 Пополнение через Telegram Stars</div>
-            <div class="modal-sub">Выберите сумму для пополнения</div>
-            <div class="quick-amounts" id="quickAmounts">
-                <button data-amount="10">10 ⭐</button>
-                <button data-amount="50">50 ⭐</button>
-                <button data-amount="100">100 ⭐</button>
-                <button data-amount="500">500 ⭐</button>
-                <button data-amount="1000">1000 ⭐</button>
-            </div>
-            <input type="number" id="depositAmountInput" placeholder="Своя сумма ⭐" min="1" step="1" value="100" />
-            <div id="depositError" class="error-text" style="display:none;"></div>
+            <div class="modal-title">💰 Пополнение</div>
+            <div class="modal-sub">Введите сумму звёзд</div>
+            <input type="number" id="depositAmount" placeholder="Сумма ⭐" min="1" step="1">
             <div class="btn-row">
-                <button class="btn btn-gold" id="depositContinueBtn">Продолжить</button>
-                <button class="btn btn-cancel" id="closeDepositBtn">Отмена</button>
+                <button class="btn btn-primary" id="simulateDepositBtn">Демо-пополнение</button>
+                <button class="btn btn-telegram" id="telegramDepositBtn">Telegram</button>
             </div>
+            <button class="btn btn-cancel" id="closeDepositBtn">Отмена</button>
         </div>
     </div>
 
-    <!-- MODAL: ПОДТВЕРЖДЕНИЕ ПОКУПКИ -->
-    <div class="modal confirm-purchase" id="confirmModal">
+    <div class="modal" id="withdrawModal">
         <div class="modal-content">
-            <div class="modal-title">🛒 Подтверждение покупки</div>
-            <div class="purchase-desc" id="confirmDesc">
-                Вы точно хотите приобрести<br />
-                <span class="emoji-big">🛒</span> Пополнение звёзд в <span class="highlight">Crush Gift Spin</span> за
-                <span class="highlight" id="confirmAmountDisplay">100</span> звёзд?
-            </div>
-            <button class="btn-pay" id="confirmPayBtn">Подтвердить и заплатить 🛒 <span id="confirmPayAmount">100</span>
-            звёзд</button>
-            <div class="terms">Совершая покупку, Вы принимаете условия Telegram. Звёзды спишутся с вашего баланса Telegram.</div>
-            <button class="btn btn-cancel" id="closeConfirmBtn" style="margin-top:4px;">Отмена</button>
-            <div id="confirmError" class="error-text" style="display:none;"></div>
-            <div id="confirmSuccess" class="success-text" style="display:none;"></div>
+            <div class="modal-title">💸 Вывод</div>
+            <div class="modal-sub">Минимум: 1000 ⭐</div>
+            <input type="number" id="withdrawAmount" placeholder="Сумма" min="1000" step="1">
+            <button class="btn btn-primary" id="confirmWithdrawBtn">Вывести</button>
+            <div class="error-text" id="withdrawError"></div>
+            <button class="btn btn-cancel" id="closeWithdrawBtn">Отмена</button>
         </div>
     </div>
 
-    <!-- MODAL: ПРОМО-КЕЙС -->
     <div class="modal" id="promoModal">
         <div class="modal-content">
             <div class="modal-title">🔑 Промо-кейс</div>
             <div class="modal-sub">Введите промокод</div>
-            <input type="text" id="promoCodeInput" placeholder="Код" maxlength="30" />
+            <input type="text" id="promoCodeInput" placeholder="Код" maxlength="30">
             <div id="promoMessage" class="error-text"></div>
             <div class="btn-row">
                 <button class="btn btn-gold" id="promoSubmitBtn">Открыть</button>
@@ -1479,7 +1306,6 @@
         </div>
     </div>
 
-    <!-- CASE OVERLAY -->
     <div class="case-overlay" id="caseOverlay">
         <canvas id="caseAnimCanvas" width="360" height="360"></canvas>
         <div class="result-label" id="caseOverlayResult">🎉 +0 ⭐</div>
@@ -1490,9 +1316,6 @@
     </script>
     <script>
         (function() {
-            'use strict';
-
-            // ——— TELEGRAM INIT ———
             const tg = window.Telegram.WebApp;
             tg.ready();
             tg.expand();
@@ -1510,51 +1333,9 @@
                 document.getElementById('adminTabBtn').style.display = 'inline-block';
             }
 
-            // ——— CONSTANTS ———
-            const DEFAULT_STARS = 10; // Начальный бонус для новых пользователей
-            const ROUND_CYCLE_MS = 20000;
-            const GROWTH_RATE = 0.05775;
-            const ALL_USERS_KEY = 'gift_all_users_v5';
-            const BROADCAST_KEY = 'gift_broadcast_msg_v3';
-            const HISTORY_KEY = 'gift_crash_history_v3';
-            const TXN_LOG_KEY = 'gift_txn_log_v1';
+            const ALL_USERS_KEY = 'gift_all_users_v3';
+            const BROADCAST_KEY = 'gift_broadcast_msg';
 
-            // ——— SEEDED PRNG ———
-            function mulberry32(a) {
-                return function() {
-                    a |= 0;
-                    a = a + 0x6D2B79F5 | 0;
-                    let t = Math.imul(a ^ a >>> 15, 1 | a);
-                    t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
-                    return ((t ^ t >>> 14) >>> 0) / 4294967296;
-                };
-            }
-
-            function getRoundId() {
-                return Math.floor(Date.now() / ROUND_CYCLE_MS);
-            }
-
-            function getRoundStartTime(roundId) {
-                return roundId * ROUND_CYCLE_MS;
-            }
-
-            function generateCrashPoint(roundId) {
-                const seed = roundId * 2654435761 + 0x9E3779B9;
-                const rng = mulberry32(seed);
-                const p = rng();
-                if (p < 0.30) return parseFloat((1.01 + rng() * (1.60 - 1.01)).toFixed(2));
-                if (p < 0.60) return parseFloat((1.60 + rng() * (2.16 - 1.60)).toFixed(2));
-                if (p < 0.80) return parseFloat((2.16 + rng() * (5.0 - 2.16)).toFixed(2));
-                return parseFloat((5.0 + rng() * (30.0 - 5.0)).toFixed(2));
-            }
-
-            function getCrashTimeMs(roundId, crashPoint) {
-                const startMs = getRoundStartTime(roundId);
-                const elapsedToCrash = Math.log(crashPoint) / GROWTH_RATE;
-                return startMs + elapsedToCrash * 1000;
-            }
-
-            // ——— STORAGE ———
             function loadAllUsers() {
                 try {
                     const raw = localStorage.getItem(ALL_USERS_KEY);
@@ -1566,40 +1347,6 @@
                 localStorage.setItem(ALL_USERS_KEY, JSON.stringify(users));
             }
 
-            function loadCrashHistory() {
-                try {
-                    const raw = localStorage.getItem(HISTORY_KEY);
-                    return raw ? JSON.parse(raw) : [];
-                } catch (e) { return []; }
-            }
-
-            function saveCrashHistory(history) {
-                localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
-            }
-
-            function loadTxnLog() {
-                try {
-                    const raw = localStorage.getItem(TXN_LOG_KEY);
-                    return raw ? JSON.parse(raw) : [];
-                } catch (e) { return []; }
-            }
-
-            function saveTxnLog(log) {
-                localStorage.setItem(TXN_LOG_KEY, JSON.stringify(log.slice(-50)));
-            }
-
-            function addTxnRecord(type, amount, status) {
-                const log = loadTxnLog();
-                log.push({
-                    type,
-                    amount,
-                    status,
-                    time: Date.now(),
-                    userId: userId
-                });
-                saveTxnLog(log);
-            }
-
             function getCurrentUserData() {
                 let all = loadAllUsers();
                 let user = all.find(u => u.id === userId && !u.isBot);
@@ -1608,7 +1355,7 @@
                         id: userId,
                         name: userName,
                         blocked: false,
-                        stars: DEFAULT_STARS,
+                        stars: 1200,
                         isBot: false,
                         history: [],
                         totalGames: 0,
@@ -1625,10 +1372,6 @@
                         user.name = userName;
                         saveAllUsers(all);
                     }
-                    if (user.stars === undefined || user.stars === null) {
-                        user.stars = DEFAULT_STARS;
-                        saveAllUsers(all);
-                    }
                 }
                 return user;
             }
@@ -1639,15 +1382,14 @@
                 if (idx !== -1) {
                     all[idx] = { ...all[idx], ...updatedData };
                 } else {
-                    all.push({ id: userId, name: userName, blocked: false, stars: DEFAULT_STARS, ...updatedData,
-                        isBot: false });
+                    all.push({ id: userId, name: userName, blocked: false, ...updatedData });
                 }
                 saveAllUsers(all);
             }
 
             let currentUser = getCurrentUserData();
-            let stars = currentUser.stars !== undefined ? currentUser.stars : DEFAULT_STARS;
-            let history = loadCrashHistory();
+            let stars = currentUser.stars;
+            let history = currentUser.history || [];
             let totalGames = currentUser.totalGames || 0;
             let totalWins = currentUser.totalWins || 0;
             let totalLosses = currentUser.totalLosses || 0;
@@ -1666,7 +1408,6 @@
                     usedPromoCodes: usedPromoCodes,
                     inventory: inventory
                 });
-                saveCrashHistory(history);
             }
 
             function checkBroadcast() {
@@ -1686,18 +1427,6 @@
                 return false;
             }
 
-            // ——— UI TOAST ———
-            function showTxnToast(message) {
-                const existing = document.querySelector('.txn-status');
-                if (existing) existing.remove();
-                const toast = document.createElement('div');
-                toast.className = 'txn-status';
-                toast.textContent = message;
-                document.body.appendChild(toast);
-                setTimeout(() => toast.remove(), 3000);
-            }
-
-            // ——— DOM REFS ———
             const balanceDisplay = document.getElementById('balanceDisplay');
             const crashCanvas = document.getElementById('crashCanvas');
             const ctx = crashCanvas.getContext('2d');
@@ -1707,23 +1436,10 @@
             const autoDisplay = document.getElementById('autoDisplay');
             const protectionTag = document.getElementById('protectionTag');
             const playBtn = document.getElementById('playBtn');
-            const cashoutBtn = document.getElementById('cashoutBtn');
+            const withdrawBtn = document.getElementById('withdrawBtn');
             const feedList = document.getElementById('feedList');
-            const syncRoundEl = document.getElementById('syncRound');
-            const syncTimerEl = document.getElementById('syncTimer');
 
             let feedItems = [];
-            let protectionEnabled = false;
-            let activeBet = null;
-            let pendingBet = null;
-            let animFrameId = null;
-            let starAngle = 0;
-            let sparkles = [];
-            let currentRoundId = getRoundId();
-            let currentCrashPoint = generateCrashPoint(currentRoundId);
-            let roundActive = false;
-            let roundCrashed = false;
-            let lastInfoUpdate = 0;
 
             const avatarColors = [
                 '#e74c3c', '#3498db', '#2ecc71', '#f39c12', '#9b59b6',
@@ -1760,8 +1476,6 @@
                         sign = '+'; }
                     if (item.type === 'loss') { amountClass = 'loss';
                         sign = '-'; }
-                    if (item.type === 'deposit') { amountClass = 'win';
-                        sign = '+'; }
                     const amountStr = `${sign}${item.amount} ⭐`;
                     html += `
                 <div class="feed-item">
@@ -1775,6 +1489,20 @@
                 feedList.innerHTML = html;
             }
 
+            let gameRunning = false,
+                activeBet = null,
+                pendingBet = null;
+            let currentMultiplier = 1.0,
+                crashPoint = 1.0;
+            let protectionEnabled = false;
+            let isDemoMode = false;
+            let animFrameId = null;
+            let startTime = 0;
+            const GROWTH_RATE = 0.05775;
+            let starAngle = 0;
+            let sparkles = [];
+
+            // ——— Цветовая схема для множителя ———
             function getMultiplierColor(mult) {
                 if (mult >= 1.0 && mult <= 1.30) return '#4a7cf7';
                 if (mult >= 1.31 && mult <= 1.90) return '#1fbb5a';
@@ -1787,6 +1515,26 @@
                 protectionTag.classList.toggle('active', protectionEnabled);
                 protectionTag.textContent = protectionEnabled ? '🛡️ Защита включена' : '🛡️ Защита от x1.0';
             });
+
+            document.getElementById('demoTag').addEventListener('click', () => {
+                isDemoMode = !isDemoMode;
+                const demoTag = document.getElementById('demoTag');
+                demoTag.textContent = isDemoMode ? '🎮 Демо (вкл)' : '🎮 Демо';
+                demoTag.style.borderColor = isDemoMode ? 'var(--gold)' : 'var(--border)';
+                demoTag.style.color = isDemoMode ? 'var(--gold)' : 'var(--text-secondary)';
+                crashInfo.textContent = isDemoMode ? '🎮 Демо-режим' : '';
+                setTimeout(() => {
+                    if (!gameRunning && !isDemoMode) crashInfo.textContent = 'Ожидание раунда...';
+                }, 2000);
+            });
+
+            function generateCrashPoint() {
+                const p = Math.random();
+                if (p < 0.30) return 1.01 + Math.random() * (1.60 - 1.01);
+                if (p < 0.60) return 1.60 + Math.random() * (2.16 - 1.60);
+                if (p < 0.80) return 2.16 + Math.random() * (5.0 - 2.16);
+                return 5.0 + Math.random() * (30.0 - 5.0);
+            }
 
             function mapMultiplierToPosition(mult) {
                 const w = crashCanvas.width,
@@ -1803,6 +1551,7 @@
                 };
             }
 
+            // ——— Генерация искр ———
             function spawnSparkles(count, cx, cy) {
                 for (let i = 0; i < count; i++) {
                     const angle = Math.random() * Math.PI * 2;
@@ -1827,7 +1576,9 @@
                     s.y += s.vy;
                     s.vy += 0.02;
                     s.life -= s.decay;
-                    if (s.life <= 0) sparkles.splice(i, 1);
+                    if (s.life <= 0) {
+                        sparkles.splice(i, 1);
+                    }
                 }
             }
 
@@ -1845,7 +1596,8 @@
                 }
             }
 
-            function drawFlyingStar(currentMultiplier) {
+            // ——— Рисовка летящей звезды ———
+            function drawFlyingStar() {
                 const w = crashCanvas.width,
                     h = crashCanvas.height;
                 ctx.clearRect(0, 0, w, h);
@@ -1855,6 +1607,7 @@
                 ctx.fillStyle = grad;
                 ctx.fillRect(0, 0, w, h);
 
+                // Сетка
                 ctx.strokeStyle = 'rgba(45, 53, 72, 0.25)';
                 ctx.lineWidth = 0.5;
                 for (let i = 0; i < 10; i++) {
@@ -1870,23 +1623,26 @@
                     ctx.stroke();
                 }
 
+                // Кривая
                 ctx.beginPath();
                 ctx.strokeStyle = 'rgba(240, 185, 11, 0.15)';
                 ctx.lineWidth = 2;
-                const displayMult = Math.min(currentMultiplier, 30);
-                for (let m = 1.0; m <= displayMult; m += 0.02) {
+                for (let m = 1.0; m <= Math.min(currentMultiplier, 30); m += 0.02) {
                     const p = mapMultiplierToPosition(m);
                     if (m === 1.0) ctx.moveTo(p.x, p.y);
                     else ctx.lineTo(p.x, p.y);
                 }
                 ctx.stroke();
 
-                const pos = mapMultiplierToPosition(Math.min(currentMultiplier, 30));
+                // Позиция звезды
+                const pos = mapMultiplierToPosition(currentMultiplier);
+
+                // Хвост — звёздный след
                 const trailLen = 18;
                 for (let i = trailLen; i >= 0; i--) {
                     const t = i / trailLen;
                     const mult = Math.max(1.0, currentMultiplier - t * 0.15);
-                    const tp = mapMultiplierToPosition(Math.min(mult, 30));
+                    const tp = mapMultiplierToPosition(mult);
                     const alpha = 0.05 + t * 0.35;
                     const size = 6 + t * 10;
                     ctx.save();
@@ -1901,9 +1657,11 @@
                     ctx.restore();
                 }
 
+                // Основная звезда
                 const pulse = 1 + 0.08 * Math.sin(performance.now() / 180);
                 const size = 44 * pulse;
                 starAngle += 0.025;
+
                 ctx.save();
                 ctx.translate(pos.x, pos.y);
                 ctx.rotate(starAngle);
@@ -1916,6 +1674,7 @@
                 ctx.fillText('⭐', 0, 4);
                 ctx.restore();
 
+                // Доп. свечение
                 const grd = ctx.createRadialGradient(pos.x, pos.y, 2, pos.x, pos.y, 50);
                 grd.addColorStop(0, 'rgba(255, 215, 0, 0.30)');
                 grd.addColorStop(0.5, 'rgba(255, 215, 0, 0.08)');
@@ -1925,169 +1684,141 @@
                 ctx.arc(pos.x, pos.y, 50, 0, Math.PI * 2);
                 ctx.fill();
 
+                // Искры
                 if (Math.random() < 0.25) {
                     spawnSparkles(2 + Math.floor(Math.random() * 3), pos.x, pos.y);
                 }
                 updateSparkles();
                 drawSparkles();
 
+                // Множитель с цветом
                 const multColor = getMultiplierColor(currentMultiplier);
                 ctx.font = 'bold 24px "Segoe UI"';
                 ctx.textAlign = 'center';
                 ctx.shadowColor = 'rgba(0,0,0,0.8)';
                 ctx.shadowBlur = 14;
                 ctx.fillStyle = multColor;
-                ctx.fillText(`${Math.min(currentMultiplier, 30).toFixed(2)}x`, w / 2, h - 16);
+                ctx.fillText(`${currentMultiplier.toFixed(2)}x`, w / 2, h - 16);
                 ctx.shadowBlur = 0;
                 ctx.textAlign = 'start';
-            }
-
-            function getCurrentMultiplier() {
-                const now = Date.now();
-                const roundId = getRoundId();
-                const startMs = getRoundStartTime(roundId);
-                const crashPoint = generateCrashPoint(roundId);
-                const crashMs = getCrashTimeMs(roundId, crashPoint);
-
-                if (now < startMs) {
-                    return { mult: 1.0, crashed: false, roundId, crashPoint, phase: 'waiting' };
-                }
-                if (now >= crashMs || now >= startMs + ROUND_CYCLE_MS) {
-                    const endMs = Math.min(crashMs, startMs + ROUND_CYCLE_MS);
-                    const elapsedAtCrash = (endMs - startMs) / 1000;
-                    const crashMult = Math.min(Math.exp(GROWTH_RATE * elapsedAtCrash), crashPoint, 30);
-                    return { mult: crashMult, crashed: true, roundId, crashPoint, phase: 'crashed' };
-                }
-                const elapsed = (now - startMs) / 1000;
-                const mult = Math.min(Math.exp(GROWTH_RATE * elapsed), crashPoint, 30);
-                return { mult, crashed: false, roundId, crashPoint, phase: 'flying' };
             }
 
             function updateButtonsState() {
                 const isBlocked = currentUser.blocked;
                 const hasPending = !!pendingBet;
-                const state = getCurrentMultiplier();
 
-                playBtn.textContent = hasPending ? 'Отменить' : 'Ставка';
-                playBtn.className = hasPending ? 'btn btn-cancel' : 'btn btn-primary';
-                playBtn.disabled = isBlocked;
-
-                if (state.phase === 'flying' && activeBet && !state.crashed) {
-                    const winAmt = Math.floor(activeBet.amount * state.mult);
-                    cashoutBtn.textContent = `💰 Забрать (${winAmt} ⭐)`;
-                    cashoutBtn.disabled = isBlocked;
-                    cashoutBtn.className = 'btn btn-gold';
+                if (gameRunning) {
+                    playBtn.textContent = 'Игра...';
+                    playBtn.className = 'btn btn-disabled';
+                    playBtn.disabled = true;
+                } else if (hasPending) {
+                    playBtn.textContent = 'Отменить';
+                    playBtn.className = 'btn btn-cancel';
+                    playBtn.disabled = isBlocked;
                 } else {
-                    cashoutBtn.textContent = '💰 Забрать';
-                    cashoutBtn.disabled = true;
-                    cashoutBtn.className = 'btn btn-disabled';
+                    playBtn.textContent = 'Ставка';
+                    playBtn.className = 'btn btn-primary';
+                    playBtn.disabled = isBlocked;
                 }
 
-                betInput.disabled = isBlocked || !!activeBet;
+                withdrawBtn.disabled = !(gameRunning && activeBet) || isBlocked;
+                if (gameRunning && activeBet) {
+                    const winAmt = Math.floor(activeBet.amount * currentMultiplier);
+                    withdrawBtn.textContent = `💰 Вывести (${winAmt} ⭐)`;
+                } else {
+                    withdrawBtn.textContent = '💰 Вывести';
+                }
+
+                // Ввод ставки разрешён всегда (кроме блокировки) — можно планировать на следующий раунд
+                betInput.disabled = isBlocked;
                 autoInput.disabled = isBlocked;
             }
 
-            function updateSyncUI() {
-                const state = getCurrentMultiplier();
-                syncRoundEl.textContent = `Раунд #${state.roundId}`;
-
-                if (state.phase === 'waiting') {
-                    const startMs = getRoundStartTime(state.roundId);
-                    const remaining = Math.ceil((startMs - Date.now()) / 1000);
-                    syncTimerEl.textContent = `⏳ Старт через ${Math.max(0, remaining)}с`;
-                    syncTimerEl.style.color = 'var(--text-secondary)';
-                } else if (state.phase === 'flying') {
-                    syncTimerEl.textContent = `🚀 x${state.mult.toFixed(2)}`;
-                    syncTimerEl.style.color = getMultiplierColor(state.mult);
-                } else {
-                    const nextRoundId = state.roundId + 1;
-                    const nextStartMs = getRoundStartTime(nextRoundId);
-                    const remaining = Math.ceil((nextStartMs - Date.now()) / 1000);
-                    syncTimerEl.textContent = `💥 Крах! След. через ${Math.max(0, remaining)}с`;
-                    syncTimerEl.style.color = 'var(--red)';
-                }
-            }
-
-            function processRound() {
-                const state = getCurrentMultiplier();
-                const newRoundId = state.roundId;
-
-                if (newRoundId !== currentRoundId) {
-                    const prevCrashPoint = generateCrashPoint(currentRoundId);
-                    if (currentRoundId > 0 && !roundCrashed && roundActive) {
-                        handleCrash(prevCrashPoint);
-                    }
-                    currentRoundId = newRoundId;
-                    currentCrashPoint = state.crashPoint;
-                    roundActive = false;
-                    roundCrashed = false;
-                    if (state.phase === 'flying') {
-                        roundActive = true;
-                        startRoundForActive();
-                    }
-                    if (state.phase === 'waiting' && pendingBet) {
-                        crashInfo.textContent = '⏳ Ставка запланирована на следующий раунд';
-                        crashInfo.className = 'info-text pending';
-                    }
-                }
-
-                if (state.phase === 'flying' && !roundActive) {
-                    roundActive = true;
-                    roundCrashed = false;
-                    currentCrashPoint = state.crashPoint;
-                    startRoundForActive();
-                }
-
-                if (state.phase === 'crashed' && !roundCrashed && roundActive) {
-                    roundCrashed = true;
-                    roundActive = false;
-                    handleCrash(state.crashPoint);
-                }
-
-                if (state.phase === 'waiting' && roundActive && !roundCrashed) {
-                    roundActive = false;
-                    roundCrashed = true;
-                    handleCrash(currentCrashPoint);
-                }
-            }
-
-            function startRoundForActive() {
-                if (pendingBet && !roundActive) {
-                    if (pendingBet.amount > stars) {
-                        crashInfo.textContent = '❌ Недостаточно звёзд!';
-                        crashInfo.className = 'info-text loss';
-                        cancelBet();
+            function startBreak() {
+                crashInfo.textContent = 'Следующий раунд через 5...';
+                let count = 5;
+                const tick = () => {
+                    if (count <= 0) {
+                        crashInfo.textContent = '';
+                        startRound();
                         return;
                     }
-                    stars -= pendingBet.amount;
-                    updateBalanceUI();
-                    addTxnRecord('bet', pendingBet.amount, 'deducted');
+                    crashInfo.textContent = `Следующий раунд через ${count}...`;
+                    count--;
+                    setTimeout(tick, 1000);
+                };
+                tick();
+            }
+
+            function startRound() {
+                if (gameRunning) return;
+                if (isBlockedCheck()) return;
+
+                // Если есть запланированная ставка — активируем
+                if (pendingBet) {
+                    if (!isDemoMode && pendingBet.amount > stars) {
+                        crashInfo.textContent = '❌ Недостаточно звёзд!';
+                        cancelBet();
+                        startBreak();
+                        return;
+                    }
+                    if (!isDemoMode) {
+                        stars -= pendingBet.amount;
+                        updateBalanceUI();
+                    }
                     activeBet = { ...pendingBet };
                     pendingBet = null;
                     totalGames++;
                     persistGameData();
                     addFeedItem(userName, 'ставит', activeBet.amount, 'bet', '💰');
-                    if (activeBet.auto_withdraw > 0) {
-                        autoDisplay.textContent = `x${activeBet.auto_withdraw.toFixed(2)}`;
-                    }
+                } else {
+                    activeBet = null;
                 }
-                roundActive = true;
-                roundCrashed = false;
-                crashInfo.textContent = activeBet ? '🚀 Полёт...' : '🚀 Раунд идёт...';
+
+                currentMultiplier = 1.0;
+                crashPoint = generateCrashPoint();
+                gameRunning = true;
+                startTime = performance.now();
+                crashInfo.textContent = '🚀 Полёт...';
                 crashInfo.className = 'info-text';
-                if (!activeBet && !pendingBet) {
+
+                if (activeBet && activeBet.auto_withdraw > 0) {
+                    autoDisplay.textContent = `x${activeBet.auto_withdraw.toFixed(2)}`;
+                } else {
                     autoDisplay.textContent = 'x1.00';
                 }
                 updateButtonsState();
-                if (!animFrameId) {
-                    animFrameId = requestAnimationFrame(animationLoop);
-                }
+                animateCrash();
             }
 
-            function handleCrash(crashPoint) {
-                roundActive = false;
-                roundCrashed = true;
-                const crashMult = Math.round(crashPoint * 100) / 100;
+            function animateCrash(timestamp) {
+                if (!gameRunning) return;
+                const now = performance.now();
+                const elapsed = (now - startTime) / 1000;
+                currentMultiplier = Math.exp(GROWTH_RATE * elapsed);
+
+                if (currentMultiplier >= crashPoint || currentMultiplier >= 30) {
+                    currentMultiplier = Math.min(crashPoint, 30);
+                    drawFlyingStar();
+                    crash();
+                    return;
+                }
+
+                drawFlyingStar();
+
+                if (activeBet && activeBet.auto_withdraw > 0 && currentMultiplier >= activeBet.auto_withdraw) {
+                    autoWithdraw();
+                    return;
+                }
+
+                if (activeBet) updateButtonsState();
+                animFrameId = requestAnimationFrame(animateCrash);
+            }
+
+            function crash() {
+                gameRunning = false;
+                if (animFrameId) cancelAnimationFrame(animFrameId);
+                const crashMult = Math.round(currentMultiplier * 100) / 100;
                 history.push(crashMult);
                 if (history.length > 20) history.shift();
                 updateTopWinsUI();
@@ -2096,8 +1827,7 @@
                 if (activeBet) {
                     const betAmount = activeBet.amount;
                     if (activeBet.protection && crashMult <= 1.01) {
-                        stars += betAmount;
-                        addTxnRecord('refund', betAmount, 'protection');
+                        if (!isDemoMode) stars += betAmount;
                         crashInfo.textContent = '🛡️ Защита! Ставка возвращена.';
                         crashInfo.className = 'info-text win';
                         addFeedItem(userName, 'защита', betAmount, 'win', '🛡️');
@@ -2106,9 +1836,7 @@
                         crashInfo.textContent = `💥 Крах на x${crashMult.toFixed(2)}`;
                         crashInfo.className = 'info-text loss';
                         addFeedItem(userName, 'проигрыш', betAmount, 'loss', '💥');
-                        addTxnRecord('loss', betAmount, 'crashed');
                     }
-                    activeBet = null;
                 } else {
                     crashInfo.textContent = `💥 Крах на x${crashMult.toFixed(2)}`;
                     crashInfo.className = 'info-text loss';
@@ -2116,86 +1844,111 @@
 
                 updateBalanceUI();
                 persistGameData();
+                // НЕ сбрасываем pendingBet — он остаётся для следующего раунда
+                // Если есть запланированная ставка — покажем это
                 if (pendingBet) {
                     crashInfo.textContent += ' ⏳ Ставка на след. раунд';
                     crashInfo.className = 'info-text pending';
                 }
+                activeBet = null;
                 updateButtonsState();
-                autoDisplay.textContent = 'x1.00';
+                setTimeout(startBreak, 800);
             }
 
-            function manualCashout() {
-                const state = getCurrentMultiplier();
-                if (state.phase === 'flying' && activeBet && !state.crashed) {
-                    const win = Math.floor(activeBet.amount * state.mult);
-                    stars += win;
-                    addTxnRecord('win', win, 'cashout');
+            function autoWithdraw() {
+                if (!activeBet) return;
+                const win = Math.floor(activeBet.amount * currentMultiplier);
+                if (!isDemoMode) stars += win;
+                updateBalanceUI();
+                totalWins++;
+                crashInfo.textContent = `✅ Авто-вывод при x${currentMultiplier.toFixed(2)}`;
+                crashInfo.className = 'info-text win';
+                addFeedItem(userName, 'выигрыш', win, 'win', '🏆');
+                activeBet = null;
+                persistGameData();
+                updateButtonsState();
+            }
+
+            function manualWithdraw() {
+                if (gameRunning && activeBet) {
+                    const win = Math.floor(activeBet.amount * currentMultiplier);
+                    if (!isDemoMode) stars += win;
                     updateBalanceUI();
                     totalWins++;
-                    crashInfo.textContent = `✅ Забрано при x${state.mult.toFixed(2)}`;
+                    crashInfo.textContent = `✅ Вывод при x${currentMultiplier.toFixed(2)}`;
                     crashInfo.className = 'info-text win';
                     addFeedItem(userName, 'выигрыш', win, 'win', '🏆');
-                    history.push(Math.round(state.mult * 100) / 100);
+                    history.push(Math.round(currentMultiplier * 100) / 100);
                     if (history.length > 20) history.shift();
                     updateTopWinsUI();
                     persistGameData();
-                    showTxnToast(`✅ Выигрыш: +${win} ⭐ (x${state.mult.toFixed(2)})`);
                     activeBet = null;
-                    autoDisplay.textContent = 'x1.00';
                     updateButtonsState();
                 }
             }
 
+            function resetCrashState() {
+                gameRunning = false;
+                // activeBet сбрасываем, но pendingBet НЕ трогаем
+                activeBet = null;
+                currentMultiplier = 1.0;
+                drawFlyingStar();
+                autoDisplay.textContent = 'x1.00';
+                crashInfo.className = 'info-text';
+                if (!isDemoMode) crashInfo.textContent = pendingBet ? '⏳ Ставка запланирована' : 'Ожидание раунда...';
+                if (pendingBet) crashInfo.className = 'info-text pending';
+                updateButtonsState();
+            }
+
             function placeBet() {
                 if (isBlockedCheck()) return;
-                if (activeBet) {
-                    crashInfo.textContent = '❌ У вас уже есть активная ставка в этом раунде';
-                    crashInfo.className = 'info-text loss';
-                    return;
-                }
+
+                // Если уже есть запланированная ставка — отменяем её (toggle)
                 if (pendingBet) {
                     cancelBet();
                     return;
                 }
+
                 const bet = parseInt(betInput.value);
                 if (!bet || bet <= 0) {
                     crashInfo.textContent = '❌ Введите ставку > 0';
                     crashInfo.className = 'info-text loss';
                     return;
                 }
-                if (bet > stars) {
+                if (!isDemoMode && bet > stars) {
                     crashInfo.textContent = '❌ Недостаточно звёзд';
                     crashInfo.className = 'info-text loss';
                     return;
                 }
+
                 let auto = 0;
                 if (autoInput.value && autoInput.value.trim() !== '') {
                     auto = parseFloat(autoInput.value);
                     if (isNaN(auto) || auto <= 1.0 || auto > 30) {
-                        crashInfo.textContent = '❌ Авто-стоп от 1.01 до 30';
+                        crashInfo.textContent = '❌ Авто-вывод от 1.01 до 30';
                         crashInfo.className = 'info-text loss';
                         return;
                     }
                 }
+
                 pendingBet = {
                     amount: bet,
                     auto_withdraw: auto,
                     protection: protectionEnabled
                 };
-                const state = getCurrentMultiplier();
-                if (state.phase === 'flying') {
+
+                const isGameRunning = gameRunning;
+                if (isGameRunning) {
                     crashInfo.textContent = '⏳ Ставка запланирована на следующий раунд!';
                     crashInfo.className = 'info-text pending';
-                } else if (state.phase === 'waiting') {
-                    crashInfo.textContent = '✅ Ставка принята на след. раунд';
-                    crashInfo.className = 'info-text win';
                 } else {
                     crashInfo.textContent = '✅ Ставка принята на след. раунд';
                     crashInfo.className = 'info-text win';
                 }
                 updateButtonsState();
-                if (auto > 0) {
-                    autoDisplay.textContent = `x${auto.toFixed(2)}`;
+                // Если игра не идёт, сразу запускаем раунд (если не в демо и не ожидание)
+                if (!gameRunning && !isDemoMode) {
+                    // Ничего не делаем, ждём старта
                 }
             }
 
@@ -2203,11 +1956,9 @@
                 pendingBet = null;
                 crashInfo.textContent = '❌ Ставка отменена';
                 crashInfo.className = 'info-text loss';
-                autoDisplay.textContent = 'x1.00';
                 updateButtonsState();
                 setTimeout(() => {
-                    const state = getCurrentMultiplier();
-                    if (state.phase !== 'flying') {
+                    if (!gameRunning && !isDemoMode) {
                         crashInfo.textContent = 'Ожидание раунда...';
                         crashInfo.className = 'info-text';
                     }
@@ -2215,54 +1966,14 @@
             }
 
             playBtn.addEventListener('click', placeBet);
-            cashoutBtn.addEventListener('click', manualCashout);
-
-            function animationLoop(timestamp) {
-                const state = getCurrentMultiplier();
-                processRound();
-                drawFlyingStar(state.mult);
-
-                if (activeBet && activeBet.auto_withdraw > 0 && state.phase === 'flying' && state.mult >= activeBet
-                    .auto_withdraw && !state.crashed) {
-                    autoWithdraw(state.mult);
-                }
-
-                updateSyncUI();
-                if (Date.now() - lastInfoUpdate > 500) {
-                    updateButtonsState();
-                    lastInfoUpdate = Date.now();
-                }
-
-                animFrameId = requestAnimationFrame(animationLoop);
-            }
-
-            function autoWithdraw(mult) {
-                if (!activeBet) return;
-                const win = Math.floor(activeBet.amount * mult);
-                stars += win;
-                addTxnRecord('win', win, 'auto_cashout');
-                updateBalanceUI();
-                totalWins++;
-                crashInfo.textContent = `✅ Авто-стоп при x${mult.toFixed(2)}`;
-                crashInfo.className = 'info-text win';
-                addFeedItem(userName, 'выигрыш', win, 'win', '🏆');
-                history.push(Math.round(mult * 100) / 100);
-                if (history.length > 20) history.shift();
-                updateTopWinsUI();
-                persistGameData();
-                showTxnToast(`✅ Авто-стоп: +${win} ⭐ (x${mult.toFixed(2)})`);
-                activeBet = null;
-                autoDisplay.textContent = 'x1.00';
-                updateButtonsState();
-            }
+            withdrawBtn.addEventListener('click', manualWithdraw);
 
             function updateTopWinsUI() {
                 const list = document.getElementById('topWinsList');
                 if (!history.length) { list.innerHTML = '<span class="top-win-chip">—</span>'; return; }
                 let html = '';
                 history.slice(-6).reverse().forEach((val, i) => {
-                    html +=
-                        `<span class="top-win-chip${i === 0 ? ' special' : ''}">x${typeof val === 'number' ? val.toFixed(2) : val}</span>`;
+                    html += `<span class="top-win-chip${i === 0 ? ' special' : ''}">x${val.toFixed(2)}</span>`;
                 });
                 list.innerHTML = html;
             }
@@ -2271,7 +1982,6 @@
                 balanceDisplay.textContent = `⭐ ${stars}`;
             }
 
-            // ——— CASES ———
             const caseCanvas = document.getElementById('caseCanvas');
             const caseCtx = caseCanvas.getContext('2d');
 
@@ -2285,18 +1995,13 @@
                 if (isBlockedCheck()) return;
                 const cfg = casesConfig[type];
                 if (!cfg) return;
-                if (stars < cfg.price) { alert('Недостаточно звёзд!'); return; }
-                stars -= cfg.price;
-                updateBalanceUI();
-                persistGameData();
-                addTxnRecord('case_buy', cfg.price, 'deducted');
+                if (!isDemoMode && stars < cfg.price) { alert('Недостаточно звёзд!'); return; }
+                if (!isDemoMode) {
+                    stars -= cfg.price;
+                    updateBalanceUI();
+                    persistGameData();
+                }
                 const reward = cfg.min + Math.floor(Math.random() * (cfg.max - cfg.min + 1));
-                stars += reward;
-                updateBalanceUI();
-                persistGameData();
-                addTxnRecord('case_win', reward, 'credited');
-                addFeedItem(userName, type === 'common' ? 'обычный кейс' : type === 'rare' ? 'редкий кейс' :
-                    'эпический кейс', reward, 'win', '📦');
                 showCaseAnimation(reward, 'Кейс');
             };
 
@@ -2312,9 +2017,8 @@
                     return;
                 }
                 const reward = Math.floor(Math.random() * 15) + 1;
-                stars += reward;
-                updateBalanceUI();
-                addTxnRecord('daily', reward, 'credited');
+                if (!isDemoMode) { stars += reward;
+                    updateBalanceUI(); }
                 lastDailyClaim = now;
                 persistGameData();
                 addFeedItem(userName, 'ежедневный кейс', reward, 'win', '🎁');
@@ -2357,10 +2061,9 @@
                 updatePromoStatus();
                 document.getElementById('promoModal').style.display = 'none';
                 const reward = Math.floor(Math.random() * 251) + 50;
-                stars += reward;
-                updateBalanceUI();
-                persistGameData();
-                addTxnRecord('promo', reward, 'credited');
+                if (!isDemoMode) { stars += reward;
+                    updateBalanceUI();
+                    persistGameData(); }
                 addFeedItem(userName, 'промо-кейс', reward, 'win', '🔑');
                 showCaseAnimation(reward, `Промо-кейс (${code})`);
             });
@@ -2376,11 +2079,10 @@
 
             function openLegendaryCase() {
                 if (isBlockedCheck()) return;
-                if (stars < 1500) { alert('Недостаточно звёзд!'); return; }
-                stars -= 1500;
-                updateBalanceUI();
-                persistGameData();
-                addTxnRecord('legendary_buy', 1500, 'deducted');
+                if (!isDemoMode && stars < 1500) { alert('Недостаточно звёзд!'); return; }
+                if (!isDemoMode) { stars -= 1500;
+                    updateBalanceUI();
+                    persistGameData(); }
                 const totalWeight = legendaryItems.reduce((sum, item) => sum + item.weight, 0);
                 let rand = Math.random() * totalWeight;
                 let selected = legendaryItems[0];
@@ -2389,9 +2091,6 @@
                     if (rand <= 0) { selected = item; break; }
                 }
                 inventory.push({ ...selected, id: Date.now() + Math.random() });
-                stars += selected.value;
-                updateBalanceUI();
-                addTxnRecord('legendary_win', selected.value, 'credited');
                 persistGameData();
                 renderInventory();
                 addFeedItem(userName, 'легендарный кейс', selected.value, 'win', selected.icon);
@@ -2424,7 +2123,6 @@
                 updateBalanceUI();
                 persistGameData();
                 renderInventory();
-                addTxnRecord('sell_item', item.value, 'credited');
                 addFeedItem(userName, 'продал предмет', item.value, 'win', item.icon);
             };
 
@@ -2561,191 +2259,56 @@
             }
             drawCaseStatic();
 
-            // ============================================================
-            //  ПОПОЛНЕНИЕ ЧЕРЕЗ TELEGRAM STARS (только реальное)
-            // ============================================================
-
             const profileModal = document.getElementById('profileModal');
-            const depositModal = document.getElementById('depositModal');
-            const confirmModal = document.getElementById('confirmModal');
-
-            const profileName = document.getElementById('profileName');
-            const profileBalance = document.getElementById('profileBalance');
-            const depositAmountInput = document.getElementById('depositAmountInput');
-            const depositError = document.getElementById('depositError');
-            const confirmAmountDisplay = document.getElementById('confirmAmountDisplay');
-            const confirmPayAmount = document.getElementById('confirmPayAmount');
-            const confirmDesc = document.getElementById('confirmDesc');
-            const confirmPayBtn = document.getElementById('confirmPayBtn');
-            const confirmError = document.getElementById('confirmError');
-            const confirmSuccess = document.getElementById('confirmSuccess');
-
-            let pendingDepositAmount = 0;
+            document.getElementById('userName').addEventListener('click', openProfile);
+            document.getElementById('avatar').addEventListener('click', openProfile);
 
             function openProfile() {
-                profileName.textContent = userName;
-                profileBalance.textContent = `⭐ ${stars}`;
+                document.getElementById('profileName').textContent = userName;
+                document.getElementById('profileBalance').textContent = `⭐ ${stars}`;
                 profileModal.style.display = 'flex';
             }
 
-            document.getElementById('userName').addEventListener('click', openProfile);
-            document.getElementById('avatar').addEventListener('click', openProfile);
-            document.getElementById('balanceDisplay').addEventListener('click', openProfile);
-            document.getElementById('closeProfileBtn').addEventListener('click', () =>
-                profileModal.style.display = 'none');
-
+            document.getElementById('closeProfileBtn').addEventListener('click', () => profileModal.style.display = 'none');
             document.getElementById('profileDepositBtn').addEventListener('click', () => {
                 profileModal.style.display = 'none';
-                depositModal.style.display = 'flex';
-                depositAmountInput.value = '100';
-                depositError.style.display = 'none';
-                depositError.textContent = '';
-                document.querySelectorAll('#quickAmounts button').forEach(b => b.classList.remove('active'));
-                document.querySelector('#quickAmounts button[data-amount="100"]')?.classList.add('active');
+                document.getElementById('depositModal').style.display = 'flex';
+            });
+            document.getElementById('profileWithdrawBtn').addEventListener('click', () => {
+                profileModal.style.display = 'none';
+                document.getElementById('withdrawModal').style.display = 'flex';
+                document.getElementById('withdrawError').textContent = '';
+                document.getElementById('withdrawAmount').value = '';
             });
 
-            document.querySelectorAll('#quickAmounts button').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    document.querySelectorAll('#quickAmounts button').forEach(b => b.classList.remove(
-                    'active'));
-                    btn.classList.add('active');
-                    depositAmountInput.value = btn.dataset.amount;
-                    depositError.style.display = 'none';
-                });
+            document.getElementById('closeDepositBtn').addEventListener('click', () => document.getElementById('depositModal')
+                .style.display = 'none');
+            document.getElementById('simulateDepositBtn').addEventListener('click', () => {
+                const amount = parseInt(document.getElementById('depositAmount').value);
+                if (!amount || amount <= 0) return;
+                stars += amount;
+                updateBalanceUI();
+                persistGameData();
+                document.getElementById('depositModal').style.display = 'none';
+                alert(`✅ Баланс пополнен на ${amount} ⭐ (демо)`);
+            });
+            document.getElementById('telegramDepositBtn').addEventListener('click', () => {
+                tg.openTelegramLink('https://t.me/CrushGiftSpin_bot?start=deposit');
             });
 
-            depositAmountInput.addEventListener('input', () => {
-                document.querySelectorAll('#quickAmounts button').forEach(b => b.classList.remove('active'));
-                depositError.style.display = 'none';
+            document.getElementById('closeWithdrawBtn').addEventListener('click', () => document.getElementById('withdrawModal')
+                .style.display = 'none');
+            document.getElementById('confirmWithdrawBtn').addEventListener('click', () => {
+                const amount = parseInt(document.getElementById('withdrawAmount').value);
+                const errorEl = document.getElementById('withdrawError');
+                if (!amount || amount < 1000) { errorEl.textContent = '❌ Минимум: 1000 ⭐'; return; }
+                if (amount > stars) { errorEl.textContent = '❌ Недостаточно звёзд'; return; }
+                stars -= amount;
+                updateBalanceUI();
+                persistGameData();
+                document.getElementById('withdrawModal').style.display = 'none';
+                alert(`✅ Заявка на вывод ${amount} ⭐ отправлена.`);
             });
-
-            document.getElementById('closeDepositBtn').addEventListener('click', () =>
-                depositModal.style.display = 'none');
-
-            document.getElementById('depositContinueBtn').addEventListener('click', () => {
-                const amount = parseInt(depositAmountInput.value);
-                if (!amount || amount <= 0) {
-                    depositError.textContent = '❌ Введите сумму больше 0';
-                    depositError.style.display = 'block';
-                    return;
-                }
-                if (amount < 1) {
-                    depositError.textContent = '❌ Минимальная сумма — 1 звезда';
-                    depositError.style.display = 'block';
-                    return;
-                }
-                pendingDepositAmount = amount;
-                confirmAmountDisplay.textContent = amount;
-                confirmPayAmount.textContent = amount;
-                confirmDesc.innerHTML = `
-              Вы точно хотите приобрести<br />
-              <span class="emoji-big">🛒</span> Пополнение звёзд в <span class="highlight">Crush Gift Spin</span> за <span class="highlight">${amount}</span> звёзд?
-            `;
-                confirmError.style.display = 'none';
-                confirmError.textContent = '';
-                confirmSuccess.style.display = 'none';
-                confirmSuccess.textContent = '';
-                confirmPayBtn.disabled = false;
-                confirmPayBtn.textContent = `Подтвердить и заплатить 🛒 ${amount} звёзд`;
-                depositModal.style.display = 'none';
-                confirmModal.style.display = 'flex';
-            });
-
-            document.getElementById('closeConfirmBtn').addEventListener('click', () => {
-                confirmModal.style.display = 'none';
-                pendingDepositAmount = 0;
-            });
-
-            // ——— ОСНОВНАЯ КНОПКА ОПЛАТЫ ———
-            confirmPayBtn.addEventListener('click', () => {
-                const amount = pendingDepositAmount;
-                if (!amount || amount <= 0) {
-                    confirmError.textContent = '❌ Ошибка: сумма не указана';
-                    confirmError.style.display = 'block';
-                    return;
-                }
-
-                confirmPayBtn.disabled = true;
-                confirmPayBtn.textContent = '⏳ Обработка...';
-                confirmError.style.display = 'none';
-                confirmSuccess.style.display = 'none';
-
-                // Используем нативный WebApp API для звёзд
-                if (tg.requestStarPayment && typeof tg.requestStarPayment === 'function') {
-                    try {
-                        tg.requestStarPayment({
-                            amount: amount,
-                            purpose: 'crush_gift_deposit_' + userId,
-                            callback: function(result) {
-                                if (result && result.success) {
-                                    stars += amount;
-                                    updateBalanceUI();
-                                    persistGameData();
-                                    addTxnRecord('deposit_tg', amount, 'credited_via_stars');
-                                    addFeedItem(userName, 'пополнение TG Stars', amount, 'deposit', '💳');
-                                    confirmSuccess.textContent =
-                                        `✅ Баланс пополнен на ${amount} ⭐ через Telegram Stars!`;
-                                    confirmSuccess.style.display = 'block';
-                                    confirmPayBtn.textContent = '✅ Готово';
-                                    showTxnToast(
-                                    `✅ Пополнение +${amount} ⭐ (списано с баланса Telegram)`);
-                                    pendingDepositAmount = 0;
-                                    if (profileModal.style.display === 'flex') {
-                                        profileBalance.textContent = `⭐ ${stars}`;
-                                    }
-                                    setTimeout(() => {
-                                        confirmModal.style.display = 'none';
-                                        confirmPayBtn.disabled = false;
-                                        confirmPayBtn.textContent =
-                                            `Подтвердить и заплатить 🛒 ${amount} звёзд`;
-                                        confirmSuccess.style.display = 'none';
-                                    }, 2000);
-                                } else {
-                                    confirmError.textContent =
-                                        '❌ Оплата не прошла или была отменена. Попробуйте ещё раз.';
-                                    confirmError.style.display = 'block';
-                                    confirmPayBtn.disabled = false;
-                                    confirmPayBtn.textContent =
-                                        `Подтвердить и заплатить 🛒 ${amount} звёзд`;
-                                }
-                            }
-                        });
-                    } catch (e) {
-                        console.error('requestStarPayment error:', e);
-                        fallbackToBotDeposit(amount);
-                    }
-                } else {
-                    // Fallback — открываем бота
-                    fallbackToBotDeposit(amount);
-                }
-            });
-
-            function fallbackToBotDeposit(amount) {
-                const botUsername = 'CrushGiftSpin_bot';
-                const startParam = `deposit_${amount}_${userId}`;
-                tg.openTelegramLink(`https://t.me/${botUsername}?start=${startParam}`);
-                confirmModal.style.display = 'none';
-                pendingDepositAmount = 0;
-                showTxnToast(
-                    `🔄 Запрос на ${amount} ⭐ отправлен в бота. Подтвердите оплату в чате с ботом.`);
-                alert(
-                    `🔄 Для пополнения ${amount} ⭐ откройте бота @${botUsername}\n\nБот создаст счёт в валюте XTR (Telegram Stars). После оплаты звёзды спишутся с вашего баланса Telegram и зачислятся в приложение.`
-                );
-            }
-
-            // ——— ЗАКРЫТИЕ МОДАЛОК ———
-            document.querySelectorAll('.modal').forEach(modal => {
-                modal.addEventListener('click', (e) => {
-                    if (e.target === modal) {
-                        modal.style.display = 'none';
-                        if (modal.id === 'confirmModal') pendingDepositAmount = 0;
-                    }
-                });
-            });
-
-            // ============================================================
-            //  ADMIN
-            // ============================================================
 
             function renderAdminPanel() {
                 if (!isAdmin) return;
@@ -2778,7 +2341,7 @@
                       <span>${u.name}</span>
                       <span class="badge">${u.id}</span>
                       ${blockedTag}
-                      <span class="badge">⭐${u.stars || 0}</span>
+                      <span class="badge">⭐${u.stars}</span>
                     </div>
                     <div class="actions">
                       <button class="gold" onclick="adminGiveStars('${u.id}')">⭐ Выдать</button>
@@ -2851,45 +2414,14 @@
                 }
             };
 
-            // ============================================================
-            //  INIT
-            // ============================================================
+            updateBalanceUI();
+            updatePromoStatus();
+            updateTopWinsUI();
+            renderInventory();
+            drawFlyingStar();
+            startBreak();
 
-            function init() {
-                updateBalanceUI();
-                updatePromoStatus();
-                updateTopWinsUI();
-                renderInventory();
-                updateSyncUI();
-                const state = getCurrentMultiplier();
-                currentRoundId = state.roundId;
-                currentCrashPoint = state.crashPoint;
-                if (state.phase === 'flying') {
-                    roundActive = true;
-                    roundCrashed = false;
-                } else if (state.phase === 'crashed') {
-                    roundCrashed = true;
-                    roundActive = false;
-                    history.push(Math.round(state.crashPoint * 100) / 100);
-                    if (history.length > 20) history.shift();
-                    updateTopWinsUI();
-                    persistGameData();
-                } else {
-                    roundActive = false;
-                    roundCrashed = true;
-                }
-                drawFlyingStar(state.mult);
-                updateButtonsState();
-                animFrameId = requestAnimationFrame(animationLoop);
-                crashInfo.textContent = state.phase === 'flying' ? '🚀 Раунд идёт...' : 'Ожидание раунда...';
-                console.log('🎁 Crush Gift Spin (TG Stars) — реальный режим');
-                console.log('🔄 Синхронизация | Раунд #' + currentRoundId + ' | Crash: x' + currentCrashPoint.toFixed(
-                    2));
-                console.log('💳 Пополнение через Telegram Stars (XTR)');
-            }
-
-            init();
-
+            console.log('🎁 Crush Gift Spin загружен (все функции исправлены)');
         })();
     </script>
 </body>
