@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
     <title>Crush Gift Spin | TG Stars</title>
     <style>
+        /* ——— RESET & BASE ——— */
         * {
             margin: 0;
             padding: 0;
@@ -52,6 +53,7 @@
             background: transparent;
         }
 
+        /* ——— HEADER ——— */
         .header {
             background: var(--bg-secondary);
             border-bottom: 1px solid var(--border);
@@ -102,6 +104,10 @@
             font-size: 15px;
             white-space: nowrap;
             border: 1px solid rgba(240, 185, 11, 0.15);
+            cursor: pointer;
+        }
+        .balance-pill:active {
+            opacity: 0.6;
         }
         .avatar-sm,
         .user-name-sm {
@@ -134,6 +140,7 @@
             white-space: nowrap;
         }
 
+        /* ——— SYNC BAR ——— */
         .sync-bar {
             background: var(--bg-secondary);
             padding: 5px 14px;
@@ -188,6 +195,7 @@
             white-space: nowrap;
         }
 
+        /* ——— TOP WINS ——— */
         .top-wins {
             background: var(--bg-secondary);
             padding: 6px 14px;
@@ -226,6 +234,7 @@
             border-color: rgba(240, 185, 11, 0.2);
         }
 
+        /* ——— AUTO BAR ——— */
         .auto-bar {
             background: var(--bg-secondary);
             padding: 6px 14px;
@@ -281,6 +290,7 @@
             opacity: 0.6;
         }
 
+        /* ——— TABS ——— */
         .tabs {
             display: flex;
             background: var(--bg-secondary);
@@ -310,7 +320,6 @@
         .tab-btn:active {
             opacity: 0.5;
         }
-
         .tab-content {
             flex: 1;
             overflow-y: auto;
@@ -322,6 +331,7 @@
             display: flex;
         }
 
+        /* ——— CRASH ——— */
         .crash-container {
             display: flex;
             flex-direction: column;
@@ -330,7 +340,6 @@
             flex: 1;
             overflow: hidden;
         }
-
         .diagram-wrap {
             display: flex;
             flex-direction: column;
@@ -349,7 +358,6 @@
             border: 1px solid var(--border);
             display: block;
         }
-
         .info-text {
             font-size: 14px;
             color: var(--gold);
@@ -369,7 +377,6 @@
         .info-text.pending {
             color: var(--accent-blue);
         }
-
         .controls-row {
             display: flex;
             flex-wrap: wrap;
@@ -414,7 +421,6 @@
             opacity: 0.4;
             cursor: not-allowed;
         }
-
         .controls-row .button-group {
             display: flex;
             gap: 6px;
@@ -479,6 +485,7 @@
             background: #3a66d0;
         }
 
+        /* ——— LIVE FEED ——— */
         .live-feed {
             flex: 1;
             min-height: 70px;
@@ -589,6 +596,7 @@
             padding: 10px 0;
         }
 
+        /* ——— CASES ——— */
         .case-grid {
             display: flex;
             flex-wrap: wrap;
@@ -664,7 +672,6 @@
             display: inline-block;
             margin-top: 2px;
         }
-
         #caseCanvas {
             width: 100%;
             max-width: 300px;
@@ -685,168 +692,7 @@
             min-height: 30px;
         }
 
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            padding: 16px;
-            backdrop-filter: blur(4px);
-        }
-        .modal-content {
-            background: var(--bg-secondary);
-            border-radius: 16px;
-            padding: 20px;
-            width: 100%;
-            max-width: 340px;
-            border: 1px solid var(--border);
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            animation: modalIn 0.25s ease;
-        }
-        @keyframes modalIn {
-            from {
-                opacity: 0;
-                transform: scale(0.92);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-        .modal-content .modal-title {
-            font-size: 18px;
-            font-weight: 700;
-            text-align: center;
-            color: var(--text-primary);
-        }
-        .modal-content .modal-sub {
-            color: var(--text-secondary);
-            text-align: center;
-            font-size: 13px;
-        }
-        .modal-content input {
-            background: var(--bg-primary);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 10px 12px;
-            color: var(--text-primary);
-            font-size: 16px;
-            outline: none;
-            width: 100%;
-            transition: border 0.2s;
-        }
-        .modal-content input:focus {
-            border-color: var(--gold);
-        }
-        .modal-content .btn-row {
-            display: flex;
-            gap: 8px;
-        }
-        .modal-content .btn-row .btn {
-            flex: 1;
-            padding: 8px;
-            font-size: 13px;
-        }
-        .modal-content .btn {
-            border: none;
-            border-radius: 8px;
-            padding: 10px;
-            font-weight: 700;
-            font-size: 14px;
-            cursor: pointer;
-            color: #fff;
-            transition: all 0.15s;
-            width: 100%;
-            min-height: 40px;
-        }
-        .modal-content .btn:active {
-            transform: scale(0.97);
-        }
-        .modal-content .btn-primary {
-            background: var(--green);
-        }
-        .modal-content .btn-gold {
-            background: var(--gold);
-            color: #0a0e13;
-        }
-        .modal-content .btn-cancel {
-            background: var(--red);
-        }
-        .modal-content .btn-telegram {
-            background: var(--accent-blue);
-        }
-        .modal-content .error-text {
-            color: var(--red);
-            font-size: 13px;
-            text-align: center;
-            min-height: 20px;
-        }
-        .modal-content .success-text {
-            color: var(--green);
-            font-size: 13px;
-            text-align: center;
-            min-height: 20px;
-        }
-
-        .case-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            z-index: 2000;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            padding: 20px;
-            backdrop-filter: blur(6px);
-        }
-        .case-overlay.active {
-            display: flex;
-        }
-        .case-overlay canvas {
-            width: 100%;
-            max-width: 360px;
-            aspect-ratio: 1/1;
-            border-radius: var(--radius);
-            background: var(--bg-secondary);
-            border: 1px solid var(--border);
-        }
-        .case-overlay .result-label {
-            font-size: 22px;
-            font-weight: 700;
-            color: var(--gold);
-            margin-top: 12px;
-            text-align: center;
-        }
-        .case-overlay .close-overlay-btn {
-            margin-top: 14px;
-            background: var(--gold);
-            color: #0a0e13;
-            border: none;
-            border-radius: 10px;
-            padding: 10px 28px;
-            font-weight: 700;
-            font-size: 15px;
-            cursor: pointer;
-            transition: all 0.15s;
-            min-width: 120px;
-        }
-        .case-overlay .close-overlay-btn:active {
-            transform: scale(0.95);
-            opacity: 0.8;
-        }
-
+        /* ——— INVENTORY ——— */
         .inventory-grid {
             display: flex;
             flex-wrap: wrap;
@@ -888,6 +734,7 @@
             transform: scale(0.95);
         }
 
+        /* ——— ADMIN ——— */
         .admin-panel {
             padding: 12px;
             background: var(--bg-secondary);
@@ -1016,7 +863,6 @@
         .admin-panel .broadcast-area .btn-row .btn-reset {
             background: var(--red);
         }
-
         .admin-stats {
             display: flex;
             gap: 12px;
@@ -1041,6 +887,256 @@
             color: var(--text-secondary);
         }
 
+        /* ——— MODALS (общие) ——— */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 16px;
+            backdrop-filter: blur(4px);
+        }
+        .modal-content {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 20px;
+            width: 100%;
+            max-width: 340px;
+            border: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            animation: modalIn 0.25s ease;
+        }
+        @keyframes modalIn {
+            from {
+                opacity: 0;
+                transform: scale(0.92);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        .modal-content .modal-title {
+            font-size: 18px;
+            font-weight: 700;
+            text-align: center;
+            color: var(--text-primary);
+        }
+        .modal-content .modal-sub {
+            color: var(--text-secondary);
+            text-align: center;
+            font-size: 13px;
+        }
+        .modal-content input {
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 10px 12px;
+            color: var(--text-primary);
+            font-size: 16px;
+            outline: none;
+            width: 100%;
+            transition: border 0.2s;
+        }
+        .modal-content input:focus {
+            border-color: var(--gold);
+        }
+        .modal-content .btn-row {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .modal-content .btn-row .btn {
+            flex: 1;
+            padding: 8px;
+            font-size: 13px;
+        }
+        .modal-content .btn {
+            border: none;
+            border-radius: 8px;
+            padding: 10px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            color: #fff;
+            transition: all 0.15s;
+            width: 100%;
+            min-height: 40px;
+        }
+        .modal-content .btn:active {
+            transform: scale(0.97);
+        }
+        .modal-content .btn-primary {
+            background: var(--green);
+        }
+        .modal-content .btn-gold {
+            background: var(--gold);
+            color: #0a0e13;
+        }
+        .modal-content .btn-gold:active {
+            background: #dba40a;
+        }
+        .modal-content .btn-cancel {
+            background: var(--red);
+        }
+        .modal-content .btn-cancel:active {
+            background: #d43a3a;
+        }
+        .modal-content .btn-telegram {
+            background: var(--accent-blue);
+        }
+        .modal-content .error-text {
+            color: var(--red);
+            font-size: 13px;
+            text-align: center;
+            min-height: 20px;
+        }
+        .modal-content .success-text {
+            color: var(--green);
+            font-size: 13px;
+            text-align: center;
+            min-height: 20px;
+        }
+
+        /* ——— QUICK AMOUNT BUTTONS (для депозита) ——— */
+        .quick-amounts {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .quick-amounts button {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 6px 14px;
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.15s;
+            min-height: 34px;
+        }
+        .quick-amounts button:active {
+            transform: scale(0.95);
+        }
+        .quick-amounts button.active {
+            border-color: var(--gold);
+            color: var(--gold);
+            background: var(--gold-dim);
+        }
+
+        /* ——— CONFIRMATION MODAL (как на скрине) ——— */
+        .confirm-purchase .modal-title {
+            font-size: 19px;
+            color: var(--text-primary);
+        }
+        .confirm-purchase .purchase-desc {
+            font-size: 14px;
+            color: var(--text-primary);
+            text-align: center;
+            line-height: 1.5;
+            padding: 4px 0;
+        }
+        .confirm-purchase .purchase-desc .highlight {
+            color: var(--gold);
+            font-weight: 700;
+        }
+        .confirm-purchase .purchase-desc .emoji-big {
+            font-size: 20px;
+        }
+        .confirm-purchase .terms {
+            font-size: 11px;
+            color: var(--text-secondary);
+            text-align: center;
+            margin-top: 4px;
+            padding-top: 6px;
+            border-top: 1px solid var(--border);
+        }
+        .confirm-purchase .btn-pay {
+            background: var(--gold);
+            color: #0a0e13;
+            font-size: 15px;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.15s;
+            width: 100%;
+            min-height: 48px;
+        }
+        .confirm-purchase .btn-pay:active {
+            transform: scale(0.97);
+            background: #dba40a;
+        }
+        .confirm-purchase .btn-pay:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* ——— CASE OVERLAY ——— */
+        .case-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 20px;
+            backdrop-filter: blur(6px);
+        }
+        .case-overlay.active {
+            display: flex;
+        }
+        .case-overlay canvas {
+            width: 100%;
+            max-width: 360px;
+            aspect-ratio: 1/1;
+            border-radius: var(--radius);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+        }
+        .case-overlay .result-label {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--gold);
+            margin-top: 12px;
+            text-align: center;
+        }
+        .case-overlay .close-overlay-btn {
+            margin-top: 14px;
+            background: var(--gold);
+            color: #0a0e13;
+            border: none;
+            border-radius: 10px;
+            padding: 10px 28px;
+            font-weight: 700;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.15s;
+            min-width: 120px;
+        }
+        .case-overlay .close-overlay-btn:active {
+            transform: scale(0.95);
+            opacity: 0.8;
+        }
+
+        /* ——— RESPONSIVE ——— */
         @media (max-width: 460px) {
             .header {
                 padding: 6px 10px;
@@ -1188,11 +1284,22 @@
                 font-size: 10px;
                 padding: 1px 6px;
             }
+            .quick-amounts button {
+                font-size: 12px;
+                padding: 4px 12px;
+                min-height: 30px;
+            }
+            .confirm-purchase .btn-pay {
+                font-size: 13px;
+                padding: 10px;
+                min-height: 42px;
+            }
         }
     </style>
 </head>
 <body>
 
+    <!-- ==================== HEADER ==================== -->
     <div class="header">
         <div class="header-left">
             <span class="header-logo">🎁 Crush Gift Spin <small>| TG Stars</small></span>
@@ -1204,6 +1311,7 @@
         </div>
     </div>
 
+    <!-- ==================== SYNC BAR ==================== -->
     <div class="sync-bar">
         <span class="sync-dot"></span>
         <span class="sync-label">🌐 Онлайн-синхронизация</span>
@@ -1211,11 +1319,13 @@
         <span class="sync-timer" id="syncTimer">--</span>
     </div>
 
+    <!-- ==================== TOP WINS ==================== -->
     <div class="top-wins">
         <span class="top-wins-label">📜 История Crash</span>
         <div class="top-wins-list" id="topWinsList"></div>
     </div>
 
+    <!-- ==================== AUTO BAR ==================== -->
     <div class="auto-bar">
         <span class="label">⚡ АВТО-СТОП</span>
         <span class="auto-value" id="autoDisplay">x1.00</span>
@@ -1223,6 +1333,7 @@
         <span class="demo-tag" id="demoTag">🎮 Демо</span>
     </div>
 
+    <!-- ==================== TABS ==================== -->
     <div class="tabs">
         <button class="tab-btn active" data-tab="crash">📈 Crash</button>
         <button class="tab-btn" data-tab="cases">📦 Кейсы</button>
@@ -1230,6 +1341,7 @@
         <button class="tab-btn" id="adminTabBtn" style="display:none;" data-tab="admin">🛡️ Админ</button>
     </div>
 
+    <!-- ==================== TAB: CRASH ==================== -->
     <div class="tab-content active" id="crashTab">
         <div class="crash-container">
             <div class="diagram-wrap">
@@ -1264,6 +1376,7 @@
         </div>
     </div>
 
+    <!-- ==================== TAB: CASES ==================== -->
     <div class="tab-content" id="casesTab">
         <div style="text-align:center; padding:6px 10px 0;">
             <canvas id="caseCanvas" width="300" height="180"></canvas>
@@ -1310,6 +1423,7 @@
         </div>
     </div>
 
+    <!-- ==================== TAB: INVENTORY ==================== -->
     <div class="tab-content" id="inventoryTab">
         <div style="padding:10px;">
             <h3 style="color:var(--gold); text-align:center;">🎒 Инвентарь</h3>
@@ -1319,41 +1433,76 @@
         </div>
     </div>
 
+    <!-- ==================== TAB: ADMIN ==================== -->
     <div class="tab-content" id="adminTab">
         <div class="admin-panel" id="adminPanel"></div>
     </div>
 
+    <!-- ==================== MODAL: ПРОФИЛЬ ==================== -->
     <div class="modal" id="profileModal">
         <div class="modal-content">
             <div class="modal-title">👤 Профиль</div>
             <div class="modal-sub" id="profileName"></div>
-            <div class="stat-balance" style="font-size:28px;" id="profileBalance"></div>
+            <div style="font-size:28px; text-align:center; color:var(--gold);" id="profileBalance">⭐ 0</div>
             <button class="btn btn-gold" id="profileDepositBtn">💰 Пополнить (TG Stars)</button>
             <button class="btn btn-cancel" id="closeProfileBtn">✕ Закрыть</button>
         </div>
     </div>
 
+    <!-- ==================== MODAL: ДЕПОЗИТ (выбор суммы) ==================== -->
     <div class="modal" id="depositModal">
         <div class="modal-content">
             <div class="modal-title">💰 Пополнение через Telegram Stars</div>
-            <div class="modal-sub">Звёзды спишутся с вашего баланса Telegram</div>
-            <input type="number" id="depositAmount" placeholder="Сумма ⭐" min="1" step="1" value="50">
-            <div class="btn-row" style="flex-wrap:wrap;">
-                <button class="btn btn-telegram" onclick="quickDeposit(10)">+10 ⭐</button>
-                <button class="btn btn-telegram" onclick="quickDeposit(50)">+50 ⭐</button>
-                <button class="btn btn-telegram" onclick="quickDeposit(100)">+100 ⭐</button>
+            <div class="modal-sub">Выберите сумму для пополнения</div>
+
+            <div class="quick-amounts" id="quickAmounts">
+                <button data-amount="10">10 ⭐</button>
+                <button data-amount="50">50 ⭐</button>
+                <button data-amount="100">100 ⭐</button>
+                <button data-amount="500">500 ⭐</button>
+                <button data-amount="1000">1000 ⭐</button>
             </div>
-            <button class="btn btn-gold" id="telegramDepositBtn">💎 Оплатить Звёздами TG</button>
-            <button class="btn btn-primary" id="simulateDepositBtn">🧪 Тест-пополнение</button>
-            <button class="btn btn-cancel" id="closeDepositBtn">Отмена</button>
+
+            <input type="number" id="depositAmountInput" placeholder="Своя сумма ⭐" min="1" step="1" value="100" />
+
+            <div id="depositError" class="error-text" style="display:none;"></div>
+
+            <div class="btn-row">
+                <button class="btn btn-gold" id="depositContinueBtn">Продолжить</button>
+                <button class="btn btn-cancel" id="closeDepositBtn">Отмена</button>
+            </div>
+
+            <div style="font-size:10px; color:var(--text-secondary); text-align:center; margin-top:4px;">
+                🧪 <span id="testDepositLink" style="color:var(--accent-blue); text-decoration:underline; cursor:pointer;">Тест-пополнение</span>
+            </div>
         </div>
     </div>
 
+    <!-- ==================== MODAL: ПОДТВЕРЖДЕНИЕ ПОКУПКИ (как на скрине) ==================== -->
+    <div class="modal confirm-purchase" id="confirmModal">
+        <div class="modal-content">
+            <div class="modal-title">🛒 Подтверждение покупки</div>
+            <div class="purchase-desc" id="confirmDesc">
+                Вы точно хотите приобрести<br />
+                <span class="emoji-big">🛒</span> Пополнение звёзд в <span class="highlight">Crush Gift Spin</span> за <span class="highlight" id="confirmAmountDisplay">100</span> звёзд?
+            </div>
+
+            <button class="btn-pay" id="confirmPayBtn">Подтвердить и заплатить 🛒 <span id="confirmPayAmount">100</span> звёзд</button>
+
+            <div class="terms">Совершая покупку, Вы принимаете условия Telegram.</div>
+
+            <button class="btn btn-cancel" id="closeConfirmBtn" style="margin-top:4px;">Отмена</button>
+
+            <div id="confirmError" class="error-text" style="display:none;"></div>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL: ПРОМО-КЕЙС ==================== -->
     <div class="modal" id="promoModal">
         <div class="modal-content">
             <div class="modal-title">🔑 Промо-кейс</div>
             <div class="modal-sub">Введите промокод</div>
-            <input type="text" id="promoCodeInput" placeholder="Код" maxlength="30">
+            <input type="text" id="promoCodeInput" placeholder="Код" maxlength="30" />
             <div id="promoMessage" class="error-text"></div>
             <div class="btn-row">
                 <button class="btn btn-gold" id="promoSubmitBtn">Открыть</button>
@@ -1362,17 +1511,21 @@
         </div>
     </div>
 
+    <!-- ==================== CASE OVERLAY ==================== -->
     <div class="case-overlay" id="caseOverlay">
         <canvas id="caseAnimCanvas" width="360" height="360"></canvas>
         <div class="result-label" id="caseOverlayResult">🎉 +0 ⭐</div>
         <button class="close-overlay-btn" id="closeOverlayBtn">✕ Закрыть</button>
     </div>
 
+    <!-- ==================== TELEGRAM + MAIN SCRIPT ==================== -->
     <script src="https://telegram.org/js/telegram-web-app.js">
     </script>
     <script>
         (function() {
-            // ==================== TELEGRAM INIT ====================
+            'use strict';
+
+            // ——— TELEGRAM INIT ———
             const tg = window.Telegram.WebApp;
             tg.ready();
             tg.expand();
@@ -1390,15 +1543,15 @@
                 document.getElementById('adminTabBtn').style.display = 'inline-block';
             }
 
-            // ==================== CONSTANTS ====================
+            // ——— CONSTANTS ———
             const DEFAULT_STARS = 10;
-            const ROUND_CYCLE_MS = 20000; // 20 секунд полный цикл раунда
+            const ROUND_CYCLE_MS = 20000;
             const GROWTH_RATE = 0.05775;
             const ALL_USERS_KEY = 'gift_all_users_v4';
             const BROADCAST_KEY = 'gift_broadcast_msg_v2';
             const HISTORY_KEY = 'gift_crash_history_v2';
 
-            // ==================== SEEDED PRNG (для синхронизации) ====================
+            // ——— SEEDED PRNG ———
             function mulberry32(a) {
                 return function() {
                     a |= 0;
@@ -1433,7 +1586,7 @@
                 return startMs + elapsedToCrash * 1000;
             }
 
-            // ==================== STORAGE ====================
+            // ——— STORAGE ———
             function loadAllUsers() {
                 try {
                     const raw = localStorage.getItem(ALL_USERS_KEY);
@@ -1542,7 +1695,7 @@
                 return false;
             }
 
-            // ==================== DOM REFS ====================
+            // ——— DOM REFS ———
             const balanceDisplay = document.getElementById('balanceDisplay');
             const crashCanvas = document.getElementById('crashCanvas');
             const ctx = crashCanvas.getContext('2d');
@@ -2107,7 +2260,7 @@
                 balanceDisplay.textContent = `⭐ ${stars}`;
             }
 
-            // ==================== CASES ====================
+            // ——— CASES ———
             const caseCanvas = document.getElementById('caseCanvas');
             const caseCtx = caseCanvas.getContext('2d');
 
@@ -2392,71 +2545,204 @@
             }
             drawCaseStatic();
 
-            // ==================== PROFILE & DEPOSIT (TG Stars) ====================
-            const profileModal = document.getElementById('profileModal');
-            document.getElementById('userName').addEventListener('click', openProfile);
-            document.getElementById('avatar').addEventListener('click', openProfile);
+            // ============================================================
+            //  НОВЫЙ ДЕПОЗИТ ЧЕРЕЗ TELEGRAM STARS (как на скрине)
+            // ============================================================
 
+            // ——— МОДАЛКИ ———
+            const profileModal = document.getElementById('profileModal');
+            const depositModal = document.getElementById('depositModal');
+            const confirmModal = document.getElementById('confirmModal');
+
+            const profileName = document.getElementById('profileName');
+            const profileBalance = document.getElementById('profileBalance');
+            const depositAmountInput = document.getElementById('depositAmountInput');
+            const depositError = document.getElementById('depositError');
+            const confirmAmountDisplay = document.getElementById('confirmAmountDisplay');
+            const confirmPayAmount = document.getElementById('confirmPayAmount');
+            const confirmDesc = document.getElementById('confirmDesc');
+            const confirmPayBtn = document.getElementById('confirmPayBtn');
+            const confirmError = document.getElementById('confirmError');
+
+            let pendingDepositAmount = 0;
+
+            // ——— ОТКРЫТИЕ ПРОФИЛЯ ———
             function openProfile() {
-                document.getElementById('profileName').textContent = userName;
-                document.getElementById('profileBalance').textContent = `⭐ ${stars}`;
+                profileName.textContent = userName;
+                profileBalance.textContent = `⭐ ${stars}`;
                 profileModal.style.display = 'flex';
             }
 
-            document.getElementById('closeProfileBtn').addEventListener('click', () => profileModal.style.display =
-                'none');
+            document.getElementById('userName').addEventListener('click', openProfile);
+            document.getElementById('avatar').addEventListener('click', openProfile);
+            document.getElementById('balanceDisplay').addEventListener('click', openProfile);
+
+            document.getElementById('closeProfileBtn').addEventListener('click', () =>
+                profileModal.style.display = 'none');
+
+            // ——— КНОПКА ПОПОЛНЕНИЯ В ПРОФИЛЕ ———
             document.getElementById('profileDepositBtn').addEventListener('click', () => {
                 profileModal.style.display = 'none';
-                document.getElementById('depositModal').style.display = 'flex';
-                document.getElementById('depositAmount').value = '50';
+                depositModal.style.display = 'flex';
+                depositAmountInput.value = '100';
+                depositError.style.display = 'none';
+                depositError.textContent = '';
+                // сброс активных кнопок
+                document.querySelectorAll('#quickAmounts button').forEach(b => b.classList.remove('active'));
+                document.querySelector('#quickAmounts button[data-amount="100"]')?.classList.add('active');
             });
 
-            document.getElementById('closeDepositBtn').addEventListener('click', () => document.getElementById(
-                'depositModal').style.display = 'none');
+            // ——— КНОПКИ БЫСТРОЙ СУММЫ ———
+            document.querySelectorAll('#quickAmounts button').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('#quickAmounts button').forEach(b => b.classList.remove(
+                    'active'));
+                    btn.classList.add('active');
+                    depositAmountInput.value = btn.dataset.amount;
+                    depositError.style.display = 'none';
+                });
+            });
 
-            window.quickDeposit = function(amount) {
-                document.getElementById('depositAmount').value = amount;
-            };
+            depositAmountInput.addEventListener('input', () => {
+                document.querySelectorAll('#quickAmounts button').forEach(b => b.classList.remove('active'));
+                depositError.style.display = 'none';
+            });
 
-            document.getElementById('telegramDepositBtn').addEventListener('click', () => {
-                const amount = parseInt(document.getElementById('depositAmount').value);
-                if (!amount || amount <= 0) return;
-                // Пытаемся использовать прямую оплату звёздами Telegram
+            // ——— ЗАКРЫТИЕ ДЕПОЗИТА ———
+            document.getElementById('closeDepositBtn').addEventListener('click', () =>
+                depositModal.style.display = 'none');
+
+            // ——— ПРОДОЛЖИТЬ → ПОКАЗАТЬ ПОДТВЕРЖДЕНИЕ ———
+            document.getElementById('depositContinueBtn').addEventListener('click', () => {
+                const amount = parseInt(depositAmountInput.value);
+                if (!amount || amount <= 0) {
+                    depositError.textContent = '❌ Введите сумму больше 0';
+                    depositError.style.display = 'block';
+                    return;
+                }
+                if (amount < 1) {
+                    depositError.textContent = '❌ Минимальная сумма — 1 звезда';
+                    depositError.style.display = 'block';
+                    return;
+                }
+
+                pendingDepositAmount = amount;
+
+                // Заполняем модалку подтверждения
+                confirmAmountDisplay.textContent = amount;
+                confirmPayAmount.textContent = amount;
+
+                // Формируем описание как на скрине
+                confirmDesc.innerHTML = `
+              Вы точно хотите приобрести<br />
+              <span class="emoji-big">🛒</span> Пополнение звёзд в <span class="highlight">Crush Gift Spin</span> за <span class="highlight">${amount}</span> звёзд?
+            `;
+
+                confirmError.style.display = 'none';
+                confirmError.textContent = '';
+                confirmPayBtn.disabled = false;
+                confirmPayBtn.textContent = `Подтвердить и заплатить 🛒 ${amount} звёзд`;
+
+                // Закрываем депозит, открываем подтверждение
+                depositModal.style.display = 'none';
+                confirmModal.style.display = 'flex';
+            });
+
+            // ——— ЗАКРЫТИЕ ПОДТВЕРЖДЕНИЯ ———
+            document.getElementById('closeConfirmBtn').addEventListener('click', () => {
+                confirmModal.style.display = 'none';
+                pendingDepositAmount = 0;
+            });
+
+            // ——— КНОПКА "ПОДТВЕРДИТЬ И ЗАПЛАТИТЬ" (TG Stars) ———
+            confirmPayBtn.addEventListener('click', () => {
+                const amount = pendingDepositAmount;
+                if (!amount || amount <= 0) {
+                    confirmError.textContent = '❌ Ошибка: сумма не указана';
+                    confirmError.style.display = 'block';
+                    return;
+                }
+
+                confirmPayBtn.disabled = true;
+                confirmPayBtn.textContent = '⏳ Обработка...';
+                confirmError.style.display = 'none';
+
+                // 1) Пытаемся использовать нативный API Telegram Stars
                 if (tg.requestStarPayment && typeof tg.requestStarPayment === 'function') {
                     tg.requestStarPayment({
                         amount: amount,
-                        purpose: 'game_deposit',
+                        purpose: 'game_deposit_' + userId,
                         callback: function(result) {
+                            // result.success — boolean
                             if (result && result.success) {
+                                // Успешная оплата
                                 stars += amount;
                                 updateBalanceUI();
                                 persistGameData();
-                                document.getElementById('depositModal').style.display = 'none';
+                                confirmModal.style.display = 'none';
+                                pendingDepositAmount = 0;
+                                // Показываем уведомление
                                 alert(`✅ Баланс пополнен на ${amount} ⭐ через Telegram Stars!`);
+                                // Обновляем профиль, если открыт
+                                if (profileModal.style.display === 'flex') {
+                                    profileBalance.textContent = `⭐ ${stars}`;
+                                }
+                            } else {
+                                // Ошибка или отмена
+                                confirmError.textContent =
+                                '❌ Оплата не прошла. Попробуйте ещё раз или выберите другую сумму.';
+                                confirmError.style.display = 'block';
+                                confirmPayBtn.disabled = false;
+                                confirmPayBtn.textContent =
+                                `Подтвердить и заплатить 🛒 ${amount} звёзд`;
                             }
                         }
                     });
                 } else {
-                    // Fallback: открываем бота с командой пополнения
+                    // 2) Fallback: открываем бота с командой пополнения
                     tg.openTelegramLink(
-                        `https://t.me/CrushGiftSpin_bot?start=deposit_${amount}`);
-                    document.getElementById('depositModal').style.display = 'none';
+                        `https://t.me/CrushGiftSpin_bot?start=deposit_${amount}`
+                    );
+                    confirmModal.style.display = 'none';
+                    pendingDepositAmount = 0;
                     alert(
-                        `🔄 Запрос на пополнение ${amount} ⭐ отправлен. Подтвердите оплату в боте.`);
+                        `🔄 Запрос на пополнение ${amount} ⭐ отправлен. Подтвердите оплату в боте.`
+                    );
                 }
             });
 
-            document.getElementById('simulateDepositBtn').addEventListener('click', () => {
-                const amount = parseInt(document.getElementById('depositAmount').value);
-                if (!amount || amount <= 0) return;
+            // ——— ТЕСТОВОЕ ПОПОЛНЕНИЕ (в депозитной модалке) ———
+            document.getElementById('testDepositLink').addEventListener('click', () => {
+                const amount = parseInt(depositAmountInput.value);
+                if (!amount || amount <= 0) {
+                    depositError.textContent = '❌ Введите сумму > 0';
+                    depositError.style.display = 'block';
+                    return;
+                }
                 stars += amount;
                 updateBalanceUI();
                 persistGameData();
-                document.getElementById('depositModal').style.display = 'none';
+                depositModal.style.display = 'none';
                 alert(`✅ Тестовое пополнение на ${amount} ⭐ (демо)`);
+                if (profileModal.style.display === 'flex') {
+                    profileBalance.textContent = `⭐ ${stars}`;
+                }
             });
 
-            // ==================== ADMIN ====================
+            // ——— ЗАКРЫТИЕ МОДАЛОК ПО ESC / OVERLAY ———
+            document.querySelectorAll('.modal').forEach(modal => {
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        modal.style.display = 'none';
+                        if (modal.id === 'confirmModal') pendingDepositAmount = 0;
+                    }
+                });
+            });
+
+            // ============================================================
+            //  ADMIN
+            // ============================================================
+
             function renderAdminPanel() {
                 if (!isAdmin) return;
                 const panel = document.getElementById('adminPanel');
@@ -2561,11 +2847,10 @@
                 }
             };
 
-            // ==================== SIMULATED ONLINE ACTIVITY ====================
+            // ——— СИМУЛЯЦИЯ БОТОВ В ФИДЕ ———
             const botNames = ['CryptoKing', 'LuckyStar', 'MoonChaser', 'StarGazer', 'FortuneCat', 'DiamondHands',
                 'RocketMan', 'GoldDigger'
             ];
-            const botActions = ['ставит', 'выигрыш', 'проигрыш'];
 
             function simulateBotActivity() {
                 if (feedItems.length > 30) return;
@@ -2584,7 +2869,10 @@
             }
             setInterval(simulateBotActivity, 8000 + Math.random() * 12000);
 
-            // ==================== INIT ====================
+            // ============================================================
+            //  INIT
+            // ============================================================
+
             function init() {
                 updateBalanceUI();
                 updatePromoStatus();
@@ -2618,6 +2906,7 @@
             }
 
             init();
+
         })();
     </script>
 </body>
