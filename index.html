@@ -2,46 +2,6 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>Скачать Crash Game</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: #0a0e13;
-      color: #c9d1d9;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      margin: 0;
-      flex-direction: column;
-      gap: 16px;
-    }
-    button {
-      background: #238636;
-      border: none;
-      color: white;
-      padding: 14px 28px;
-      font-size: 18px;
-      font-weight: bold;
-      border-radius: 12px;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-    button:hover { background: #2ea043; }
-  </style>
-</head>
-<body>
-  <h2>📥 Скачивание Crash Game</h2>
-  <p>Нажмите кнопку, чтобы сохранить файл игры</p>
-  <button onclick="downloadGame()">Скачать index.html</button>
-
-  <script>
-    function downloadGame() {
-      const gameCode = `<!DOCTYPE html>
-<html lang="ru">
-<head>
-  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>Crash Game</title>
   <style>
@@ -145,7 +105,7 @@
     </div>
   </div>
 
-  <script src="https://telegram.org/js/telegram-web-app.js"><\/script>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <script>
     const tg = window.Telegram.WebApp;
     tg.ready();
@@ -157,7 +117,7 @@
     document.getElementById('avatar').textContent = userName.charAt(0).toUpperCase();
 
     const RECIPIENT_TG_ID = '8566684320';
-    const STORAGE_KEY = (key) => \`crash_\${userId}_\${key}\`;
+    const STORAGE_KEY = (key) => `crash_${userId}_${key}`;
 
     function loadData() {
       const defaults = { stars: 1, history: [], winHistory: [], totalGames: 0, totalWins: 0, totalLosses: 0 };
@@ -185,13 +145,13 @@
 
     const balanceDisplay = document.getElementById('balanceDisplay');
     function updateBalanceUI() {
-      balanceDisplay.textContent = \`⭐ \${stars}\`;
-      document.getElementById('statsBalance').textContent = \`⭐ \${stars}\`;
+      balanceDisplay.textContent = `⭐ ${stars}`;
+      document.getElementById('statsBalance').textContent = `⭐ ${stars}`;
     }
 
     const historyLabel = document.getElementById('historyLabel');
     function updateHistoryUI() {
-      historyLabel.textContent = history.length ? history.slice(-10).map(v => \`x\${v.toFixed(2)}\`).join('  ') : 'Нет данных';
+      historyLabel.textContent = history.length ? history.slice(-10).map(v => `x${v.toFixed(2)}`).join('  ') : 'Нет данных';
     }
 
     const winList = document.getElementById('winList');
@@ -200,7 +160,7 @@
       winHistory.slice(-8).reverse().forEach(w => {
         const div = document.createElement('div');
         div.className = 'win-item';
-        div.innerHTML = \`<span>x\${w.mult.toFixed(2)}</span><span>+\${w.amount}⭐</span>\`;
+        div.innerHTML = `<span>x${w.mult.toFixed(2)}</span><span>+${w.amount}⭐</span>`;
         winList.appendChild(div);
       });
     }
@@ -208,7 +168,7 @@
     function updateStatsUI() {
       const winRate = totalGames > 0 ? ((totalWins / totalGames) * 100).toFixed(1) : 0;
       document.getElementById('statsText').innerHTML = 
-        \`Всего игр: \${totalGames}<br>Выигрышей: \${totalWins}<br>Проигрышей: \${totalLosses}<br>Процент побед: \${winRate}%\`;
+        `Всего игр: ${totalGames}<br>Выигрышей: ${totalWins}<br>Проигрышей: ${totalLosses}<br>Процент побед: ${winRate}%`;
     }
 
     const crashCanvas = document.getElementById('crashCanvas');
@@ -232,7 +192,7 @@
         const y = h - ((mult - 1) / 29) * (h - 60) - 40;
         ctx.beginPath(); ctx.moveTo(30, y); ctx.lineTo(w - 30, y);
         ctx.strokeStyle = '#21262d'; ctx.stroke();
-        ctx.fillStyle = '#8b949e'; ctx.font = '10px Segoe UI'; ctx.fillText(\`\${mult}x\`, 5, y + 4);
+        ctx.fillStyle = '#8b949e'; ctx.font = '10px Segoe UI'; ctx.fillText(`${mult}x`, 5, y + 4);
       }
       ctx.strokeStyle = '#30363d'; ctx.lineWidth = 2;
       ctx.beginPath(); ctx.moveTo(30, h - 40); ctx.lineTo(w - 30, h - 40);
@@ -242,7 +202,7 @@
 
     function multiplierColor(mult) {
       const t = Math.min(1, (mult - 1) / 29);
-      return \`rgb(\${t<0.5?Math.floor(255*t*2):255},\${t<0.5?255:Math.floor(255*(1-(t-0.5)*2))},0)\`;
+      return `rgb(${t<0.5?Math.floor(255*t*2):255},${t<0.5?255:Math.floor(255*(1-(t-0.5)*2))},0)`;
     }
 
     function addGraphPoint() {
@@ -261,12 +221,12 @@
       for (let i = 1; i < graphPoints.length; i++) ctx.lineTo(graphPoints[i].x, graphPoints[i].y);
       ctx.strokeStyle = multiplierColor(currentMultiplier); ctx.stroke();
       ctx.font = 'bold 36px Segoe UI'; ctx.fillStyle = multiplierColor(currentMultiplier);
-      ctx.textAlign = 'center'; ctx.fillText(\`\${currentMultiplier.toFixed(2)}x\`, crashCanvas.width / 2, 80);
+      ctx.textAlign = 'center'; ctx.fillText(`${currentMultiplier.toFixed(2)}x`, crashCanvas.width / 2, 80);
       ctx.textAlign = 'start';
     }
 
     function setButtonState(text, className) {
-      actionBtn.textContent = text; actionBtn.className = \`btn \${className}\`;
+      actionBtn.textContent = text; actionBtn.className = `btn ${className}`;
     }
 
     function startBreak() {
@@ -274,7 +234,7 @@
       let count = 5;
       const tick = () => {
         if (count <= 0) { crashInfo.textContent = ''; startRound(); return; }
-        crashInfo.textContent = \`Следующий раунд через \${count}...\`;
+        crashInfo.textContent = `Следующий раунд через ${count}...`;
         count--;
         setTimeout(tick, 1000);
       };
@@ -311,7 +271,7 @@
         autoWithdraw(); return;
       }
       if (activeBet) {
-        setButtonState(\`💰 Вывести (\${Math.floor(activeBet.amount * currentMultiplier)} ⭐)\`, 'btn-primary');
+        setButtonState(`💰 Вывести (${Math.floor(activeBet.amount * currentMultiplier)} ⭐)`, 'btn-primary');
       }
       requestAnimationFrame(animateCrash);
     }
@@ -326,9 +286,9 @@
           crashInfo.textContent = 'Защита! Ставка возвращена.';
         } else {
           totalLosses++;
-          crashInfo.textContent = \`Крах на x\${crashMult.toFixed(2)}. Звёзды переведены на ID \${RECIPIENT_TG_ID}.\`;
+          crashInfo.textContent = `Крах на x${crashMult.toFixed(2)}. Звёзды переведены на ID ${RECIPIENT_TG_ID}.`;
         }
-      } else { crashInfo.textContent = \`Крах на x\${crashMult.toFixed(2)}.\`; }
+      } else { crashInfo.textContent = `Крах на x${crashMult.toFixed(2)}.`; }
       updateBalanceUI(); persistGameData(); resetCrashState(); startBreak();
     }
 
@@ -338,7 +298,7 @@
       stars += win; updateBalanceUI(); totalWins++;
       winHistory.push({ mult: Math.round(currentMultiplier * 100) / 100, amount: win });
       updateWinHistoryUI();
-      crashInfo.textContent = \`Авто-вывод при x\${currentMultiplier.toFixed(2)}\`;
+      crashInfo.textContent = `Авто-вывод при x${currentMultiplier.toFixed(2)}`;
       activeBet = null; setButtonState('Нет ставки', 'btn-disabled'); persistGameData();
     }
 
@@ -399,7 +359,7 @@
         particles.forEach(p => {
           p.y += p.speed;
           if (p.y > h + 20) { p.y = -20; p.x = Math.random() * w; }
-          caseCtx.font = \`\${p.size}px Segoe UI\`; caseCtx.fillStyle = '#d29922'; caseCtx.fillText('⭐', p.x, p.y);
+          caseCtx.font = `${p.size}px Segoe UI`; caseCtx.fillStyle = '#d29922'; caseCtx.fillText('⭐', p.x, p.y);
         });
         caseCtx.font = 'bold 48px Segoe UI'; caseCtx.fillStyle = '#d29922'; caseCtx.textAlign = 'center';
         caseCtx.fillText(Math.floor(currentReward).toString(), w / 2, h / 2);
@@ -408,9 +368,9 @@
         } else {
           caseCtx.clearRect(0, 0, w, h); caseCtx.fillStyle = '#161b22'; caseCtx.fillRect(0, 0, w, h);
           caseCtx.font = 'bold 48px Segoe UI'; caseCtx.fillStyle = '#3fb950'; caseCtx.fillText(finalReward, w / 2, h / 2 - 10);
-          caseCtx.font = '24px Segoe UI'; caseCtx.fillText(\`+\${finalReward} ⭐\`, w / 2, h / 2 + 40);
+          caseCtx.font = '24px Segoe UI'; caseCtx.fillText(`+${finalReward} ⭐`, w / 2, h / 2 + 40);
           stars += finalReward; updateBalanceUI(); persistGameData();
-          document.getElementById('caseResult').textContent = \`+\${finalReward} ⭐ из кейса!\`;
+          document.getElementById('caseResult').textContent = `+${finalReward} ⭐ из кейса!`;
           caseAnimRunning = false;
         }
       }
@@ -436,7 +396,7 @@
       if (!amount || amount <= 0) return;
       stars += amount; updateBalanceUI(); persistGameData();
       document.getElementById('depositModal').style.display = 'none';
-      alert(\`Баланс пополнен на \${amount} ⭐ (демо)\`);
+      alert(`Баланс пополнен на ${amount} ⭐ (демо)`);
     });
     document.getElementById('telegramDepositBtn').addEventListener('click', () => {
       tg.openTelegramLink('https://t.me/CrushGiftSpin_bot?start=deposit'); // ← замените на своего бота
@@ -458,25 +418,11 @@
       stars -= amount; updateBalanceUI(); persistGameData();
       tg.sendData(JSON.stringify({ action: 'withdraw', amount: amount, user_id: userId }));
       withdrawModal.style.display = 'none';
-      alert(\`Заявка на вывод \${amount} ⭐ отправлена.\`);
+      alert(`Заявка на вывод ${amount} ⭐ отправлена.`);
     });
 
     // Старт
     updateBalanceUI(); updateHistoryUI(); updateWinHistoryUI(); drawCrashBackground(); startBreak();
-  <\/script>
-</body>
-</html>`;
-
-      const blob = new Blob([gameCode], { type: 'text/html' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'index.html';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-    }
   </script>
 </body>
 </html>
