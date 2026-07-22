@@ -303,7 +303,6 @@
     .info-text.loss { color: var(--red); }
     .info-text.win { color: var(--green); }
 
-    /* Блок управления: слева поле, справа кнопки */
     .controls-row {
       display: flex;
       flex-wrap: wrap;
@@ -319,8 +318,8 @@
       display: flex;
       flex-direction: column;
       gap: 4px;
-      flex: 1 1 100px;
-      min-width: 80px;
+      flex: 1 1 80px;
+      min-width: 70px;
     }
     .controls-row .input-group label {
       font-size: 10px;
@@ -333,9 +332,9 @@
       background: var(--bg-primary);
       border: 1px solid var(--border);
       border-radius: 8px;
-      padding: 8px 10px;
+      padding: 8px 6px;
       color: var(--text-primary);
-      font-size: 16px;
+      font-size: 15px;
       outline: none;
       width: 100%;
       min-height: 38px;
@@ -348,9 +347,9 @@
     .controls-row .button-group {
       display: flex;
       gap: 6px;
-      flex-wrap: wrap;
       flex: 1 1 auto;
       justify-content: flex-end;
+      align-items: flex-end;
     }
     .controls-row .btn {
       border: none;
@@ -479,7 +478,6 @@
       padding: 10px 0;
     }
 
-    /* Кейсы */
     .case-grid {
       display: flex;
       flex-wrap: wrap;
@@ -695,7 +693,6 @@
     }
     .inv-slot button:active { transform: scale(0.95); }
 
-    /* Админ панель */
     .admin-panel {
       padding: 12px;
       background: var(--bg-secondary);
@@ -910,15 +907,17 @@
       </div>
       <div class="info-text" id="crashInfo">Ожидание раунда...</div>
 
-      <!-- Блок управления: слева поле ввода, справа кнопки -->
       <div class="controls-row">
         <div class="input-group">
-          <label for="betInput">Сумма ставки ⭐</label>
+          <label for="betInput">Сумма ⭐</label>
           <input type="number" id="betInput" placeholder="0" min="1" step="1">
         </div>
+        <div class="input-group">
+          <label for="autoInput">Авто-стоп X</label>
+          <input type="number" id="autoInput" placeholder="0" min="0" step="0.01">
+        </div>
         <div class="button-group">
-          <button class="btn btn-primary" id="placeBetBtn">Поставить</button>
-          <button class="btn btn-cancel" id="cancelBetBtn" disabled>Отменить</button>
+          <button class="btn btn-primary" id="playBtn">Ставка</button>
           <button class="btn btn-gold" id="withdrawBtn" disabled>Вывести</button>
         </div>
       </div>
@@ -994,7 +993,6 @@
     <div class="admin-panel" id="adminPanel"></div>
   </div>
 
-  <!-- Модальные окна -->
   <div class="modal" id="profileModal">
     <div class="modal-content">
       <div class="modal-title">👤 Профиль</div>
@@ -1064,7 +1062,6 @@
       document.getElementById('userName').textContent = userName;
       document.getElementById('avatar').textContent = userName.charAt(0).toUpperCase();
 
-      // Админы (два ID)
       const isAdmin = userId === '8183675472' || userId === '5731537463';
       if (isAdmin) {
         document.getElementById('adminTabBtn').style.display = 'inline-block';
@@ -1084,24 +1081,14 @@
         localStorage.setItem(ALL_USERS_KEY, JSON.stringify(users));
       }
 
-      // Получение текущего пользователя (без ботов)
       function getCurrentUserData() {
         let all = loadAllUsers();
         let user = all.find(u => u.id === userId && !u.isBot);
         if (!user) {
           user = {
-            id: userId,
-            name: userName,
-            blocked: false,
-            stars: 1200,
-            isBot: false,
-            history: [],
-            totalGames: 0,
-            totalWins: 0,
-            totalLosses: 0,
-            lastDailyClaim: 0,
-            usedPromoCodes: [],
-            inventory: []
+            id: userId, name: userName, blocked: false, stars: 1200,
+            isBot: false, history: [], totalGames: 0, totalWins: 0,
+            totalLosses: 0, lastDailyClaim: 0, usedPromoCodes: [], inventory: []
           };
           all.push(user);
           saveAllUsers(all);
@@ -1137,13 +1124,9 @@
 
       function persistGameData() {
         updateCurrentUserInStorage({
-          stars: stars,
-          history: history,
-          totalGames: totalGames,
-          totalWins: totalWins,
-          totalLosses: totalLosses,
-          lastDailyClaim: lastDailyClaim,
-          usedPromoCodes: usedPromoCodes,
+          stars: stars, history: history, totalGames: totalGames,
+          totalWins: totalWins, totalLosses: totalLosses,
+          lastDailyClaim: lastDailyClaim, usedPromoCodes: usedPromoCodes,
           inventory: inventory
         });
       }
@@ -1165,7 +1148,6 @@
         return false;
       }
 
-      // ---------- Элементы UI ----------
       const balanceDisplay = document.getElementById('balanceDisplay');
       const crashCanvas = document.getElementById('crashCanvas');
       const ctx = crashCanvas.getContext('2d');
@@ -1174,8 +1156,7 @@
       const autoInput = document.getElementById('autoInput');
       const autoDisplay = document.getElementById('autoDisplay');
       const protectionTag = document.getElementById('protectionTag');
-      const placeBetBtn = document.getElementById('placeBetBtn');
-      const cancelBetBtn = document.getElementById('cancelBetBtn');
+      const playBtn = document.getElementById('playBtn');
       const withdrawBtn = document.getElementById('withdrawBtn');
       const feedList = document.getElementById('feedList');
 
@@ -1197,9 +1178,7 @@
       function addFeedItem(name, action, amount, type, emoji = '') {
         const avatar = name.charAt(0).toUpperCase();
         const color = getColorForName(name);
-        const item = {
-          name, action, amount, type, emoji, avatar, color, ts: Date.now()
-        };
+        const item = { name, action, amount, type, emoji, avatar, color, ts: Date.now() };
         feedItems.unshift(item);
         if (feedItems.length > 50) feedItems.pop();
         renderFeed();
@@ -1216,10 +1195,7 @@
           let sign = '';
           if (item.type === 'win') { amountClass = 'win'; sign = '+'; }
           if (item.type === 'loss') { amountClass = 'loss'; sign = '-'; }
-          if (item.type === 'bet') { amountClass = 'bet'; sign = ''; }
-          const amountStr = item.type === 'bet' ?
-            `${item.amount} ⭐` :
-            `${sign}${item.amount} ⭐`;
+          const amountStr = `${sign}${item.amount} ⭐`;
           html += `
             <div class="feed-item">
               <div class="fi-avatar" style="background:${item.color};">${item.avatar}</div>
@@ -1232,12 +1208,8 @@
         feedList.innerHTML = html;
       }
 
-      // ---------- Crash Game (с анимацией звезды) ----------
-      let gameRunning = false,
-        activeBet = null,
-        pendingBet = null,
-        currentMultiplier = 1.0,
-        crashPoint = 1.0;
+      let gameRunning = false, activeBet = null, pendingBet = null;
+      let currentMultiplier = 1.0, crashPoint = 1.0;
       let protectionEnabled = false;
       let isDemoMode = false;
       let animFrameId = null;
@@ -1276,19 +1248,19 @@
         const progress = Math.min((mult - 1) / (maxMult - 1), 1);
         const startX = 30, startY = h - 30;
         const endX = w - 30, endY = 30;
-        const x = startX + (endX - startX) * progress;
-        const y = startY + (endY - startY) * progress;
-        return { x, y };
+        return {
+          x: startX + (endX - startX) * progress,
+          y: startY + (endY - startY) * progress
+        };
       }
 
-      function drawFlyingStar(timestamp) {
+      function drawFlyingStar() {
         const w = crashCanvas.width, h = crashCanvas.height;
         ctx.clearRect(0, 0, w, h);
         ctx.fillStyle = '#161b22';
         ctx.fillRect(0, 0, w, h);
 
         const pos = mapMultiplierToPosition(currentMultiplier);
-        // Трейлы
         const trailLength = 25;
         for (let i = trailLength; i >= 0; i--) {
           const t = i / trailLength;
@@ -1305,7 +1277,6 @@
           ctx.restore();
         }
 
-        // Основная звезда
         ctx.save();
         ctx.shadowColor = '#ffaa00';
         ctx.shadowBlur = 30;
@@ -1314,7 +1285,6 @@
         ctx.fillText('⭐', pos.x - 14, pos.y + 16);
         ctx.restore();
 
-        // Мультипликатор
         ctx.font = 'bold 24px "Segoe UI"';
         ctx.fillStyle = '#ffd700';
         ctx.textAlign = 'center';
@@ -1326,15 +1296,27 @@
       }
 
       function updateButtonsState() {
-        const isGameActive = gameRunning && activeBet;
-        const hasPending = !!pendingBet;
         const isBlocked = currentUser.blocked;
+        const hasPending = !!pendingBet;
 
-        placeBetBtn.disabled = isBlocked || (gameRunning && !pendingBet) || hasPending;
-        cancelBetBtn.disabled = !hasPending || isBlocked;
-        withdrawBtn.disabled = !isGameActive || isBlocked;
+        // Кнопка ставки/отмены
+        if (gameRunning) {
+          playBtn.textContent = 'Игра...';
+          playBtn.className = 'btn btn-disabled';
+          playBtn.disabled = true;
+        } else if (hasPending) {
+          playBtn.textContent = 'Отменить';
+          playBtn.className = 'btn btn-cancel';
+          playBtn.disabled = isBlocked;
+        } else {
+          playBtn.textContent = 'Ставка';
+          playBtn.className = 'btn btn-primary';
+          playBtn.disabled = isBlocked;
+        }
 
-        if (isGameActive) {
+        // Кнопка вывода
+        withdrawBtn.disabled = !(gameRunning && activeBet) || isBlocked;
+        if (gameRunning && activeBet) {
           withdrawBtn.textContent = `💰 Вывести (${Math.floor(activeBet.amount * currentMultiplier)} ⭐)`;
         } else {
           withdrawBtn.textContent = '💰 Вывести';
@@ -1359,6 +1341,7 @@
       function startRound() {
         if (gameRunning) return;
         if (isBlockedCheck()) return;
+        
         if (pendingBet) {
           if (!isDemoMode && pendingBet.amount > stars) {
             crashInfo.textContent = '❌ Недостаточно звёзд!';
@@ -1374,15 +1357,17 @@
           pendingBet = null;
           totalGames++;
           persistGameData();
-          addFeedItem(userName, 'поставил', activeBet.amount, 'bet', '💰');
+          addFeedItem(userName, 'ставит', activeBet.amount, 'bet', '💰');
         } else {
           activeBet = null;
         }
+
         currentMultiplier = 1.0;
         crashPoint = generateCrashPoint();
         gameRunning = true;
         startTime = performance.now();
         crashInfo.textContent = '🚀 Полёт...';
+        
         if (activeBet && activeBet.auto_withdraw > 0) {
           autoDisplay.textContent = `x${activeBet.auto_withdraw.toFixed(2)}`;
         } else {
@@ -1397,17 +1382,21 @@
         const now = performance.now();
         const elapsed = (now - startTime) / 1000;
         currentMultiplier = Math.exp(GROWTH_RATE * elapsed);
+        
         if (currentMultiplier >= crashPoint || currentMultiplier >= 30) {
           currentMultiplier = Math.min(crashPoint, 30);
-          drawFlyingStar(now);
+          drawFlyingStar();
           crash();
           return;
         }
-        drawFlyingStar(now);
+        
+        drawFlyingStar();
+        
         if (activeBet && activeBet.auto_withdraw > 0 && currentMultiplier >= activeBet.auto_withdraw) {
           autoWithdraw();
           return;
         }
+        
         if (activeBet) updateButtonsState();
         animFrameId = requestAnimationFrame(animateCrash);
       }
@@ -1423,7 +1412,7 @@
 
         if (activeBet) {
           const betAmount = activeBet.amount;
-          if (activeBet.protection && crashMult === 1.0) {
+          if (activeBet.protection && crashMult <= 1.01) {
             if (!isDemoMode) stars += betAmount;
             crashInfo.textContent = '🛡️ Защита! Ставка возвращена.';
             crashInfo.className = 'info-text win';
@@ -1432,12 +1421,13 @@
             totalLosses++;
             crashInfo.textContent = `💥 Крах на x${crashMult.toFixed(2)}`;
             crashInfo.className = 'info-text loss';
-            addFeedItem(userName, 'проиграл', betAmount, 'loss', '💥');
+            addFeedItem(userName, 'проигрыш', betAmount, 'loss', '💥');
           }
         } else {
           crashInfo.textContent = `💥 Крах на x${crashMult.toFixed(2)}`;
           crashInfo.className = 'info-text loss';
         }
+        
         updateBalanceUI();
         persistGameData();
         resetCrashState();
@@ -1453,7 +1443,7 @@
         totalWins++;
         crashInfo.textContent = `✅ Авто-вывод при x${currentMultiplier.toFixed(2)}`;
         crashInfo.className = 'info-text win';
-        addFeedItem(userName, 'выиграл', win, 'win', '🏆');
+        addFeedItem(userName, 'выигрыш', win, 'win', '🏆');
         activeBet = null;
         persistGameData();
         updateButtonsState();
@@ -1467,7 +1457,7 @@
           totalWins++;
           crashInfo.textContent = `✅ Вывод при x${currentMultiplier.toFixed(2)}`;
           crashInfo.className = 'info-text win';
-          addFeedItem(userName, 'выиграл', win, 'win', '🏆');
+          addFeedItem(userName, 'выигрыш', win, 'win', '🏆');
           history.push(Math.round(currentMultiplier * 100) / 100);
           if (history.length > 20) history.shift();
           updateTopWinsUI();
@@ -1482,7 +1472,7 @@
         activeBet = null;
         pendingBet = null;
         currentMultiplier = 1.0;
-        drawFlyingStar(performance.now());
+        drawFlyingStar();
         autoDisplay.textContent = 'x1.00';
         crashInfo.className = 'info-text';
         if (!isDemoMode) crashInfo.textContent = 'Ожидание раунда...';
@@ -1491,14 +1481,26 @@
 
       function placeBet() {
         if (isBlockedCheck()) return;
+        if (gameRunning) return;
+        
+        if (pendingBet) {
+          cancelBet();
+          return;
+        }
+
         const bet = parseInt(betInput.value);
         if (!bet || bet <= 0) { crashInfo.textContent = '❌ Введите ставку > 0'; return; }
         if (!isDemoMode && bet > stars) { crashInfo.textContent = '❌ Недостаточно звёзд'; return; }
+        
         let auto = 0;
         if (autoInput.value && autoInput.value.trim() !== '') {
           auto = parseFloat(autoInput.value);
-          if (isNaN(auto) || auto <= 1.0 || auto > 30) { crashInfo.textContent = '❌ Авто-вывод от 1.01 до 30'; return; }
+          if (isNaN(auto) || auto <= 1.0 || auto > 30) { 
+            crashInfo.textContent = '❌ Авто-вывод от 1.01 до 30'; 
+            return; 
+          }
         }
+
         pendingBet = {
           amount: bet,
           auto_withdraw: auto,
@@ -1514,14 +1516,17 @@
         crashInfo.textContent = '❌ Ставка отменена';
         crashInfo.className = 'info-text loss';
         updateButtonsState();
-        setTimeout(() => { if (!gameRunning) { crashInfo.textContent = 'Ожидание раунда...'; crashInfo.className = 'info-text'; } }, 1500);
+        setTimeout(() => { 
+          if (!gameRunning) { 
+            crashInfo.textContent = 'Ожидание раунда...'; 
+            crashInfo.className = 'info-text'; 
+          } 
+        }, 1500);
       }
 
-      placeBetBtn.addEventListener('click', () => { if (!gameRunning && !pendingBet) placeBet(); });
-      cancelBetBtn.addEventListener('click', () => { if (pendingBet && !gameRunning) cancelBet(); });
-      withdrawBtn.addEventListener('click', () => { if (gameRunning && activeBet) manualWithdraw(); });
+      playBtn.addEventListener('click', placeBet);
+      withdrawBtn.addEventListener('click', manualWithdraw);
 
-      // ---------- TOP WINS UI ----------
       function updateTopWinsUI() {
         const list = document.getElementById('topWinsList');
         if (!history.length) { list.innerHTML = '<span class="top-win-chip">—</span>'; return; }
@@ -1536,7 +1541,6 @@
         balanceDisplay.textContent = `⭐ ${stars}`;
       }
 
-      // ---------- CASES ----------
       const caseCanvas = document.getElementById('caseCanvas');
       const caseCtx = caseCanvas.getContext('2d');
 
@@ -1597,7 +1601,10 @@
         document.getElementById('promoMessage').textContent = '';
         document.getElementById('promoModal').style.display = 'flex';
       });
-      document.getElementById('promoCloseBtn').addEventListener('click', () => document.getElementById('promoModal').style.display = 'none');
+      
+      document.getElementById('promoCloseBtn').addEventListener('click', () => 
+        document.getElementById('promoModal').style.display = 'none');
+        
       document.getElementById('promoSubmitBtn').addEventListener('click', () => {
         const code = document.getElementById('promoCodeInput').value.trim();
         const msg = document.getElementById('promoMessage');
@@ -1614,7 +1621,6 @@
         showCaseAnimation(reward, `Промо-кейс (${code})`);
       });
 
-      // ---------- LEGENDARY CASE ----------
       const legendaryItems = [
         { name: 'Ракета', icon: '🚀', value: 50, weight: 1/50 },
         { name: 'Кубок', icon: '🏆', value: 100, weight: 1/100 },
@@ -1643,7 +1649,6 @@
       }
       document.getElementById('legendaryCaseBtn').addEventListener('click', openLegendaryCase);
 
-      // ---------- INVENTORY ----------
       function renderInventory() {
         const grid = document.getElementById('inventoryGrid');
         if (!inventory.length) { grid.innerHTML = '<div class="empty-feed">Инвентарь пуст</div>'; return; }
@@ -1672,7 +1677,6 @@
         addFeedItem(userName, 'продал предмет', item.value, 'win', item.icon);
       };
 
-      // ---------- CASE ANIMATION OVERLAY ----------
       const caseOverlay = document.getElementById('caseOverlay');
       const caseAnimCanvas = document.getElementById('caseAnimCanvas');
       const animCtx = caseAnimCanvas.getContext('2d');
@@ -1740,10 +1744,18 @@
         drawFrame();
       }
 
-      closeOverlayBtn.addEventListener('click', () => { caseOverlay.classList.remove('active'); overlayAnimRunning = false; });
-      caseOverlay.addEventListener('click', (e) => { if (e.target === caseOverlay && closeOverlayBtn.style.display !== 'none') { caseOverlay.classList.remove('active'); overlayAnimRunning = false; } });
+      closeOverlayBtn.addEventListener('click', () => { 
+        caseOverlay.classList.remove('active'); 
+        overlayAnimRunning = false; 
+      });
+      
+      caseOverlay.addEventListener('click', (e) => { 
+        if (e.target === caseOverlay && closeOverlayBtn.style.display !== 'none') { 
+          caseOverlay.classList.remove('active'); 
+          overlayAnimRunning = false; 
+        } 
+      });
 
-      // ---------- TABS ----------
       document.querySelectorAll('.tab-btn').forEach(btn => {
         btn.addEventListener('click', () => {
           document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -1767,7 +1779,6 @@
       }
       drawCaseStatic();
 
-      // ---------- ПРОФИЛЬ ----------
       const profileModal = document.getElementById('profileModal');
       document.getElementById('userName').addEventListener('click', openProfile);
       document.getElementById('avatar').addEventListener('click', openProfile);
@@ -1777,6 +1788,7 @@
         document.getElementById('profileBalance').textContent = `⭐ ${stars}`;
         profileModal.style.display = 'flex';
       }
+      
       document.getElementById('closeProfileBtn').addEventListener('click', () => profileModal.style.display = 'none');
       document.getElementById('profileDepositBtn').addEventListener('click', () => {
         profileModal.style.display = 'none';
@@ -1789,7 +1801,6 @@
         document.getElementById('withdrawAmount').value = '';
       });
 
-      // DEPOSIT
       document.getElementById('closeDepositBtn').addEventListener('click', () => document.getElementById('depositModal').style.display = 'none');
       document.getElementById('simulateDepositBtn').addEventListener('click', () => {
         const amount = parseInt(document.getElementById('depositAmount').value);
@@ -1804,7 +1815,6 @@
         tg.openTelegramLink('https://t.me/CrushGiftSpin_bot?start=deposit');
       });
 
-      // WITHDRAW
       document.getElementById('closeWithdrawBtn').addEventListener('click', () => document.getElementById('withdrawModal').style.display = 'none');
       document.getElementById('confirmWithdrawBtn').addEventListener('click', () => {
         const amount = parseInt(document.getElementById('withdrawAmount').value);
@@ -1818,7 +1828,6 @@
         alert(`✅ Заявка на вывод ${amount} ⭐ отправлена.`);
       });
 
-      // ---------- АДМИН-ПАНЕЛЬ (без ботов) ----------
       function renderAdminPanel() {
         if (!isAdmin) return;
         const panel = document.getElementById('adminPanel');
@@ -1923,15 +1932,14 @@
         }
       };
 
-      // ---------- INIT ----------
       updateBalanceUI();
       updatePromoStatus();
       updateTopWinsUI();
       renderInventory();
-      drawFlyingStar(performance.now());
+      drawFlyingStar();
       startBreak();
 
-      console.log('🎁 Gift Spinner загружен (без ботов, анимация работает)');
+      console.log('🎁 Gift Spinner загружен (все функции исправлены)');
     })();
   </script>
 </body>
