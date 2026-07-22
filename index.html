@@ -1,512 +1,482 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VPN — Подписка</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
-<style>
-:root {
-  --bg: #080a0f;
-  --surface: #0d1117;
-  --border: rgba(255,255,255,0.06);
-  --accent: #4fffb0;
-  --accent2: #00cfff;
-  --text: #e8eaf0;
-  --muted: #4a5568;
-  --card: #111620;
-}
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 14px;
-  min-height: 100vh;
-  overflow-x: hidden;
-}
-
-/* grid bg */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(79,255,176,0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(79,255,176,0.03) 1px, transparent 1px);
-  background-size: 40px 40px;
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* glow orbs */
-body::after {
-  content: '';
-  position: fixed;
-  width: 600px; height: 600px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(79,255,176,0.05) 0%, transparent 70%);
-  top: -200px; right: -200px;
-  pointer-events: none;
-  z-index: 0;
-}
-
-.orb2 {
-  position: fixed;
-  width: 400px; height: 400px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(0,207,255,0.04) 0%, transparent 70%);
-  bottom: -100px; left: -100px;
-  pointer-events: none;
-  z-index: 0;
-}
-
-.wrap {
-  position: relative;
-  z-index: 1;
-  max-width: 680px;
-  margin: 0 auto;
-  padding: 60px 24px 80px;
-}
-
-/* header */
-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 72px;
-  animation: fadeUp 0.6s ease both;
-}
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-family: 'Syne', sans-serif;
-  font-weight: 800;
-  font-size: 18px;
-  letter-spacing: -0.5px;
-}
-.logo-icon {
-  width: 32px; height: 32px;
-  border: 1px solid var(--accent);
-  border-radius: 8px;
-  display: flex; align-items: center; justify-content: center;
-}
-.logo-icon svg { width: 16px; height: 16px; stroke: var(--accent); fill: none; stroke-width: 1.5; }
-.status-pill {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  padding: 5px 12px;
-  border: 1px solid var(--border);
-  border-radius: 100px;
-  font-size: 11px;
-  color: var(--muted);
-  letter-spacing: 0.5px;
-}
-.status-dot {
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  background: var(--accent);
-  box-shadow: 0 0 8px var(--accent);
-  animation: pulse 2s infinite;
-}
-@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
-
-/* hero */
-.hero {
-  margin-bottom: 56px;
-  animation: fadeUp 0.6s 0.1s ease both;
-}
-.hero-label {
-  font-size: 11px;
-  color: var(--accent);
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  margin-bottom: 16px;
-}
-.hero h1 {
-  font-family: 'Syne', sans-serif;
-  font-size: clamp(36px, 8vw, 56px);
-  font-weight: 800;
-  line-height: 1.05;
-  letter-spacing: -2px;
-  margin-bottom: 20px;
-  color: #fff;
-}
-.hero h1 span {
-  color: var(--accent);
-}
-.hero p {
-  font-size: 14px;
-  color: var(--muted);
-  line-height: 1.8;
-  max-width: 440px;
-  font-weight: 300;
-}
-
-/* apps section */
-.section-label {
-  font-size: 10px;
-  color: var(--muted);
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  margin-bottom: 16px;
-}
-
-.apps-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-  margin-bottom: 40px;
-  animation: fadeUp 0.6s 0.2s ease both;
-}
-
-.app-card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 18px 20px;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  text-decoration: none;
-  color: var(--text);
-  transition: border-color 0.2s, transform 0.2s;
-  cursor: pointer;
-}
-.app-card:hover {
-  border-color: rgba(79,255,176,0.25);
-  transform: translateY(-2px);
-}
-.app-icon {
-  width: 40px; height: 40px;
-  border-radius: 10px;
-  background: rgba(79,255,176,0.06);
-  border: 1px solid rgba(79,255,176,0.12);
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
-}
-.app-icon svg { width: 20px; height: 20px; }
-.app-info .app-name {
-  font-family: 'Syne', sans-serif;
-  font-weight: 700;
-  font-size: 14px;
-  margin-bottom: 2px;
-  color: #fff;
-}
-.app-info .app-os {
-  font-size: 11px;
-  color: var(--muted);
-}
-
-/* sub block */
-.sub-block {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 28px;
-  margin-bottom: 40px;
-  animation: fadeUp 0.6s 0.3s ease both;
-}
-.sub-block .sub-title {
-  font-family: 'Syne', sans-serif;
-  font-weight: 700;
-  font-size: 16px;
-  color: #fff;
-  margin-bottom: 6px;
-}
-.sub-block .sub-desc {
-  font-size: 12px;
-  color: var(--muted);
-  margin-bottom: 20px;
-  line-height: 1.7;
-  font-weight: 300;
-}
-.sub-url-row {
-  display: flex;
-  gap: 8px;
-}
-.sub-url {
-  flex: 1;
-  background: rgba(255,255,255,0.03);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 10px 14px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  color: var(--accent2);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.copy-btn {
-  padding: 10px 16px;
-  background: rgba(79,255,176,0.08);
-  border: 1px solid rgba(79,255,176,0.2);
-  border-radius: 10px;
-  color: var(--accent);
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: background 0.2s;
-  display: flex; align-items: center; gap: 6px;
-}
-.copy-btn:hover { background: rgba(79,255,176,0.14); }
-.copy-btn.copied { color: #fff; background: rgba(79,255,176,0.2); }
-
-/* stats */
-.stats-row {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  margin-bottom: 40px;
-  animation: fadeUp 0.6s 0.35s ease both;
-}
-.stat-card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 18px 16px;
-  text-align: center;
-}
-.stat-val {
-  font-family: 'Syne', sans-serif;
-  font-size: 22px;
-  font-weight: 800;
-  color: var(--accent);
-  letter-spacing: -1px;
-  margin-bottom: 4px;
-}
-.stat-label {
-  font-size: 10px;
-  color: var(--muted);
-  letter-spacing: 1px;
-  text-transform: uppercase;
-}
-
-/* instructions */
-.steps {
-  animation: fadeUp 0.6s 0.4s ease both;
-}
-.step-item {
-  display: flex;
-  gap: 16px;
-  align-items: flex-start;
-  padding: 16px 0;
-  border-bottom: 1px solid var(--border);
-}
-.step-item:last-child { border-bottom: none; }
-.step-num {
-  width: 28px; height: 28px;
-  border: 1px solid rgba(79,255,176,0.3);
-  border-radius: 8px;
-  display: flex; align-items: center; justify-content: center;
-  font-family: 'Syne', sans-serif;
-  font-weight: 800;
-  font-size: 12px;
-  color: var(--accent);
-  flex-shrink: 0;
-}
-.step-text strong {
-  display: block;
-  color: #fff;
-  font-family: 'Syne', sans-serif;
-  font-weight: 700;
-  font-size: 14px;
-  margin-bottom: 3px;
-}
-.step-text span {
-  color: var(--muted);
-  font-size: 12px;
-  line-height: 1.7;
-  font-weight: 300;
-}
-
-/* footer */
-footer {
-  margin-top: 60px;
-  padding-top: 24px;
-  border-top: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 11px;
-  color: var(--muted);
-  animation: fadeUp 0.6s 0.5s ease both;
-}
-
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-@media (max-width: 520px) {
-  .apps-grid { grid-template-columns: 1fr; }
-  .stats-row { grid-template-columns: repeat(3,1fr); }
-  .hero h1 { font-size: 36px; letter-spacing: -1px; }
-  header { margin-bottom: 48px; }
-  .stat-val { font-size: 18px; }
-}
-</style>
+  <meta charset="UTF-8">
+  <title>Скачать Crash Game</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #0a0e13;
+      color: #c9d1d9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      flex-direction: column;
+      gap: 16px;
+    }
+    button {
+      background: #238636;
+      border: none;
+      color: white;
+      padding: 14px 28px;
+      font-size: 18px;
+      font-weight: bold;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    button:hover { background: #2ea043; }
+  </style>
 </head>
 <body>
-<div class="orb2"></div>
-<div class="wrap">
+  <h2>📥 Скачивание Crash Game</h2>
+  <p>Нажмите кнопку, чтобы сохранить файл игры</p>
+  <button onclick="downloadGame()">Скачать index.html</button>
 
-  <header>
-    <div class="logo">
-      <div class="logo-icon">
-        <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-      </div>
-      VPN
+  <script>
+    function downloadGame() {
+      const gameCode = `<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Crash Game</title>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}body{font-family:'Segoe UI',-apple-system,BlinkMacSystemFont,Roboto,sans-serif;background:#0a0e13;color:#c9d1d9;display:flex;flex-direction:column;height:100vh;overflow:hidden}:root{--bg-primary:#0d1117;--bg-secondary:#161b22;--bg-tertiary:#21262d;--border:#30363d;--text-primary:#c9d1d9;--text-secondary:#8b949e;--accent:#58a6ff;--gold:#d29922;--green:#238636;--green-hover:#2ea043;--red:#da3633;--red-hover:#f85149}.header{background:var(--bg-secondary);border-bottom:1px solid var(--border);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}.user-info{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--text-secondary)}.avatar{width:32px;height:32px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:bold}.balance{background:rgba(210,153,34,0.15);color:var(--gold);padding:6px 16px;border-radius:20px;font-weight:bold;font-size:18px}.header-buttons{display:flex;gap:8px}.small-btn{background:var(--accent);color:#fff;border:none;border-radius:8px;padding:8px 14px;font-size:14px;font-weight:bold;cursor:pointer}.tabs{display:flex;background:var(--bg-secondary);border-bottom:1px solid var(--border)}.tab-btn{flex:1;padding:12px;background:transparent;border:none;color:var(--text-secondary);font-size:15px;font-weight:bold;cursor:pointer;border-bottom:2px solid transparent}.tab-btn.active{color:var(--text-primary);background:var(--bg-primary);border-bottom-color:var(--accent)}.tab-content{flex:1;overflow-y:auto;background:var(--bg-primary);display:none;flex-direction:column}.tab-content.active{display:flex}.crash-container{display:flex;flex-direction:column;align-items:center;padding:20px 12px;gap:16px}canvas#crashCanvas{width:100%;max-width:360px;background:var(--bg-secondary);border-radius:16px;border:1px solid var(--border)}.bet-controls{width:100%;max-width:360px;display:flex;flex-direction:column;gap:12px}.input-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.input-row label{font-size:14px;color:var(--text-secondary);min-width:70px}.input-row input{flex:1;background:var(--bg-secondary);border:1px solid var(--border);border-radius:8px;padding:10px 12px;color:var(--text-primary);font-size:16px;outline:none}.input-row input:focus{border-color:var(--accent)}.protection-check{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text-secondary);cursor:pointer}.btn{border:none;border-radius:10px;padding:12px 20px;font-weight:bold;font-size:16px;cursor:pointer;color:white;width:100%}.btn-primary{background:var(--green)}.btn-primary:hover{background:var(--green-hover)}.btn-cancel{background:var(--red)}.btn-cancel:hover{background:var(--red-hover)}.btn-disabled{background:#484f58;cursor:not-allowed}.info-text{font-size:15px;color:var(--gold);text-align:center;min-height:24px}.history-label{font-size:13px;color:var(--text-secondary);word-break:break-all;text-align:center;max-width:360px}.win-list{width:100%;max-width:360px;background:var(--bg-secondary);border-radius:12px;padding:12px;border:1px solid var(--border)}.win-item{display:flex;justify-content:space-between;font-size:14px;padding:6px 0;border-bottom:1px solid var(--border)}.win-item:last-child{border-bottom:none}.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);align-items:center;justify-content:center;z-index:1000}.modal-content{background:var(--bg-secondary);border-radius:16px;padding:24px;width:90%;max-width:320px;border:1px solid var(--border);display:flex;flex-direction:column;gap:16px}.modal-content input{background:var(--bg-primary);border:1px solid var(--border);border-radius:8px;padding:12px;color:var(--text-primary);font-size:18px;outline:none}.case-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:16px;padding:20px}.case-card{background:var(--bg-secondary);border:1px solid var(--border);border-radius:16px;padding:20px;width:140px;text-align:center;display:flex;flex-direction:column;gap:10px}.case-card .case-name{font-size:16px;font-weight:bold}.case-card .case-price{color:var(--gold)}.case-card button{background:var(--green);border:none;border-radius:8px;padding:10px;color:white;font-weight:bold;cursor:pointer}.stats-container{padding:24px;display:flex;flex-direction:column;align-items:center;gap:16px}.stats-card{background:var(--bg-secondary);border-radius:16px;padding:24px;width:100%;max-width:300px;border:1px solid var(--border);text-align:center}@media(max-width:400px){.case-card{width:100%}}
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="user-info" id="userInfo">
+      <div class="avatar" id="avatar">👤</div>
+      <span id="userName">Загрузка...</span>
     </div>
-    <div class="status-pill">
-      <div class="status-dot"></div>
-      ONLINE
-    </div>
-  </header>
-
-  <div class="hero">
-    <div class="hero-label">// Subscription page</div>
-    <h1>Твой<br><span>VPN</span><br>готов.</h1>
-    <p>Скопируй ссылку подписки и импортируй в приложение. Обновления конфигов приходят автоматически.</p>
-  </div>
-
-  <div class="section-label">// Ссылка подписки</div>
-  <div class="sub-block">
-    <div class="sub-title">Subscription URL</div>
-    <div class="sub-desc">Используй эту ссылку для импорта в любое совместимое приложение. Не передавай её третьим лицам.</div>
-    <div class="sub-url-row">
-      <div class="sub-url" id="subUrl">{{ subscription_url }}</div>
-      <button class="copy-btn" id="copyBtn" onclick="copyUrl()">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-        Копировать
-      </button>
+    <div class="balance" id="balanceDisplay">⭐ 0</div>
+    <div class="header-buttons">
+      <button class="small-btn" id="depositBtn">+ Пополнить</button>
+      <button class="small-btn" id="withdrawBtn" style="background:#d29922;">↓ Вывести</button>
     </div>
   </div>
-
-  <div class="section-label">// Приложения</div>
-  <div class="apps-grid">
-    <a class="app-card" href="https://apps.apple.com/app/streisand/id6450534064" target="_blank">
-      <div class="app-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg>
-      </div>
-      <div class="app-info">
-        <div class="app-name">Streisand</div>
-        <div class="app-os">iOS / macOS</div>
-      </div>
-    </a>
-    <a class="app-card" href="https://play.google.com/store/apps/details?id=com.v2raytun.android" target="_blank">
-      <div class="app-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent2)" stroke-width="1.5"><path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2z"/><path d="M12 8v8M8 12h8"/></svg>
-      </div>
-      <div class="app-info">
-        <div class="app-name">V2RayTun</div>
-        <div class="app-os">Android</div>
-      </div>
-    </a>
-    <a class="app-card" href="https://github.com/MatsuriDayo/nekoray/releases" target="_blank">
-      <div class="app-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
-      </div>
-      <div class="app-info">
-        <div class="app-name">Nekoray</div>
-        <div class="app-os">Windows / Linux</div>
-      </div>
-    </a>
-    <a class="app-card" href="https://apps.apple.com/app/foxray/id6448898396" target="_blank">
-      <div class="app-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent2)" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5"/></svg>
-      </div>
-      <div class="app-info">
-        <div class="app-name">FoXray</div>
-        <div class="app-os">iOS / macOS</div>
-      </div>
-    </a>
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="crash">📈 Crash</button>
+    <button class="tab-btn" data-tab="cases">📦 Кейсы</button>
+    <button class="tab-btn" data-tab="stats">📊 Статистика</button>
   </div>
-
-  <div class="section-label">// Статус</div>
-  <div class="stats-row">
-    <div class="stat-card">
-      <div class="stat-val" id="statExpire">—</div>
-      <div class="stat-label">Дней осталось</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-val">{{ used_traffic_gb }} GB</div>
-      <div class="stat-label">Использовано</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-val">{{ data_limit_gb }} GB</div>
-      <div class="stat-label">Лимит</div>
+  <div class="tab-content active" id="crashTab">
+    <div class="crash-container">
+      <canvas id="crashCanvas" width="360" height="360"></canvas>
+      <div class="info-text" id="crashInfo">Ожидание раунда...</div>
+      <div class="history-label" id="historyLabel">Нет данных</div>
+      <div class="bet-controls">
+        <div class="input-row">
+          <label>Ставка ⭐</label>
+          <input type="number" id="betInput" placeholder="0" min="1" step="1">
+        </div>
+        <div class="input-row">
+          <label>Авто-вывод x</label>
+          <input type="number" id="autoInput" placeholder="2.0" min="1.01" max="30" step="0.01" value="2.0">
+        </div>
+        <label class="protection-check">
+          <input type="checkbox" id="protectionCheck"> Защита от x1.00
+        </label>
+        <button class="btn btn-primary" id="actionBtn">Сделать ставку</button>
+      </div>
+      <div class="win-list" id="winList">
+        <div style="text-align:center; color:#8b949e;">Последние выигрыши</div>
+      </div>
     </div>
   </div>
-
-  <div class="section-label">// Как подключиться</div>
-  <div class="steps">
-    <div class="step-item">
-      <div class="step-num">01</div>
-      <div class="step-text">
-        <strong>Установи приложение</strong>
-        <span>Выбери подходящее приложение из списка выше для своей платформы</span>
+  <div class="tab-content" id="casesTab">
+    <div style="text-align:center; padding:20px;">
+      <canvas id="caseCanvas" width="320" height="200" style="border-radius:12px; background:#161b22;"></canvas>
+      <div id="caseResult" style="font-size:18px; color:#3fb950; margin-top:10px;"></div>
+    </div>
+    <div class="case-grid">
+      <div class="case-card">
+        <div class="case-name" style="color:#4a6a8a;">Обычный</div>
+        <div class="case-price">50 ⭐</div>
+        <button onclick="openCase('common')">Открыть</button>
+      </div>
+      <div class="case-card">
+        <div class="case-name" style="color:#7b5ea7;">Редкий</div>
+        <div class="case-price">200 ⭐</div>
+        <button onclick="openCase('rare')">Открыть</button>
+      </div>
+      <div class="case-card">
+        <div class="case-name" style="color:#d29922;">Эпический</div>
+        <div class="case-price">500 ⭐</div>
+        <button onclick="openCase('epic')">Открыть</button>
       </div>
     </div>
-    <div class="step-item">
-      <div class="step-num">02</div>
-      <div class="step-text">
-        <strong>Скопируй ссылку</strong>
-        <span>Нажми «Копировать» рядом с Subscription URL</span>
-      </div>
-    </div>
-    <div class="step-item">
-      <div class="step-num">03</div>
-      <div class="step-text">
-        <strong>Импортируй подписку</strong>
-        <span>В приложении найди «Добавить подписку» / «Add subscription» и вставь ссылку</span>
-      </div>
-    </div>
-    <div class="step-item">
-      <div class="step-num">04</div>
-      <div class="step-text">
-        <strong>Готово</strong>
-        <span>Выбери сервер из списка и подключайся. Конфиги обновляются автоматически</span>
+  </div>
+  <div class="tab-content" id="statsTab">
+    <div class="stats-container">
+      <div class="stats-card">
+        <div style="font-size:20px; color:#58a6ff;">📊 Статистика</div>
+        <div style="font-size:22px; color:#d29922; margin:10px 0;" id="statsBalance">⭐ 0</div>
+        <div id="statsText" style="font-size:16px; color:#c9d1d9;"></div>
       </div>
     </div>
   </div>
 
-  <footer>
-    <span>© 2025 VPN Service</span>
-    <span>{{ username }}</span>
-  </footer>
+  <div class="modal" id="depositModal">
+    <div class="modal-content">
+      <div style="font-size:18px; font-weight:bold; text-align:center;">Пополнение звёзд</div>
+      <input type="number" id="depositAmount" placeholder="Сумма ⭐" min="1" step="1">
+      <div style="display:flex; gap:8px;">
+        <button class="btn btn-primary" id="simulateDepositBtn" style="flex:1;">Пополнить (демо)</button>
+        <button class="btn btn-primary" id="telegramDepositBtn" style="flex:1; background:#1f6feb;">Через Telegram</button>
+      </div>
+      <button class="btn btn-cancel" id="closeDepositBtn">Отмена</button>
+    </div>
+  </div>
 
-</div>
+  <div class="modal" id="withdrawModal">
+    <div class="modal-content">
+      <div style="font-size:18px; font-weight:bold; text-align:center;">Вывод звёзд</div>
+      <div style="color:#8b949e; text-align:center;">Минимальная сумма: 1000 ⭐</div>
+      <input type="number" id="withdrawAmount" placeholder="Введите сумму" min="1000" step="1">
+      <button class="btn btn-primary" id="confirmWithdrawBtn">Вывести</button>
+      <div id="withdrawError" style="color:#f85149; font-size:14px; text-align:center;"></div>
+      <button class="btn btn-cancel" id="closeWithdrawBtn">Отмена</button>
+    </div>
+  </div>
 
-<script>
-function copyUrl() {
-  const url = document.getElementById('subUrl').textContent.trim();
-  const btn = document.getElementById('copyBtn');
-  navigator.clipboard.writeText(url).then(() => {
-    btn.classList.add('copied');
-    btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Скопировано';
-    setTimeout(() => {
-      btn.classList.remove('copied');
-      btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Копировать';
-    }, 2500);
-  });
-}
+  <script src="https://telegram.org/js/telegram-web-app.js"><\/script>
+  <script>
+    const tg = window.Telegram.WebApp;
+    tg.ready();
+    tg.expand();
 
-// calculate days left from expire timestamp if available
-const expireEl = document.getElementById('statExpire');
-const expireRaw = '{{ expire_date }}';
-if (expireRaw && expireRaw !== '{{ expire_date }}' && expireRaw !== 'None') {
-  const diff = Math.ceil((new Date(expireRaw) - Date.now()) / 86400000);
-  expireEl.textContent = diff > 0 ? diff : '0';
-} else {
-  expireEl.textContent = '∞';
-}
-</script>
+    const userId = tg.initDataUnsafe?.user?.id || 'demo';
+    const userName = tg.initDataUnsafe?.user?.username || tg.initDataUnsafe?.user?.first_name || 'Гость';
+    document.getElementById('userName').textContent = userName;
+    document.getElementById('avatar').textContent = userName.charAt(0).toUpperCase();
+
+    const RECIPIENT_TG_ID = '8566684320';
+    const STORAGE_KEY = (key) => \`crash_\${userId}_\${key}\`;
+
+    function loadData() {
+      const defaults = { stars: 1, history: [], winHistory: [], totalGames: 0, totalWins: 0, totalLosses: 0 };
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY('data'));
+        if (raw) return { ...defaults, ...JSON.parse(raw) };
+      } catch (e) {}
+      return defaults;
+    }
+    function saveData(data) { localStorage.setItem(STORAGE_KEY('data'), JSON.stringify(data)); }
+
+    let gameData = loadData();
+    let stars = gameData.stars;
+    let history = gameData.history || [];
+    let winHistory = gameData.winHistory || [];
+    let totalGames = gameData.totalGames || 0;
+    let totalWins = gameData.totalWins || 0;
+    let totalLosses = gameData.totalLosses || 0;
+
+    function persistGameData() {
+      gameData.stars = stars; gameData.history = history; gameData.winHistory = winHistory;
+      gameData.totalGames = totalGames; gameData.totalWins = totalWins; gameData.totalLosses = totalLosses;
+      saveData(gameData);
+    }
+
+    const balanceDisplay = document.getElementById('balanceDisplay');
+    function updateBalanceUI() {
+      balanceDisplay.textContent = \`⭐ \${stars}\`;
+      document.getElementById('statsBalance').textContent = \`⭐ \${stars}\`;
+    }
+
+    const historyLabel = document.getElementById('historyLabel');
+    function updateHistoryUI() {
+      historyLabel.textContent = history.length ? history.slice(-10).map(v => \`x\${v.toFixed(2)}\`).join('  ') : 'Нет данных';
+    }
+
+    const winList = document.getElementById('winList');
+    function updateWinHistoryUI() {
+      winList.innerHTML = '<div style="text-align:center; color:#8b949e; margin-bottom:8px;">Последние выигрыши</div>';
+      winHistory.slice(-8).reverse().forEach(w => {
+        const div = document.createElement('div');
+        div.className = 'win-item';
+        div.innerHTML = \`<span>x\${w.mult.toFixed(2)}</span><span>+\${w.amount}⭐</span>\`;
+        winList.appendChild(div);
+      });
+    }
+
+    function updateStatsUI() {
+      const winRate = totalGames > 0 ? ((totalWins / totalGames) * 100).toFixed(1) : 0;
+      document.getElementById('statsText').innerHTML = 
+        \`Всего игр: \${totalGames}<br>Выигрышей: \${totalWins}<br>Проигрышей: \${totalLosses}<br>Процент побед: \${winRate}%\`;
+    }
+
+    const crashCanvas = document.getElementById('crashCanvas');
+    const ctx = crashCanvas.getContext('2d');
+    const crashInfo = document.getElementById('crashInfo');
+    const actionBtn = document.getElementById('actionBtn');
+    const betInput = document.getElementById('betInput');
+    const autoInput = document.getElementById('autoInput');
+    const protectionCheck = document.getElementById('protectionCheck');
+
+    let gameRunning = false, activeBet = null, pendingBet = null, currentMultiplier = 1.0, crashPoint = 1.0, graphPoints = [];
+
+    function generateCrashPoint() {
+      return Math.random() < 0.3 ? 1.0 + Math.random() * 0.30 : 1.31 + Math.random() * (30 - 1.31);
+    }
+
+    function drawCrashBackground() {
+      const w = crashCanvas.width, h = crashCanvas.height;
+      ctx.clearRect(0, 0, w, h);
+      for (let mult = 5; mult <= 30; mult += 5) {
+        const y = h - ((mult - 1) / 29) * (h - 60) - 40;
+        ctx.beginPath(); ctx.moveTo(30, y); ctx.lineTo(w - 30, y);
+        ctx.strokeStyle = '#21262d'; ctx.stroke();
+        ctx.fillStyle = '#8b949e'; ctx.font = '10px Segoe UI'; ctx.fillText(\`\${mult}x\`, 5, y + 4);
+      }
+      ctx.strokeStyle = '#30363d'; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.moveTo(30, h - 40); ctx.lineTo(w - 30, h - 40);
+      ctx.moveTo(30, 20); ctx.lineTo(30, h - 40); ctx.stroke();
+      ctx.fillText('Время →', w / 2 - 20, h - 5); ctx.fillText('1x', 5, h - 36);
+    }
+
+    function multiplierColor(mult) {
+      const t = Math.min(1, (mult - 1) / 29);
+      return \`rgb(\${t<0.5?Math.floor(255*t*2):255},\${t<0.5?255:Math.floor(255*(1-(t-0.5)*2))},0)\`;
+    }
+
+    function addGraphPoint() {
+      const w = crashCanvas.width, h = crashCanvas.height, maxSteps = 200;
+      const t = Math.min(1, graphPoints.length / maxSteps);
+      graphPoints.push({ x: 30 + t * (w - 60), y: h - 40 - ((currentMultiplier - 1) / 29) * (h - 60) });
+      while (graphPoints.length > maxSteps + 5) graphPoints.shift();
+      drawGraph();
+    }
+
+    function drawGraph() {
+      drawCrashBackground();
+      if (graphPoints.length < 2) return;
+      ctx.beginPath(); ctx.lineWidth = 3; ctx.lineJoin = 'round';
+      ctx.moveTo(graphPoints[0].x, graphPoints[0].y);
+      for (let i = 1; i < graphPoints.length; i++) ctx.lineTo(graphPoints[i].x, graphPoints[i].y);
+      ctx.strokeStyle = multiplierColor(currentMultiplier); ctx.stroke();
+      ctx.font = 'bold 36px Segoe UI'; ctx.fillStyle = multiplierColor(currentMultiplier);
+      ctx.textAlign = 'center'; ctx.fillText(\`\${currentMultiplier.toFixed(2)}x\`, crashCanvas.width / 2, 80);
+      ctx.textAlign = 'start';
+    }
+
+    function setButtonState(text, className) {
+      actionBtn.textContent = text; actionBtn.className = \`btn \${className}\`;
+    }
+
+    function startBreak() {
+      crashInfo.textContent = 'Следующий раунд через 5...';
+      let count = 5;
+      const tick = () => {
+        if (count <= 0) { crashInfo.textContent = ''; startRound(); return; }
+        crashInfo.textContent = \`Следующий раунд через \${count}...\`;
+        count--;
+        setTimeout(tick, 1000);
+      };
+      tick();
+    }
+
+    function startRound() {
+      if (gameRunning) return;
+      if (pendingBet) {
+        if (pendingBet.amount > stars) { crashInfo.textContent = 'Недостаточно звёзд!'; cancelBet(); startBreak(); return; }
+        stars -= pendingBet.amount; updateBalanceUI();
+        activeBet = { ...pendingBet }; pendingBet = null;
+        setButtonState('💰 Вывести', 'btn-primary');
+        betInput.disabled = true; autoInput.disabled = true; totalGames++;
+      } else {
+        activeBet = null; setButtonState('Нет ставки', 'btn-disabled');
+        betInput.disabled = true; autoInput.disabled = true;
+      }
+      currentMultiplier = 1.0; crashPoint = generateCrashPoint();
+      graphPoints = [{ x: 30, y: crashCanvas.height - 40 }];
+      gameRunning = true; crashInfo.textContent = 'Полёт...';
+      animateCrash();
+    }
+
+    function animateCrash() {
+      if (!gameRunning) return;
+      currentMultiplier += 0.03 + (currentMultiplier - 1) * 0.01;
+      if (currentMultiplier >= crashPoint || currentMultiplier >= 30) {
+        currentMultiplier = Math.min(crashPoint, 30);
+        addGraphPoint(); crash(); return;
+      }
+      addGraphPoint();
+      if (activeBet && activeBet.auto_withdraw > 0 && currentMultiplier >= activeBet.auto_withdraw) {
+        autoWithdraw(); return;
+      }
+      if (activeBet) {
+        setButtonState(\`💰 Вывести (\${Math.floor(activeBet.amount * currentMultiplier)} ⭐)\`, 'btn-primary');
+      }
+      requestAnimationFrame(animateCrash);
+    }
+
+    function crash() {
+      gameRunning = false;
+      const crashMult = Math.round(currentMultiplier * 100) / 100;
+      history.push(crashMult); updateHistoryUI();
+      if (activeBet) {
+        if (activeBet.protection && crashMult === 1.0) {
+          stars += activeBet.amount;
+          crashInfo.textContent = 'Защита! Ставка возвращена.';
+        } else {
+          totalLosses++;
+          crashInfo.textContent = \`Крах на x\${crashMult.toFixed(2)}. Звёзды переведены на ID \${RECIPIENT_TG_ID}.\`;
+        }
+      } else { crashInfo.textContent = \`Крах на x\${crashMult.toFixed(2)}.\`; }
+      updateBalanceUI(); persistGameData(); resetCrashState(); startBreak();
+    }
+
+    function autoWithdraw() {
+      if (!activeBet) return;
+      const win = Math.floor(activeBet.amount * currentMultiplier);
+      stars += win; updateBalanceUI(); totalWins++;
+      winHistory.push({ mult: Math.round(currentMultiplier * 100) / 100, amount: win });
+      updateWinHistoryUI();
+      crashInfo.textContent = \`Авто-вывод при x\${currentMultiplier.toFixed(2)}\`;
+      activeBet = null; setButtonState('Нет ставки', 'btn-disabled'); persistGameData();
+    }
+
+    function manualWithdraw() { if (gameRunning && activeBet) autoWithdraw(); }
+
+    function resetCrashState() {
+      gameRunning = false; activeBet = null; pendingBet = null;
+      betInput.disabled = false; autoInput.disabled = false;
+      setButtonState('Сделать ставку', 'btn-primary');
+      currentMultiplier = 1.0; graphPoints = [{ x: 30, y: crashCanvas.height - 40 }]; drawGraph();
+    }
+
+    function placeBet() {
+      const bet = parseInt(betInput.value);
+      if (!bet || bet <= 0) { crashInfo.textContent = 'Введите целую ставку > 0'; return; }
+      if (bet > stars) { crashInfo.textContent = 'Недостаточно звёзд'; return; }
+      const auto = parseFloat(autoInput.value) || 0;
+      if (auto > 0 && (auto <= 1.0 || auto > 30)) { crashInfo.textContent = 'Авто-вывод от 1.01 до 30'; return; }
+      pendingBet = { amount: bet, auto_withdraw: auto, protection: protectionCheck.checked };
+      setButtonState('Отменить ставку', 'btn-cancel');
+      crashInfo.textContent = 'Ставка принята на следующий раунд';
+    }
+
+    function cancelBet() { pendingBet = null; setButtonState('Сделать ставку', 'btn-primary'); crashInfo.textContent = 'Ставка отменена'; }
+
+    actionBtn.addEventListener('click', () => {
+      if (gameRunning) { if (activeBet) manualWithdraw(); else crashInfo.textContent = 'Вы не в игре'; }
+      else { if (pendingBet) cancelBet(); else placeBet(); }
+    });
+
+    // Кейсы
+    const caseCanvas = document.getElementById('caseCanvas');
+    const caseCtx = caseCanvas.getContext('2d');
+    let caseAnimRunning = false;
+    const casesConfig = {
+      common: { price: 50, min: 10, max: 52 },
+      rare: { price: 200, min: 100, max: 201 },
+      epic: { price: 500, min: 300, max: 505 }
+    };
+    function openCase(type) {
+      if (caseAnimRunning) return;
+      const cfg = casesConfig[type];
+      if (stars < cfg.price) { alert('Недостаточно звёзд!'); return; }
+      stars -= cfg.price; updateBalanceUI(); persistGameData();
+      const reward = cfg.min + Math.floor(Math.random() * (cfg.max - cfg.min + 1));
+      animateCaseOpening(reward);
+    }
+    function animateCaseOpening(finalReward) {
+      caseAnimRunning = true;
+      const w = caseCanvas.width, h = caseCanvas.height;
+      let currentReward = 0, frame = 0;
+      const totalFrames = 80, increment = finalReward / totalFrames;
+      const particles = [];
+      for (let i = 0; i < 30; i++) particles.push({ x: Math.random() * w, y: -20 - Math.random() * 100, speed: 3 + Math.random() * 6, size: 14 + Math.random() * 16 });
+      function drawFrame() {
+        caseCtx.clearRect(0, 0, w, h);
+        caseCtx.fillStyle = '#161b22'; caseCtx.fillRect(0, 0, w, h);
+        particles.forEach(p => {
+          p.y += p.speed;
+          if (p.y > h + 20) { p.y = -20; p.x = Math.random() * w; }
+          caseCtx.font = \`\${p.size}px Segoe UI\`; caseCtx.fillStyle = '#d29922'; caseCtx.fillText('⭐', p.x, p.y);
+        });
+        caseCtx.font = 'bold 48px Segoe UI'; caseCtx.fillStyle = '#d29922'; caseCtx.textAlign = 'center';
+        caseCtx.fillText(Math.floor(currentReward).toString(), w / 2, h / 2);
+        if (frame < totalFrames) {
+          currentReward += increment; frame++; requestAnimationFrame(drawFrame);
+        } else {
+          caseCtx.clearRect(0, 0, w, h); caseCtx.fillStyle = '#161b22'; caseCtx.fillRect(0, 0, w, h);
+          caseCtx.font = 'bold 48px Segoe UI'; caseCtx.fillStyle = '#3fb950'; caseCtx.fillText(finalReward, w / 2, h / 2 - 10);
+          caseCtx.font = '24px Segoe UI'; caseCtx.fillText(\`+\${finalReward} ⭐\`, w / 2, h / 2 + 40);
+          stars += finalReward; updateBalanceUI(); persistGameData();
+          document.getElementById('caseResult').textContent = \`+\${finalReward} ⭐ из кейса!\`;
+          caseAnimRunning = false;
+        }
+      }
+      drawFrame();
+    }
+
+    // Табы
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById(btn.dataset.tab + 'Tab').classList.add('active');
+        if (btn.dataset.tab === 'stats') updateStatsUI();
+      });
+    });
+
+    // Пополнение
+    document.getElementById('depositBtn').addEventListener('click', () => document.getElementById('depositModal').style.display = 'flex');
+    document.getElementById('closeDepositBtn').addEventListener('click', () => document.getElementById('depositModal').style.display = 'none');
+    document.getElementById('simulateDepositBtn').addEventListener('click', () => {
+      const amount = parseInt(document.getElementById('depositAmount').value);
+      if (!amount || amount <= 0) return;
+      stars += amount; updateBalanceUI(); persistGameData();
+      document.getElementById('depositModal').style.display = 'none';
+      alert(\`Баланс пополнен на \${amount} ⭐ (демо)\`);
+    });
+    document.getElementById('telegramDepositBtn').addEventListener('click', () => {
+      tg.openTelegramLink('https://t.me/CrushGiftSpin_bot?start=deposit'); // ← замените на своего бота
+    });
+
+    // Вывод
+    const withdrawModal = document.getElementById('withdrawModal');
+    document.getElementById('withdrawBtn').addEventListener('click', () => {
+      document.getElementById('withdrawError').textContent = '';
+      document.getElementById('withdrawAmount').value = '';
+      withdrawModal.style.display = 'flex';
+    });
+    document.getElementById('closeWithdrawBtn').addEventListener('click', () => withdrawModal.style.display = 'none');
+    document.getElementById('confirmWithdrawBtn').addEventListener('click', () => {
+      const amount = parseInt(document.getElementById('withdrawAmount').value);
+      const errorEl = document.getElementById('withdrawError');
+      if (!amount || amount < 1000) { errorEl.textContent = 'Минимальная сумма вывода: 1000 ⭐'; return; }
+      if (amount > stars) { errorEl.textContent = 'Недостаточно звёзд на балансе'; return; }
+      stars -= amount; updateBalanceUI(); persistGameData();
+      tg.sendData(JSON.stringify({ action: 'withdraw', amount: amount, user_id: userId }));
+      withdrawModal.style.display = 'none';
+      alert(\`Заявка на вывод \${amount} ⭐ отправлена.\`);
+    });
+
+    // Старт
+    updateBalanceUI(); updateHistoryUI(); updateWinHistoryUI(); drawCrashBackground(); startBreak();
+  <\/script>
+</body>
+</html>`;
+
+      const blob = new Blob([gameCode], { type: 'text/html' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'index.html';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+  </script>
 </body>
 </html>
