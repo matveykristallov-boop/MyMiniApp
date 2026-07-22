@@ -261,19 +261,6 @@
             border-color: var(--gold);
             color: var(--gold);
         }
-        .auto-bar .demo-tag {
-            font-size: 11px;
-            color: var(--text-secondary);
-            background: var(--bg-tertiary);
-            padding: 2px 12px;
-            border-radius: 14px;
-            border: 1px solid var(--border);
-            cursor: pointer;
-            margin-left: auto;
-        }
-        .auto-bar .demo-tag:active {
-            opacity: 0.6;
-        }
 
         .tabs {
             display: flex;
@@ -827,9 +814,6 @@
             transition: 0.1s;
             color: #fff;
         }
-        .admin-panel .broadcast-area .btn-row button:active {
-            transform: scale(0.97);
-        }
         .admin-panel .broadcast-area .btn-row .btn-broadcast {
             background: var(--accent-blue);
         }
@@ -1202,10 +1186,6 @@
                 font-size: 10px;
                 padding: 1px 8px;
             }
-            .auto-bar .demo-tag {
-                font-size: 10px;
-                padding: 1px 8px;
-            }
             .tab-btn {
                 font-size: 11px;
                 padding: 8px 4px;
@@ -1312,7 +1292,7 @@
         </div>
     </div>
 
-    <!-- SYNC BAR (без надписи "Онлайн-синхронизация") -->
+    <!-- SYNC BAR -->
     <div class="sync-bar">
         <span class="sync-dot"></span>
         <span class="sync-round" id="syncRound">Раунд #0</span>
@@ -1330,7 +1310,6 @@
         <span class="label">⚡ АВТО-СТОП</span>
         <span class="auto-value" id="autoDisplay">x1.00</span>
         <span class="protection-tag" id="protectionTag">🛡️ Защита от x1.0</span>
-        <span class="demo-tag" id="demoTag">🎮 Демо</span>
     </div>
 
     <!-- TABS -->
@@ -1465,9 +1444,6 @@
                 <button class="btn btn-gold" id="depositContinueBtn">Продолжить</button>
                 <button class="btn btn-cancel" id="closeDepositBtn">Отмена</button>
             </div>
-            <div style="font-size:10px; color:var(--text-secondary); text-align:center; margin-top:4px;">
-                🧪 <span id="testDepositLink" style="color:var(--accent-blue); text-decoration:underline; cursor:pointer;">Тест-пополнение (демо)</span>
-            </div>
         </div>
     </div>
 
@@ -1535,7 +1511,7 @@
             }
 
             // ——— CONSTANTS ———
-            const DEFAULT_STARS = 10;
+            const DEFAULT_STARS = 10; // Начальный бонус для новых пользователей
             const ROUND_CYCLE_MS = 20000;
             const GROWTH_RATE = 0.05775;
             const ALL_USERS_KEY = 'gift_all_users_v5';
@@ -1738,7 +1714,6 @@
 
             let feedItems = [];
             let protectionEnabled = false;
-            let isDemoMode = false;
             let activeBet = null;
             let pendingBet = null;
             let animFrameId = null;
@@ -1764,7 +1739,6 @@
             }
 
             function addFeedItem(name, action, amount, type, emoji = '') {
-                // Только реальные игроки (без ботов)
                 const avatar = name.charAt(0).toUpperCase();
                 const color = getColorForName(name);
                 const item = { name, action, amount, type, emoji, avatar, color, ts: Date.now() };
@@ -1812,16 +1786,6 @@
                 protectionEnabled = !protectionEnabled;
                 protectionTag.classList.toggle('active', protectionEnabled);
                 protectionTag.textContent = protectionEnabled ? '🛡️ Защита включена' : '🛡️ Защита от x1.0';
-            });
-
-            document.getElementById('demoTag').addEventListener('click', () => {
-                isDemoMode = !isDemoMode;
-                const demoTag = document.getElementById('demoTag');
-                demoTag.textContent = isDemoMode ? '🎮 Демо (вкл)' : '🎮 Демо';
-                demoTag.style.borderColor = isDemoMode ? 'var(--gold)' : 'var(--border)';
-                demoTag.style.color = isDemoMode ? 'var(--gold)' : 'var(--text-secondary)';
-                crashInfo.textContent = isDemoMode ? '🎮 Демо-режим' : '';
-                if (!isDemoMode && !roundActive) crashInfo.textContent = 'Ожидание раунда...';
             });
 
             function mapMultiplierToPosition(mult) {
@@ -2089,17 +2053,15 @@
 
             function startRoundForActive() {
                 if (pendingBet && !roundActive) {
-                    if (!isDemoMode && pendingBet.amount > stars) {
+                    if (pendingBet.amount > stars) {
                         crashInfo.textContent = '❌ Недостаточно звёзд!';
                         crashInfo.className = 'info-text loss';
                         cancelBet();
                         return;
                     }
-                    if (!isDemoMode) {
-                        stars -= pendingBet.amount;
-                        updateBalanceUI();
-                        addTxnRecord('bet', pendingBet.amount, 'deducted');
-                    }
+                    stars -= pendingBet.amount;
+                    updateBalanceUI();
+                    addTxnRecord('bet', pendingBet.amount, 'deducted');
                     activeBet = { ...pendingBet };
                     pendingBet = null;
                     totalGames++;
@@ -2134,10 +2096,8 @@
                 if (activeBet) {
                     const betAmount = activeBet.amount;
                     if (activeBet.protection && crashMult <= 1.01) {
-                        if (!isDemoMode) {
-                            stars += betAmount;
-                            addTxnRecord('refund', betAmount, 'protection');
-                        }
+                        stars += betAmount;
+                        addTxnRecord('refund', betAmount, 'protection');
                         crashInfo.textContent = '🛡️ Защита! Ставка возвращена.';
                         crashInfo.className = 'info-text win';
                         addFeedItem(userName, 'защита', betAmount, 'win', '🛡️');
@@ -2168,10 +2128,8 @@
                 const state = getCurrentMultiplier();
                 if (state.phase === 'flying' && activeBet && !state.crashed) {
                     const win = Math.floor(activeBet.amount * state.mult);
-                    if (!isDemoMode) {
-                        stars += win;
-                        addTxnRecord('win', win, 'cashout');
-                    }
+                    stars += win;
+                    addTxnRecord('win', win, 'cashout');
                     updateBalanceUI();
                     totalWins++;
                     crashInfo.textContent = `✅ Забрано при x${state.mult.toFixed(2)}`;
@@ -2205,7 +2163,7 @@
                     crashInfo.className = 'info-text loss';
                     return;
                 }
-                if (!isDemoMode && bet > stars) {
+                if (bet > stars) {
                     crashInfo.textContent = '❌ Недостаточно звёзд';
                     crashInfo.className = 'info-text loss';
                     return;
@@ -2249,7 +2207,7 @@
                 updateButtonsState();
                 setTimeout(() => {
                     const state = getCurrentMultiplier();
-                    if (state.phase !== 'flying' && !isDemoMode) {
+                    if (state.phase !== 'flying') {
                         crashInfo.textContent = 'Ожидание раунда...';
                         crashInfo.className = 'info-text';
                     }
@@ -2281,10 +2239,8 @@
             function autoWithdraw(mult) {
                 if (!activeBet) return;
                 const win = Math.floor(activeBet.amount * mult);
-                if (!isDemoMode) {
-                    stars += win;
-                    addTxnRecord('win', win, 'auto_cashout');
-                }
+                stars += win;
+                addTxnRecord('win', win, 'auto_cashout');
                 updateBalanceUI();
                 totalWins++;
                 crashInfo.textContent = `✅ Авто-стоп при x${mult.toFixed(2)}`;
@@ -2329,20 +2285,16 @@
                 if (isBlockedCheck()) return;
                 const cfg = casesConfig[type];
                 if (!cfg) return;
-                if (!isDemoMode && stars < cfg.price) { alert('Недостаточно звёзд!'); return; }
-                if (!isDemoMode) {
-                    stars -= cfg.price;
-                    updateBalanceUI();
-                    persistGameData();
-                    addTxnRecord('case_buy', cfg.price, 'deducted');
-                }
+                if (stars < cfg.price) { alert('Недостаточно звёзд!'); return; }
+                stars -= cfg.price;
+                updateBalanceUI();
+                persistGameData();
+                addTxnRecord('case_buy', cfg.price, 'deducted');
                 const reward = cfg.min + Math.floor(Math.random() * (cfg.max - cfg.min + 1));
-                if (!isDemoMode) {
-                    stars += reward;
-                    updateBalanceUI();
-                    persistGameData();
-                    addTxnRecord('case_win', reward, 'credited');
-                }
+                stars += reward;
+                updateBalanceUI();
+                persistGameData();
+                addTxnRecord('case_win', reward, 'credited');
                 addFeedItem(userName, type === 'common' ? 'обычный кейс' : type === 'rare' ? 'редкий кейс' :
                     'эпический кейс', reward, 'win', '📦');
                 showCaseAnimation(reward, 'Кейс');
@@ -2360,11 +2312,9 @@
                     return;
                 }
                 const reward = Math.floor(Math.random() * 15) + 1;
-                if (!isDemoMode) {
-                    stars += reward;
-                    updateBalanceUI();
-                    addTxnRecord('daily', reward, 'credited');
-                }
+                stars += reward;
+                updateBalanceUI();
+                addTxnRecord('daily', reward, 'credited');
                 lastDailyClaim = now;
                 persistGameData();
                 addFeedItem(userName, 'ежедневный кейс', reward, 'win', '🎁');
@@ -2407,12 +2357,10 @@
                 updatePromoStatus();
                 document.getElementById('promoModal').style.display = 'none';
                 const reward = Math.floor(Math.random() * 251) + 50;
-                if (!isDemoMode) {
-                    stars += reward;
-                    updateBalanceUI();
-                    persistGameData();
-                    addTxnRecord('promo', reward, 'credited');
-                }
+                stars += reward;
+                updateBalanceUI();
+                persistGameData();
+                addTxnRecord('promo', reward, 'credited');
                 addFeedItem(userName, 'промо-кейс', reward, 'win', '🔑');
                 showCaseAnimation(reward, `Промо-кейс (${code})`);
             });
@@ -2428,13 +2376,11 @@
 
             function openLegendaryCase() {
                 if (isBlockedCheck()) return;
-                if (!isDemoMode && stars < 1500) { alert('Недостаточно звёзд!'); return; }
-                if (!isDemoMode) {
-                    stars -= 1500;
-                    updateBalanceUI();
-                    persistGameData();
-                    addTxnRecord('legendary_buy', 1500, 'deducted');
-                }
+                if (stars < 1500) { alert('Недостаточно звёзд!'); return; }
+                stars -= 1500;
+                updateBalanceUI();
+                persistGameData();
+                addTxnRecord('legendary_buy', 1500, 'deducted');
                 const totalWeight = legendaryItems.reduce((sum, item) => sum + item.weight, 0);
                 let rand = Math.random() * totalWeight;
                 let selected = legendaryItems[0];
@@ -2443,11 +2389,9 @@
                     if (rand <= 0) { selected = item; break; }
                 }
                 inventory.push({ ...selected, id: Date.now() + Math.random() });
-                if (!isDemoMode) {
-                    stars += selected.value;
-                    updateBalanceUI();
-                    addTxnRecord('legendary_win', selected.value, 'credited');
-                }
+                stars += selected.value;
+                updateBalanceUI();
+                addTxnRecord('legendary_win', selected.value, 'credited');
                 persistGameData();
                 renderInventory();
                 addFeedItem(userName, 'легендарный кейс', selected.value, 'win', selected.icon);
@@ -2618,10 +2562,7 @@
             drawCaseStatic();
 
             // ============================================================
-            //  ПОПОЛНЕНИЕ ЧЕРЕЗ TELEGRAM STARS (Bot API + WebApp API)
-            //  Два метода:
-            //  1) tg.requestStarPayment (WebApp 7.0+)
-            //  2) Открытие бота для создания инвойса (fallback)
+            //  ПОПОЛНЕНИЕ ЧЕРЕЗ TELEGRAM STARS (только реальное)
             // ============================================================
 
             const profileModal = document.getElementById('profileModal');
@@ -2729,7 +2670,7 @@
                 confirmError.style.display = 'none';
                 confirmSuccess.style.display = 'none';
 
-                // МЕТОД 1: Используем нативный WebApp API для звёзд (Telegram Stars)
+                // Используем нативный WebApp API для звёзд
                 if (tg.requestStarPayment && typeof tg.requestStarPayment === 'function') {
                     try {
                         tg.requestStarPayment({
@@ -2737,7 +2678,6 @@
                             purpose: 'crush_gift_deposit_' + userId,
                             callback: function(result) {
                                 if (result && result.success) {
-                                    // Успешная оплата — звёзды списаны с баланса Telegram
                                     stars += amount;
                                     updateBalanceUI();
                                     persistGameData();
@@ -2775,14 +2715,12 @@
                         fallbackToBotDeposit(amount);
                     }
                 } else {
-                    // МЕТОД 2: Fallback — открываем бота для создания инвойса
+                    // Fallback — открываем бота
                     fallbackToBotDeposit(amount);
                 }
             });
 
             function fallbackToBotDeposit(amount) {
-                // Открываем бота с командой пополнения
-                // Бот должен создать инвойс с currency="XTR" через Bot API
                 const botUsername = 'CrushGiftSpin_bot';
                 const startParam = `deposit_${amount}_${userId}`;
                 tg.openTelegramLink(`https://t.me/${botUsername}?start=${startParam}`);
@@ -2795,26 +2733,6 @@
                 );
             }
 
-            // ——— ТЕСТОВОЕ ПОПОЛНЕНИЕ (демо) ———
-            document.getElementById('testDepositLink').addEventListener('click', () => {
-                const amount = parseInt(depositAmountInput.value);
-                if (!amount || amount <= 0) {
-                    depositError.textContent = '❌ Введите сумму > 0';
-                    depositError.style.display = 'block';
-                    return;
-                }
-                stars += amount;
-                updateBalanceUI();
-                persistGameData();
-                addTxnRecord('deposit_demo', amount, 'test_credited');
-                addFeedItem(userName, 'тест-пополнение', amount, 'deposit', '🧪');
-                depositModal.style.display = 'none';
-                showTxnToast(`🧪 Тестовое пополнение +${amount} ⭐ (демо)`);
-                if (profileModal.style.display === 'flex') {
-                    profileBalance.textContent = `⭐ ${stars}`;
-                }
-            });
-
             // ——— ЗАКРЫТИЕ МОДАЛОК ———
             document.querySelectorAll('.modal').forEach(modal => {
                 modal.addEventListener('click', (e) => {
@@ -2826,7 +2744,7 @@
             });
 
             // ============================================================
-            //  ADMIN (без изменений)
+            //  ADMIN
             // ============================================================
 
             function renderAdminPanel() {
@@ -2933,9 +2851,6 @@
                 }
             };
 
-            // ——— БОТЫ УДАЛЕНЫ ———
-            // Никакой симуляции. Только реальные игроки в фиде.
-
             // ============================================================
             //  INIT
             // ============================================================
@@ -2967,10 +2882,10 @@
                 updateButtonsState();
                 animFrameId = requestAnimationFrame(animationLoop);
                 crashInfo.textContent = state.phase === 'flying' ? '🚀 Раунд идёт...' : 'Ожидание раунда...';
-                console.log('🎁 Crush Gift Spin (TG Stars) загружен — БЕЗ БОТОВ');
+                console.log('🎁 Crush Gift Spin (TG Stars) — реальный режим');
                 console.log('🔄 Синхронизация | Раунд #' + currentRoundId + ' | Crash: x' + currentCrashPoint.toFixed(
                     2));
-                console.log('💳 Пополнение через Telegram Bot API (XTR) готово');
+                console.log('💳 Пополнение через Telegram Stars (XTR)');
             }
 
             init();
