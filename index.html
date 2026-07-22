@@ -1010,7 +1010,7 @@
                 maxSteps = 180;
             const t = Math.min(1, graphPoints.length / maxSteps);
             const x = 28 + t * (w - 56);
-            const y = h - 36 - ((currentMultiplier - 1) / 29) * (h - 52);
+            const y = h - 36 - ((currentMultiplier - 1) / 23) * (h - 12);
             graphPoints.push({ x, y });
             while (graphPoints.length > maxSteps + 5) graphPoints.shift();
             drawGraph();
@@ -1091,7 +1091,7 @@
         function animateCrash() {
             if (!gameRunning) return;
             // Slower growth: reduced from 0.03 to 0.015, and 0.01 to 0.005
-            currentMultiplier += 0.015 + (currentMultiplier - 1) * 0.005;
+            currentMultiplier += 0.001 + (currentMultiplier - 1) * 0.001;
             if (currentMultiplier >= crashPoint || currentMultiplier >= 30) {
                 currentMultiplier = Math.min(crashPoint, 30);
                 addGraphPoint();
