@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VPN — Подписка</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #080a0f;
+  --surface: #0d1117;
+  --border: rgba(255,255,255,0.06);
+  --accent: #4fffb0;
+  --accent2: #00cfff;
+  --text: #e8eaf0;
+  --muted: #4a5568;
+  --card: #111620;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* grid bg */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(79,255,176,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(79,255,176,0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* glow orbs */
+body::after {
+  content: '';
+  position: fixed;
+  width: 600px; height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(79,255,176,0.05) 0%, transparent 70%);
+  top: -200px; right: -200px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.orb2 {
+  position: fixed;
+  width: 400px; height: 400px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0,207,255,0.04) 0%, transparent 70%);
+  bottom: -100px; left: -100px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.wrap {
+  position: relative;
+  z-index: 1;
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 60px 24px 80px;
+}
+
+/* header */
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 72px;
+  animation: fadeUp 0.6s ease both;
+}
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 18px;
+  letter-spacing: -0.5px;
+}
+.logo-icon {
+  width: 32px; height: 32px;
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+}
+.logo-icon svg { width: 16px; height: 16px; stroke: var(--accent); fill: none; stroke-width: 1.5; }
+.status-pill {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 12px;
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 0.5px;
+}
+.status-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent);
+  animation: pulse 2s infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+/* hero */
+.hero {
+  margin-bottom: 56px;
+  animation: fadeUp 0.6s 0.1s ease both;
+}
+.hero-label {
+  font-size: 11px;
+  color: var(--accent);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.hero h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(36px, 8vw, 56px);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -2px;
+  margin-bottom: 20px;
+  color: #fff;
+}
+.hero h1 span {
+  color: var(--accent);
+}
+.hero p {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.8;
+  max-width: 440px;
+  font-weight: 300;
+}
+
+/* apps section */
+.section-label {
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.apps-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 40px;
+  animation: fadeUp 0.6s 0.2s ease both;
+}
+
+.app-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  text-decoration: none;
+  color: var(--text);
+  transition: border-color 0.2s, transform 0.2s;
+  cursor: pointer;
+}
+.app-card:hover {
+  border-color: rgba(79,255,176,0.25);
+  transform: translateY(-2px);
+}
+.app-icon {
+  width: 40px; height: 40px;
+  border-radius: 10px;
+  background: rgba(79,255,176,0.06);
+  border: 1px solid rgba(79,255,176,0.12);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.app-icon svg { width: 20px; height: 20px; }
+.app-info .app-name {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  margin-bottom: 2px;
+  color: #fff;
+}
+.app-info .app-os {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+/* sub block */
+.sub-block {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px;
+  margin-bottom: 40px;
+  animation: fadeUp 0.6s 0.3s ease both;
+}
+.sub-block .sub-title {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  color: #fff;
+  margin-bottom: 6px;
+}
+.sub-block .sub-desc {
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 20px;
+  line-height: 1.7;
+  font-weight: 300;
+}
+.sub-url-row {
+  display: flex;
+  gap: 8px;
+}
+.sub-url {
+  flex: 1;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--accent2);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.copy-btn {
+  padding: 10px 16px;
+  background: rgba(79,255,176,0.08);
+  border: 1px solid rgba(79,255,176,0.2);
+  border-radius: 10px;
+  color: var(--accent);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.2s;
+  display: flex; align-items: center; gap: 6px;
+}
+.copy-btn:hover { background: rgba(79,255,176,0.14); }
+.copy-btn.copied { color: #fff; background: rgba(79,255,176,0.2); }
+
+/* stats */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 40px;
+  animation: fadeUp 0.6s 0.35s ease both;
+}
+.stat-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px 16px;
+  text-align: center;
+}
+.stat-val {
+  font-family: 'Syne', sans-serif;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--accent);
+  letter-spacing: -1px;
+  margin-bottom: 4px;
+}
+.stat-label {
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* instructions */
+.steps {
+  animation: fadeUp 0.6s 0.4s ease both;
+}
+.step-item {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border);
+}
+.step-item:last-child { border-bottom: none; }
+.step-num {
+  width: 28px; height: 28px;
+  border: 1px solid rgba(79,255,176,0.3);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 12px;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+.step-text strong {
+  display: block;
+  color: #fff;
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  margin-bottom: 3px;
+}
+.step-text span {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.7;
+  font-weight: 300;
+}
+
+/* footer */
+footer {
+  margin-top: 60px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--muted);
+  animation: fadeUp 0.6s 0.5s ease both;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 520px) {
+  .apps-grid { grid-template-columns: 1fr; }
+  .stats-row { grid-template-columns: repeat(3,1fr); }
+  .hero h1 { font-size: 36px; letter-spacing: -1px; }
+  header { margin-bottom: 48px; }
+  .stat-val { font-size: 18px; }
+}
+</style>
+</head>
+<body>
+<div class="orb2"></div>
+<div class="wrap">
+
+  <header>
+    <div class="logo">
+      <div class="logo-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+      </div>
+      VPN
+    </div>
+    <div class="status-pill">
+      <div class="status-dot"></div>
+      ONLINE
+    </div>
+  </header>
+
+  <div class="hero">
+    <div class="hero-label">// Subscription page</div>
+    <h1>Твой<br><span>VPN</span><br>готов.</h1>
+    <p>Скопируй ссылку подписки и импортируй в приложение. Обновления конфигов приходят автоматически.</p>
+  </div>
+
+  <div class="section-label">// Ссылка подписки</div>
+  <div class="sub-block">
+    <div class="sub-title">Subscription URL</div>
+    <div class="sub-desc">Используй эту ссылку для импорта в любое совместимое приложение. Не передавай её третьим лицам.</div>
+    <div class="sub-url-row">
+      <div class="sub-url" id="subUrl">{{ subscription_url }}</div>
+      <button class="copy-btn" id="copyBtn" onclick="copyUrl()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        Копировать
+      </button>
+    </div>
+  </div>
+
+  <div class="section-label">// Приложения</div>
+  <div class="apps-grid">
+    <a class="app-card" href="https://apps.apple.com/app/streisand/id6450534064" target="_blank">
+      <div class="app-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg>
+      </div>
+      <div class="app-info">
+        <div class="app-name">Streisand</div>
+        <div class="app-os">iOS / macOS</div>
+      </div>
+    </a>
+    <a class="app-card" href="https://play.google.com/store/apps/details?id=com.v2raytun.android" target="_blank">
+      <div class="app-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent2)" stroke-width="1.5"><path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2z"/><path d="M12 8v8M8 12h8"/></svg>
+      </div>
+      <div class="app-info">
+        <div class="app-name">V2RayTun</div>
+        <div class="app-os">Android</div>
+      </div>
+    </a>
+    <a class="app-card" href="https://github.com/MatsuriDayo/nekoray/releases" target="_blank">
+      <div class="app-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+      </div>
+      <div class="app-info">
+        <div class="app-name">Nekoray</div>
+        <div class="app-os">Windows / Linux</div>
+      </div>
+    </a>
+    <a class="app-card" href="https://apps.apple.com/app/foxray/id6448898396" target="_blank">
+      <div class="app-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent2)" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5"/></svg>
+      </div>
+      <div class="app-info">
+        <div class="app-name">FoXray</div>
+        <div class="app-os">iOS / macOS</div>
+      </div>
+    </a>
+  </div>
+
+  <div class="section-label">// Статус</div>
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-val" id="statExpire">—</div>
+      <div class="stat-label">Дней осталось</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val">{{ used_traffic_gb }} GB</div>
+      <div class="stat-label">Использовано</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val">{{ data_limit_gb }} GB</div>
+      <div class="stat-label">Лимит</div>
+    </div>
+  </div>
+
+  <div class="section-label">// Как подключиться</div>
+  <div class="steps">
+    <div class="step-item">
+      <div class="step-num">01</div>
+      <div class="step-text">
+        <strong>Установи приложение</strong>
+        <span>Выбери подходящее приложение из списка выше для своей платформы</span>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-num">02</div>
+      <div class="step-text">
+        <strong>Скопируй ссылку</strong>
+        <span>Нажми «Копировать» рядом с Subscription URL</span>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-num">03</div>
+      <div class="step-text">
+        <strong>Импортируй подписку</strong>
+        <span>В приложении найди «Добавить подписку» / «Add subscription» и вставь ссылку</span>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-num">04</div>
+      <div class="step-text">
+        <strong>Готово</strong>
+        <span>Выбери сервер из списка и подключайся. Конфиги обновляются автоматически</span>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <span>© 2025 VPN Service</span>
+    <span>{{ username }}</span>
+  </footer>
+
+</div>
+
+<script>
+function copyUrl() {
+  const url = document.getElementById('subUrl').textContent.trim();
+  const btn = document.getElementById('copyBtn');
+  navigator.clipboard.writeText(url).then(() => {
+    btn.classList.add('copied');
+    btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Скопировано';
+    setTimeout(() => {
+      btn.classList.remove('copied');
+      btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Копировать';
+    }, 2500);
+  });
+}
+
+// calculate days left from expire timestamp if available
+const expireEl = document.getElementById('statExpire');
+const expireRaw = '{{ expire_date }}';
+if (expireRaw && expireRaw !== '{{ expire_date }}' && expireRaw !== 'None') {
+  const diff = Math.ceil((new Date(expireRaw) - Date.now()) / 86400000);
+  expireEl.textContent = diff > 0 ? diff : '0';
+} else {
+  expireEl.textContent = '∞';
+}
+</script>
+</body>
+</html>
