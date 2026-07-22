@@ -459,28 +459,28 @@
       padding: 10px 0;
     }
 
-    .bet-controls {
+    /* НОВЫЙ БЛОК УПРАВЛЕНИЯ */
+    .controls-row {
       display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
-      gap: 8px;
+      align-items: flex-end;
+      gap: 12px;
       background: var(--bg-secondary);
       border-radius: var(--radius);
       border: 1px solid var(--border);
       padding: 10px 12px;
       flex-shrink: 0;
-      align-items: flex-end;
+      flex-wrap: wrap;
     }
 
-    .bet-controls .input-group {
+    .controls-row .input-group {
+      flex: 1 1 120px;
       display: flex;
       flex-direction: column;
       gap: 4px;
-      flex: 1 1 80px;
-      min-width: 60px;
+      min-width: 80px;
     }
 
-    .bet-controls .input-group label {
+    .controls-row .input-group label {
       font-size: 10px;
       color: var(--text-secondary);
       font-weight: 600;
@@ -488,7 +488,7 @@
       letter-spacing: 0.4px;
     }
 
-    .bet-controls .input-group input {
+    .controls-row .input-group input {
       background: var(--bg-primary);
       border: 1px solid var(--border);
       border-radius: 8px;
@@ -501,22 +501,29 @@
       transition: border 0.2s;
     }
 
-    .bet-controls .input-group input:focus {
+    .controls-row .input-group input:focus {
       border-color: var(--gold);
     }
 
-    .bet-controls .btn {
+    .controls-row .action-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex: 0 1 auto;
+      min-width: 100px;
+    }
+
+    .controls-row .action-group .btn {
       border: none;
       border-radius: 8px;
-      padding: 8px 14px;
+      padding: 8px 16px;
       font-weight: 700;
       font-size: 13px;
       cursor: pointer;
       color: #fff;
       transition: all 0.15s;
       min-height: 38px;
-      flex: 0 0 auto;
-      min-width: 70px;
+      width: 100%;
       letter-spacing: 0.3px;
     }
 
@@ -524,19 +531,11 @@
     .btn-primary:active { background: #17a84b; transform: scale(0.97); }
     .btn-cancel { background: var(--red); }
     .btn-cancel:active { background: #d43a3a; transform: scale(0.97); }
-    .btn-disabled { background: #3a4055; cursor: not-allowed; opacity: 0.6; }
     .btn-gold { background: var(--gold); color: #0a0e13; }
     .btn-gold:active { background: #dba40a; transform: scale(0.97); }
     .btn-outline { background: transparent; border: 1px solid var(--gold); color: var(--gold); }
     .btn-outline:active { background: var(--gold-dim); }
-
-    .button-row {
-      display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
-      width: 100%;
-      margin-top: 4px;
-    }
+    .btn-disabled { background: #3a4055; cursor: not-allowed; opacity: 0.6; pointer-events: none; }
 
     .case-grid {
       display: flex;
@@ -613,29 +612,6 @@
       font-weight: 600;
       min-height: 30px;
     }
-
-    .stats-container {
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .stats-card {
-      background: var(--bg-secondary);
-      border-radius: var(--radius);
-      padding: 18px;
-      width: 100%;
-      max-width: 300px;
-      border: 1px solid var(--border);
-      text-align: center;
-    }
-
-    .stats-card .stat-label { font-size: 16px; color: var(--gold); font-weight: 600; }
-    .stats-card .stat-balance { font-size: 22px; color: var(--gold); margin: 6px 0; font-weight: 700; }
-    .stats-card .stat-detail { font-size: 14px; color: var(--text-primary); line-height: 1.7; }
-    .stats-card .stat-detail span { color: var(--text-secondary); }
 
     .modal {
       display: none;
@@ -799,6 +775,7 @@
 
     .inv-slot button:active { transform: scale(0.95); }
 
+    /* АДМИН ПАНЕЛЬ — современный стиль */
     .admin-panel {
       padding: 12px;
       background: var(--bg-secondary);
@@ -807,42 +784,175 @@
       border: 1px solid var(--border);
     }
 
-    .admin-panel h3 { color: var(--gold); margin-bottom: 8px; }
-    .admin-panel input, .admin-panel textarea {
+    .admin-panel h3 {
+      color: var(--gold);
+      margin-bottom: 12px;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .admin-panel .search-box {
       width: 100%;
-      padding: 6px;
-      margin: 4px 0;
+      padding: 8px 12px;
       background: var(--bg-primary);
       border: 1px solid var(--border);
+      border-radius: 8px;
       color: var(--text-primary);
-      border-radius: 6px;
+      font-size: 14px;
+      outline: none;
+      margin-bottom: 12px;
+    }
+
+    .admin-panel .search-box:focus {
+      border-color: var(--gold);
+    }
+
+    .admin-user-list {
+      max-height: 300px;
+      overflow-y: auto;
+      margin: 8px 0;
+      border-radius: 8px;
+      background: var(--bg-primary);
+      border: 1px solid var(--border);
     }
 
     .admin-user-item {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 4px;
+      padding: 8px 12px;
       border-bottom: 1px solid var(--border);
+      font-size: 13px;
+      flex-wrap: wrap;
+      gap: 4px;
     }
 
-    .admin-user-item button {
+    .admin-user-item:last-child {
+      border-bottom: none;
+    }
+
+    .admin-user-item .user-info {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .admin-user-item .user-info .badge {
+      background: var(--bg-tertiary);
+      padding: 0 8px;
+      border-radius: 10px;
+      font-size: 10px;
+      color: var(--text-secondary);
+    }
+
+    .admin-user-item .actions {
+      display: flex;
+      gap: 4px;
+      flex-wrap: wrap;
+    }
+
+    .admin-user-item .actions button {
       background: var(--accent-blue);
       border: none;
       border-radius: 4px;
       color: #fff;
-      padding: 4px 8px;
-      font-size: 12px;
-      margin-left: 4px;
+      padding: 2px 8px;
+      font-size: 11px;
       cursor: pointer;
+      transition: 0.1s;
     }
 
-    .admin-user-item button.danger { background: var(--red); }
-    .admin-user-item .bot-badge {
-      background: #555;
-      padding: 1px 6px;
+    .admin-user-item .actions button:active {
+      transform: scale(0.95);
+    }
+
+    .admin-user-item .actions button.danger {
+      background: var(--red);
+    }
+
+    .admin-user-item .actions button.gold {
+      background: var(--gold);
+      color: #0a0e13;
+    }
+
+    .admin-panel .broadcast-area {
+      margin-top: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .admin-panel .broadcast-area textarea {
+      width: 100%;
+      padding: 8px;
+      background: var(--bg-primary);
+      border: 1px solid var(--border);
       border-radius: 8px;
-      font-size: 10px;
+      color: var(--text-primary);
+      resize: vertical;
+      min-height: 60px;
+      font-family: inherit;
+      font-size: 13px;
+    }
+
+    .admin-panel .broadcast-area .btn-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .admin-panel .broadcast-area .btn-row button {
+      flex: 1;
+      padding: 8px;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 13px;
+      cursor: pointer;
+      transition: 0.1s;
+      color: #fff;
+    }
+
+    .admin-panel .broadcast-area .btn-row button:active {
+      transform: scale(0.97);
+    }
+
+    .admin-panel .broadcast-area .btn-row .btn-broadcast {
+      background: var(--accent-blue);
+    }
+
+    .admin-panel .broadcast-area .btn-row .btn-reset {
+      background: var(--red);
+    }
+
+    .admin-stats {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+
+    .admin-stats .stat-card {
+      background: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 14px;
+      flex: 1 1 auto;
+      text-align: center;
+    }
+
+    .admin-stats .stat-card .num {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--gold);
+    }
+
+    .admin-stats .stat-card .label {
+      font-size: 11px;
+      color: var(--text-secondary);
     }
 
     @media (max-width: 460px) {
@@ -861,10 +971,10 @@
       .auto-bar .protection-tag { font-size: 10px; padding: 1px 8px; }
       .auto-bar .demo-tag { font-size: 10px; padding: 1px 8px; }
       .tab-btn { font-size: 11px; padding: 8px 4px; }
-      .bet-controls { padding: 8px 10px; gap: 6px; }
-      .bet-controls .input-group { flex: 1 1 60px; min-width: 50px; }
-      .bet-controls .input-group input { font-size: 14px; padding: 6px 8px; min-height: 32px; }
-      .bet-controls .btn { font-size: 11px; padding: 6px 10px; min-height: 32px; min-width: 60px; }
+      .controls-row { padding: 8px 10px; gap: 8px; flex-direction: column; align-items: stretch; }
+      .controls-row .input-group { flex: 1 1 auto; }
+      .controls-row .action-group { flex: 1 1 auto; }
+      .controls-row .action-group .btn { font-size: 12px; padding: 8px; }
       canvas#crashCanvas { max-width: 220px; }
       .feed-item { font-size: 11px; padding: 2px 4px; }
       .feed-item .fi-name { max-width: 50px; font-size: 11px; }
@@ -879,6 +989,8 @@
       .live-feed { min-height: 55px; max-height: 110px; }
       .modal-content { padding: 16px; max-width: 300px; }
       .modal-content .modal-title { font-size: 16px; }
+      .admin-user-item { font-size: 12px; padding: 6px 8px; }
+      .admin-user-item .actions button { font-size: 10px; padding: 1px 6px; }
     }
   </style>
 </head>
@@ -911,7 +1023,6 @@
     <button class="tab-btn active" data-tab="crash">📈 Crash</button>
     <button class="tab-btn" data-tab="cases">📦 Кейсы</button>
     <button class="tab-btn" data-tab="inventory">🎒 Инвентарь</button>
-    <button class="tab-btn" data-tab="stats">📊 Статистика</button>
     <button class="tab-btn" id="adminTabBtn" style="display:none;" data-tab="admin">🛡️ Админ</button>
   </div>
 
@@ -922,19 +1033,14 @@
       </div>
       <div class="info-text" id="crashInfo">Ожидание раунда...</div>
 
-      <div class="bet-controls">
+      <!-- НОВЫЙ БЛОК УПРАВЛЕНИЯ -->
+      <div class="controls-row">
         <div class="input-group">
-          <label>Ставка ⭐</label>
+          <label for="betInput">Сумма ставки ⭐</label>
           <input type="number" id="betInput" placeholder="0" min="1" step="1">
         </div>
-        <div class="input-group">
-          <label>Авто-вывод x</label>
-          <input type="number" id="autoInput" placeholder="x" min="1.01" max="30" step="0.01">
-        </div>
-        <div class="button-row">
-          <button class="btn btn-primary" id="placeBetBtn">Поставить</button>
-          <button class="btn btn-cancel" id="cancelBetBtn" disabled>Отменить</button>
-          <button class="btn btn-outline" id="withdrawBtn" disabled>Вывести</button>
+        <div class="action-group">
+          <button class="btn btn-primary" id="mainActionBtn">Поставить</button>
         </div>
       </div>
 
@@ -1002,16 +1108,6 @@
     </div>
     <div class="inventory-grid" id="inventoryGrid">
       <div class="empty-feed">Инвентарь пуст</div>
-    </div>
-  </div>
-
-  <div class="tab-content" id="statsTab">
-    <div class="stats-container">
-      <div class="stats-card">
-        <div class="stat-label">📊 Статистика</div>
-        <div class="stat-balance" id="statsBalance">⭐ 0</div>
-        <div class="stat-detail" id="statsText"></div>
-      </div>
     </div>
   </div>
 
@@ -1108,32 +1204,7 @@
         localStorage.setItem(ALL_USERS_KEY, JSON.stringify(users));
       }
 
-      function seedFakeUsersIfNeeded() {
-        let all = loadAllUsers();
-        if (all.filter(u => u.isBot).length < 5) {
-          const fakeNames = ['Player1', 'Player2', 'Player3', 'Player4', 'Player5'];
-          fakeNames.forEach(name => {
-            if (!all.find(u => u.id === 'bot_' + name)) {
-              all.push({
-                id: 'bot_' + name,
-                name: name,
-                blocked: false,
-                stars: 500 + Math.floor(Math.random() * 2000),
-                isBot: true,
-                history: [],
-                totalGames: 0,
-                totalWins: 0,
-                totalLosses: 0,
-                lastDailyClaim: 0,
-                usedPromoCodes: [],
-                inventory: []
-              });
-            }
-          });
-          saveAllUsers(all);
-        }
-      }
-      seedFakeUsersIfNeeded();
+      // Удаляем ботов – больше не создаём
 
       function getCurrentUserData() {
         let all = loadAllUsers();
@@ -1223,9 +1294,7 @@
       const autoInput = document.getElementById('autoInput');
       const autoDisplay = document.getElementById('autoDisplay');
       const protectionTag = document.getElementById('protectionTag');
-      const placeBetBtn = document.getElementById('placeBetBtn');
-      const cancelBetBtn = document.getElementById('cancelBetBtn');
-      const withdrawBtn = document.getElementById('withdrawBtn');
+      const mainActionBtn = document.getElementById('mainActionBtn');
       const feedList = document.getElementById('feedList');
 
       let feedItems = [];
@@ -1297,21 +1366,7 @@
         feedList.innerHTML = html;
       }
 
-      function simulateOtherPlayers() {
-        const all = loadAllUsers();
-        const otherUsers = all.filter(u => u.id !== userId && !u.blocked);
-        if (otherUsers.length === 0) return;
-        const randomUser = otherUsers[Math.floor(Math.random() * otherUsers.length)];
-        const isWin = Math.random() < 0.55;
-        const betAmount = 10 + Math.floor(Math.random() * 200);
-        const mult = 1.2 + Math.random() * 4;
-        if (isWin) {
-          addFeedItem(randomUser.name, 'выиграл', Math.floor(betAmount * mult), 'win', '🏆');
-        } else {
-          addFeedItem(randomUser.name, 'проиграл', betAmount, 'loss', '💥');
-        }
-      }
-      setInterval(simulateOtherPlayers, 3000 + Math.random() * 4000);
+      // Убираем симуляцию ботов — функция удалена
 
       // ---------------------------- CRASH GAME WITH FLYING STAR ----------------------------
       let gameRunning = false,
@@ -1370,28 +1425,28 @@
         ctx.fillRect(0, 0, w, h);
 
         const pos = mapMultiplierToPosition(currentMultiplier);
-        const trailLength = 20;
+        const trailLength = 25;
         for (let i = trailLength; i >= 0; i--) {
           const t = i / trailLength;
-          const mult = currentMultiplier - t * 0.15;
+          const mult = currentMultiplier - t * 0.12;
           if (mult < 1) continue;
           const tp = mapMultiplierToPosition(mult);
           ctx.save();
-          ctx.globalAlpha = 0.15 + t * 0.5;
-          ctx.font = `${12 + t * 4}px "Segoe UI"`;
+          ctx.globalAlpha = 0.1 + t * 0.5;
+          ctx.font = `${10 + t * 6}px "Segoe UI"`;
           ctx.fillStyle = '#f0b90b';
           ctx.shadowColor = '#f0b90b';
-          ctx.shadowBlur = 6;
+          ctx.shadowBlur = 10;
           ctx.fillText('⭐', tp.x - 6, tp.y + 6);
           ctx.restore();
         }
 
         ctx.save();
         ctx.shadowColor = '#ffaa00';
-        ctx.shadowBlur = 20;
-        ctx.font = 'bold 40px "Segoe UI"';
+        ctx.shadowBlur = 30;
+        ctx.font = 'bold 44px "Segoe UI"';
         ctx.fillStyle = '#ffd700';
-        ctx.fillText('⭐', pos.x - 12, pos.y + 14);
+        ctx.fillText('⭐', pos.x - 14, pos.y + 16);
         ctx.restore();
 
         ctx.font = 'bold 24px "Segoe UI"';
@@ -1407,16 +1462,53 @@
       function updateButtonsState() {
         const isGameActive = gameRunning && activeBet;
         const hasPending = !!pendingBet;
-        placeBetBtn.disabled = gameRunning || hasPending || currentUser.blocked;
-        cancelBetBtn.disabled = !hasPending;
-        withdrawBtn.disabled = !isGameActive;
-        if (isGameActive) {
-          withdrawBtn.textContent = `💰 Вывести (${Math.floor(activeBet.amount * currentMultiplier)} ⭐)`;
+        const isBlocked = currentUser.blocked;
+
+        let btnText = '';
+        let disabled = false;
+        let action = null;
+
+        if (isBlocked) {
+          btnText = '🚫 Заблокирован';
+          disabled = true;
+        } else if (!gameRunning) {
+          // Игра не идёт – можно поставить
+          btnText = 'Поставить';
+          disabled = false;
+          action = placeBet;
         } else {
-          withdrawBtn.textContent = '💰 Вывести';
+          // Игра идёт
+          if (activeBet) {
+            btnText = 'Вывести';
+            disabled = false;
+            action = manualWithdraw;
+          } else if (pendingBet) {
+            btnText = 'Отменить';
+            disabled = false;
+            action = cancelBet;
+          } else {
+            btnText = 'Запланировать';
+            disabled = false;
+            action = placeBet;
+          }
         }
-        betInput.disabled = gameRunning || hasPending || currentUser.blocked;
-        autoInput.disabled = gameRunning || hasPending || currentUser.blocked;
+
+        mainActionBtn.textContent = btnText;
+        mainActionBtn.disabled = disabled;
+        // Удаляем старые обработчики, чтобы не накапливались
+        mainActionBtn.onclick = action ? (e) => { if (action) action(); } : null;
+        if (disabled) {
+          mainActionBtn.classList.add('btn-disabled');
+        } else {
+          mainActionBtn.classList.remove('btn-disabled');
+        }
+
+        betInput.disabled = gameRunning || hasPending || isBlocked;
+        autoInput.disabled = gameRunning || hasPending || isBlocked;
+        // Скрываем старые кнопки, они не используются
+        document.getElementById('cancelBetBtn') && (document.getElementById('cancelBetBtn').style.display = 'none');
+        document.getElementById('withdrawBtn') && (document.getElementById('withdrawBtn').style.display = 'none');
+        document.getElementById('placeBetBtn') && (document.getElementById('placeBetBtn').style.display = 'none');
       }
 
       function startBreak() {
@@ -1592,10 +1684,6 @@
         setTimeout(() => { if (!gameRunning) { crashInfo.textContent = 'Ожидание раунда...'; crashInfo.className = 'info-text'; } }, 1500);
       }
 
-      placeBetBtn.addEventListener('click', () => { if (!gameRunning && !pendingBet) placeBet(); });
-      cancelBetBtn.addEventListener('click', () => { if (pendingBet && !gameRunning) cancelBet(); });
-      withdrawBtn.addEventListener('click', () => { if (gameRunning && activeBet) manualWithdraw(); });
-
       // ---------- TOP WINS UI ----------
       function updateTopWinsUI() {
         const list = document.getElementById('topWinsList');
@@ -1609,7 +1697,6 @@
 
       function updateBalanceUI() {
         balanceDisplay.textContent = `⭐ ${stars}`;
-        document.getElementById('statsBalance').textContent = `⭐ ${stars}`;
       }
 
       // ---------- CASES ----------
@@ -1690,7 +1777,7 @@
         showCaseAnimation(reward, `Промо-кейс (${code})`);
       });
 
-      // ---------- LEGENDARY CASE (новые предметы) ----------
+      // ---------- LEGENDARY CASE ----------
       const legendaryItems = [
         { name: 'Ракета', icon: '🚀', value: 50, weight: 1/50 },
         { name: 'Кубок', icon: '🏆', value: 100, weight: 1/100 },
@@ -1826,7 +1913,6 @@
           document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
           btn.classList.add('active');
           document.getElementById(btn.dataset.tab + 'Tab').classList.add('active');
-          if (btn.dataset.tab === 'stats') updateStatsUI();
           if (btn.dataset.tab === 'cases') drawCaseStatic();
           if (btn.dataset.tab === 'inventory') renderInventory();
           if (btn.dataset.tab === 'admin') renderAdminPanel();
@@ -1843,17 +1929,6 @@
         caseCtx.fillText('Выберите кейс ниже', w/2, h/2 + 44);
       }
       drawCaseStatic();
-
-      function updateStatsUI() {
-        const winRate = totalGames > 0 ? ((totalWins / totalGames) * 100).toFixed(1) : 0;
-        document.getElementById('statsText').innerHTML = `
-          🎮 Всего игр: <strong>${totalGames}</strong><br>
-          🏆 Выигрышей: <strong>${totalWins}</strong><br>
-          💥 Проигрышей: <strong>${totalLosses}</strong><br>
-          📈 Процент побед: <strong>${winRate}%</strong><br>
-          ⭐ Баланс: <strong>${stars}</strong>
-        `;
-      }
 
       // ---------- ПРОФИЛЬ ----------
       const profileModal = document.getElementById('profileModal');
@@ -1906,41 +1981,60 @@
         alert(`✅ Заявка на вывод ${amount} ⭐ отправлена.`);
       });
 
-      // ---------- АДМИН-ПАНЕЛЬ (исправлена) ----------
+      // ---------- АДМИН-ПАНЕЛЬ (исправлена, без ботов) ----------
       function renderAdminPanel() {
         if (!isAdmin) return;
         const panel = document.getElementById('adminPanel');
-        const all = loadAllUsers();
+        let all = loadAllUsers();
+        // Фильтруем только реальных пользователей (не ботов)
+        all = all.filter(u => !u.isBot);
         const searchTerm = document.getElementById('adminSearch')?.value?.toLowerCase() || '';
         const filtered = all.filter(u =>
           u.name.toLowerCase().includes(searchTerm) || u.id.includes(searchTerm)
         );
+
+        const totalUsers = all.length;
+        const totalStars = all.reduce((sum, u) => sum + (u.stars || 0), 0);
+
         let html = `
           <h3>🛡️ Админ-панель</h3>
-          <input type="text" id="adminSearch" placeholder="Поиск по нику или ID" value="${searchTerm}" oninput="renderAdminPanel()">
-          <div style="max-height:300px; overflow-y:auto; margin:8px 0;">
+          <div class="admin-stats">
+            <div class="stat-card"><span class="num">${totalUsers}</span> <span class="label">пользователей</span></div>
+            <div class="stat-card"><span class="num">⭐${totalStars}</span> <span class="label">всего звёзд</span></div>
+          </div>
+          <input type="text" id="adminSearch" class="search-box" placeholder="Поиск по нику или ID" value="${searchTerm}" oninput="renderAdminPanel()">
+          <div class="admin-user-list">
         `;
-        filtered.forEach(u => {
-          const blockedTag = u.blocked ? ' 🚫' : '';
-          const botTag = u.isBot ? ' <span class="bot-badge">бот</span>' : '';
-          html += `
-            <div class="admin-user-item">
-              <span>${u.name} (${u.id}) ${blockedTag}${botTag} ⭐${u.stars}</span>
-              <div>
-                <button onclick="adminGiveStars('${u.id}')">⭐ Выдать</button>
-                <button onclick="adminBlockUser('${u.id}')">${u.blocked ? '🔓 Разблок.' : '🚫 Блок'}</button>
-                <button onclick="adminWriteUser('${u.id}')">💬 Написать</button>
+        if (filtered.length === 0) {
+          html += '<div class="empty-feed">Пользователи не найдены</div>';
+        } else {
+          filtered.forEach(u => {
+            const blockedTag = u.blocked ? ' 🚫' : '';
+            html += `
+              <div class="admin-user-item">
+                <div class="user-info">
+                  <span>${u.name}</span>
+                  <span class="badge">${u.id}</span>
+                  ${blockedTag}
+                  <span class="badge">⭐${u.stars}</span>
+                </div>
+                <div class="actions">
+                  <button class="gold" onclick="adminGiveStars('${u.id}')">⭐ Выдать</button>
+                  <button onclick="adminBlockUser('${u.id}')" class="${u.blocked ? '' : 'danger'}">${u.blocked ? '🔓 Разблок.' : '🚫 Блок'}</button>
+                  <button onclick="adminWriteUser('${u.id}')">💬 Написать</button>
+                </div>
               </div>
-            </div>
-          `;
-        });
-        if (!filtered.length) html += '<div class="empty-feed">Пользователи не найдены</div>';
+            `;
+          });
+        }
         html += `
           </div>
-          <div style="margin-top:12px;">
-            <textarea id="broadcastMsg" placeholder="Текст рассылки" rows="3"></textarea>
-            <button onclick="adminBroadcast()">📢 Разослать всем</button>
-            <button class="danger" onclick="adminResetGame()" style="margin-top:8px; background:var(--red); border:none; padding:6px 12px; border-radius:4px; color:white;">🔥 Обнулить игру</button>
+          <div class="broadcast-area">
+            <textarea id="broadcastMsg" placeholder="Текст рассылки (получат все пользователи)"></textarea>
+            <div class="btn-row">
+              <button class="btn-broadcast" onclick="adminBroadcast()">📢 Разослать</button>
+              <button class="btn-reset" onclick="adminResetGame()">🔥 Обнулить игру</button>
+            </div>
           </div>
         `;
         panel.innerHTML = html;
@@ -1985,7 +2079,7 @@
         const msg = document.getElementById('broadcastMsg')?.value.trim();
         if (!msg) return;
         localStorage.setItem(BROADCAST_KEY, msg);
-        alert('Рассылка сохранена.');
+        alert('✅ Рассылка сохранена. Все пользователи увидят её при следующем входе.');
       };
 
       window.adminResetGame = function() {
@@ -1995,8 +2089,6 @@
         }
       };
 
-      document.getElementById('adminTabBtn').addEventListener('click', renderAdminPanel);
-
       // ---------- INIT ----------
       updateBalanceUI();
       updatePromoStatus();
@@ -2005,7 +2097,7 @@
       drawFlyingStar(performance.now());
       startBreak();
 
-      console.log('🎁 Gift Spinner loaded!');
+      console.log('🎁 Gift Spinner loaded (no bots, improved UI)');
     })();
   </script>
 </body>
