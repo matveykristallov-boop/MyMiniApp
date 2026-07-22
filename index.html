@@ -120,7 +120,7 @@
     const STORAGE_KEY = (key) => `crash_${userId}_${key}`;
 
     function loadData() {
-      const defaults = { stars: 1, history: [], winHistory: [], totalGames: 0, totalWins: 0, totalLosses: 0 };
+      const defaults = { stars: 1000, history: [], winHistory: [], totalGames: 0, totalWins: 0, totalLosses: 0 };
       try {
         const raw = localStorage.getItem(STORAGE_KEY('data'));
         if (raw) return { ...defaults, ...JSON.parse(raw) };
