@@ -3,49 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Crush Gift Spin | MiniApp</title>
+    <title>Crush Gift Spin</title>
     <style>
-        :root {
-            --bg-body: #f5f6f8;
-            --bg-card: #ffffff;
-            --bg-card-hover: #fafbfc;
-            --bg-elevated: #ffffff;
-            --bg-input: #f0f1f4;
-            --bg-overlay: rgba(20, 22, 30, 0.55);
-            --border: #e2e5ea;
-            --border-light: #eef0f3;
-            --border-focus: #c9cdd4;
-            --text-primary: #1a1d26;
-            --text-secondary: #6b7280;
-            --text-muted: #9ca3af;
-            --gold: #e8a817;
-            --gold-bright: #f5b922;
-            --gold-dim: rgba(232, 168, 23, 0.08);
-            --green: #10b981;
-            --green-bg: rgba(16, 185, 129, 0.07);
-            --red: #ef4444;
-            --red-bg: rgba(239, 68, 68, 0.07);
-            --accent-blue: #4f7df3;
-            --accent-blue-bg: rgba(79, 125, 243, 0.07);
-            --purple: #8b5cf6;
-            --orange: #f9733e;
-            --radius: 18px;
-            --radius-sm: 12px;
-            --radius-xs: 8px;
-            --font-mono: 'SF Mono', 'Cascadia Code', 'Consolas', 'JetBrains Mono', monospace;
-            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
-            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.06);
-            --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.10);
-            --shadow-xl: 0 14px 40px rgba(0, 0, 0, 0.14);
-        }
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+        :root {
+            --bg-deep: #06090f;
+            --bg-primary: #0b1018;
+            --bg-secondary: #111827;
+            --bg-tertiary: #1a2235;
+            --border: #1f2a3d;
+            --border-light: #2a374d;
+            --text-primary: #e9eef5;
+            --text-secondary: #8895b5;
+            --gold: #f0b90b;
+            --gold-bright: #fcd535;
+            --gold-dim: rgba(240, 185, 11, 0.1);
+            --green: #16c95a;
+            --green-bg: rgba(22, 201, 90, 0.1);
+            --red: #f44250;
+            --red-bg: rgba(244, 66, 80, 0.1);
+            --accent-blue: #4a7cf7;
+            --accent-blue-bg: rgba(74, 124, 247, 0.1);
+            --purple: #b388ff;
+            --orange: #ff6b35;
+            --radius: 16px;
+            --radius-sm: 10px;
+            --radius-xs: 7px;
+            --font-mono: 'SF Mono', 'Cascadia Code', 'Consolas', monospace;
+        }
         body {
-            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Inter', sans-serif;
-            background: var(--bg-body);
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+            background: var(--bg-deep);
             color: var(--text-primary);
             display: flex;
             flex-direction: column;
@@ -54,20 +46,19 @@
             user-select: none;
             -webkit-tap-highlight-color: transparent;
             -webkit-font-smoothing: antialiased;
-            letter-spacing: -0.01em;
         }
         ::-webkit-scrollbar {
-            width: 3px;
+            width: 2px;
         }
         ::-webkit-scrollbar-thumb {
-            background: #d1d5db;
-            border-radius: 10px;
+            background: var(--border-light);
+            border-radius: 4px;
         }
         ::-webkit-scrollbar-track {
             background: transparent;
         }
         .header {
-            background: var(--bg-card);
+            background: var(--bg-secondary);
             border-bottom: 1px solid var(--border);
             padding: 10px 16px;
             display: flex;
@@ -76,8 +67,8 @@
             flex-shrink: 0;
             min-height: 52px;
             gap: 8px;
-            box-shadow: var(--shadow-sm);
-            z-index: 10;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
         }
         .header-left {
             display: flex;
@@ -89,7 +80,7 @@
         .header-logo {
             font-weight: 800;
             font-size: 15px;
-            background: linear-gradient(135deg, #e8a817, #f5b922, #e8a817);
+            background: linear-gradient(135deg, #f0b90b, #fcd535, #f0b90b);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             white-space: nowrap;
@@ -98,9 +89,9 @@
         .header-logo small {
             font-weight: 400;
             font-size: 10px;
-            -webkit-text-fill-color: var(--text-muted);
+            -webkit-text-fill-color: var(--text-secondary);
             background: none;
-            color: var(--text-muted);
+            color: var(--text-secondary);
             margin-left: 3px;
         }
         .header-right {
@@ -111,13 +102,13 @@
         }
         .balance-pill {
             background: var(--gold-dim);
-            color: #b8860b;
+            color: var(--gold-bright);
             padding: 5px 14px;
             border-radius: 24px;
             font-weight: 700;
             font-size: 14px;
             white-space: nowrap;
-            border: 1px solid rgba(232, 168, 23, 0.2);
+            border: 1px solid rgba(240, 185, 11, 0.18);
             letter-spacing: 0.2px;
         }
         .avatar-sm {
@@ -134,7 +125,7 @@
             flex-shrink: 0;
             cursor: pointer;
             transition: transform 0.15s;
-            box-shadow: 0 0 0 3px rgba(79, 125, 243, 0.15);
+            box-shadow: 0 0 0 2px rgba(74, 124, 247, 0.25);
         }
         .avatar-sm:active {
             transform: scale(0.9);
@@ -149,16 +140,17 @@
             cursor: pointer;
             font-weight: 500;
         }
+        .user-name-sm:active {
+            opacity: 0.7;
+        }
         .tabs {
             display: flex;
-            background: var(--bg-card);
+            background: var(--bg-secondary);
             border-bottom: 1px solid var(--border);
             flex-shrink: 0;
             padding: 0 2px;
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
-            box-shadow: var(--shadow-sm);
-            z-index: 9;
         }
         .tab-btn {
             flex: 1 0 auto;
@@ -178,9 +170,9 @@
             min-width: fit-content;
         }
         .tab-btn.active {
-            color: #b8860b;
+            color: var(--gold-bright);
             border-bottom-color: var(--gold);
-            background: rgba(232, 168, 23, 0.03);
+            background: rgba(240, 185, 11, 0.03);
         }
         .tab-btn:active {
             opacity: 0.5;
@@ -188,7 +180,7 @@
         .tab-content {
             flex: 1;
             overflow-y: auto;
-            background: var(--bg-body);
+            background: var(--bg-primary);
             display: none;
             flex-direction: column;
         }
@@ -210,13 +202,12 @@
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
-            padding: 6px 0;
+            padding: 4px 0;
             position: relative;
-            background: var(--bg-card);
+            background: var(--bg-secondary);
             border-radius: var(--radius);
             border: 1px solid var(--border);
             overflow: hidden;
-            box-shadow: var(--shadow-md);
         }
         canvas#crashCanvas {
             width: 100%;
@@ -246,7 +237,7 @@
             color: var(--accent-blue);
         }
         .auto-bar {
-            background: var(--bg-card);
+            background: var(--bg-secondary);
             padding: 7px 12px;
             display: flex;
             align-items: center;
@@ -255,11 +246,10 @@
             border-radius: var(--radius-sm);
             border: 1px solid var(--border);
             flex-wrap: wrap;
-            box-shadow: var(--shadow-sm);
         }
         .auto-bar .label {
             font-size: 10px;
-            color: var(--text-muted);
+            color: var(--text-secondary);
             font-weight: 600;
             letter-spacing: 0.4px;
             text-transform: uppercase;
@@ -267,17 +257,17 @@
         .auto-bar .auto-value {
             font-size: 13px;
             font-weight: 700;
-            color: #b8860b;
+            color: var(--gold-bright);
             background: var(--gold-dim);
             padding: 2px 10px;
             border-radius: 14px;
-            border: 1px solid rgba(232, 168, 23, 0.18);
+            border: 1px solid rgba(240, 185, 11, 0.15);
             font-family: var(--font-mono);
         }
         .auto-bar .protection-tag {
             font-size: 10px;
             color: var(--text-secondary);
-            background: #f0f1f4;
+            background: var(--bg-tertiary);
             padding: 3px 10px;
             border-radius: 14px;
             border: 1px solid var(--border);
@@ -288,13 +278,13 @@
         }
         .auto-bar .protection-tag.active {
             border-color: var(--gold);
-            color: #b8860b;
+            color: var(--gold-bright);
             background: var(--gold-dim);
         }
         .auto-bar .demo-tag {
             font-size: 10px;
             color: var(--text-secondary);
-            background: #f0f1f4;
+            background: var(--bg-tertiary);
             padding: 3px 10px;
             border-radius: 14px;
             border: 1px solid var(--border);
@@ -305,21 +295,20 @@
             margin-left: auto;
         }
         .auto-bar .demo-tag.active-demo {
-            border-color: var(--gold);
-            color: #b8860b;
-            background: var(--gold-dim);
+            border-color: #f0b90b;
+            color: #f0b90b;
+            background: rgba(240, 185, 11, 0.08);
         }
         .controls-row {
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
-            background: var(--bg-card);
+            background: var(--bg-secondary);
             border-radius: var(--radius);
             border: 1px solid var(--border);
             padding: 10px 12px;
             flex-shrink: 0;
             align-items: flex-end;
-            box-shadow: var(--shadow-sm);
         }
         .controls-row .input-group {
             display: flex;
@@ -330,36 +319,31 @@
         }
         .controls-row .input-group label {
             font-size: 9px;
-            color: var(--text-muted);
+            color: var(--text-secondary);
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
         .controls-row .input-group input {
-            background: var(--bg-input);
-            border: 1.5px solid var(--border);
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
             border-radius: var(--radius-xs);
-            padding: 8px 8px;
+            padding: 7px 6px;
             color: var(--text-primary);
-            font-size: 15px;
+            font-size: 14px;
             outline: none;
             width: 100%;
-            min-height: 40px;
-            transition: border 0.2s, box-shadow 0.2s;
+            min-height: 36px;
+            transition: border 0.2s;
             font-weight: 500;
-            -webkit-appearance: none;
-            appearance: none;
-            caret-color: var(--gold);
         }
         .controls-row .input-group input:focus {
             border-color: var(--gold);
-            box-shadow: 0 0 0 3px rgba(232, 168, 23, 0.1);
-            background: #fff;
+            box-shadow: 0 0 0 2px rgba(240, 185, 11, 0.08);
         }
         .controls-row .input-group input:disabled {
-            opacity: 0.4;
+            opacity: 0.35;
             cursor: not-allowed;
-            background: #e8eaef;
         }
         .controls-row .button-group {
             display: flex;
@@ -371,54 +355,52 @@
         .btn {
             border: none;
             border-radius: var(--radius-xs);
-            padding: 10px 16px;
+            padding: 9px 16px;
             font-weight: 700;
             font-size: 13px;
             cursor: pointer;
             color: #fff;
             transition: all 0.15s;
-            min-height: 40px;
+            min-height: 36px;
             min-width: 70px;
             letter-spacing: 0.3px;
             white-space: nowrap;
             position: relative;
             overflow: hidden;
-            box-shadow: var(--shadow-sm);
         }
         .btn:active {
             transform: scale(0.96);
-            filter: brightness(0.88);
+            filter: brightness(0.85);
         }
         .btn-primary {
             background: var(--green);
-            box-shadow: 0 2px 12px rgba(16, 185, 129, 0.2);
+            box-shadow: 0 2px 12px rgba(22, 201, 90, 0.25);
         }
         .btn-gold {
-            background: linear-gradient(135deg, #e8a817, #d4940f);
-            color: #fff;
-            box-shadow: 0 2px 14px rgba(232, 168, 23, 0.25);
+            background: linear-gradient(135deg, #f0b90b, #e8a800);
+            color: #0a0e13;
+            box-shadow: 0 2px 14px rgba(240, 185, 11, 0.3);
             font-weight: 800;
         }
         .btn-accent {
             background: var(--accent-blue);
-            box-shadow: 0 2px 12px rgba(79, 125, 243, 0.2);
+            box-shadow: 0 2px 12px rgba(74, 124, 247, 0.25);
         }
         .btn-outline {
             background: transparent;
             border: 1.5px solid var(--gold);
-            color: #b8860b;
+            color: var(--gold-bright);
         }
         .btn-cancel {
             background: var(--red);
-            box-shadow: 0 2px 10px rgba(239, 68, 68, 0.18);
+            box-shadow: 0 2px 10px rgba(244, 66, 80, 0.2);
         }
         .btn-disabled {
-            background: #cbd5e1;
+            background: #2a3345;
             cursor: not-allowed;
-            opacity: 0.55;
+            opacity: 0.5;
             pointer-events: none;
             box-shadow: none;
-            color: #94a3b8;
         }
         .btn-scheduled-indicator {
             background: var(--accent-blue-bg);
@@ -432,8 +414,13 @@
             white-space: nowrap;
             transition: all 0.15s;
         }
+        .btn-scheduled-indicator:active {
+            background: rgba(244, 66, 80, 0.15);
+            border-color: var(--red);
+            color: var(--red);
+        }
         .crash-history-bar {
-            background: var(--bg-card);
+            background: var(--bg-secondary);
             padding: 7px 12px;
             display: flex;
             align-items: center;
@@ -443,11 +430,10 @@
             border: 1px solid var(--border);
             overflow-x: auto;
             flex-wrap: nowrap;
-            box-shadow: var(--shadow-sm);
         }
         .crash-history-bar .hist-label {
             font-size: 10px;
-            color: var(--text-muted);
+            color: var(--text-secondary);
             font-weight: 600;
             white-space: nowrap;
             letter-spacing: 0.4px;
@@ -459,7 +445,7 @@
             flex-wrap: nowrap;
         }
         .hist-chip {
-            padding: 3px 10px;
+            padding: 2px 9px;
             border-radius: 16px;
             font-size: 12px;
             font-weight: 700;
@@ -468,30 +454,30 @@
             border: 1px solid transparent;
         }
         .hist-chip.low {
-            background: rgba(79, 125, 243, 0.08);
-            color: #4f7df3;
-            border-color: rgba(79, 125, 243, 0.15);
+            background: rgba(74, 124, 247, 0.12);
+            color: #7ba4ff;
+            border-color: rgba(74, 124, 247, 0.2);
         }
         .hist-chip.mid {
-            background: rgba(16, 185, 129, 0.08);
-            color: #10b981;
-            border-color: rgba(16, 185, 129, 0.15);
+            background: rgba(22, 201, 90, 0.12);
+            color: #3ddb78;
+            border-color: rgba(22, 201, 90, 0.2);
         }
         .hist-chip.high {
-            background: rgba(232, 168, 23, 0.1);
-            color: #b8860b;
-            border-color: rgba(232, 168, 23, 0.2);
+            background: rgba(240, 185, 11, 0.15);
+            color: #fcd535;
+            border-color: rgba(240, 185, 11, 0.25);
         }
         .hist-chip.crash {
-            background: rgba(239, 68, 68, 0.08);
-            color: #ef4444;
-            border-color: rgba(239, 68, 68, 0.15);
+            background: rgba(244, 66, 80, 0.12);
+            color: #ff6b75;
+            border-color: rgba(244, 66, 80, 0.2);
         }
         .live-feed {
             flex: 1;
             min-height: 60px;
             max-height: 130px;
-            background: var(--bg-card);
+            background: var(--bg-secondary);
             border-radius: var(--radius);
             border: 1px solid var(--border);
             padding: 6px 8px;
@@ -499,14 +485,13 @@
             display: flex;
             flex-direction: column;
             margin-top: 1px;
-            box-shadow: var(--shadow-sm);
         }
         .live-feed-header {
             font-size: 10px;
-            color: var(--text-muted);
+            color: var(--text-secondary);
             font-weight: 700;
             padding-bottom: 5px;
-            border-bottom: 1px solid var(--border-light);
+            border-bottom: 1px solid var(--border);
             flex-shrink: 0;
             display: flex;
             align-items: center;
@@ -550,6 +535,7 @@
             border-radius: 6px;
             animation: feedIn 0.2s ease;
             flex-shrink: 0;
+            background: rgba(255, 255, 255, 0.01);
         }
         .feed-item .fi-avatar {
             width: 18px;
@@ -573,7 +559,7 @@
             font-size: 11px;
         }
         .feed-item .fi-action {
-            color: var(--text-muted);
+            color: var(--text-secondary);
             font-size: 10px;
             white-space: nowrap;
         }
@@ -591,7 +577,7 @@
             color: var(--red);
         }
         .feed-item .fi-amount.bet {
-            color: var(--text-muted);
+            color: var(--text-secondary);
         }
         @keyframes feedIn {
             from {
@@ -604,7 +590,7 @@
             }
         }
         .empty-feed {
-            color: var(--text-muted);
+            color: var(--text-secondary);
             font-size: 11px;
             text-align: center;
             padding: 10px 0;
@@ -622,7 +608,7 @@
             padding: 4px 0;
         }
         .case-card {
-            background: var(--bg-card);
+            background: var(--bg-secondary);
             border: 1.5px solid var(--border);
             border-radius: var(--radius);
             padding: 16px 12px;
@@ -636,12 +622,11 @@
             justify-content: center;
             align-items: center;
             position: relative;
-            box-shadow: var(--shadow-sm);
         }
         .case-card:active {
             transform: scale(0.96);
             border-color: var(--gold);
-            box-shadow: 0 0 20px rgba(232, 168, 23, 0.12);
+            box-shadow: 0 0 20px rgba(240, 185, 11, 0.15);
         }
         .case-card .case-icon {
             font-size: 44px;
@@ -665,7 +650,7 @@
             color: var(--green);
         }
         .case-card .case-price.stars {
-            color: #b8860b;
+            color: var(--gold-bright);
         }
         .case-card button {
             background: var(--green);
@@ -692,28 +677,23 @@
             transform: none;
         }
         .case-card button.promo-btn {
-            background: linear-gradient(135deg, #e8a817, #d4940f);
-            color: #fff;
+            background: linear-gradient(135deg, #f0b90b, #e8a800);
+            color: #0a0e13;
         }
         .case-card button.unique-btn {
-            background: linear-gradient(135deg, #f9733e, #e85d2c);
+            background: linear-gradient(135deg, #ff6b35, #ff3d00);
             color: #fff;
-            box-shadow: 0 2px 12px rgba(249, 115, 62, 0.25);
+            box-shadow: 0 2px 12px rgba(255, 107, 53, 0.3);
         }
         .case-card button.burmalda-btn {
-            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+            background: linear-gradient(135deg, #6c5ce7, #a855f7);
             color: #fff;
-            box-shadow: 0 2px 12px rgba(139, 92, 246, 0.25);
-        }
-        .case-card button.velodrun-btn {
-            background: linear-gradient(135deg, #06b6d4, #0891b2);
-            color: #fff;
-            box-shadow: 0 2px 12px rgba(6, 182, 212, 0.25);
+            box-shadow: 0 2px 12px rgba(108, 92, 231, 0.3);
         }
         .case-card .case-tag {
             font-size: 9px;
-            color: var(--text-muted);
-            background: #f0f1f4;
+            color: var(--text-secondary);
+            background: var(--bg-tertiary);
             padding: 2px 9px;
             border-radius: 10px;
             display: inline-block;
@@ -729,43 +709,29 @@
             opacity: 0.7;
         }
         .case-card.gold-border {
-            border-color: rgba(232, 168, 23, 0.4);
-            box-shadow: 0 0 15px rgba(232, 168, 23, 0.06);
+            border-color: rgba(240, 185, 11, 0.5);
+            box-shadow: 0 0 15px rgba(240, 185, 11, 0.08);
         }
         .case-card.purple-border {
-            border-color: rgba(139, 92, 246, 0.4);
-            box-shadow: 0 0 15px rgba(139, 92, 246, 0.06);
+            border-color: rgba(180, 130, 255, 0.5);
+            box-shadow: 0 0 15px rgba(180, 130, 255, 0.08);
         }
         .case-card.orange-border {
-            border-color: rgba(249, 115, 62, 0.4);
-            box-shadow: 0 0 15px rgba(249, 115, 62, 0.08);
+            border-color: rgba(255, 107, 53, 0.5);
+            box-shadow: 0 0 15px rgba(255, 107, 53, 0.1);
         }
         .case-card.unique-border {
-            border-color: rgba(239, 68, 68, 0.5);
-            box-shadow: 0 0 20px rgba(239, 68, 68, 0.12);
+            border-color: rgba(255, 60, 0, 0.6);
+            box-shadow: 0 0 20px rgba(255, 60, 0, 0.15);
             animation: uniquePulse 2s ease-in-out infinite;
-        }
-        .case-card.velodrun-border {
-            border-color: rgba(6, 182, 212, 0.5);
-            box-shadow: 0 0 18px rgba(6, 182, 212, 0.1);
-            animation: velodrunGlow 2.5s ease-in-out infinite;
         }
         @keyframes uniquePulse {
             0%,
             100% {
-                box-shadow: 0 0 20px rgba(239, 68, 68, 0.12);
+                box-shadow: 0 0 20px rgba(255, 60, 0, 0.15);
             }
             50% {
-                box-shadow: 0 0 35px rgba(239, 68, 68, 0.25);
-            }
-        }
-        @keyframes velodrunGlow {
-            0%,
-            100% {
-                box-shadow: 0 0 18px rgba(6, 182, 212, 0.1);
-            }
-            50% {
-                box-shadow: 0 0 32px rgba(6, 182, 212, 0.25);
+                box-shadow: 0 0 35px rgba(255, 60, 0, 0.3);
             }
         }
         #caseCanvas {
@@ -782,7 +748,7 @@
             justify-content: center;
         }
         .inv-slot {
-            background: var(--bg-card);
+            background: var(--bg-secondary);
             border: 2px solid var(--border);
             border-radius: var(--radius-sm);
             padding: 12px 10px;
@@ -793,7 +759,6 @@
             transition: all 0.2s;
             user-select: none;
             position: relative;
-            box-shadow: var(--shadow-sm);
         }
         .inv-slot:active {
             cursor: grabbing;
@@ -806,9 +771,9 @@
         }
         .inv-slot.drag-over {
             border-color: var(--gold-bright);
-            box-shadow: 0 0 20px rgba(232, 168, 23, 0.2);
+            box-shadow: 0 0 20px rgba(240, 185, 11, 0.25);
             transform: scale(1.04);
-            background: #fefce8;
+            background: var(--bg-tertiary);
         }
         .inv-slot .gift-icon {
             font-size: 32px;
@@ -822,7 +787,7 @@
         }
         .inv-slot .gift-value {
             font-size: 11px;
-            color: #b8860b;
+            color: var(--gold-bright);
             font-family: var(--font-mono);
             pointer-events: none;
         }
@@ -831,7 +796,7 @@
             top: 5px;
             left: 8px;
             font-size: 10px;
-            color: var(--text-muted);
+            color: var(--text-secondary);
             opacity: 0.5;
             pointer-events: none;
         }
@@ -856,26 +821,25 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: var(--bg-overlay);
+            background: rgba(0, 0, 0, 0.85);
             align-items: center;
             justify-content: center;
             z-index: 1000;
             padding: 16px;
-            backdrop-filter: blur(4px);
-            -webkit-backdrop-filter: blur(4px);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
         }
         .modal-content {
-            background: var(--bg-card);
+            background: var(--bg-secondary);
             border-radius: var(--radius);
-            padding: 20px;
+            padding: 18px;
             width: 100%;
-            max-width: 340px;
+            max-width: 320px;
             border: 1px solid var(--border);
             display: flex;
             flex-direction: column;
             gap: 10px;
             animation: modalIn 0.2s ease;
-            box-shadow: var(--shadow-xl);
         }
         @keyframes modalIn {
             from {
@@ -888,7 +852,7 @@
             }
         }
         .modal-content .modal-title {
-            font-size: 17px;
+            font-size: 16px;
             font-weight: 700;
             text-align: center;
             color: var(--text-primary);
@@ -899,22 +863,18 @@
             font-size: 12px;
         }
         .modal-content input {
-            background: var(--bg-input);
-            border: 1.5px solid var(--border);
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
             border-radius: var(--radius-xs);
-            padding: 10px 12px;
+            padding: 9px 11px;
             color: var(--text-primary);
-            font-size: 15px;
+            font-size: 14px;
             outline: none;
             width: 100%;
             transition: border 0.2s;
-            -webkit-appearance: none;
-            appearance: none;
-            caret-color: var(--gold);
         }
         .modal-content input:focus {
             border-color: var(--gold);
-            box-shadow: 0 0 0 3px rgba(232, 168, 23, 0.08);
         }
         .modal-content .btn-row {
             display: flex;
@@ -928,14 +888,14 @@
         .modal-content .btn {
             border: none;
             border-radius: var(--radius-xs);
-            padding: 10px;
+            padding: 9px;
             font-weight: 700;
             font-size: 13px;
             cursor: pointer;
             color: #fff;
             transition: all 0.15s;
             width: 100%;
-            min-height: 38px;
+            min-height: 36px;
         }
         .modal-content .btn:active {
             transform: scale(0.96);
@@ -945,14 +905,13 @@
         }
         .modal-content .btn-gold {
             background: var(--gold);
-            color: #fff;
+            color: #0a0e13;
         }
         .modal-content .btn-cancel {
             background: var(--red);
         }
         .modal-content .btn-telegram {
             background: var(--accent-blue);
-            box-shadow: 0 2px 8px rgba(79, 125, 243, 0.2);
         }
         .modal-content .error-text {
             color: var(--red);
@@ -966,25 +925,6 @@
             text-align: center;
             min-height: 18px;
         }
-        .deposit-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
-            margin: 6px 0;
-        }
-        .deposit-grid .btn {
-            font-size: 13px;
-            padding: 10px 6px;
-            min-height: 44px;
-            min-width: unset;
-            width: 100%;
-        }
-        .deposit-status {
-            font-size: 12px;
-            text-align: center;
-            min-height: 20px;
-            color: var(--text-secondary);
-        }
         .case-overlay {
             display: none;
             position: fixed;
@@ -992,14 +932,14 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(20, 22, 30, 0.7);
+            background: rgba(0, 0, 0, 0.9);
             z-index: 2000;
             align-items: center;
             justify-content: center;
             flex-direction: column;
             padding: 20px;
-            backdrop-filter: blur(6px);
-            -webkit-backdrop-filter: blur(6px);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
         }
         .case-overlay.active {
             display: flex;
@@ -1009,24 +949,23 @@
             max-width: 340px;
             aspect-ratio: 1/1;
             border-radius: var(--radius);
-            background: var(--bg-card);
+            background: var(--bg-secondary);
             border: 1px solid var(--border);
-            box-shadow: var(--shadow-lg);
         }
         .case-overlay .result-label {
             font-size: 20px;
             font-weight: 700;
-            color: #b8860b;
+            color: var(--gold-bright);
             margin-top: 10px;
             text-align: center;
         }
         .case-overlay .close-overlay-btn {
             margin-top: 12px;
             background: var(--gold);
-            color: #fff;
+            color: #0a0e13;
             border: none;
             border-radius: var(--radius-xs);
-            padding: 10px 24px;
+            padding: 9px 24px;
             font-weight: 700;
             font-size: 14px;
             cursor: pointer;
@@ -1036,140 +975,28 @@
         .case-overlay .close-overlay-btn:active {
             transform: scale(0.94);
         }
-        /* Case preview modal */
-        .case-preview-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--bg-overlay);
-            z-index: 1500;
-            align-items: center;
-            justify-content: center;
-            padding: 16px;
-            backdrop-filter: blur(4px);
-            -webkit-backdrop-filter: blur(4px);
-        }
-        .case-preview-overlay.active {
-            display: flex;
-        }
-        .case-preview-content {
-            background: var(--bg-card);
-            border-radius: var(--radius);
-            padding: 18px;
-            width: 100%;
-            max-width: 360px;
-            max-height: 80vh;
-            border: 1px solid var(--border);
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            box-shadow: var(--shadow-xl);
-            animation: modalIn 0.2s ease;
-        }
-        .case-preview-content .preview-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex-shrink: 0;
-        }
-        .case-preview-content .preview-icon {
-            font-size: 44px;
-            flex-shrink: 0;
-        }
-        .case-preview-content .preview-title {
-            font-size: 16px;
-            font-weight: 700;
-            color: var(--text-primary);
-        }
-        .case-preview-content .preview-subtitle {
-            font-size: 11px;
-            color: var(--text-muted);
-        }
-        .case-preview-content .preview-scroll {
-            flex: 1;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            max-height: 40vh;
-            padding-right: 4px;
-        }
-        .case-preview-content .preview-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px 12px;
-            background: #fafbfc;
-            border-radius: var(--radius-xs);
-            border: 1px solid var(--border-light);
-            flex-shrink: 0;
-        }
-        .case-preview-content .preview-item .pi-icon {
-            font-size: 28px;
-            flex-shrink: 0;
-        }
-        .case-preview-content .preview-item .pi-info {
-            flex: 1;
-            min-width: 0;
-        }
-        .case-preview-content .preview-item .pi-name {
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-        .case-preview-content .preview-item .pi-value {
-            font-size: 12px;
-            color: #b8860b;
-            font-family: var(--font-mono);
-            font-weight: 600;
-        }
-        .case-preview-content .preview-item .pi-chance {
-            font-size: 10px;
-            color: var(--text-muted);
-            background: #f0f1f4;
-            padding: 2px 8px;
-            border-radius: 10px;
-        }
-        .case-preview-content .preview-item.pi-highlight {
-            background: #fefce8;
-            border-color: rgba(232, 168, 23, 0.25);
-        }
-        .case-preview-content .preview-buttons {
-            display: flex;
-            gap: 8px;
-            flex-shrink: 0;
-        }
-        .case-preview-content .preview-buttons .btn {
-            flex: 1;
-        }
         .admin-panel {
             padding: 12px;
-            background: var(--bg-card);
+            background: var(--bg-secondary);
             margin: 8px;
             border-radius: var(--radius);
             border: 1px solid var(--border);
-            box-shadow: var(--shadow-sm);
         }
         .admin-panel h3 {
-            color: #b8860b;
+            color: var(--gold-bright);
             margin-bottom: 10px;
             font-size: 16px;
         }
         .admin-panel .search-box {
             width: 100%;
-            padding: 8px 10px;
-            background: var(--bg-input);
-            border: 1.5px solid var(--border);
+            padding: 7px 10px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
             border-radius: var(--radius-xs);
             color: var(--text-primary);
-            font-size: 14px;
+            font-size: 13px;
             outline: none;
             margin-bottom: 10px;
-            -webkit-appearance: none;
-            appearance: none;
         }
         .admin-panel .search-box:focus {
             border-color: var(--gold);
@@ -1179,7 +1006,7 @@
             overflow-y: auto;
             margin: 8px 0;
             border-radius: var(--radius-xs);
-            background: #fafbfc;
+            background: var(--bg-primary);
             border: 1px solid var(--border);
         }
         .admin-user-item {
@@ -1187,7 +1014,7 @@
             align-items: center;
             justify-content: space-between;
             padding: 7px 10px;
-            border-bottom: 1px solid var(--border-light);
+            border-bottom: 1px solid var(--border);
             font-size: 12px;
             flex-wrap: wrap;
             gap: 4px;
@@ -1202,11 +1029,11 @@
             flex-wrap: wrap;
         }
         .admin-user-item .user-info .badge {
-            background: #f0f1f4;
+            background: var(--bg-tertiary);
             padding: 0 7px;
             border-radius: 9px;
             font-size: 9px;
-            color: var(--text-muted);
+            color: var(--text-secondary);
         }
         .admin-user-item .actions {
             display: flex;
@@ -1231,7 +1058,7 @@
         }
         .admin-user-item .actions button.gold {
             background: var(--gold);
-            color: #fff;
+            color: #0a0e13;
         }
         .admin-panel .broadcast-area {
             margin-top: 10px;
@@ -1241,19 +1068,15 @@
         }
         .admin-panel .broadcast-area textarea {
             width: 100%;
-            padding: 8px;
-            background: var(--bg-input);
-            border: 1.5px solid var(--border);
+            padding: 7px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
             border-radius: var(--radius-xs);
             color: var(--text-primary);
             resize: vertical;
             min-height: 50px;
             font-family: inherit;
             font-size: 12px;
-            outline: none;
-        }
-        .admin-panel .broadcast-area textarea:focus {
-            border-color: var(--gold);
         }
         .admin-panel .broadcast-area .btn-row {
             display: flex;
@@ -1271,6 +1094,15 @@
             transition: 0.1s;
             color: #fff;
         }
+        .admin-panel .broadcast-area .btn-row button:active {
+            transform: scale(0.96);
+        }
+        .admin-panel .broadcast-area .btn-row .btn-broadcast {
+            background: var(--accent-blue);
+        }
+        .admin-panel .broadcast-area .btn-row .btn-reset {
+            background: var(--red);
+        }
         .admin-stats {
             display: flex;
             gap: 10px;
@@ -1278,7 +1110,7 @@
             margin-bottom: 10px;
         }
         .admin-stats .stat-card {
-            background: #fafbfc;
+            background: var(--bg-primary);
             border: 1px solid var(--border);
             border-radius: var(--radius-xs);
             padding: 7px 12px;
@@ -1288,12 +1120,14 @@
         .admin-stats .stat-card .num {
             font-size: 18px;
             font-weight: 700;
-            color: #b8860b;
+            color: var(--gold-bright);
         }
         .admin-stats .stat-card .label {
             font-size: 10px;
-            color: var(--text-muted);
+            color: var(--text-secondary);
         }
+
+        /* Spin Tab */
         .spin-container {
             display: flex;
             flex-direction: column;
@@ -1325,7 +1159,7 @@
             transform: translateX(-50%);
             font-size: 38px;
             z-index: 5;
-            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.3));
+            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.6));
             pointer-events: none;
             animation: pointerBounce 1s ease-in-out infinite;
         }
@@ -1339,24 +1173,23 @@
             }
         }
         .spin-info-card {
-            background: var(--bg-card);
+            background: var(--bg-secondary);
             border-radius: var(--radius);
             border: 1px solid var(--border);
             padding: 14px;
             text-align: center;
             width: 100%;
             max-width: 340px;
-            box-shadow: var(--shadow-sm);
         }
         .spin-info-card .spin-cost {
             font-size: 20px;
             font-weight: 700;
-            color: #b8860b;
+            color: var(--gold-bright);
             margin-bottom: 4px;
         }
         .spin-info-card .spin-cost small {
             font-size: 12px;
-            color: var(--text-muted);
+            color: var(--text-secondary);
             font-weight: 400;
         }
         .spin-result {
@@ -1366,7 +1199,7 @@
             min-height: 28px;
             padding: 4px;
             transition: all 0.3s;
-            color: #b8860b;
+            color: var(--gold-bright);
         }
         .spin-prizes-grid {
             display: grid;
@@ -1376,7 +1209,7 @@
             max-width: 340px;
         }
         .spin-prize-chip {
-            background: var(--bg-card);
+            background: var(--bg-secondary);
             border: 1px solid var(--border);
             border-radius: var(--radius-xs);
             padding: 6px 4px;
@@ -1384,23 +1217,24 @@
             font-size: 11px;
             font-weight: 600;
             color: var(--text-primary);
-            box-shadow: var(--shadow-sm);
         }
         .spin-prize-chip.rare-prize {
-            border-color: rgba(232, 168, 23, 0.4);
-            color: #b8860b;
+            border-color: rgba(240, 185, 11, 0.5);
+            color: var(--gold-bright);
             background: var(--gold-dim);
             animation: rareGlow 2s ease-in-out infinite;
         }
         @keyframes rareGlow {
             0%,
             100% {
-                box-shadow: 0 0 8px rgba(232, 168, 23, 0.12);
+                box-shadow: 0 0 8px rgba(240, 185, 11, 0.2);
             }
             50% {
-                box-shadow: 0 0 20px rgba(232, 168, 23, 0.3);
+                box-shadow: 0 0 20px rgba(240, 185, 11, 0.5);
             }
         }
+
+        /* Tasks Tab */
         .tasks-container {
             display: flex;
             flex-direction: column;
@@ -1410,7 +1244,7 @@
             overflow-y: auto;
         }
         .task-card {
-            background: var(--bg-card);
+            background: var(--bg-secondary);
             border: 1px solid var(--border);
             border-radius: var(--radius);
             padding: 16px 14px;
@@ -1418,11 +1252,10 @@
             flex-direction: column;
             gap: 10px;
             transition: border 0.2s;
-            box-shadow: var(--shadow-sm);
         }
         .task-card.completed {
             border-color: var(--green);
-            opacity: 0.75;
+            opacity: 0.7;
         }
         .task-card .task-header {
             display: flex;
@@ -1444,13 +1277,13 @@
         }
         .task-card .task-desc {
             font-size: 11px;
-            color: var(--text-muted);
+            color: var(--text-secondary);
             margin-top: 2px;
         }
         .task-card .task-reward {
             font-size: 13px;
             font-weight: 700;
-            color: #b8860b;
+            color: var(--gold-bright);
             margin-top: 3px;
         }
         .task-card .task-btn {
@@ -1477,18 +1310,16 @@
         .task-card .task-btn:disabled {
             opacity: 0.45;
             cursor: not-allowed;
-            background: #cbd5e1;
-            color: #94a3b8;
+            background: #3a4458;
         }
         .referral-box {
-            background: var(--bg-card);
+            background: var(--bg-secondary);
             border: 1px solid var(--border);
             border-radius: var(--radius);
             padding: 14px;
             display: flex;
             flex-direction: column;
             gap: 8px;
-            box-shadow: var(--shadow-sm);
         }
         .referral-box .ref-title {
             font-size: 14px;
@@ -1503,22 +1334,21 @@
             flex-wrap: wrap;
         }
         .referral-box .ref-stat {
-            background: #fafbfc;
+            background: var(--bg-tertiary);
             border-radius: var(--radius-xs);
             padding: 8px 14px;
             text-align: center;
             flex: 1;
             min-width: 80px;
-            border: 1px solid var(--border-light);
         }
         .referral-box .ref-stat .ref-num {
             font-size: 20px;
             font-weight: 700;
-            color: #b8860b;
+            color: var(--gold-bright);
         }
         .referral-box .ref-stat .ref-label {
             font-size: 10px;
-            color: var(--text-muted);
+            color: var(--text-secondary);
         }
         .referral-box .ref-link-row {
             display: flex;
@@ -1527,8 +1357,8 @@
         }
         .referral-box .ref-link-input {
             flex: 1;
-            background: var(--bg-input);
-            border: 1.5px solid var(--border);
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
             border-radius: var(--radius-xs);
             padding: 8px 10px;
             color: var(--text-primary);
@@ -1541,7 +1371,7 @@
         }
         .referral-box .ref-copy-btn {
             background: var(--gold);
-            color: #fff;
+            color: #0a0e13;
             border: none;
             border-radius: var(--radius-xs);
             padding: 8px 14px;
@@ -1554,22 +1384,23 @@
         .referral-box .ref-copy-btn:active {
             transform: scale(0.94);
         }
+
+        /* Collections tabs for cases */
         .collections-tabs {
             display: flex;
             gap: 4px;
             padding: 6px 8px;
-            background: var(--bg-card);
+            background: var(--bg-secondary);
             border-bottom: 1px solid var(--border);
             flex-shrink: 0;
             overflow-x: auto;
-            box-shadow: var(--shadow-sm);
         }
         .collection-tab {
             padding: 6px 14px;
             border-radius: 20px;
             font-size: 12px;
             font-weight: 600;
-            background: #f0f1f4;
+            background: var(--bg-tertiary);
             color: var(--text-secondary);
             border: 1px solid transparent;
             cursor: pointer;
@@ -1578,9 +1409,10 @@
         }
         .collection-tab.active {
             background: var(--gold-dim);
-            color: #b8860b;
+            color: var(--gold-bright);
             border-color: var(--gold);
         }
+
         @media (max-width: 420px) {
             .header {
                 padding: 7px 10px;
@@ -1616,14 +1448,8 @@
             }
             .btn {
                 font-size: 12px;
-                padding: 8px 12px;
+                padding: 7px 12px;
                 min-width: 55px;
-                min-height: 36px;
-            }
-            .controls-row .input-group input {
-                min-height: 36px;
-                font-size: 14px;
-                padding: 7px 6px;
             }
             canvas#crashCanvas {
                 max-width: 240px;
@@ -1660,15 +1486,6 @@
             .spin-prize-chip {
                 font-size: 9px;
                 padding: 4px 2px;
-            }
-            .deposit-grid {
-                grid-template-columns: 1fr 1fr;
-                gap: 6px;
-            }
-            .deposit-grid .btn {
-                font-size: 11px;
-                padding: 8px 4px;
-                min-height: 36px;
             }
         }
     </style>
@@ -1711,11 +1528,11 @@
             <div class="controls-row">
                 <div class="input-group">
                     <label for="betInput">Сумма ⭐</label>
-                    <input type="number" id="betInput" placeholder="0" min="1" step="1" inputmode="decimal">
+                    <input type="number" id="betInput" placeholder="0" min="1" step="1">
                 </div>
                 <div class="input-group">
                     <label for="autoInput">Авто-стоп X</label>
-                    <input type="number" id="autoInput" placeholder="0" min="0" step="0.01" inputmode="decimal">
+                    <input type="number" id="autoInput" placeholder="0" min="0" step="0.01">
                 </div>
                 <div class="button-group">
                     <button class="btn btn-primary" id="unifiedBtn">💰 Ставка</button>
@@ -1759,17 +1576,17 @@
             </div>
             <div class="spin-result" id="spinResult">🎡 Испытай удачу!</div>
             <div class="spin-info-card">
-                <div class="spin-cost">500 ⭐ <small>за прокрутку</small></div>
+                <div class="spin-cost">50 ⭐ <small>за прокрутку</small></div>
                 <button class="btn btn-gold" id="spinBtn" style="width:100%; font-size:15px; padding:12px;">🎰 Крутить колесо</button>
             </div>
             <div class="spin-prizes-grid">
-                <span class="spin-prize-chip">50 ⭐</span>
-                <span class="spin-prize-chip">100 ⭐</span>
-                <span class="spin-prize-chip">250 ⭐</span>
-                <span class="spin-prize-chip">400 ⭐</span>
-                <span class="spin-prize-chip rare-prize">500 ⭐</span>
-                <span class="spin-prize-chip rare-prize">1000 ⭐</span>
-                <span class="spin-prize-chip rare-prize" style="background:rgba(255,215,0,0.15);border-color:#e8a817;">2500 ⭐</span>
+                <span class="spin-prize-chip">5 ⭐</span>
+                <span class="spin-prize-chip">10 ⭐</span>
+                <span class="spin-prize-chip">25 ⭐</span>
+                <span class="spin-prize-chip">40 ⭐</span>
+                <span class="spin-prize-chip rare-prize">50 ⭐</span>
+                <span class="spin-prize-chip rare-prize">100 ⭐</span>
+                <span class="spin-prize-chip rare-prize" style="background:rgba(255,215,0,0.2);border-color:#ffd700;">250 ⭐</span>
             </div>
         </div>
     </div>
@@ -1789,6 +1606,7 @@
                 <button class="task-btn" id="subscribeGoBtn">📢 Перейти в канал</button>
                 <div id="subscribeStatus" style="text-align:center;font-size:12px;min-height:18px;"></div>
             </div>
+
             <div class="referral-box">
                 <div class="ref-title">👥 Рефералы</div>
                 <div class="ref-stats">
@@ -1805,7 +1623,7 @@
                     <input class="ref-link-input" id="refLinkInput" type="text" readonly value="" onclick="this.select()">
                     <button class="ref-copy-btn" id="refCopyBtn">📋 Копировать</button>
                 </div>
-                <div style="text-align:center;font-size:10px;color:var(--text-muted);">+1 ⭐ за каждого приглашённого друга</div>
+                <div style="text-align:center;font-size:10px;color:var(--text-secondary);">+1 ⭐ за каждого приглашённого друга</div>
             </div>
         </div>
     </div>
@@ -1813,8 +1631,8 @@
     <!-- Inventory Tab -->
     <div class="tab-content" id="inventoryTab">
         <div style="padding:8px;">
-            <h3 style="color:#b8860b;text-align:center;">🎒 Инвентарь</h3>
-            <p style="text-align:center;font-size:10px;color:var(--text-muted);">Перетаскивайте предметы для смены порядка</p>
+            <h3 style="color:var(--gold-bright); text-align:center;">🎒 Инвентарь</h3>
+            <p style="text-align:center;font-size:10px;color:var(--text-secondary);">Перетаскивайте предметы для смены порядка</p>
         </div>
         <div class="inventory-grid" id="inventoryGrid">
             <div class="empty-feed">Инвентарь пуст</div>
@@ -1831,49 +1649,39 @@
         <div class="modal-content">
             <div class="modal-title">👤 Профиль</div>
             <div class="modal-sub" id="profileName"></div>
-            <div style="font-size:26px;font-weight:700;text-align:center;color:#b8860b;" id="profileBalance"></div>
+            <div style="font-size:26px;font-weight:700;text-align:center;color:var(--gold-bright);" id="profileBalance"></div>
             <button class="btn btn-gold" id="profileDepositBtn">💰 Пополнить</button>
             <button class="btn btn-primary" id="profileWithdrawBtn">💸 Вывести</button>
             <button class="btn btn-cancel" id="closeProfileBtn">✕ Закрыть</button>
         </div>
     </div>
-
     <div class="modal" id="depositModal">
         <div class="modal-content">
-            <div class="modal-title">💰 Пополнение звёздами</div>
-            <div class="modal-sub">Курс: 1 ⭐ Telegram = 2 ⭐ в игре</div>
-            <div class="deposit-grid">
-                <button class="btn btn-telegram" data-stars="5">5 ⭐ → 10 ⭐</button>
-                <button class="btn btn-telegram" data-stars="10">10 ⭐ → 20 ⭐</button>
-                <button class="btn btn-telegram" data-stars="25">25 ⭐ → 50 ⭐</button>
-                <button class="btn btn-telegram" data-stars="50">50 ⭐ → 100 ⭐</button>
-                <button class="btn btn-telegram" data-stars="100">100 ⭐ → 200 ⭐</button>
-                <button class="btn btn-telegram" data-stars="250">250 ⭐ → 500 ⭐</button>
+            <div class="modal-title">💰 Пополнение</div>
+            <div class="modal-sub">Введите сумму звёзд</div>
+            <input type="number" id="depositAmount" placeholder="Сумма ⭐" min="1" step="1">
+            <div class="btn-row">
+                <button class="btn btn-primary" id="simulateDepositBtn">Демо-пополнение</button>
+                <button class="btn btn-telegram" id="telegramDepositBtn">Telegram</button>
             </div>
-            <div class="deposit-status" id="depositStatus">Выберите сумму для покупки</div>
-            <div style="display:flex;gap:8px;">
-                <button class="btn btn-primary" id="simulateDepositBtn" style="flex:1;">Демо-пополнение</button>
-                <button class="btn btn-cancel" id="closeDepositBtn" style="flex:1;">Отмена</button>
-            </div>
+            <button class="btn btn-cancel" id="closeDepositBtn">Отмена</button>
         </div>
     </div>
-
     <div class="modal" id="withdrawModal">
         <div class="modal-content">
             <div class="modal-title">💸 Вывод</div>
             <div class="modal-sub">Минимум: 1000 ⭐</div>
-            <input type="number" id="withdrawAmount" placeholder="Сумма" min="1000" step="1" inputmode="decimal">
+            <input type="number" id="withdrawAmount" placeholder="Сумма" min="1000" step="1">
             <button class="btn btn-primary" id="confirmWithdrawBtn">Вывести</button>
             <div class="error-text" id="withdrawError"></div>
             <button class="btn btn-cancel" id="closeWithdrawBtn">Отмена</button>
         </div>
     </div>
-
     <div class="modal" id="promoModal">
         <div class="modal-content">
             <div class="modal-title">🔑 Промо-кейс</div>
             <div class="modal-sub">Введите промокод</div>
-            <input type="text" id="promoCodeInput" placeholder="Код" maxlength="30" autocomplete="off">
+            <input type="text" id="promoCodeInput" placeholder="Код" maxlength="30">
             <div id="promoMessage" class="error-text"></div>
             <div class="btn-row">
                 <button class="btn btn-gold" id="promoSubmitBtn">Открыть</button>
@@ -1881,13 +1689,6 @@
             </div>
         </div>
     </div>
-
-    <!-- Case preview overlay -->
-    <div class="case-preview-overlay" id="casePreviewOverlay">
-        <div class="case-preview-content" id="casePreviewContent"></div>
-    </div>
-
-    <!-- Case animation overlay -->
     <div class="case-overlay" id="caseOverlay">
         <canvas id="caseAnimCanvas" width="360" height="360"></canvas>
         <div class="result-label" id="caseOverlayResult">🎉 +0 ⭐</div>
@@ -1914,12 +1715,12 @@
                 document.getElementById('adminTabBtn').style.display = 'inline-block';
             }
 
-            const ALL_USERS_KEY = 'gift_all_users_v6';
-            const BROADCAST_KEY = 'gift_broadcast_msg_v3';
-            const ROUND_COUNTER_KEY = 'gift_round_counter_v2';
-            const ACTIVITY_FEED_KEY = 'gift_activity_feed_v2';
-            const BOTS_INITIALIZED_KEY = 'gift_bots_initialized_v2';
-            const REFERRALS_KEY = 'gift_referrals_v2';
+            const ALL_USERS_KEY = 'gift_all_users_v5';
+            const BROADCAST_KEY = 'gift_broadcast_msg_v2';
+            const ROUND_COUNTER_KEY = 'gift_round_counter';
+            const ACTIVITY_FEED_KEY = 'gift_activity_feed';
+            const BOTS_INITIALIZED_KEY = 'gift_bots_initialized_v1';
+            const REFERRALS_KEY = 'gift_referrals_v1';
 
             const botNames = [
                 'Алексей_777', 'МарияStar', 'Дмитрий_К', 'Анна_Белла', 'Сергей_Топ',
@@ -1962,13 +1763,15 @@
                 localStorage.setItem(BOTS_INITIALIZED_KEY, '1');
             }
 
-            function loadAllUsers() { try { return JSON.parse(localStorage.getItem(ALL_USERS_KEY)) || []; } catch (
-                e) { return []; } }
+            function loadAllUsers() {
+                try { return JSON.parse(localStorage.getItem(ALL_USERS_KEY)) || []; } catch (e) { return []; }
+            }
 
             function saveAllUsers(users) { localStorage.setItem(ALL_USERS_KEY, JSON.stringify(users)); }
 
-            function loadReferrals() { try { return JSON.parse(localStorage.getItem(REFERRALS_KEY)) || []; } catch (
-            e) { return []; } }
+            function loadReferrals() {
+                try { return JSON.parse(localStorage.getItem(REFERRALS_KEY)) || []; } catch (e) { return []; }
+            }
 
             function saveReferrals(refs) { localStorage.setItem(REFERRALS_KEY, JSON.stringify(refs)); }
 
@@ -2021,7 +1824,11 @@
                 let referrals = loadReferrals();
                 const alreadyReferred = referrals.find(r => r.referredId === userId);
                 if (alreadyReferred) return;
-                referrals.push({ referrerId: referrerId, referredId: userId, timestamp: Date.now() });
+                referrals.push({
+                    referrerId: referrerId,
+                    referredId: userId,
+                    timestamp: Date.now()
+                });
                 saveReferrals(referrals);
                 let all = loadAllUsers();
                 const referrer = all.find(u => u.id === referrerId);
@@ -2072,32 +1879,59 @@
                 });
             }
 
-            function loadActivityFeed() { try { return JSON.parse(localStorage.getItem(
-                ACTIVITY_FEED_KEY)) || []; } catch (e) { return []; } }
+            function loadActivityFeed() {
+                try { return JSON.parse(localStorage.getItem(ACTIVITY_FEED_KEY)) || []; } catch (e) { return []; }
+            }
 
-            function saveActivityFeed(feed) { if (feed.length > 60) feed = feed.slice(0, 60);
-                localStorage.setItem(ACTIVITY_FEED_KEY, JSON.stringify(feed)); }
+            function saveActivityFeed(feed) {
+                if (feed.length > 60) feed = feed.slice(0, 60);
+                localStorage.setItem(ACTIVITY_FEED_KEY, JSON.stringify(feed));
+            }
 
-            function getRoundNumber() { return parseInt(localStorage.getItem(ROUND_COUNTER_KEY)) || 1; }
+            function getRoundNumber() {
+                return parseInt(localStorage.getItem(ROUND_COUNTER_KEY)) || 1;
+            }
 
-            function incrementRoundNumber() { let r = getRoundNumber() + 1;
-                localStorage.setItem(ROUND_COUNTER_KEY, r.toString()); return r; }
+            function incrementRoundNumber() {
+                let r = getRoundNumber() + 1;
+                localStorage.setItem(ROUND_COUNTER_KEY, r.toString());
+                return r;
+            }
 
-            function seededRandom(seed) { let s = Math.abs(seed) % 2147483647 || 1; return function() { s = (s * 16807) %
-                    2147483647; return (s - 1) / 2147483646; }; }
+            function seededRandom(seed) {
+                let s = Math.abs(seed) % 2147483647 || 1;
+                return function() {
+                    s = (s * 16807) % 2147483647;
+                    return (s - 1) / 2147483646;
+                };
+            }
 
-            function generateCrashPoint(roundNum) { const seed = roundNum * 7919 + 104729; const rng = seededRandom(
-                seed); const p = rng(); if (p < 0.75) return 1.01 + rng() * (1.45 - 1.01); if (p < 0.90) return 1.45 +
-                    rng() * (1.85 - 1.45); if (p < 0.97) return 1.85 + rng() * (4.0 - 1.85); return 4.0 + rng() * (
-                15.0 - 4.0); }
+            function generateCrashPoint(roundNum) {
+                const seed = roundNum * 7919 + 104729;
+                const rng = seededRandom(seed);
+                const p = rng();
+                if (p < 0.75) return 1.01 + rng() * (1.45 - 1.01);
+                if (p < 0.90) return 1.45 + rng() * (1.85 - 1.45);
+                if (p < 0.97) return 1.85 + rng() * (4.0 - 1.85);
+                return 4.0 + rng() * (15.0 - 4.0);
+            }
 
-            function checkBroadcast() { const msg = localStorage.getItem(BROADCAST_KEY); if (msg && !isAdmin) { alert(
-                    '📢 Сообщение от админа:\n' + msg);
-                localStorage.removeItem(BROADCAST_KEY); } }
+            function checkBroadcast() {
+                const msg = localStorage.getItem(BROADCAST_KEY);
+                if (msg && !isAdmin) {
+                    alert('📢 Сообщение от админа:\n' + msg);
+                    localStorage.removeItem(BROADCAST_KEY);
+                }
+            }
             checkBroadcast();
 
-            function isBlockedCheck() { if (currentUser.blocked) { alert(
-                    '🚫 Вы заблокированы администратором.'); return true; } return false; }
+            function isBlockedCheck() {
+                if (currentUser.blocked) {
+                    alert('🚫 Вы заблокированы администратором.');
+                    return true;
+                }
+                return false;
+            }
 
             const balanceDisplay = document.getElementById('balanceDisplay');
             const crashCanvas = document.getElementById('crashCanvas');
@@ -2124,61 +1958,112 @@
             let animFrameId = null;
             let startTime = 0;
             let starAngle = 0;
-            let starBobOffset = 0;
-            let starTrailParticles = [];
             let particles = [];
             let speedLines = [];
             let nebulaParticles = [];
             let currentRound = getRoundNumber();
 
             const avatarColors = [
-                '#ef4444', '#4f7df3', '#10b981', '#f59e0b', '#8b5cf6',
-                '#06b6d4', '#f9733e', '#ec4899', '#14b8a6', '#6366f1'
+                '#e74c3c', '#3498db', '#2ecc71', '#f39c12', '#9b59b6',
+                '#1abc9c', '#e67e22', '#e84393', '#00b894', '#6c5ce7'
             ];
 
-            function getColorForName(name) { let hash = 0; for (let i = 0; i < name.length; i++) hash = name.charCodeAt(
-                    i) + ((hash << 5) - hash); return avatarColors[Math.abs(hash) % avatarColors.length]; }
+            function getColorForName(name) {
+                let hash = 0;
+                for (let i = 0; i < name.length; i++) hash = name.charCodeAt(i) + ((hash << 5) - hash);
+                return avatarColors[Math.abs(hash) % avatarColors.length];
+            }
 
-            function addFeedItem(name, action, amount, type, emoji = '') { const avatar = name.charAt(0).toUpperCase();
-                const color = getColorForName(name); const item = { name, action, amount, type, emoji, avatar, color,
-                    ts: Date.now() };
-                feedItems.unshift(item); if (feedItems.length > 50) feedItems.pop();
+            function addFeedItem(name, action, amount, type, emoji = '') {
+                const avatar = name.charAt(0).toUpperCase();
+                const color = getColorForName(name);
+                const item = { name, action, amount, type, emoji, avatar, color, ts: Date.now() };
+                feedItems.unshift(item);
+                if (feedItems.length > 50) feedItems.pop();
                 saveActivityFeed(feedItems);
-                renderFeed(); }
+                renderFeed();
+            }
 
-            function renderFeed() { if (feedItems.length === 0) { feedList.innerHTML =
-                    '<div class="empty-feed">Нет активных ставок</div>'; return; } let html = '';
-                feedItems.slice(0, 20).forEach(item => { let amountClass = 'bet'; let sign = ''; if (item.type ===
-                        'win') { amountClass = 'win';
-                        sign = '+'; } if (item.type === 'loss') { amountClass = 'loss';
+            function renderFeed() {
+                if (feedItems.length === 0) {
+                    feedList.innerHTML = '<div class="empty-feed">Нет активных ставок</div>';
+                    return;
+                }
+                let html = '';
+                feedItems.slice(0, 20).forEach(item => {
+                    let amountClass = 'bet';
+                    let sign = '';
+                    if (item.type === 'win') { amountClass = 'win';
+                        sign = '+'; }
+                    if (item.type === 'loss') { amountClass = 'loss';
                         sign = '-'; }
-                    html += `<div class="feed-item"><div class="fi-avatar" style="background:${item.color};">${item.avatar}</div><span class="fi-name">${item.name}</span><span class="fi-action">${item.action}</span><span class="fi-amount ${amountClass}">${item.emoji} ${sign}${item.amount} ⭐</span></div>`; });
-                feedList.innerHTML = html; }
+                    html += `
+                <div class="feed-item">
+                  <div class="fi-avatar" style="background:${item.color};">${item.avatar}</div>
+                  <span class="fi-name">${item.name}</span>
+                  <span class="fi-action">${item.action}</span>
+                  <span class="fi-amount ${amountClass}">${item.emoji} ${sign}${item.amount} ⭐</span>
+                </div>`;
+                });
+                feedList.innerHTML = html;
+            }
 
-            function getMultiplierColor(mult) { if (mult <= 1.30) return '#4f7df3'; if (mult <= 1.90) return '#10b981'; if (
-                    mult <= 2.30) return '#f59e0b'; if (mult <= 5.0) return '#ef4444'; return '#dc2626'; }
+            function getMultiplierColor(mult) {
+                if (mult <= 1.30) return '#4a7cf7';
+                if (mult <= 1.90) return '#16c95a';
+                if (mult <= 2.30) return '#f39c12';
+                if (mult <= 5.0) return '#e04050';
+                return '#ff1744';
+            }
 
-            function getHistChipClass(mult) { if (mult <= 1.30) return 'low'; if (mult <= 1.90) return 'mid'; if (mult <=
-                3.0) return 'high'; return 'crash'; }
+            function getHistChipClass(mult) {
+                if (mult <= 1.30) return 'low';
+                if (mult <= 1.90) return 'mid';
+                if (mult <= 3.0) return 'high';
+                return 'crash';
+            }
 
-            protectionTag.addEventListener('click', () => { protectionEnabled = !protectionEnabled;
+            protectionTag.addEventListener('click', () => {
+                protectionEnabled = !protectionEnabled;
                 protectionTag.classList.toggle('active', protectionEnabled);
-                protectionTag.textContent = protectionEnabled ? '🛡️ Защита вкл' : '🛡️ Защита x1.0'; });
-            demoTag.addEventListener('click', () => { isDemoMode = !isDemoMode;
+                protectionTag.textContent = protectionEnabled ? '🛡️ Защита вкл' : '🛡️ Защита x1.0';
+            });
+
+            demoTag.addEventListener('click', () => {
+                isDemoMode = !isDemoMode;
                 demoTag.classList.toggle('active-demo', isDemoMode);
                 demoTag.textContent = isDemoMode ? '🎮 Демо (вкл)' : '🎮 Демо';
-                crashInfo.textContent = isDemoMode ? '🎮 Демо-режим' : ''; setTimeout(() => { if (!gameRunning && !
-                        isDemoMode && !pendingBet) crashInfo.textContent = 'Ожидание раунда...'; }, 1800); });
+                crashInfo.textContent = isDemoMode ? '🎮 Демо-режим' : '';
+                setTimeout(() => {
+                    if (!gameRunning && !isDemoMode && !pendingBet) crashInfo.textContent =
+                        'Ожидание раунда...';
+                }, 1800);
+            });
 
-            function spawnParticle(cx, cy, intensity) { const angle = Math.random() * Math.PI * 2; const speed = 0.3 + Math
-                    .random() * 4.0 * intensity; const hue = 30 + Math.random() * 30; return { x: cx, y: cy, vx: Math.cos(
-                        angle) * speed, vy: Math.sin(angle) * speed, life: 1.0, decay: 0.005 + Math.random() * 0.025,
-                    size: 1.2 + Math.random() * 6, color: `hsl(${hue}, 100%, ${55 + Math.random() * 35}%)`,
-                trail: [] }; }
+            function spawnParticle(cx, cy, intensity) {
+                const angle = Math.random() * Math.PI * 2;
+                const speed = 0.3 + Math.random() * 4.0 * intensity;
+                const hue = 30 + Math.random() * 30;
+                return {
+                    x: cx,
+                    y: cy,
+                    vx: Math.cos(angle) * speed,
+                    vy: Math.sin(angle) * speed,
+                    life: 1.0,
+                    decay: 0.005 + Math.random() * 0.025,
+                    size: 1.2 + Math.random() * 6,
+                    color: `hsl(${hue}, 100%, ${55 + Math.random() * 35}%)`,
+                    trail: []
+                };
+            }
 
-            function spawnSpeedLine(w, h, intensity) { const edge = Math.floor(Math.random() * 4); let x, y, vx, vy; const
-                    cx = w / 2,
-                    cy = h / 2; const speed = 1.5 + intensity * 6; if (edge === 0) { x = Math.random() * w;
+            function spawnSpeedLine(w, h, intensity) {
+                const edge = Math.floor(Math.random() * 4);
+                let x, y, vx, vy;
+                const cx = w / 2,
+                    cy = h / 2;
+                const speed = 1.5 + intensity * 6;
+                if (edge === 0) { x = Math.random() * w;
                     y = -5;
                     vx = (cx - x) * 0.015;
                     vy = speed; } else if (edge === 1) { x = w + 5;
@@ -2190,50 +2075,72 @@
                     vy = -speed; } else { x = -5;
                     y = Math.random() * h;
                     vx = speed;
-                    vy = (cy - y) * 0.015; } return { x, y, vx, vy, life: 1.0, decay: 0.012 + Math.random() * 0.035,
-                    length: 18 + Math.random() * 55, alpha: 0.12 + Math.random() * 0.4, hue: 200 + Math.random() *
-                40 }; }
+                    vy = (cy - y) * 0.015; }
+                return { x, y, vx, vy, life: 1.0, decay: 0.012 + Math.random() * 0.035, length: 18 + Math.random() * 55,
+                    alpha: 0.12 + Math.random() * 0.4, hue: 200 + Math.random() * 40 };
+            }
 
-            function initNebulaParticles(w, h) { nebulaParticles = []; for (let i = 0; i < 25; i++) {
-                nebulaParticles.push({ x: Math.random() * w, y: Math.random() * h, size: 20 + Math.random() * 60,
-                    alpha: 0.015 + Math.random() * 0.04, color: `hsl(${220 + Math.random() * 40}, 60%, ${30 + Math.random() * 40}%)`,
-                    driftX: (Math.random() - 0.5) * 0.15, driftY: (Math.random() - 0.5) * 0.15, pulse: Math.random() *
-                        Math.PI * 2 }); } }
+            function initNebulaParticles(w, h) {
+                nebulaParticles = [];
+                for (let i = 0; i < 25; i++) {
+                    nebulaParticles.push({
+                        x: Math.random() * w,
+                        y: Math.random() * h,
+                        size: 20 + Math.random() * 60,
+                        alpha: 0.015 + Math.random() * 0.04,
+                        color: `hsl(${220 + Math.random() * 40}, 60%, ${30 + Math.random() * 40}%)`,
+                        driftX: (Math.random() - 0.5) * 0.15,
+                        driftY: (Math.random() - 0.5) * 0.15,
+                        pulse: Math.random() * Math.PI * 2
+                    });
+                }
+            }
 
-            function spawnStarTrail(cx, cy, intensity) { const angle = Math.random() * Math.PI * 2; const dist = 18 + Math
-                    .random() * 28; return { x: cx + Math.cos(angle) * dist, y: cy + Math.sin(angle) * dist, life: 0.7 +
-                    Math.random() * 0.5, decay: 0.02 + Math.random() * 0.04, size: 2 + Math.random() * 5,
-                color: `hsl(${42 + Math.random() * 20}, 100%, ${60 + Math.random() * 35}%)` }; }
-
-            function updateParticles() { for (let i = particles.length - 1; i >= 0; i--) { const p = particles[i];
-                    p.trail.push({ x: p.x, y: p.y, life: 0.6 }); if (p.trail.length > 6) p.trail.shift(); for (const t of p
-                        .trail) t.life -= 0.1;
+            function updateParticles() {
+                for (let i = particles.length - 1; i >= 0; i--) {
+                    const p = particles[i];
+                    p.trail.push({ x: p.x, y: p.y, life: 0.6 });
+                    if (p.trail.length > 6) p.trail.shift();
+                    for (const t of p.trail) t.life -= 0.1;
                     p.x += p.vx;
                     p.y += p.vy;
-                    p.life -= p.decay; if (p.life <= 0) particles.splice(i, 1); } for (let i = speedLines.length - 1; i >=
-                    0; i--) { const sl = speedLines[i];
+                    p.life -= p.decay;
+                    if (p.life <= 0) particles.splice(i, 1);
+                }
+                for (let i = speedLines.length - 1; i >= 0; i--) {
+                    const sl = speedLines[i];
                     sl.x += sl.vx;
                     sl.y += sl.vy;
-                    sl.life -= sl.decay; if (sl.life <= 0) speedLines.splice(i, 1); } for (const np of nebulaParticles) {
+                    sl.life -= sl.decay;
+                    if (sl.life <= 0) speedLines.splice(i, 1);
+                }
+                for (const np of nebulaParticles) {
                     np.x += np.driftX;
                     np.y += np.driftY;
-                    np.pulse += 0.003; if (np.x < -60) np.x = crashCanvas.width + 60; if (np.x > crashCanvas.width +
-                        60) np.x = -60; if (np.y < -60) np.y = crashCanvas.height + 60; if (np.y > crashCanvas.height +
-                    60) np.y = -60; } for (let i = starTrailParticles.length - 1; i >= 0; i--) { const st = starTrailParticles[
-                        i];
-                    st.life -= st.decay; if (st.life <= 0) starTrailParticles.splice(i, 1); } }
+                    np.pulse += 0.003;
+                    if (np.x < -60) np.x = crashCanvas.width + 60;
+                    if (np.x > crashCanvas.width + 60) np.x = -60;
+                    if (np.y < -60) np.y = crashCanvas.height + 60;
+                    if (np.y > crashCanvas.height + 60) np.y = -60;
+                }
+            }
 
-            function drawParticlesAndLines() { for (const np of nebulaParticles) { const alpha = np.alpha * (0.7 + 0.3 * Math
-                        .sin(np.pulse));
+            function drawParticlesAndLines() {
+                for (const np of nebulaParticles) {
+                    const alpha = np.alpha * (0.7 + 0.3 * Math.sin(np.pulse));
                     ctx.save();
-                    ctx.globalAlpha = alpha; const grad = ctx.createRadialGradient(np.x, np.y, 0, np.x, np.y, np.size);
+                    ctx.globalAlpha = alpha;
+                    const grad = ctx.createRadialGradient(np.x, np.y, 0, np.x, np.y, np.size);
                     grad.addColorStop(0, np.color);
                     grad.addColorStop(1, 'transparent');
                     ctx.fillStyle = grad;
                     ctx.beginPath();
                     ctx.arc(np.x, np.y, np.size, 0, Math.PI * 2);
                     ctx.fill();
-                    ctx.restore(); } for (const sl of speedLines) { ctx.save();
+                    ctx.restore();
+                }
+                for (const sl of speedLines) {
+                    ctx.save();
                     ctx.globalAlpha = sl.alpha * sl.life;
                     ctx.strokeStyle = `hsl(${sl.hue}, 80%, 70%)`;
                     ctx.lineWidth = 1.2;
@@ -2243,18 +2150,25 @@
                     ctx.moveTo(sl.x, sl.y);
                     ctx.lineTo(sl.x - sl.vx * sl.length * 0.25, sl.y - sl.vy * sl.length * 0.25);
                     ctx.stroke();
-                    ctx.restore(); } for (const p of particles) { if (p.trail.length > 1) { ctx.save();
+                    ctx.restore();
+                }
+                for (const p of particles) {
+                    if (p.trail.length > 1) {
+                        ctx.save();
                         ctx.globalAlpha = 0.25 * p.life;
                         ctx.strokeStyle = p.color;
                         ctx.lineWidth = p.size * 0.5;
                         ctx.shadowColor = p.color;
                         ctx.shadowBlur = 6;
                         ctx.beginPath();
-                        ctx.moveTo(p.trail[0].x, p.trail[0].y); for (let t = 1; t < p.trail.length; t++) { ctx.lineTo(p
-                                .trail[t].x, p.trail[t].y); }
+                        ctx.moveTo(p.trail[0].x, p.trail[0].y);
+                        for (let t = 1; t < p.trail.length; t++) {
+                            ctx.lineTo(p.trail[t].x, p.trail[t].y);
+                        }
                         ctx.lineTo(p.x, p.y);
                         ctx.stroke();
-                        ctx.restore(); }
+                        ctx.restore();
+                    }
                     ctx.save();
                     ctx.globalAlpha = p.life * 0.8;
                     ctx.shadowColor = p.color;
@@ -2263,423 +2177,651 @@
                     ctx.beginPath();
                     ctx.arc(p.x, p.y, p.size * p.life, 0, Math.PI * 2);
                     ctx.fill();
-                    ctx.restore(); } for (const st of starTrailParticles) { ctx.save();
-                    ctx.globalAlpha = st.life * 0.5;
-                    ctx.fillStyle = st.color;
-                    ctx.shadowColor = st.color;
-                    ctx.shadowBlur = 10;
-                    ctx.beginPath();
-                    ctx.arc(st.x, st.y, st.size * st.life, 0, Math.PI * 2);
-                    ctx.fill();
-                    ctx.restore(); } }
+                    ctx.restore();
+                }
+            }
 
-            function drawCrashScene() { const w = crashCanvas.width,
+            function drawCrashScene() {
+                const w = crashCanvas.width,
                     h = crashCanvas.height;
-                ctx.clearRect(0, 0, w, h); const bgGrad = ctx.createRadialGradient(w / 2, h / 2, 5, w / 2, h / 2, w * 0.85);
-                bgGrad.addColorStop(0, '#e8ecf1');
-                bgGrad.addColorStop(0.4, '#dde2e9');
-                bgGrad.addColorStop(0.8, '#cfd5dd');
-                bgGrad.addColorStop(1, '#c4cad4');
+                ctx.clearRect(0, 0, w, h);
+                const bgGrad = ctx.createRadialGradient(w / 2, h / 2, 5, w / 2, h / 2, w * 0.85);
+                bgGrad.addColorStop(0, '#1a2840');
+                bgGrad.addColorStop(0.4, '#0f1828');
+                bgGrad.addColorStop(0.8, '#080e18');
+                bgGrad.addColorStop(1, '#040810');
                 ctx.fillStyle = bgGrad;
                 ctx.fillRect(0, 0, w, h);
-                ctx.strokeStyle = 'rgba(180,188,200,0.25)';
-                ctx.lineWidth = 0.4; const gridSpacing = 30; for (let x = gridSpacing; x < w; x += gridSpacing) { ctx
-                    .beginPath();
+                ctx.strokeStyle = 'rgba(25, 40, 60, 0.25)';
+                ctx.lineWidth = 0.4;
+                const gridSpacing = 30;
+                for (let x = gridSpacing; x < w; x += gridSpacing) {
+                    ctx.beginPath();
                     ctx.moveTo(x, 0);
                     ctx.lineTo(x, h);
-                    ctx.stroke(); } for (let y = gridSpacing; y < h; y += gridSpacing) { ctx.beginPath();
+                    ctx.stroke();
+                }
+                for (let y = gridSpacing; y < h; y += gridSpacing) {
+                    ctx.beginPath();
                     ctx.moveTo(0, y);
                     ctx.lineTo(w, y);
-                    ctx.stroke(); } const intensity = Math.min(1, (currentMultiplier - 1) / 6); const rotSpeed = 0.025 +
-                    intensity * 0.16;
+                    ctx.stroke();
+                }
+                const intensity = Math.min(1, (currentMultiplier - 1) / 6);
+                const rotSpeed = 0.015 + intensity * 0.14;
                 starAngle += rotSpeed;
-                starBobOffset = Math.sin(performance.now() / 300) * (2 + intensity * 4); if (Math.random() < 0.25 + intensity *
-                    0.55) { particles.push(spawnParticle(w / 2, h / 2, intensity)); } if (Math.random() < 0.12 + intensity *
-                    0.45) { speedLines.push(spawnSpeedLine(w, h, intensity)); } if (Math.random() < 0.3 + intensity * 0.5) {
-                    starTrailParticles.push(spawnStarTrail(w / 2, h / 2 + starBobOffset, intensity)); } if (particles.length >
-                    150) particles.splice(0, particles.length - 150); if (speedLines.length > 50) speedLines.splice(0,
-                    speedLines.length - 50); if (starTrailParticles.length > 80) starTrailParticles.splice(0,
-                    starTrailParticles.length - 80);
+                if (Math.random() < 0.25 + intensity * 0.55) {
+                    particles.push(spawnParticle(w / 2, h / 2, intensity));
+                }
+                if (Math.random() < 0.12 + intensity * 0.45) {
+                    speedLines.push(spawnSpeedLine(w, h, intensity));
+                }
+                if (particles.length > 150) particles.splice(0, particles.length - 150);
+                if (speedLines.length > 50) speedLines.splice(0, speedLines.length - 50);
                 updateParticles();
-                drawParticlesAndLines(); const multColor = getMultiplierColor(currentMultiplier); for (let glow = 3; glow >=
-                    0; glow--) { const glowSize = 30 + glow * 25 + intensity * 30; const glowAlpha = (0.08 + glow * 0.06) * (
-                        1 + intensity * 0.5); const glowGrd = ctx.createRadialGradient(w / 2, h / 2, 5, w / 2, h / 2,
-                        glowSize); let baseColor = multColor; if (baseColor === '#4f7df3') baseColor =
-                        '79,125,243'; else if (baseColor === '#10b981') baseColor = '16,185,129'; else if (baseColor ===
-                        '#f59e0b') baseColor = '245,158,11'; else if (baseColor === '#ef4444') baseColor =
-                        '239,68,68'; else baseColor = '220,38,38';
+                drawParticlesAndLines();
+                const multColor = getMultiplierColor(currentMultiplier);
+                for (let glow = 3; glow >= 0; glow--) {
+                    const glowSize = 30 + glow * 25 + intensity * 30;
+                    const glowAlpha = (0.08 + glow * 0.06) * (1 + intensity * 0.5);
+                    const glowGrd = ctx.createRadialGradient(w / 2, h / 2, 5, w / 2, h / 2, glowSize);
+                    const baseColor = multColor.replace('#4a7cf7', '74,124,247').replace('#16c95a', '22,201,90')
+                        .replace('#f39c12', '243,156,18').replace('#e04050', '224,64,80').replace('#ff1744',
+                            '255,23,68');
                     glowGrd.addColorStop(0, `rgba(${baseColor}, ${glowAlpha * 1.5})`);
-                    glowGrd.addColorStop(0.5, `rgba(255,200,50,${glowAlpha * 0.6})`);
+                    glowGrd.addColorStop(0.5, `rgba(255,215,0,${glowAlpha * 0.6})`);
                     glowGrd.addColorStop(1, 'rgba(0,0,0,0)');
                     ctx.fillStyle = glowGrd;
                     ctx.beginPath();
                     ctx.arc(w / 2, h / 2, glowSize, 0, Math.PI * 2);
-                    ctx.fill(); } const pulse = 1 + 0.06 * Math.sin(performance.now() / 140); const starSize = 40 * pulse;
+                    ctx.fill();
+                }
+                const pulse = 1 + 0.05 * Math.sin(performance.now() / 140);
+                const starSize = 40 * pulse;
                 ctx.save();
-                ctx.translate(w / 2, h / 2 + starBobOffset);
+                ctx.translate(w / 2, h / 2);
                 ctx.rotate(starAngle);
-                ctx.shadowColor = '#e8a817';
+                ctx.shadowColor = '#ffd700';
                 ctx.shadowBlur = 55 + intensity * 25;
                 ctx.font = `bold ${starSize}px "Segoe UI", sans-serif`;
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
-                ctx.fillStyle = '#f5c842';
-                ctx.fillText('⭐', 0, 0);
+                ctx.fillStyle = '#ffe566';
+                ctx.fillText('⭐', 0, 2);
                 ctx.shadowBlur = 20;
                 ctx.font = `bold ${starSize * 0.7}px "Segoe UI", sans-serif`;
                 ctx.fillStyle = '#ffffff';
-                ctx.fillText('⭐', 0, 0);
+                ctx.fillText('⭐', 0, 1);
                 ctx.shadowBlur = 0;
-                ctx.restore(); const coreGrd = ctx.createRadialGradient(w / 2, h / 2 + starBobOffset, 2, w / 2, h / 2 +
-                    starBobOffset, 22);
+                ctx.restore();
+                const coreGrd = ctx.createRadialGradient(w / 2, h / 2, 2, w / 2, h / 2, 22);
                 coreGrd.addColorStop(0, 'rgba(255,255,255,0.95)');
                 coreGrd.addColorStop(0.4, 'rgba(255,245,210,0.4)');
                 coreGrd.addColorStop(1, 'rgba(255,200,50,0)');
                 ctx.fillStyle = coreGrd;
                 ctx.beginPath();
-                ctx.arc(w / 2, h / 2 + starBobOffset, 22, 0, Math.PI * 2);
-                ctx.fill(); const mx = 14,
+                ctx.arc(w / 2, h / 2, 22, 0, Math.PI * 2);
+                ctx.fill();
+                const mx = 14,
                     my = 34;
                 ctx.font = 'bold 32px "Segoe UI", sans-serif';
                 ctx.textAlign = 'left';
                 ctx.textBaseline = 'top';
-                ctx.shadowColor = 'rgba(0,0,0,0.4)';
-                ctx.shadowBlur = 10;
-                ctx.fillStyle = multColor; const multText = `x${currentMultiplier.toFixed(2)}`;
+                ctx.shadowColor = 'rgba(0,0,0,0.8)';
+                ctx.shadowBlur = 14;
+                ctx.fillStyle = multColor;
+                const multText = `x${currentMultiplier.toFixed(2)}`;
                 ctx.fillText(multText, mx, my);
                 ctx.shadowBlur = 0;
                 ctx.font = '10px "Segoe UI", sans-serif';
-                ctx.fillStyle = 'rgba(80,85,95,0.6)';
+                ctx.fillStyle = 'rgba(255,255,255,0.5)';
                 ctx.fillText('множитель', mx, my + 34);
-                ctx.textAlign = 'start'; }
+                ctx.textAlign = 'start';
+            }
 
-            function updateUnifiedButton() { const isBlocked = currentUser.blocked;
-                cancelPendingBtn.style.display = 'none'; if (isBlocked) { unifiedBtn.textContent = '🚫 Заблокирован';
+            function updateUnifiedButton() {
+                const isBlocked = currentUser.blocked;
+                cancelPendingBtn.style.display = 'none';
+                if (isBlocked) {
+                    unifiedBtn.textContent = '🚫 Заблокирован';
                     unifiedBtn.className = 'btn btn-disabled';
-                    unifiedBtn.disabled = true; return; } if (gameRunning && activeBet) { const winAmt = Math.floor(activeBet
-                        .amount * currentMultiplier);
+                    unifiedBtn.disabled = true;
+                    return;
+                }
+                if (gameRunning && activeBet) {
+                    const winAmt = Math.floor(activeBet.amount * currentMultiplier);
                     unifiedBtn.textContent = `💸 Вывести ${winAmt} ⭐`;
                     unifiedBtn.className = 'btn btn-gold';
-                    unifiedBtn.disabled = false; } else if (gameRunning && !activeBet && !pendingBet) { unifiedBtn
-                    .textContent = '📋 На след. раунд';
+                    unifiedBtn.disabled = false;
+                } else if (gameRunning && !activeBet && !pendingBet) {
+                    unifiedBtn.textContent = '📋 На след. раунд';
                     unifiedBtn.className = 'btn btn-accent';
-                    unifiedBtn.disabled = false; } else if (gameRunning && pendingBet) { unifiedBtn.textContent =
-                        '⏳ Запланировано';
+                    unifiedBtn.disabled = false;
+                } else if (gameRunning && pendingBet) {
+                    unifiedBtn.textContent = '⏳ Запланировано';
                     unifiedBtn.className = 'btn btn-outline';
                     unifiedBtn.disabled = true;
-                    cancelPendingBtn.style.display = 'inline-flex'; } else if (!gameRunning && pendingBet) { unifiedBtn
-                    .textContent = '⏳ Запланировано';
+                    cancelPendingBtn.style.display = 'inline-flex';
+                } else if (!gameRunning && pendingBet) {
+                    unifiedBtn.textContent = '⏳ Запланировано';
                     unifiedBtn.className = 'btn btn-outline';
                     unifiedBtn.disabled = true;
-                    cancelPendingBtn.style.display = 'inline-flex'; } else { unifiedBtn.textContent = '💰 Ставка';
+                    cancelPendingBtn.style.display = 'inline-flex';
+                } else {
+                    unifiedBtn.textContent = '💰 Ставка';
                     unifiedBtn.className = 'btn btn-primary';
-                    unifiedBtn.disabled = false; }
+                    unifiedBtn.disabled = false;
+                }
                 betInput.disabled = isBlocked || (gameRunning && !!activeBet);
-                autoInput.disabled = isBlocked; }
+                autoInput.disabled = isBlocked;
+            }
 
-            function startBreak() { crashInfo.textContent = 'Следующий раунд через 5...';
-                crashInfo.className = 'info-text'; let count = 5; const tick = () => { if (count <= 0) { crashInfo
-                        .textContent = '';
-                    startRound(); return; }
+            function startBreak() {
+                crashInfo.textContent = 'Следующий раунд через 5...';
+                crashInfo.className = 'info-text';
+                let count = 5;
+                const tick = () => {
+                    if (count <= 0) {
+                        crashInfo.textContent = '';
+                        startRound();
+                        return;
+                    }
                     crashInfo.textContent = `Следующий раунд через ${count}...`;
                     count--;
-                    setTimeout(tick, 1000); };
-                tick(); }
+                    setTimeout(tick, 1000);
+                };
+                tick();
+            }
 
-            function startRound() { if (gameRunning) return; if (isBlockedCheck()) return;
+            function startRound() {
+                if (gameRunning) return;
+                if (isBlockedCheck()) return;
                 currentRound = incrementRoundNumber();
-                crashPoint = generateCrashPoint(currentRound); if (pendingBet) { if (!isDemoMode && pendingBet.amount >
-                        stars) { crashInfo.textContent = '❌ Недостаточно звёзд!';
+                crashPoint = generateCrashPoint(currentRound);
+                if (pendingBet) {
+                    if (!isDemoMode && pendingBet.amount > stars) {
+                        crashInfo.textContent = '❌ Недостаточно звёзд!';
                         crashInfo.className = 'info-text loss';
                         pendingBet = null;
                         updateUnifiedButton();
-                        startBreak(); return; } if (!isDemoMode) { stars -= pendingBet.amount;
-                    updateBalanceUI(); }
+                        startBreak();
+                        return;
+                    }
+                    if (!isDemoMode) {
+                        stars -= pendingBet.amount;
+                        updateBalanceUI();
+                    }
                     activeBet = { ...pendingBet };
                     pendingBet = null;
                     totalGames++;
                     persistGameData();
-                    addFeedItem(userName, 'ставит', activeBet.amount, 'bet', '💰'); } else { activeBet = null; }
+                    addFeedItem(userName, 'ставит', activeBet.amount, 'bet', '💰');
+                } else {
+                    activeBet = null;
+                }
                 currentMultiplier = 1.0;
                 starAngle = 0;
-                starBobOffset = 0;
                 particles = [];
                 speedLines = [];
-                starTrailParticles = []; if (nebulaParticles.length === 0) initNebulaParticles(crashCanvas.width, crashCanvas
-                    .height);
+                if (nebulaParticles.length === 0) initNebulaParticles(crashCanvas.width, crashCanvas.height);
                 gameRunning = true;
                 startTime = performance.now();
                 crashInfo.textContent = '🚀 Полёт...';
-                crashInfo.className = 'info-text'; if (activeBet && activeBet.auto_withdraw > 0) { autoDisplay.textContent =
-                        `x${activeBet.auto_withdraw.toFixed(2)}`; } else { autoDisplay.textContent = 'x1.00'; }
+                crashInfo.className = 'info-text';
+                if (activeBet && activeBet.auto_withdraw > 0) {
+                    autoDisplay.textContent = `x${activeBet.auto_withdraw.toFixed(2)}`;
+                } else {
+                    autoDisplay.textContent = 'x1.00';
+                }
                 updateUnifiedButton();
-                animateCrash(); }
+                animateCrash();
+            }
 
-            function getGrowthRate(mult) { const baseRate = 0.052; if (mult < 1.08) return baseRate; if (mult < 1.50)
-                return baseRate * 1.4; return baseRate * 1.9; }
+            function getGrowthRate(mult) {
+                const baseRate = 0.052;
+                if (mult < 1.08) return baseRate;
+                if (mult < 1.50) return baseRate * 1.4;
+                return baseRate * 1.9;
+            }
 
-            function animateCrash(timestamp) { if (!gameRunning) return; const now = performance.now(); const elapsed = (now -
-                    startTime) / 1000; const rate = getGrowthRate(currentMultiplier);
-                currentMultiplier = Math.exp(rate * elapsed); if (currentMultiplier >= crashPoint || currentMultiplier >=
-                    30) { currentMultiplier = Math.min(crashPoint, 30);
+            function animateCrash(timestamp) {
+                if (!gameRunning) return;
+                const now = performance.now();
+                const elapsed = (now - startTime) / 1000;
+                const rate = getGrowthRate(currentMultiplier);
+                currentMultiplier = Math.exp(rate * elapsed);
+                if (currentMultiplier >= crashPoint || currentMultiplier >= 30) {
+                    currentMultiplier = Math.min(crashPoint, 30);
                     drawCrashScene();
-                    crash(); return; }
-                drawCrashScene(); if (activeBet && activeBet.auto_withdraw > 0 && currentMultiplier >= activeBet
-                    .auto_withdraw) { autoWithdraw(); return; } if (activeBet) updateUnifiedButton();
-                animFrameId = requestAnimationFrame(animateCrash); }
+                    crash();
+                    return;
+                }
+                drawCrashScene();
+                if (activeBet && activeBet.auto_withdraw > 0 && currentMultiplier >= activeBet.auto_withdraw) {
+                    autoWithdraw();
+                    return;
+                }
+                if (activeBet) updateUnifiedButton();
+                animFrameId = requestAnimationFrame(animateCrash);
+            }
 
-            function crash() { gameRunning = false; if (animFrameId) cancelAnimationFrame(animFrameId); const crashMult = Math
-                    .round(currentMultiplier * 100) / 100;
-                history.push(crashMult); if (history.length > 30) history.shift();
+            function crash() {
+                gameRunning = false;
+                if (animFrameId) cancelAnimationFrame(animFrameId);
+                const crashMult = Math.round(currentMultiplier * 100) / 100;
+                history.push(crashMult);
+                if (history.length > 30) history.shift();
                 updateHistUI();
-                persistGameData(); if (activeBet) { const betAmount = activeBet.amount; if (activeBet.protection &&
-                        crashMult <= 1.01) { if (!isDemoMode) stars += betAmount;
+                persistGameData();
+                if (activeBet) {
+                    const betAmount = activeBet.amount;
+                    if (activeBet.protection && crashMult <= 1.01) {
+                        if (!isDemoMode) stars += betAmount;
                         crashInfo.textContent = '🛡️ Защита! Ставка возвращена.';
                         crashInfo.className = 'info-text win';
-                        addFeedItem(userName, 'защита', betAmount, 'win', '🛡️'); } else { totalLosses++;
+                        addFeedItem(userName, 'защита', betAmount, 'win', '🛡️');
+                    } else {
+                        totalLosses++;
                         crashInfo.textContent = `💥 Крах на x${crashMult.toFixed(2)}`;
                         crashInfo.className = 'info-text loss';
-                        addFeedItem(userName, 'проигрыш', betAmount, 'loss', '💥'); } } else { crashInfo.textContent =
-                        `💥 Крах на x${crashMult.toFixed(2)}`;
-                    crashInfo.className = 'info-text loss'; }
+                        addFeedItem(userName, 'проигрыш', betAmount, 'loss', '💥');
+                    }
+                } else {
+                    crashInfo.textContent = `💥 Крах на x${crashMult.toFixed(2)}`;
+                    crashInfo.className = 'info-text loss';
+                }
                 updateBalanceUI();
-                persistGameData(); if (pendingBet) { crashInfo.textContent += ' ⏳ Ставка на след. раунд';
-                    crashInfo.className = 'info-text pending'; }
+                persistGameData();
+                if (pendingBet) {
+                    crashInfo.textContent += ' ⏳ Ставка на след. раунд';
+                    crashInfo.className = 'info-text pending';
+                }
                 activeBet = null;
                 updateUnifiedButton();
-                setTimeout(startBreak, 800); }
+                setTimeout(startBreak, 800);
+            }
 
-            function autoWithdraw() { if (!activeBet) return; const win = Math.floor(activeBet.amount * currentMultiplier); if (
-                    !isDemoMode) stars += win;
+            function autoWithdraw() {
+                if (!activeBet) return;
+                const win = Math.floor(activeBet.amount * currentMultiplier);
+                if (!isDemoMode) stars += win;
                 updateBalanceUI();
                 totalWins++;
                 crashInfo.textContent = `✅ Авто-вывод при x${currentMultiplier.toFixed(2)}`;
                 crashInfo.className = 'info-text win';
                 addFeedItem(userName, 'выигрыш', win, 'win', '🏆');
-                history.push(Math.round(currentMultiplier * 100) / 100); if (history.length > 30) history.shift();
+                history.push(Math.round(currentMultiplier * 100) / 100);
+                if (history.length > 30) history.shift();
                 updateHistUI();
                 persistGameData();
                 activeBet = null;
-                updateUnifiedButton(); }
+                updateUnifiedButton();
+            }
 
-            function manualWithdraw() { if (gameRunning && activeBet) { const win = Math.floor(activeBet.amount *
-                        currentMultiplier); if (!isDemoMode) stars += win;
-                updateBalanceUI();
-                totalWins++;
-                crashInfo.textContent = `✅ Вывод при x${currentMultiplier.toFixed(2)}`;
-                crashInfo.className = 'info-text win';
-                addFeedItem(userName, 'выигрыш', win, 'win', '🏆');
-                history.push(Math.round(currentMultiplier * 100) / 100); if (history.length > 30) history.shift();
-                updateHistUI();
-                persistGameData();
-                activeBet = null;
-                updateUnifiedButton(); } }
+            function manualWithdraw() {
+                if (gameRunning && activeBet) {
+                    const win = Math.floor(activeBet.amount * currentMultiplier);
+                    if (!isDemoMode) stars += win;
+                    updateBalanceUI();
+                    totalWins++;
+                    crashInfo.textContent = `✅ Вывод при x${currentMultiplier.toFixed(2)}`;
+                    crashInfo.className = 'info-text win';
+                    addFeedItem(userName, 'выигрыш', win, 'win', '🏆');
+                    history.push(Math.round(currentMultiplier * 100) / 100);
+                    if (history.length > 30) history.shift();
+                    updateHistUI();
+                    persistGameData();
+                    activeBet = null;
+                    updateUnifiedButton();
+                }
+            }
 
-            function placeOrScheduleBet() { if (isBlockedCheck()) return; if (gameRunning && activeBet) { manualWithdraw
-                (); return; } if (gameRunning && !activeBet && !pendingBet) { scheduleBet(); return; } if (!gameRunning &&
-                    pendingBet) { return; } if (!gameRunning && !pendingBet) { placeBetNow(); return; } }
+            function placeOrScheduleBet() {
+                if (isBlockedCheck()) return;
+                if (gameRunning && activeBet) { manualWithdraw(); return; }
+                if (gameRunning && !activeBet && !pendingBet) { scheduleBet(); return; }
+                if (!gameRunning && pendingBet) { return; }
+                if (!gameRunning && !pendingBet) { placeBetNow(); return; }
+            }
 
-            function placeBetNow() { const bet = parseInt(betInput.value); if (!bet || bet <= 0) { crashInfo.textContent =
-                        '❌ Введите ставку > 0';
-                    crashInfo.className = 'info-text loss'; return; } if (!isDemoMode && bet > stars) { crashInfo
-                    .textContent = '❌ Недостаточно звёзд';
-                    crashInfo.className = 'info-text loss'; return; } let auto = 0; if (autoInput.value && autoInput.value
-                    .trim() !== '') { auto = parseFloat(autoInput.value); if (isNaN(auto) || auto <= 1.0 || auto > 30) {
-                        crashInfo.textContent = '❌ Авто-вывод от 1.01 до 30';
-                        crashInfo.className = 'info-text loss'; return; } }
+            function placeBetNow() {
+                const bet = parseInt(betInput.value);
+                if (!bet || bet <= 0) { crashInfo.textContent = '❌ Введите ставку > 0';
+                    crashInfo.className = 'info-text loss'; return; }
+                if (!isDemoMode && bet > stars) { crashInfo.textContent = '❌ Недостаточно звёзд';
+                    crashInfo.className = 'info-text loss'; return; }
+                let auto = 0;
+                if (autoInput.value && autoInput.value.trim() !== '') {
+                    auto = parseFloat(autoInput.value);
+                    if (isNaN(auto) || auto <= 1.0 || auto > 30) { crashInfo.textContent =
+                            '❌ Авто-вывод от 1.01 до 30';
+                        crashInfo.className = 'info-text loss'; return; }
+                }
                 pendingBet = { amount: bet, auto_withdraw: auto, protection: protectionEnabled };
                 crashInfo.textContent = '✅ Ставка принята!';
                 crashInfo.className = 'info-text win';
-                updateUnifiedButton(); if (!gameRunning) { setTimeout(() => { if (pendingBet && !gameRunning)
-                    startRound(); }, 400); } else { crashInfo.textContent =
-                    '⏳ Ставка запланирована на след. раунд';
-                crashInfo.className = 'info-text pending'; } }
+                updateUnifiedButton();
+                if (!gameRunning) {
+                    setTimeout(() => { if (pendingBet && !gameRunning) startRound(); }, 400);
+                } else {
+                    crashInfo.textContent = '⏳ Ставка запланирована на след. раунд';
+                    crashInfo.className = 'info-text pending';
+                }
+            }
 
-            function scheduleBet() { const bet = parseInt(betInput.value); if (!bet || bet <= 0) { crashInfo.textContent =
-                        '❌ Введите ставку > 0';
-                    crashInfo.className = 'info-text loss'; return; } if (!isDemoMode && bet > stars) { crashInfo
-                    .textContent = '❌ Недостаточно звёзд';
-                    crashInfo.className = 'info-text loss'; return; } let auto = 0; if (autoInput.value && autoInput.value
-                    .trim() !== '') { auto = parseFloat(autoInput.value); if (isNaN(auto) || auto <= 1.0 || auto > 30) {
-                        crashInfo.textContent = '❌ Авто-вывод от 1.01 до 30';
-                        crashInfo.className = 'info-text loss'; return; } }
+            function scheduleBet() {
+                const bet = parseInt(betInput.value);
+                if (!bet || bet <= 0) { crashInfo.textContent = '❌ Введите ставку > 0';
+                    crashInfo.className = 'info-text loss'; return; }
+                if (!isDemoMode && bet > stars) { crashInfo.textContent = '❌ Недостаточно звёзд';
+                    crashInfo.className = 'info-text loss'; return; }
+                let auto = 0;
+                if (autoInput.value && autoInput.value.trim() !== '') {
+                    auto = parseFloat(autoInput.value);
+                    if (isNaN(auto) || auto <= 1.0 || auto > 30) { crashInfo.textContent =
+                            '❌ Авто-вывод от 1.01 до 30';
+                        crashInfo.className = 'info-text loss'; return; }
+                }
                 pendingBet = { amount: bet, auto_withdraw: auto, protection: protectionEnabled };
                 crashInfo.textContent = '⏳ Ставка запланирована на следующий раунд!';
                 crashInfo.className = 'info-text pending';
-                updateUnifiedButton(); }
+                updateUnifiedButton();
+            }
 
-            function cancelPendingBet() { pendingBet = null;
+            function cancelPendingBet() {
+                pendingBet = null;
                 crashInfo.textContent = '❌ Запланированная ставка отменена';
                 crashInfo.className = 'info-text loss';
                 updateUnifiedButton();
-                setTimeout(() => { if (!gameRunning && !isDemoMode) { crashInfo.textContent =
-                        'Ожидание раунда...';
-                        crashInfo.className = 'info-text'; } }, 1500); }
+                setTimeout(() => {
+                    if (!gameRunning && !isDemoMode) { crashInfo.textContent = 'Ожидание раунда...';
+                        crashInfo.className = 'info-text'; }
+                }, 1500);
+            }
 
             unifiedBtn.addEventListener('click', placeOrScheduleBet);
             cancelPendingBtn.addEventListener('click', cancelPendingBet);
 
-            function updateHistUI() { if (!history.length) { histList.innerHTML =
-                    '<span class="hist-chip low">—</span>'; return; } let html = '';
-                history.slice(-10).reverse().forEach(val => { const cls = getHistChipClass(val);
-                    html += `<span class="hist-chip ${cls}">x${val.toFixed(2)}</span>`; });
-                histList.innerHTML = html; }
+            function updateHistUI() {
+                if (!history.length) { histList.innerHTML = '<span class="hist-chip low">—</span>'; return; }
+                let html = '';
+                history.slice(-10).reverse().forEach(val => {
+                    const cls = getHistChipClass(val);
+                    html += `<span class="hist-chip ${cls}">x${val.toFixed(2)}</span>`;
+                });
+                histList.innerHTML = html;
+            }
 
-            function updateBalanceUI() { balanceDisplay.textContent = `⭐ ${stars}`; }
+            function updateBalanceUI() {
+                balanceDisplay.textContent = `⭐ ${stars}`;
+            }
 
-            const casesConfig = { common: { price: 50, min: 10, max: 55 }, rare: { price: 200, min: 100, max: 210 },
-                epic: { price: 500, min: 300, max: 520 } };
+            // ── Cases Logic ──
+            const casesConfig = {
+                common: { price: 10, min: 1, max: 10 },
+                rare: { price: 200, min: 100, max: 210 },
+                epic: { price: 500, min: 300, max: 520 }
+            };
 
-            function openCaseCommon(type) { if (isBlockedCheck()) return; const cfg = casesConfig[type]; if (!cfg) return; if (
-                    !isDemoMode && stars < cfg.price) { alert('Недостаточно звёзд!'); return; } if (!isDemoMode) { stars -=
-                    cfg.price; const reward = cfg.min + Math.floor(Math.random() * (cfg.max - cfg.min + 1));
-                stars += reward;
-                updateBalanceUI();
-                persistGameData();
-                addFeedItem(userName, 'кейс', reward, 'win', '📦');
-                showCaseAnimation(reward, 'Кейс'); } else { const reward = cfg.min + Math.floor(Math.random() * (cfg.max -
-                        cfg.min + 1));
-                showCaseAnimation(reward, 'Демо-кейс'); } }
+            function openCaseCommon(type) {
+                if (isBlockedCheck()) return;
+                const cfg = casesConfig[type];
+                if (!cfg) return;
+                if (type === 'common') {
+                    // Обычный кейс: цена 10, шанс 0.1% на 10 звёзд, иначе от 1 до 9.
+                    if (!isDemoMode && stars < cfg.price) { alert('Недостаточно звёзд!'); return; }
+                    let reward;
+                    if (Math.random() < 0.001) {
+                        reward = 10; // максимум
+                    } else {
+                        reward = Math.floor(Math.random() * 9) + 1; // 1..9
+                    }
+                    if (!isDemoMode) {
+                        stars -= cfg.price;
+                        stars += reward;
+                        updateBalanceUI();
+                        persistGameData();
+                        addFeedItem(userName, 'кейс', reward, 'win', '📦');
+                        showCaseAnimation(reward, 'Обычный кейс');
+                    } else {
+                        showCaseAnimation(reward, 'Демо-обычный кейс');
+                    }
+                    return;
+                }
+                // Остальные типы остаются без изменений
+                if (!isDemoMode && stars < cfg.price) { alert('Недостаточно звёзд!'); return; }
+                if (!isDemoMode) {
+                    stars -= cfg.price;
+                    const reward = cfg.min + Math.floor(Math.random() * (cfg.max - cfg.min + 1));
+                    stars += reward;
+                    updateBalanceUI();
+                    persistGameData();
+                    addFeedItem(userName, 'кейс', reward, 'win', '📦');
+                    showCaseAnimation(reward, 'Кейс');
+                } else {
+                    const reward = cfg.min + Math.floor(Math.random() * (cfg.max - cfg.min + 1));
+                    showCaseAnimation(reward, 'Демо-кейс');
+                }
+            }
 
-            const VALID_CODES = ['Бурмалда', 'Павел', 'Матвей', 'Скебоб', '67', 'Стефан', 'Даша', 'Саша', 'ВелоДрун'];
+            // Ежедневный кейс: максимум 5 звёзд, шанс 70% на 2 звезды, иначе случайная из (1,3,4,5)
+            const dailyCaseBtn = document.getElementById('dailyCaseBtn');
+            if (dailyBtn) {
+                dailyBtn.addEventListener('click', () => {
+                    if (isBlockedCheck()) return;
+                    const now = Date.now();
+                    const oneDay = 24 * 60 * 60 * 1000;
+                    if (now - lastDailyClaim < oneDay) {
+                        const remaining = oneDay - (now - lastDailyClaim);
+                        const hours = Math.floor(remaining / (60 * 60 * 1000));
+                        const mins = Math.floor((remaining % (60 * 60 * 1000)) / (60 * 1000));
+                        alert(`⏳ Следующий через ${hours}ч ${mins}м`);
+                        return;
+                    }
+                    let reward;
+                    if (Math.random() < 0.7) {
+                        reward = 2;
+                    } else {
+                        const other = [1, 3, 4, 5];
+                        reward = other[Math.floor(Math.random() * other.length)];
+                    }
+                    if (!isDemoMode) { 
+                        stars += reward;
+                        updateBalanceUI(); 
+                    }
+                    lastDailyClaim = now;
+                    persistGameData();
+                    addFeedItem(userName, 'ежедневный кейс', reward, 'win', '🎁');
+                    showCaseAnimation(reward, 'Ежедневный кейс');
+                });
+            }
+
+            const VALID_CODES = ['Бурмалда', 'Павел', 'Матвей', 'Скебоб', '67', 'Стефан', 'Даша', 'Саша'];
             const promoBtn = document.getElementById('promoCaseBtn');
             const promoStatus = document.getElementById('promoStatus');
-
-            function updatePromoStatus() { const used = usedPromoCodes || []; const available = VALID_CODES.filter(c => !used
-                    .includes(c));
+            function updatePromoStatus() {
+                const used = usedPromoCodes || [];
+                const available = VALID_CODES.filter(c => !used.includes(c));
                 promoStatus.textContent = available.length === 0 ? 'все использованы' : `${available.length} код(ов)`;
                 promoStatus.style.color = available.length === 0 ? 'var(--red)' : 'var(--green)';
-                promoBtn.disabled = available.length === 0; } if (promoBtn) { promoBtn.addEventListener('click', () => { if (
-                        isBlockedCheck()) return;
+                promoBtn.disabled = available.length === 0;
+            }
+            if (promoBtn) {
+                promoBtn.addEventListener('click', () => {
+                    if (isBlockedCheck()) return;
                     document.getElementById('promoCodeInput').value = '';
                     document.getElementById('promoMessage').textContent = '';
-                    document.getElementById('promoModal').style.display = 'flex'; }); }
-            document.getElementById('promoCloseBtn').addEventListener('click', () => document.getElementById('promoModal')
-                .style.display = 'none');
-            document.getElementById('promoSubmitBtn').addEventListener('click', () => { const code = document.getElementById(
-                    'promoCodeInput').value.trim(); const msg = document.getElementById('promoMessage'); if (!code) { msg
-                    .textContent = '❌ Введите код';
-                    msg.className = 'error-text'; return; } if (usedPromoCodes.includes(code)) { msg.textContent =
-                        '❌ Уже использован';
-                    msg.className = 'error-text'; return; } if (!VALID_CODES.includes(code)) { msg.textContent =
-                        '❌ Неверный код';
+                    document.getElementById('promoModal').style.display = 'flex';
+                });
+            }
+            document.getElementById('promoCloseBtn').addEventListener('click', () => document.getElementById(
+                'promoModal').style.display = 'none');
+            document.getElementById('promoSubmitBtn').addEventListener('click', () => {
+                const code = document.getElementById('promoCodeInput').value.trim();
+                const msg = document.getElementById('promoMessage');
+                if (!code) { msg.textContent = '❌ Введите код';
+                    msg.className = 'error-text'; return; }
+                if (usedPromoCodes.includes(code)) { msg.textContent = '❌ Уже использован';
+                    msg.className = 'error-text'; return; }
+                if (!VALID_CODES.includes(code)) { msg.textContent = '❌ Неверный код';
                     msg.className = 'error-text'; return; }
                 usedPromoCodes.push(code);
                 persistGameData();
                 updatePromoStatus();
-                document.getElementById('promoModal').style.display = 'none'; const reward = Math.floor(Math.random() *
-                    251) + 50; if (!isDemoMode) { stars += reward;
-                updateBalanceUI();
-                persistGameData(); }
+                document.getElementById('promoModal').style.display = 'none';
+                const reward = Math.floor(Math.random() * 251) + 50;
+                if (!isDemoMode) { stars += reward;
+                    updateBalanceUI();
+                    persistGameData(); }
                 addFeedItem(userName, 'промо-кейс', reward, 'win', '🔑');
-                showCaseAnimation(reward, `Промо-кейс (${code})`); });
+                showCaseAnimation(reward, `Промо-кейс (${code})`);
+            });
 
-            const legendaryItems = [{ name: 'Ракета', icon: '🚀', value: 50, weight: 1 / 50 }, { name: 'Кубок',
-                    icon: '🏆', value: 100, weight: 1 / 100 }, { name: 'Корона шута', icon: '🃏', value: 450,
-                    weight: 1 / 450 }, { name: 'Леденец', icon: '🍭', value: 480, weight: 1 / 480 }, { name: 'Глаз',
-                    icon: '👁️', value: 807, weight: 1 / 807 }, { name: 'Тамагочи', icon: '🐣', value: 490,
-                weight: 1 / 490 }];
+            const legendaryItems = [
+                { name: 'Ракета', icon: '🚀', value: 50, weight: 1 / 50 },
+                { name: 'Кубок', icon: '🏆', value: 100, weight: 1 / 100 },
+                { name: 'Корона шута', icon: '🃏', value: 450, weight: 1 / 450 },
+                { name: 'Леденец', icon: '🍭', value: 480, weight: 1 / 480 },
+                { name: 'Глаз', icon: '👁️', value: 807, weight: 1 / 807 },
+                { name: 'Тамагочи', icon: '🐣', value: 490, weight: 1 / 490 }
+            ];
 
-            function openLegendaryCase() { if (isBlockedCheck()) return; if (!isDemoMode && stars < 1500) { alert(
-                        'Недостаточно звёзд!'); return; } if (!isDemoMode) { stars -= 1500;
-                updateBalanceUI();
-                persistGameData(); } const totalWeight = legendaryItems.reduce((s, i) => s + i.weight, 0); let rand = Math
-                    .random() * totalWeight; let selected = legendaryItems[0]; for (const item of legendaryItems) { rand -=
-                        item.weight; if (rand <= 0) { selected = item; break; } }
+            function openLegendaryCase() {
+                if (isBlockedCheck()) return;
+                if (!isDemoMode && stars < 1500) { alert('Недостаточно звёзд!'); return; }
+                if (!isDemoMode) { stars -= 1500;
+                    updateBalanceUI();
+                    persistGameData(); }
+                const totalWeight = legendaryItems.reduce((s, i) => s + i.weight, 0);
+                let rand = Math.random() * totalWeight;
+                let selected = legendaryItems[0];
+                for (const item of legendaryItems) { rand -= item.weight; if (rand <= 0) { selected = item; break; } }
                 inventory.push({ ...selected, id: Date.now() + Math.random() });
                 persistGameData();
                 renderInventory();
                 addFeedItem(userName, 'легендарный кейс', selected.value, 'win', selected.icon);
-                showCaseAnimation(selected.value, `${selected.icon} ${selected.name}`); }
+                showCaseAnimation(selected.value, `${selected.icon} ${selected.name}`);
+            }
 
-            const uniqueItems = [{ name: 'Кирпич', icon: '🧱', value: 5622, weight: 50 }, { name: 'Мини Оскар',
-                    icon: '🏅', value: 6500, weight: 28 }, { name: 'Чёрная кошка', icon: '🐈‍⬛', value: 9775,
-                    weight: 15 }, { name: 'Кепка', icon: '🧢', value: 43500, weight: 5 }, { name: 'Плюш Пепе',
-                    icon: '🐸', value: 530000, weight: 2 }];
+            const uniqueItems = [
+                { name: 'Кирпич', icon: '🧱', value: 5622, weight: 50 },
+                { name: 'Мини Оскар', icon: '🏅', value: 6500, weight: 28 },
+                { name: 'Чёрная кошка', icon: '🐈‍⬛', value: 9775, weight: 15 },
+                { name: 'Кепка', icon: '🧢', value: 43500, weight: 5 },
+                { name: 'Плюш Пепе', icon: '🐸', value: 530000, weight: 2 }
+            ];
 
-            function openUniqueCase() { if (isBlockedCheck()) return; if (!isDemoMode && stars < 8000) { alert(
-                        'Недостаточно звёзд! Нужно 8.000 ⭐'); return; } if (!isDemoMode) { stars -= 8000;
-                updateBalanceUI();
-                persistGameData(); } const totalWeight = uniqueItems.reduce((s, i) => s + i.weight, 0); let rand = Math
-                    .random() * totalWeight; let selected = uniqueItems[0]; for (const item of uniqueItems) { rand -= item
-                        .weight; if (rand <= 0) { selected = item; break; } }
+            function openUniqueCase() {
+                if (isBlockedCheck()) return;
+                if (!isDemoMode && stars < 8000) { alert('Недостаточно звёзд! Нужно 8.000 ⭐'); return; }
+                if (!isDemoMode) { stars -= 8000;
+                    updateBalanceUI();
+                    persistGameData(); }
+                const totalWeight = uniqueItems.reduce((s, i) => s + i.weight, 0);
+                let rand = Math.random() * totalWeight;
+                let selected = uniqueItems[0];
+                for (const item of uniqueItems) { rand -= item.weight; if (rand <= 0) { selected = item; break; } }
                 inventory.push({ ...selected, id: Date.now() + Math.random() });
                 persistGameData();
                 renderInventory();
                 addFeedItem(userName, 'уникальный кейс', selected.value, 'win', selected.icon);
-                showCaseAnimation(selected.value, `${selected.icon} ${selected.name}`); }
+                showCaseAnimation(selected.value, `${selected.icon} ${selected.name}`);
+            }
 
-            function openBurmaldaCase() { if (isBlockedCheck()) return; if (!isDemoMode && stars < 300) { alert(
-                        'Недостаточно звёзд! Нужно 300 ⭐'); return; } if (!isDemoMode) { stars -= 300; const reward = Math
-                        .floor(Math.random() * 186) + 15;
-                stars += reward;
-                updateBalanceUI();
-                persistGameData();
-                addFeedItem(userName, 'Бурмалда кейс', reward, 'win', '🌀');
-                showCaseAnimation(reward, '🌀 Бурмалда'); } else { const reward = Math.floor(Math.random() * 186) + 15;
-                showCaseAnimation(reward, '🌀 Бурмалда (демо)'); } }
+            function openBurmaldaCase() {
+                if (isBlockedCheck()) return;
+                if (!isDemoMode && stars < 300) { alert('Недостаточно звёзд! Нужно 300 ⭐'); return; }
+                if (!isDemoMode) { stars -= 300;
+                    const reward = Math.floor(Math.random() * 186) + 15;
+                    stars += reward;
+                    updateBalanceUI();
+                    persistGameData();
+                    addFeedItem(userName, 'Бурмалда кейс', reward, 'win', '🌀');
+                    showCaseAnimation(reward, '🌀 Бурмалда');
+                } else {
+                    const reward = Math.floor(Math.random() * 186) + 15;
+                    showCaseAnimation(reward, '🌀 Бурмалда (демо)');
+                }
+            }
 
-            const velodrunItems = [{ name: 'Велосипед', icon: '🚲', value: 67, weight: 495 }, { name: 'Обезьянка',
-                    icon: '🐵', value: 120, weight: 495 }, { name: 'Машина', icon: '🚗', value: 1000, weight: 5 },
-                { name: 'Пуш Пепе', icon: '🐸✨', value: 720000, weight: 5 }
-            ];
+            function renderInventory() {
+                const grid = document.getElementById('inventoryGrid');
+                if (!inventory.length) {
+                    grid.innerHTML = '<div class="empty-feed">Инвентарь пуст</div>';
+                    return;
+                }
+                let html = '';
+                inventory.forEach((item, index) => {
+                    html += `
+                <div class="inv-slot" draggable="true" data-index="${index}"
+                     ondragstart="handleDragStart(event, ${index})"
+                     ondragover="handleDragOver(event)"
+                     ondragleave="handleDragLeave(event)"
+                     ondrop="handleDrop(event, ${index})"
+                     ondragend="handleDragEnd(event)">
+                  <span class="drag-handle">⋮⋮</span>
+                  <div class="gift-icon">${item.icon}</div>
+                  <div class="gift-name">${item.name}</div>
+                  <div class="gift-value">${item.value} ⭐</div>
+                  <button onclick="event.stopPropagation(); sellInventoryItem(${index})">Продать</button>
+                </div>`;
+                });
+                grid.innerHTML = html;
+            }
 
-            function openVelodrunCase() { if (isBlockedCheck()) return; if (!isDemoMode && stars < 500) { alert(
-                        'Недостаточно звёзд! Нужно 500 ⭐'); return; } if (!isDemoMode) { stars -= 500;
-                updateBalanceUI();
-                persistGameData(); } const totalWeight = velodrunItems.reduce((s, i) => s + i.weight, 0); let rand = Math
-                    .random() * totalWeight; let selected = velodrunItems[0]; for (const item of velodrunItems) { rand -=
-                        item.weight; if (rand <= 0) { selected = item; break; } } if (!isDemoMode) { stars += selected.value;
-                updateBalanceUI();
-                persistGameData(); }
-                inventory.push({ ...selected, id: Date.now() + Math.random() });
-                persistGameData();
-                renderInventory();
-                addFeedItem(userName, 'ВелоДрун кейс', selected.value, 'win', selected.icon);
-                showCaseAnimation(selected.value, `${selected.icon} ${selected.name}`); }
-
-            function renderInventory() { const grid = document.getElementById('inventoryGrid'); if (!inventory.length) { grid
-                    .innerHTML = '<div class="empty-feed">Инвентарь пуст</div>'; return; } let html = '';
-                inventory.forEach((item, index) => { html +=
-                        `<div class="inv-slot" draggable="true" data-index="${index}" ondragstart="handleDragStart(event, ${index})" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event, ${index})" ondragend="handleDragEnd(event)"><span class="drag-handle">⋮⋮</span><div class="gift-icon">${item.icon}</div><div class="gift-name">${item.name}</div><div class="gift-value">${item.value} ⭐</div><button onclick="event.stopPropagation();sellInventoryItem(${index})">Продать</button></div>`; });
-                grid.innerHTML = html; }
             let dragSourceIndex = null;
-            window.handleDragStart = function(event, index) { dragSourceIndex = index;
+            window.handleDragStart = function(event, index) {
+                dragSourceIndex = index;
                 event.target.classList.add('dragging');
                 event.dataTransfer.effectAllowed = 'move';
-                event.dataTransfer.setData('text/plain', index.toString()); const ghost = event.target.cloneNode(true);
+                event.dataTransfer.setData('text/plain', index.toString());
+                const ghost = event.target.cloneNode(true);
                 ghost.style.position = 'absolute';
                 ghost.style.top = '-9999px';
                 ghost.style.opacity = '0.5';
                 ghost.style.width = event.target.offsetWidth + 'px';
                 document.body.appendChild(ghost);
                 event.dataTransfer.setDragImage(ghost, ghost.offsetWidth / 2, ghost.offsetHeight / 2);
-                setTimeout(() => document.body.removeChild(ghost), 0); };
-            window.handleDragOver = function(event) { event.preventDefault();
+                setTimeout(() => document.body.removeChild(ghost), 0);
+            };
+            window.handleDragOver = function(event) {
+                event.preventDefault();
                 event.dataTransfer.dropEffect = 'move';
-                event.target.closest('.inv-slot')?.classList.add('drag-over'); };
-            window.handleDragLeave = function(event) { event.target.closest('.inv-slot')?.classList.remove(
-            'drag-over'); };
-            window.handleDrop = function(event, targetIndex) { event.preventDefault();
-                event.target.closest('.inv-slot')?.classList.remove('drag-over'); if (dragSourceIndex !== null &&
-                    dragSourceIndex !== targetIndex) { const temp = inventory[dragSourceIndex];
+                event.target.closest('.inv-slot')?.classList.add('drag-over');
+            };
+            window.handleDragLeave = function(event) {
+                event.target.closest('.inv-slot')?.classList.remove('drag-over');
+            };
+            window.handleDrop = function(event, targetIndex) {
+                event.preventDefault();
+                event.target.closest('.inv-slot')?.classList.remove('drag-over');
+                if (dragSourceIndex !== null && dragSourceIndex !== targetIndex) {
+                    const temp = inventory[dragSourceIndex];
                     inventory[dragSourceIndex] = inventory[targetIndex];
                     inventory[targetIndex] = temp;
                     persistGameData();
-                    renderInventory(); }
+                    renderInventory();
+                }
                 dragSourceIndex = null;
-                document.querySelectorAll('.inv-slot.drag-over').forEach(el => el.classList.remove('drag-over')); };
-            window.handleDragEnd = function(event) { event.target.classList.remove('dragging');
                 document.querySelectorAll('.inv-slot.drag-over').forEach(el => el.classList.remove('drag-over'));
-                dragSourceIndex = null; };
-            window.sellInventoryItem = function(index) { const item = inventory[index]; if (!item) return;
+            };
+            window.handleDragEnd = function(event) {
+                event.target.classList.remove('dragging');
+                document.querySelectorAll('.inv-slot.drag-over').forEach(el => el.classList.remove('drag-over'));
+                dragSourceIndex = null;
+            };
+            window.sellInventoryItem = function(index) {
+                const item = inventory[index];
+                if (!item) return;
                 stars += item.value;
                 inventory.splice(index, 1);
                 updateBalanceUI();
                 persistGameData();
                 renderInventory();
-                addFeedItem(userName, 'продал предмет', item.value, 'win', item.icon); };
+                addFeedItem(userName, 'продал предмет', item.value, 'win', item.icon);
+            };
 
+            // ── Case Animation Overlay ──
             const caseOverlay = document.getElementById('caseOverlay');
             const caseAnimCanvas = document.getElementById('caseAnimCanvas');
             const animCtx = caseAnimCanvas.getContext('2d');
@@ -2687,30 +2829,48 @@
             const closeOverlayBtn = document.getElementById('closeOverlayBtn');
             let overlayAnimRunning = false;
 
-            function showCaseAnimation(finalReward, label) { if (overlayAnimRunning) return;
+            function showCaseAnimation(finalReward, label) {
+                if (overlayAnimRunning) return;
                 overlayAnimRunning = true;
                 caseOverlay.classList.add('active');
                 caseOverlayResult.textContent = '🎉 +0 ⭐';
-                closeOverlayBtn.style.display = 'none'; const w = caseAnimCanvas.width,
-                    h = caseAnimCanvas.height; let frame = 0,
+                closeOverlayBtn.style.display = 'none';
+                const w = caseAnimCanvas.width,
+                    h = caseAnimCanvas.height;
+                let frame = 0,
                     totalFrames = 70,
                     currentReward = 0,
-                    increment = finalReward / totalFrames; const starsArr = []; for (let i = 0; i < 55; i++) { starsArr
-                        .push({ x: Math.random() * w, y: Math.random() * h, size: 6 + Math.random() * 20, speedX: (Math
-                                .random() - 0.5) * 5.5, speedY: (Math.random() - 0.5) * 5.5, rotation: Math.random() *
-                            Math.PI * 2, rotSpeed: (Math.random() - 0.5) * 0.09, glow: 0.3 + Math.random() * 0.7,
-                            color: `hsl(${38 + Math.random() * 25}, 100%, ${55 + Math.random() * 35}%)` }); }
+                    increment = finalReward / totalFrames;
+                const starsArr = [];
+                for (let i = 0; i < 55; i++) {
+                    starsArr.push({
+                        x: Math.random() * w,
+                        y: Math.random() * h,
+                        size: 6 + Math.random() * 20,
+                        speedX: (Math.random() - 0.5) * 5.5,
+                        speedY: (Math.random() - 0.5) * 5.5,
+                        rotation: Math.random() * Math.PI * 2,
+                        rotSpeed: (Math.random() - 0.5) * 0.09,
+                        glow: 0.3 + Math.random() * 0.7,
+                        color: `hsl(${38 + Math.random() * 25}, 100%, ${55 + Math.random() * 35}%)`
+                    });
+                }
 
-                function drawFrame() { animCtx.clearRect(0, 0, w, h); const grad = animCtx.createRadialGradient(w / 2, h / 2,
-                        15, w / 2, h / 2, w * 0.7);
-                    grad.addColorStop(0, '#f5f6f8');
-                    grad.addColorStop(1, '#dde2e9');
+                function drawFrame() {
+                    animCtx.clearRect(0, 0, w, h);
+                    const grad = animCtx.createRadialGradient(w / 2, h / 2, 15, w / 2, h / 2, w * 0.7);
+                    grad.addColorStop(0, '#1a2235');
+                    grad.addColorStop(1, '#06090f');
                     animCtx.fillStyle = grad;
                     animCtx.fillRect(0, 0, w, h);
-                    starsArr.forEach(s => { s.x += s.speedX;
+                    starsArr.forEach(s => {
+                        s.x += s.speedX;
                         s.y += s.speedY;
-                        s.rotation += s.rotSpeed; if (s.x < -25) s.x = w + 20; if (s.x > w + 25) s.x = -20; if (s.y <
-                            -25) s.y = h + 20; if (s.y > h + 25) s.y = -20;
+                        s.rotation += s.rotSpeed;
+                        if (s.x < -25) s.x = w + 20;
+                        if (s.x > w + 25) s.x = -20;
+                        if (s.y < -25) s.y = h + 20;
+                        if (s.y > h + 25) s.y = -20;
                         animCtx.save();
                         animCtx.translate(s.x, s.y);
                         animCtx.rotate(s.rotation);
@@ -2722,175 +2882,224 @@
                         animCtx.textBaseline = 'middle';
                         animCtx.fillStyle = s.color;
                         animCtx.fillText('⭐', 0, 0);
-                        animCtx.restore(); }); const progress = frame / totalFrames; const scale = 0.5 + 0.5 * Math.min(1,
-                        progress * 1.6);
+                        animCtx.restore();
+                    });
+                    const progress = frame / totalFrames;
+                    const scale = 0.5 + 0.5 * Math.min(1, progress * 1.6);
                     animCtx.save();
                     animCtx.translate(w / 2, h / 2 - 8);
                     animCtx.scale(scale, scale);
-                    animCtx.shadowColor = 'rgba(232,168,23,0.4)';
+                    animCtx.shadowColor = 'rgba(240,185,11,0.5)';
                     animCtx.shadowBlur = 35;
                     animCtx.font = `bold ${42 + 6 * (1 - progress)}px "Segoe UI", sans-serif`;
                     animCtx.textAlign = 'center';
                     animCtx.textBaseline = 'middle';
-                    animCtx.fillStyle = '#b8860b';
+                    animCtx.fillStyle = '#f0b90b';
                     animCtx.fillText(`+${Math.floor(currentReward)}`, 0, 0);
-                    animCtx.restore(); if (frame < totalFrames) { currentReward += increment; if (currentReward >
-                    finalReward) currentReward = finalReward;
-                    frame++;
-                    requestAnimationFrame(drawFrame); } else { caseOverlayResult.textContent =
-                        `🎉 +${finalReward} ⭐`;
-                    closeOverlayBtn.style.display = 'block';
-                    overlayAnimRunning = false; } }
-                drawFrame(); }
-            closeOverlayBtn.addEventListener('click', () => { caseOverlay.classList.remove('active');
-                overlayAnimRunning = false; });
-            caseOverlay.addEventListener('click', (e) => { if (e.target === caseOverlay && closeOverlayBtn.style
-                    .display !== 'none') { caseOverlay.classList.remove('active');
-                    overlayAnimRunning = false; } });
+                    animCtx.restore();
+                    if (frame < totalFrames) {
+                        currentReward += increment;
+                        if (currentReward > finalReward) currentReward = finalReward;
+                        frame++;
+                        requestAnimationFrame(drawFrame);
+                    } else {
+                        caseOverlayResult.textContent = `🎉 +${finalReward} ⭐`;
+                        closeOverlayBtn.style.display = 'block';
+                        overlayAnimRunning = false;
+                    }
+                }
+                drawFrame();
+            }
+            closeOverlayBtn.addEventListener('click', () => {
+                caseOverlay.classList.remove('active');
+                overlayAnimRunning = false;
+            });
+            caseOverlay.addEventListener('click', (e) => {
+                if (e.target === caseOverlay && closeOverlayBtn.style.display !== 'none') {
+                    caseOverlay.classList.remove('active');
+                    overlayAnimRunning = false;
+                }
+            });
 
+            // ── Collections for Cases ──
             let activeCollection = 'common';
             const collectionsTabs = document.getElementById('collectionsTabs');
             const caseGrid = document.getElementById('caseGrid');
-            const casePreviewOverlay = document.getElementById('casePreviewOverlay');
-            const casePreviewContent = document.getElementById('casePreviewContent');
 
-            function showCasePreview(caseType) { let title = '',
-                    icon = '',
-                    price = '',
-                    items = [],
-                    openFn = null; if (caseType === 'common-case') { title = 'Обычный кейс';
-                    icon = '📦';
-                    price = '50 ⭐';
-                    items = [{ name: 'Звёзды', icon: '⭐', value: '10-55', chance: '100%' }];
-                    openFn = () => { casePreviewOverlay.classList.remove('active');
-                    openCaseCommon('common'); }; } else if (caseType === 'rare-case') { title = 'Редкий кейс';
-                    icon = '💎';
-                    price = '200 ⭐';
-                    items = [{ name: 'Звёзды', icon: '⭐', value: '100-210', chance: '100%' }];
-                    openFn = () => { casePreviewOverlay.classList.remove('active');
-                    openCaseCommon('rare'); }; } else if (caseType === 'epic-case') { title = 'Эпический кейс';
-                    icon = '🔥';
-                    price = '500 ⭐';
-                    items = [{ name: 'Звёзды', icon: '⭐', value: '300-520', chance: '100%' }];
-                    openFn = () => { casePreviewOverlay.classList.remove('active');
-                    openCaseCommon('epic'); }; } else if (caseType === 'legendary-case') { title = 'Легендарный кейс';
-                    icon = '👑';
-                    price = '1500 ⭐';
-                    items = legendaryItems.map(i => ({ name: i.name, icon: i.icon, value: i.value, chance: (i.weight *
-                            100 / legendaryItems.reduce((s, x) => s + x.weight, 0)).toFixed(2) + '%' }));
-                    openFn = () => { casePreviewOverlay.classList.remove('active');
-                    openLegendaryCase(); }; } else if (caseType === 'unique-case') { title = 'Уникальный кейс';
-                    icon = '🌟';
-                    price = '8.000 ⭐';
-                    items = uniqueItems.map(i => ({ name: i.name, icon: i.icon, value: i.value, chance: (i.weight * 100 /
-                            uniqueItems.reduce((s, x) => s + x.weight, 0)).toFixed(2) + '%' }));
-                    openFn = () => { casePreviewOverlay.classList.remove('active');
-                    openUniqueCase(); }; } else if (caseType === 'burmalda-case') { title = 'Бурмалда кейс';
-                    icon = '🌀';
-                    price = '300 ⭐';
-                    items = [{ name: 'Звёзды', icon: '⭐', value: '15-200', chance: '100%' }];
-                    openFn = () => { casePreviewOverlay.classList.remove('active');
-                    openBurmaldaCase(); }; } else if (caseType === 'velodrun-case') { title = 'ВелоДрун кейс';
-                    icon = '🚲';
-                    price = '500 ⭐';
-                    items = velodrunItems.map(i => ({ name: i.name, icon: i.icon, value: i.value, chance: (i.weight *
-                            100 / velodrunItems.reduce((s, x) => s + x.weight, 0)).toFixed(2) + '%' }));
-                    openFn = () => { casePreviewOverlay.classList.remove('active');
-                    openVelodrunCase(); }; } else if (caseType === 'daily-case') { title = 'Ежедневный кейс';
-                    icon = '🎁';
-                    price = 'Бесплатно';
-                    items = [{ name: 'Звёзды', icon: '⭐', value: '1-15', chance: '100%' }];
-                    openFn = () => { casePreviewOverlay.classList.remove('active'); const now = Date.now(); const
-                            oneDay = 24 * 60 * 60 * 1000; if (now - lastDailyClaim < oneDay) { const remaining =
-                                oneDay - (now - lastDailyClaim); const hours = Math.floor(remaining / (60 * 60 *
-                                    1000)); const mins = Math.floor((remaining % (60 * 60 * 1000)) / (60 * 1000));
-                            alert(`⏳ Следующий через ${hours}ч ${mins}м`); return; } const reward = Math.floor(Math
-                            .random() * 15) + 1; if (!isDemoMode) { stars += reward;
-                        updateBalanceUI(); }
-                        lastDailyClaim = now;
-                        persistGameData();
-                        addFeedItem(userName, 'ежедневный кейс', reward, 'win', '🎁');
-                        showCaseAnimation(reward, 'Ежедневный кейс'); }; } if (title) { let itemsHtml = '';
-                    items.forEach(item => { const isHigh = typeof item.value === 'number' && item.value > 120;
-                        itemsHtml +=
-                            `<div class="preview-item ${isHigh ? 'pi-highlight' : ''}"><span class="pi-icon">${item.icon}</span><div class="pi-info"><div class="pi-name">${item.name}</div><div class="pi-value">${typeof item.value === 'number' ? item.value.toLocaleString() : item.value} ⭐</div></div><span class="pi-chance">${item.chance}</span></div>`; });
-                    casePreviewContent.innerHTML =
-                        `<div class="preview-header"><span class="preview-icon">${icon}</span><div><div class="preview-title">${title}</div><div class="preview-subtitle">Стоимость: ${price}</div></div></div><div class="preview-scroll">${itemsHtml}</div><div class="preview-buttons"><button class="btn btn-gold" id="previewOpenBtn">🔓 Открыть</button><button class="btn btn-cancel" id="previewCloseBtn">✕ Отмена</button></div>`;
-                    casePreviewOverlay.classList.add('active');
-                    document.getElementById('previewOpenBtn').addEventListener('click', openFn);
-                    document.getElementById('previewCloseBtn').addEventListener('click', () => { casePreviewOverlay
-                        .classList.remove('active'); }); } }
-            casePreviewOverlay.addEventListener('click', (e) => { if (e.target === casePreviewOverlay) {
-                    casePreviewOverlay.classList.remove('active'); } });
-
-            function renderCaseGrid(collection) { let html = ''; if (collection === 'common') { html +=
-                    `<div class="case-card gold-border"><div class="case-icon">🎁</div><div class="case-name" style="color:#b8860b;">Ежедневный</div><div class="case-price free">Бесплатно</div><button id="dailyCaseBtn">Забрать</button></div><div class="case-card purple-border"><div class="case-icon">🔑</div><div class="case-name" style="color:#8b5cf6;">Промо</div><div class="case-price stars">🎟️ Код</div><button class="promo-btn" id="promoCaseBtn">Ввести код</button><span class="case-tag" id="promoStatus">доступен</span></div><div class="case-card"><div class="case-icon">📦</div><div class="case-name">Обычный</div><div class="case-price stars">50 ⭐</div><button class="preview-trigger-btn" data-preview="common-case">Открыть</button></div><div class="case-card purple-border"><div class="case-icon">💎</div><div class="case-name" style="color:#8b5cf6;">Редкий</div><div class="case-price stars">200 ⭐</div><button class="preview-trigger-btn" data-preview="rare-case">Открыть</button></div><div class="case-card orange-border"><div class="case-icon">🔥</div><div class="case-name" style="color:#f9733e;">Эпический</div><div class="case-price stars">500 ⭐</div><button class="preview-trigger-btn" data-preview="epic-case">Открыть</button></div><div class="case-card gold-border"><div class="case-icon">👑</div><div class="case-name" style="color:#b8860b;">Легендарный</div><div class="case-price stars">1500 ⭐</div><button class="preview-trigger-btn" data-preview="legendary-case">Открыть</button></div><div class="case-card unique-border"><div class="case-rarity" style="color:#ef4444;">ULTRA</div><div class="case-icon">🌟</div><div class="case-name" style="color:#ef4444;">Уникальный</div><div class="case-price stars">8.000 ⭐</div><button class="unique-btn preview-trigger-btn" data-preview="unique-case">Открыть</button><span class="case-tag">Джекпот 530K!</span></div><div class="case-card" style="border-color:rgba(139,92,246,0.4);"><div class="case-icon">🌀</div><div class="case-name" style="color:#8b5cf6;">Бурмалда</div><div class="case-price stars">300 ⭐</div><button class="burmalda-btn preview-trigger-btn" data-preview="burmalda-case">Открыть</button></div>`; } else if (collection === 'limited') { html =
-                    `<div class="case-card velodrun-border"><div class="case-rarity" style="color:#06b6d4;">LIMITED</div><div class="case-icon">🚲</div><div class="case-name" style="color:#0891b2;">ВелоДрун</div><div class="case-price stars">500 ⭐</div><button class="velodrun-btn preview-trigger-btn" data-preview="velodrun-case">Открыть</button><span class="case-tag">Джекпот 720K!</span></div>`; } else if (collection === 'unique') { html =
-                    '<div class="empty-feed">Уникальные кейсы появятся позже</div>'; }
-                caseGrid.innerHTML = html; if (collection === 'common') { document.getElementById('dailyCaseBtn')
-                    ?.addEventListener('click', () => { showCasePreview('daily-case'); });
-                    document.getElementById('promoCaseBtn')?.addEventListener('click', () => { if (isBlockedCheck())
-                            return;
+            function renderCaseGrid(collection) {
+                let html = '';
+                if (collection === 'common') {
+                    html += `
+                <div class="case-card gold-border">
+                  <div class="case-icon">🎁</div>
+                  <div class="case-name" style="color:var(--gold-bright);">Ежедневный</div>
+                  <div class="case-price free">Бесплатно</div>
+                  <button id="dailyCaseBtn">Забрать</button>
+                </div>
+                <div class="case-card purple-border">
+                  <div class="case-icon">🔑</div>
+                  <div class="case-name" style="color:#b388ff;">Промо</div>
+                  <div class="case-price stars">🎟️ Код</div>
+                  <button class="promo-btn" id="promoCaseBtn">Ввести код</button>
+                  <span class="case-tag" id="promoStatus">доступен</span>
+                </div>
+                <div class="case-card">
+                  <div class="case-icon">📦</div>
+                  <div class="case-name" style="color:#4a8ab5;">Обычный</div>
+                  <div class="case-price stars">10 ⭐</div>
+                  <button onclick="openCaseCommon('common')">Открыть</button>
+                </div>
+                <div class="case-card purple-border">
+                  <div class="case-icon">💎</div>
+                  <div class="case-name" style="color:#b388ff;">Редкий</div>
+                  <div class="case-price stars">200 ⭐</div>
+                  <button onclick="openCaseCommon('rare')">Открыть</button>
+                </div>
+                <div class="case-card orange-border">
+                  <div class="case-icon">🔥</div>
+                  <div class="case-name" style="color:#ff6b35;">Эпический</div>
+                  <div class="case-price stars">500 ⭐</div>
+                  <button onclick="openCaseCommon('epic')">Открыть</button>
+                </div>
+                <div class="case-card gold-border">
+                  <div class="case-icon">👑</div>
+                  <div class="case-name" style="color:#ffd700;">Легендарный</div>
+                  <div class="case-price stars">1500 ⭐</div>
+                  <button id="legendaryCaseBtn">Открыть</button>
+                </div>
+                <div class="case-card unique-border">
+                  <div class="case-rarity" style="color:#ff3d00;">ULTRA</div>
+                  <div class="case-icon">🌟</div>
+                  <div class="case-name" style="color:#ff5722;">Уникальный</div>
+                  <div class="case-price stars">8.000 ⭐</div>
+                  <button class="unique-btn" id="uniqueCaseBtn">Открыть</button>
+                  <span class="case-tag">Джекпот 530K!</span>
+                </div>
+                <div class="case-card" style="border-color:rgba(168,85,247,0.5);">
+                  <div class="case-icon">🌀</div>
+                  <div class="case-name" style="color:#a855f7;">Бурмалда</div>
+                  <div class="case-price stars">300 ⭐</div>
+                  <button class="burmalda-btn" id="burmaldaCaseBtn">Открыть</button>
+                </div>`;
+                } else if (collection === 'limited') {
+                    html = '<div class="empty-feed">Лимитированные кейсы появятся позже</div>';
+                } else if (collection === 'unique') {
+                    html = '<div class="empty-feed">Уникальные кейсы появятся позже</div>';
+                }
+                caseGrid.innerHTML = html;
+                // re-attach event listeners for dynamic buttons
+                if (collection === 'common') {
+                    const dailyBtnNew = document.getElementById('dailyCaseBtn');
+                    if (dailyBtnNew) {
+                        dailyBtnNew.addEventListener('click', () => {
+                            if (isBlockedCheck()) return;
+                            const now = Date.now();
+                            const oneDay = 24 * 60 * 60 * 1000;
+                            if (now - lastDailyClaim < oneDay) {
+                                const remaining = oneDay - (now - lastDailyClaim);
+                                const hours = Math.floor(remaining / (60 * 60 * 1000));
+                                const mins = Math.floor((remaining % (60 * 60 * 1000)) / (60 * 1000));
+                                alert(`⏳ Следующий через ${hours}ч ${mins}м`);
+                                return;
+                            }
+                            let reward;
+                            if (Math.random() < 0.7) {
+                                reward = 2;
+                            } else {
+                                const other = [1, 3, 4, 5];
+                                reward = other[Math.floor(Math.random() * other.length)];
+                            }
+                            if (!isDemoMode) { 
+                                stars += reward;
+                                updateBalanceUI(); 
+                            }
+                            lastDailyClaim = now;
+                            persistGameData();
+                            addFeedItem(userName, 'ежедневный кейс', reward, 'win', '🎁');
+                            showCaseAnimation(reward, 'Ежедневный кейс');
+                        });
+                    }
+                    document.getElementById('promoCaseBtn')?.addEventListener('click', () => {
+                        if (isBlockedCheck()) return;
                         document.getElementById('promoCodeInput').value = '';
                         document.getElementById('promoMessage').textContent = '';
-                        document.getElementById('promoModal').style.display = 'flex'; });
-                    updatePromoStatus(); }
-                document.querySelectorAll('.preview-trigger-btn').forEach(btn => { btn.addEventListener('click',
-                    function() { const previewType = this.dataset.preview; if (previewType) { showCasePreview(
-                            previewType); } }); }); }
-            collectionsTabs.addEventListener('click', (e) => { if (e.target.classList.contains('collection-tab')) {
+                        document.getElementById('promoModal').style.display = 'flex';
+                    });
+                    document.getElementById('legendaryCaseBtn')?.addEventListener('click', openLegendaryCase);
+                    document.getElementById('uniqueCaseBtn')?.addEventListener('click', openUniqueCase);
+                    document.getElementById('burmaldaCaseBtn')?.addEventListener('click', openBurmaldaCase);
+                    updatePromoStatus();
+                }
+            }
+
+            collectionsTabs.addEventListener('click', (e) => {
+                if (e.target.classList.contains('collection-tab')) {
                     document.querySelectorAll('.collection-tab').forEach(btn => btn.classList.remove('active'));
                     e.target.classList.add('active');
                     activeCollection = e.target.dataset.collection;
-                    renderCaseGrid(activeCollection); } });
+                    renderCaseGrid(activeCollection);
+                }
+            });
 
+            // ── Spin Wheel ──
             const spinWheelCanvas = document.getElementById('spinWheelCanvas');
             const spinCtx = spinWheelCanvas.getContext('2d');
             const spinResult = document.getElementById('spinResult');
             const spinBtn = document.getElementById('spinBtn');
-            const spinPrizes = [{ value: 50, prob: 0.35, color: '#4f7df3', label: '50' }, { value: 100, prob: 0.30,
-                    color: '#10b981', label: '100' }, { value: 250, prob: 0.20, color: '#f59e0b', label: '250' },
-                { value: 400, prob: 0.1497, color: '#8b5cf6', label: '400' }, { value: 500, prob: 0.0001,
-                    color: '#e8a817', label: '500' }, { value: 1000, prob: 0.0001, color: '#ef4444', label: '1000' },
-                { value: 2500, prob: 0.0001, color: '#1a1d26', label: '2500' }
+
+            const spinPrizes = [
+                { value: 5, prob: 0.35, color: '#4a9cf7', label: '5' },
+                { value: 10, prob: 0.30, color: '#16c95a', label: '10' },
+                { value: 25, prob: 0.20, color: '#f39c12', label: '25' },
+                { value: 40, prob: 0.1497, color: '#b388ff', label: '40' },
+                { value: 50, prob: 0.0001, color: '#f0b90b', label: '50' },
+                { value: 100, prob: 0.0001, color: '#ff4444', label: '100' },
+                { value: 250, prob: 0.0001, color: '#ffffff', label: '250' }
             ];
+
             let spinAngle = 0;
             let isSpinning = false;
 
-            function drawSpinWheel() { const w = spinWheelCanvas.width,
-                    h = spinWheelCanvas.height,
-                    cx = w / 2,
-                    cy = h / 2,
-                    radius = w / 2 - 8;
-                spinCtx.clearRect(0, 0, w, h); const outerGlow = spinCtx.createRadialGradient(cx, cy, radius - 4, cx, cy,
-                    radius + 8);
-                outerGlow.addColorStop(0, 'rgba(232,168,23,0.2)');
-                outerGlow.addColorStop(1, 'rgba(232,168,23,0)');
+            function drawSpinWheel() {
+                const w = spinWheelCanvas.width;
+                const h = spinWheelCanvas.height;
+                const cx = w / 2;
+                const cy = h / 2;
+                const radius = w / 2 - 8;
+                spinCtx.clearRect(0, 0, w, h);
+                const outerGlow = spinCtx.createRadialGradient(cx, cy, radius - 4, cx, cy, radius + 8);
+                outerGlow.addColorStop(0, 'rgba(240,185,11,0.3)');
+                outerGlow.addColorStop(1, 'rgba(240,185,11,0)');
                 spinCtx.fillStyle = outerGlow;
                 spinCtx.beginPath();
                 spinCtx.arc(cx, cy, radius + 8, 0, Math.PI * 2);
                 spinCtx.fill();
                 spinCtx.beginPath();
                 spinCtx.arc(cx, cy, radius + 4, 0, Math.PI * 2);
-                spinCtx.strokeStyle = '#e8a817';
+                spinCtx.strokeStyle = '#f0b90b';
                 spinCtx.lineWidth = 3;
-                spinCtx.stroke(); const segmentAngle = (Math.PI * 2) / spinPrizes.length;
-                spinPrizes.forEach((prize, i) => { const startAngle = spinAngle + i * segmentAngle - Math.PI / 2; const
-                        endAngle = startAngle + segmentAngle; const grad = spinCtx.createRadialGradient(cx, cy, radius *
-                        0.2, cx, cy, radius);
+                spinCtx.stroke();
+                const segmentAngle = (Math.PI * 2) / spinPrizes.length;
+                spinPrizes.forEach((prize, i) => {
+                    const startAngle = spinAngle + i * segmentAngle - Math.PI / 2;
+                    const endAngle = startAngle + segmentAngle;
+                    const grad = spinCtx.createRadialGradient(cx, cy, radius * 0.2, cx, cy, radius);
                     grad.addColorStop(0, prize.color);
                     grad.addColorStop(0.7, prize.color);
-                    grad.addColorStop(1, 'rgba(0,0,0,0.3)');
+                    grad.addColorStop(1, 'rgba(0,0,0,0.4)');
                     spinCtx.beginPath();
                     spinCtx.moveTo(cx, cy);
                     spinCtx.arc(cx, cy, radius, startAngle, endAngle);
                     spinCtx.closePath();
                     spinCtx.fillStyle = grad;
                     spinCtx.fill();
-                    spinCtx.strokeStyle = 'rgba(255,255,255,0.2)';
+                    spinCtx.strokeStyle = 'rgba(255,255,255,0.15)';
                     spinCtx.lineWidth = 1.5;
-                    spinCtx.stroke(); const midAngle = startAngle + segmentAngle / 2; const labelRadius = radius * 0.68; const
-                        lx = cx + Math.cos(midAngle) * labelRadius; const ly = cy + Math.sin(midAngle) * labelRadius;
+                    spinCtx.stroke();
+                    const midAngle = startAngle + segmentAngle / 2;
+                    const labelRadius = radius * 0.68;
+                    const lx = cx + Math.cos(midAngle) * labelRadius;
+                    const ly = cy + Math.sin(midAngle) * labelRadius;
                     spinCtx.save();
                     spinCtx.translate(lx, ly);
                     spinCtx.rotate(midAngle + Math.PI / 2);
@@ -2898,74 +3107,116 @@
                     spinCtx.textAlign = 'center';
                     spinCtx.textBaseline = 'middle';
                     spinCtx.fillStyle = '#fff';
-                    spinCtx.shadowColor = 'rgba(0,0,0,0.5)';
+                    spinCtx.shadowColor = 'rgba(0,0,0,0.7)';
                     spinCtx.shadowBlur = 3;
                     spinCtx.fillText(`${prize.value} ⭐`, 0, 0);
                     spinCtx.shadowBlur = 0;
-                    spinCtx.restore(); }); const centerGrad = spinCtx.createRadialGradient(cx, cy, 8, cx, cy, 42);
+                    spinCtx.restore();
+                });
+                const centerGrad = spinCtx.createRadialGradient(cx, cy, 8, cx, cy, 42);
                 centerGrad.addColorStop(0, '#fff');
-                centerGrad.addColorStop(0.5, '#f5c842');
-                centerGrad.addColorStop(1, '#b8860b');
+                centerGrad.addColorStop(0.5, '#f0b90b');
+                centerGrad.addColorStop(1, '#8b6914');
                 spinCtx.beginPath();
                 spinCtx.arc(cx, cy, 42, 0, Math.PI * 2);
                 spinCtx.fillStyle = centerGrad;
                 spinCtx.fill();
-                spinCtx.strokeStyle = 'rgba(255,255,255,0.5)';
+                spinCtx.strokeStyle = 'rgba(255,255,255,0.4)';
                 spinCtx.lineWidth = 2;
                 spinCtx.stroke();
                 spinCtx.font = 'bold 16px "Segoe UI", sans-serif';
                 spinCtx.textAlign = 'center';
                 spinCtx.textBaseline = 'middle';
-                spinCtx.fillStyle = '#1a1d26';
-                spinCtx.fillText('🎰', cx, cy); for (let i = 0; i < 28; i++) { const ta = spinAngle + i * (Math.PI * 2 /
-                        28) - Math.PI / 2; const innerR = radius - 5; const outerR = radius + 3;
+                spinCtx.fillStyle = '#0a0e13';
+                spinCtx.fillText('🎰', cx, cy);
+                for (let i = 0; i < 28; i++) {
+                    const ta = spinAngle + i * (Math.PI * 2 / 28) - Math.PI / 2;
+                    const innerR = radius - 5;
+                    const outerR = radius + 3;
                     spinCtx.beginPath();
                     spinCtx.moveTo(cx + Math.cos(ta) * innerR, cy + Math.sin(ta) * innerR);
                     spinCtx.lineTo(cx + Math.cos(ta) * outerR, cy + Math.sin(ta) * outerR);
-                    spinCtx.strokeStyle = i % 4 === 0 ? '#e8a817' : 'rgba(255,255,255,0.4)';
+                    spinCtx.strokeStyle = i % 4 === 0 ? '#f0b90b' : 'rgba(255,255,255,0.3)';
                     spinCtx.lineWidth = i % 4 === 0 ? 2 : 1;
-                    spinCtx.stroke(); } }
+                    spinCtx.stroke();
+                }
+            }
 
-            function getRandomPrize() { const rand = Math.random(); let cumulative = 0; for (const prize of spinPrizes) {
-                    cumulative += prize.prob; if (rand <= cumulative) return prize; } return spinPrizes[0]; }
+            function getRandomPrize() {
+                const rand = Math.random();
+                let cumulative = 0;
+                for (const prize of spinPrizes) {
+                    cumulative += prize.prob;
+                    if (rand <= cumulative) return prize;
+                }
+                return spinPrizes[0];
+            }
 
-            function spinTheWheel() { if (isSpinning) return; if (isBlockedCheck()) return; if (!isDemoMode && stars <
-                    500) { spinResult.textContent = '❌ Недостаточно звёзд! Нужно 500 ⭐';
-                    spinResult.style.color = 'var(--red)'; return; } if (!isDemoMode) { stars -= 500;
-                updateBalanceUI();
-                persistGameData(); }
+            function spinTheWheel() {
+                if (isSpinning) return;
+                if (isBlockedCheck()) return;
+                if (!isDemoMode && stars < 50) {
+                    spinResult.textContent = '❌ Недостаточно звёзд! Нужно 50 ⭐';
+                    spinResult.style.color = 'var(--red)';
+                    return;
+                }
+                if (!isDemoMode) {
+                    stars -= 50;
+                    updateBalanceUI();
+                    persistGameData();
+                }
                 isSpinning = true;
                 spinBtn.disabled = true;
                 spinBtn.textContent = '🎰 Крутится...';
                 spinResult.textContent = '🎡 Крутим...';
-                spinResult.style.color = '#b8860b'; const selectedPrize = getRandomPrize(); const segmentAngle = (Math.PI *
-                    2) / spinPrizes.length; const prizeIndex = spinPrizes.indexOf(selectedPrize); const
-                    targetSegmentCenter = prizeIndex * segmentAngle + segmentAngle / 2; const pointerAngle = -Math.PI /
-                    2; const fullRotations = (5 + Math.floor(Math.random() * 5)) * Math.PI * 2; const targetAngle =
-                    pointerAngle - targetSegmentCenter + fullRotations; const startAngle = spinAngle; const totalSpin =
-                    targetAngle - startAngle; const duration = 2500 + Math.random() * 1000; const startTime = performance
-                    .now();
+                spinResult.style.color = 'var(--gold-bright)';
+                const selectedPrize = getRandomPrize();
+                const segmentAngle = (Math.PI * 2) / spinPrizes.length;
+                const prizeIndex = spinPrizes.indexOf(selectedPrize);
+                const targetSegmentCenter = prizeIndex * segmentAngle + segmentAngle / 2;
+                const pointerAngle = -Math.PI / 2;
+                const fullRotations = (5 + Math.floor(Math.random() * 5)) * Math.PI * 2;
+                const targetAngle = pointerAngle - targetSegmentCenter + fullRotations;
+                const startAngle = spinAngle;
+                const totalSpin = targetAngle - startAngle;
+                const duration = 2500 + Math.random() * 1000;
+                const startTime = performance.now();
 
-                function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
+                function easeOutCubic(t) {
+                    return 1 - Math.pow(1 - t, 3);
+                }
 
-                function animateSpin(ts) { const elapsed = ts - startTime; const progress = Math.min(1, elapsed / duration);
+                function animateSpin(ts) {
+                    const elapsed = ts - startTime;
+                    const progress = Math.min(1, elapsed / duration);
                     const easedProgress = easeOutCubic(progress);
                     spinAngle = startAngle + totalSpin * easedProgress;
-                    drawSpinWheel(); if (progress < 1) { requestAnimationFrame(animateSpin); } else { spinAngle =
-                            targetAngle;
-                        drawSpinWheel(); if (!isDemoMode) { stars += selectedPrize.value;
-                        updateBalanceUI();
-                        persistGameData(); }
+                    drawSpinWheel();
+                    if (progress < 1) {
+                        requestAnimationFrame(animateSpin);
+                    } else {
+                        spinAngle = targetAngle;
+                        drawSpinWheel();
+                        if (!isDemoMode) {
+                            stars += selectedPrize.value;
+                            updateBalanceUI();
+                            persistGameData();
+                        }
                         addFeedItem(userName, 'колесо удачи', selectedPrize.value, 'win', '🎡');
                         spinResult.textContent = `🎉 Выпало: ${selectedPrize.value} ⭐!`;
                         spinResult.style.color = 'var(--green)';
                         isSpinning = false;
                         spinBtn.disabled = false;
-                        spinBtn.textContent = '🎰 Крутить колесо'; } }
-                requestAnimationFrame(animateSpin); }
+                        spinBtn.textContent = '🎰 Крутить колесо';
+                    }
+                }
+                requestAnimationFrame(animateSpin);
+            }
+
             spinBtn.addEventListener('click', spinTheWheel);
             drawSpinWheel();
 
+            // ── Tasks Tab (subscription fix) ──
             const subscribeGoBtn = document.getElementById('subscribeGoBtn');
             const subscribeStatus = document.getElementById('subscribeStatus');
             const subscribeTaskCard = document.getElementById('subscribeTaskCard');
@@ -2973,174 +3224,237 @@
             const refEarningsEl = document.getElementById('refEarnings');
             const refLinkInput = document.getElementById('refLinkInput');
             const refCopyBtn = document.getElementById('refCopyBtn');
+
             const refLink = `https://t.me/CrashGiftSpin_bot?start=ref_${userId}`;
             refLinkInput.value = refLink;
 
-            function updateTasksUI() { if (subscriptionVerified) { subscribeTaskCard.classList.add('completed');
+            function updateTasksUI() {
+                if (subscriptionVerified) {
+                    subscribeTaskCard.classList.add('completed');
                     subscribeGoBtn.style.display = 'none';
                     subscribeStatus.textContent = '✅ Задание выполнено! +5 ⭐ получено';
-                    subscribeStatus.style.color = 'var(--green)'; } else { subscribeTaskCard.classList.remove(
-                    'completed');
+                    subscribeStatus.style.color = 'var(--green)';
+                } else {
+                    subscribeTaskCard.classList.remove('completed');
                     subscribeGoBtn.style.display = 'block';
-                    subscribeStatus.textContent = ''; }
+                    subscribeStatus.textContent = '';
+                }
                 refCountEl.textContent = referralCount;
-                refEarningsEl.textContent = `${referralEarnings} ⭐`; }
+                refEarningsEl.textContent = `${referralEarnings} ⭐`;
+            }
+
             let pendingSubscription = false;
-            subscribeGoBtn.addEventListener('click', () => { if (subscriptionVerified) return;
+            subscribeGoBtn.addEventListener('click', () => {
+                if (subscriptionVerified) return;
                 pendingSubscription = true;
                 tg.openTelegramLink('https://t.me/CrashGiftSpin');
                 subscribeStatus.textContent = '👆 Подпишитесь на канал и вернитесь в приложение';
-                subscribeStatus.style.color = 'var(--accent-blue)'; });
-            document.addEventListener('visibilitychange', () => { if (!document.hidden && pendingSubscription && !
-                    subscriptionVerified) { pendingSubscription = false;
-                    subscriptionVerified = true; if (!isDemoMode) { stars += 5;
-                    updateBalanceUI(); }
+                subscribeStatus.style.color = 'var(--accent-blue)';
+            });
+
+            document.addEventListener('visibilitychange', () => {
+                if (!document.hidden && pendingSubscription && !subscriptionVerified) {
+                    pendingSubscription = false;
+                    subscriptionVerified = true;
+                    if (!isDemoMode) {
+                        stars += 5;
+                        updateBalanceUI();
+                    }
                     persistGameData();
                     updateTasksUI();
                     addFeedItem(userName, 'подписка на канал', 5, 'win', '📢');
                     subscribeStatus.textContent = '✅ Подписка подтверждена! +5 ⭐';
-                    subscribeStatus.style.color = 'var(--green)'; } });
-            refCopyBtn.addEventListener('click', () => { refLinkInput.select();
-                refLinkInput.setSelectionRange(0, 99999); try { navigator.clipboard.writeText(refLinkInput.value);
+                    subscribeStatus.style.color = 'var(--green)';
+                }
+            });
+
+            refCopyBtn.addEventListener('click', () => {
+                refLinkInput.select();
+                refLinkInput.setSelectionRange(0, 99999);
+                try {
+                    navigator.clipboard.writeText(refLinkInput.value);
                     refCopyBtn.textContent = '✅ Скопировано!';
-                    setTimeout(() => { refCopyBtn.textContent = '📋 Копировать'; }, 1800); } catch (e) { refLinkInput
-                    .select();
-                alert('Ссылка выделена. Скопируйте её вручную.'); } });
-            refLinkInput.addEventListener('click', () => { refLinkInput.select(); });
+                    setTimeout(() => { refCopyBtn.textContent = '📋 Копировать'; }, 1800);
+                } catch (e) {
+                    refLinkInput.select();
+                    alert('Ссылка выделена. Скопируйте её вручную.');
+                }
+            });
+
+            refLinkInput.addEventListener('click', () => {
+                refLinkInput.select();
+            });
+
             updateTasksUI();
 
-            document.querySelectorAll('.tab-btn').forEach(btn => { btn.addEventListener('click', () => { document
-                        .querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            // ── Tabs switching ──
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
                     document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
                     btn.classList.add('active');
-                    document.getElementById(btn.dataset.tab + 'Tab').classList.add('active'); if (btn.dataset.tab ===
-                        'cases') { renderCaseGrid(activeCollection); } if (btn.dataset.tab === 'inventory')
-                    renderInventory(); if (btn.dataset.tab === 'admin') renderAdminPanel(); if (btn.dataset.tab ===
-                        'spin') drawSpinWheel(); if (btn.dataset.tab === 'tasks') { updateTasksUI(); const u =
-                            getCurrentUserData();
+                    document.getElementById(btn.dataset.tab + 'Tab').classList.add('active');
+                    if (btn.dataset.tab === 'cases') {
+                        renderCaseGrid(activeCollection);
+                    }
+                    if (btn.dataset.tab === 'inventory') renderInventory();
+                    if (btn.dataset.tab === 'admin') renderAdminPanel();
+                    if (btn.dataset.tab === 'spin') drawSpinWheel();
+                    if (btn.dataset.tab === 'tasks') {
+                        updateTasksUI();
+                        const u = getCurrentUserData();
                         referralCount = u.referralCount || 0;
                         referralEarnings = u.referralEarnings || 0;
-                        updateTasksUI(); } }); });
+                        updateTasksUI();
+                    }
+                });
+            });
 
+            // ── Profile & Modals ──
             const profileModal = document.getElementById('profileModal');
             document.getElementById('userName').addEventListener('click', openProfile);
             document.getElementById('avatar').addEventListener('click', openProfile);
 
-            function openProfile() { document.getElementById('profileName').textContent = userName;
+            function openProfile() {
+                document.getElementById('profileName').textContent = userName;
                 document.getElementById('profileBalance').textContent = `⭐ ${stars}`;
-                profileModal.style.display = 'flex'; }
+                profileModal.style.display = 'flex';
+            }
             document.getElementById('closeProfileBtn').addEventListener('click', () => profileModal.style.display =
-            'none');
-            document.getElementById('profileDepositBtn').addEventListener('click', () => { profileModal.style.display =
-                    'none';
+                'none');
+            document.getElementById('profileDepositBtn').addEventListener('click', () => {
+                profileModal.style.display = 'none';
                 document.getElementById('depositModal').style.display = 'flex';
-                document.getElementById('depositStatus').textContent = 'Выберите сумму для покупки'; });
-            document.getElementById('profileWithdrawBtn').addEventListener('click', () => { profileModal.style.display =
-                    'none';
+            });
+            document.getElementById('profileWithdrawBtn').addEventListener('click', () => {
+                profileModal.style.display = 'none';
                 document.getElementById('withdrawModal').style.display = 'flex';
                 document.getElementById('withdrawError').textContent = '';
-                document.getElementById('withdrawAmount').value = ''; });
+                document.getElementById('withdrawAmount').value = '';
+            });
             document.getElementById('closeDepositBtn').addEventListener('click', () => document.getElementById(
-            'depositModal').style.display = 'none');
-            document.getElementById('simulateDepositBtn').addEventListener('click', () => { const amount = parseInt(prompt(
-                    'Введите сумму для демо-пополнения:')); if (!amount || amount <= 0) return;
+                'depositModal').style.display = 'none');
+            document.getElementById('simulateDepositBtn').addEventListener('click', () => {
+                const amount = parseInt(document.getElementById('depositAmount').value);
+                if (!amount || amount <= 0) return;
                 stars += amount;
                 updateBalanceUI();
                 persistGameData();
                 document.getElementById('depositModal').style.display = 'none';
-                alert(`✅ Баланс пополнен на ${amount} ⭐ (демо)`); });
+                alert(`✅ Баланс пополнен на ${amount} ⭐ (демо)`);
+            });
+            document.getElementById('telegramDepositBtn').addEventListener('click', () => {
+                tg.openTelegramLink('https://t.me/CrushGiftSpin_bot?start=deposit');
+            });
             document.getElementById('closeWithdrawBtn').addEventListener('click', () => document.getElementById(
-            'withdrawModal').style.display = 'none');
-            document.getElementById('confirmWithdrawBtn').addEventListener('click', () => { const amount = parseInt(document
-                    .getElementById('withdrawAmount').value); const errorEl = document.getElementById('withdrawError'); if (
-                    !amount || amount < 1000) { errorEl.textContent = '❌ Минимум: 1000 ⭐'; return; } if (amount > stars) {
-                    errorEl.textContent = '❌ Недостаточно звёзд'; return; }
+                'withdrawModal').style.display = 'none');
+            document.getElementById('confirmWithdrawBtn').addEventListener('click', () => {
+                const amount = parseInt(document.getElementById('withdrawAmount').value);
+                const errorEl = document.getElementById('withdrawError');
+                if (!amount || amount < 1000) { errorEl.textContent = '❌ Минимум: 1000 ⭐'; return; }
+                if (amount > stars) { errorEl.textContent = '❌ Недостаточно звёзд'; return; }
                 stars -= amount;
                 updateBalanceUI();
                 persistGameData();
                 document.getElementById('withdrawModal').style.display = 'none';
-                alert(`✅ Заявка на вывод ${amount} ⭐ отправлена.`); });
+                alert(`✅ Заявка на вывод ${amount} ⭐ отправлена.`);
+            });
 
-            let pendingStarsPurchase = null;
-
-            function purchaseWithTelegramStars(telegramStars) { if (isBlockedCheck()) return; if (!window.Telegram || !window
-                    .Telegram.WebApp) { alert('Это приложение работает только в Telegram.'); return; } if (typeof Telegram
-                    .WebApp.openInvoice !== 'function') { alert(
-                        'Платежи звёздами не поддерживаются в этой версии Telegram.'); return; } if (telegramStars <= 0)
-                    return;
-                pendingStarsPurchase = telegramStars; const description =
-                    `Купить ${telegramStars} ⭐ (Telegram) → ${telegramStars * 2} игровых звёзд`; const payload =
-                    `buy_stars_${Date.now()}_${userId}`;
-                document.getElementById('depositStatus').textContent = '⏳ Ожидание оплаты...';
-                document.getElementById('depositStatus').style.color = 'var(--accent-blue)'; try { Telegram.WebApp
-                    .openInvoice({ currency: 'XTR', amount: telegramStars, description: description,
-                    payload: payload }); } catch (e) { console.error('Invoice error:', e);
-                    document.getElementById('depositStatus').textContent = '❌ Ошибка при открытии платежа';
-                    document.getElementById('depositStatus').style.color = 'var(--red)';
-                    pendingStarsPurchase = null; } } if (window.Telegram && window.Telegram.WebApp && typeof Telegram.WebApp
-                .onEvent === 'function') { Telegram.WebApp.onEvent('invoice_closed', function(data) { if (data.status ===
-                        'paid' && pendingStarsPurchase) { const telegramStars = pendingStarsPurchase; const
-                        inGameStars = telegramStars * 2;
-                    stars += inGameStars;
-                    updateBalanceUI();
-                    persistGameData();
-                    addFeedItem(userName, `покупка ${telegramStars} ⭐ Telegram`, inGameStars, 'win', '⭐');
-                    showCaseAnimation(inGameStars, 'Покупка звёзд');
-                    document.getElementById('depositStatus').textContent =
-                        `✅ Успешно! +${inGameStars} ⭐ (${telegramStars} ⭐ Telegram)`;
-                    document.getElementById('depositStatus').style.color = 'var(--green)';
-                    pendingStarsPurchase = null;
-                    setTimeout(() => { document.getElementById('depositModal').style.display = 'none'; }, 2000); } else if (
-                        data.status === 'failed' || data.status === 'cancelled') { document.getElementById(
-                            'depositStatus').textContent = '❌ Платеж не завершён. Попробуйте снова.';
-                    document.getElementById('depositStatus').style.color = 'var(--red)';
-                    pendingStarsPurchase = null; } else { document.getElementById('depositStatus').textContent =
-                        '⏳ Статус: ' + (data.status || 'неизвестно'); } }); }
-            document.querySelectorAll('.deposit-grid .btn-telegram').forEach(btn => { btn.addEventListener('click',
-                function() { const starsCount = parseInt(this.dataset.stars); if (!isNaN(starsCount) && starsCount >
-                    0) { purchaseWithTelegramStars(starsCount); } }); });
-
-            function renderAdminPanel() { if (!isAdmin) return; const panel = document.getElementById('adminPanel'); let all =
-                    loadAllUsers().filter(u => !u.isBot); const searchTerm = document.getElementById('adminSearch')?.value
-                    ?.toLowerCase() || ''; const filtered = all.filter(u => (u.name || '').toLowerCase().includes(
-                        searchTerm) || (u.id || '').includes(searchTerm)); const totalUsers = all.length; const totalStars =
-                    all.reduce((sum, u) => sum + (u.stars || 0), 0); const blockedCount = all.filter(u => u.blocked).length;
-                let html =
-                    `<h3>🛡️ Админ-панель</h3><div class="admin-stats"><div class="stat-card"><span class="num">${totalUsers}</span><span class="label">игроков</span></div><div class="stat-card"><span class="num">⭐${totalStars.toLocaleString()}</span><span class="label">всего звёзд</span></div><div class="stat-card"><span class="num">${blockedCount}</span><span class="label">заблок.</span></div></div><input type="text" id="adminSearch" class="search-box" placeholder="Поиск по нику или ID" value="${searchTerm}" oninput="renderAdminPanel()"><div class="admin-user-list">`; if (
-                    filtered.length === 0) html += '<div class="empty-feed">Пользователи не найдены</div>'; else filtered
-                    .forEach(u => { html +=
-                        `<div class="admin-user-item"><div class="user-info"><span>${u.name}</span><span class="badge">ID:${u.id}</span>${u.blocked ? ' 🚫' : ''}<span class="badge">⭐${(u.stars || 0).toLocaleString()}</span><span class="badge">🎮${u.totalGames || 0}</span></div><div class="actions"><button class="gold" onclick="adminGiveStars('${u.id}')">⭐ Выдать</button><button onclick="adminBlockUser('${u.id}')" class="${u.blocked ? '' : 'danger'}">${u.blocked ? '🔓 Разблок.' : '🚫 Блок'}</button><button onclick="adminWriteUser('${u.id}')">💬</button></div></div>`; });
-                html +=
-                    `</div><div class="broadcast-area"><textarea id="broadcastMsg" placeholder="Текст рассылки"></textarea><div class="btn-row"><button class="btn-broadcast" onclick="adminBroadcast()" style="background:var(--accent-blue);">📢 Разослать</button><button class="btn-reset" onclick="adminResetGame()" style="background:var(--red);">🔥 Обнулить игру</button></div></div>`;
-                panel.innerHTML = html; }
-            window.adminGiveStars = function(targetId) { const amount = parseInt(prompt('Сколько звёзд выдать?')); if (!amount ||
-                    amount <= 0) return; let all = loadAllUsers(); const user = all.find(u => u.id === targetId); if (user) {
-                    user.stars = (user.stars || 0) + amount;
+            // ── Admin Panel (bots removed) ──
+            function renderAdminPanel() {
+                if (!isAdmin) return;
+                const panel = document.getElementById('adminPanel');
+                let all = loadAllUsers().filter(u => !u.isBot); // only real users
+                const searchTerm = document.getElementById('adminSearch')?.value?.toLowerCase() || '';
+                const filtered = all.filter(u =>
+                    (u.name || '').toLowerCase().includes(searchTerm) ||
+                    (u.id || '').includes(searchTerm)
+                );
+                const totalUsers = all.length;
+                const totalStars = all.reduce((sum, u) => sum + (u.stars || 0), 0);
+                const blockedCount = all.filter(u => u.blocked).length;
+                let html = `
+              <h3>🛡️ Админ-панель</h3>
+              <div class="admin-stats">
+                <div class="stat-card"><span class="num">${totalUsers}</span> <span class="label">игроков</span></div>
+                <div class="stat-card"><span class="num">⭐${totalStars.toLocaleString()}</span> <span class="label">всего звёзд</span></div>
+                <div class="stat-card"><span class="num">${blockedCount}</span> <span class="label">заблок.</span></div>
+              </div>
+              <input type="text" id="adminSearch" class="search-box" placeholder="Поиск по нику или ID" value="${searchTerm}" oninput="renderAdminPanel()">
+              <div class="admin-user-list">`;
+                if (filtered.length === 0) html += '<div class="empty-feed">Пользователи не найдены</div>';
+                else filtered.forEach(u => {
+                    html += `
+                  <div class="admin-user-item">
+                    <div class="user-info">
+                      <span>${u.name}</span>
+                      <span class="badge">ID:${u.id}</span>
+                      ${u.blocked ? ' 🚫' : ''}
+                      <span class="badge">⭐${(u.stars || 0).toLocaleString()}</span>
+                      <span class="badge">🎮${u.totalGames || 0}</span>
+                    </div>
+                    <div class="actions">
+                      <button class="gold" onclick="adminGiveStars('${u.id}')">⭐ Выдать</button>
+                      <button onclick="adminBlockUser('${u.id}')" class="${u.blocked ? '' : 'danger'}">${u.blocked ? '🔓 Разблок.' : '🚫 Блок'}</button>
+                      <button onclick="adminWriteUser('${u.id}')">💬</button>
+                    </div>
+                  </div>`;
+                });
+                html += `</div>
+              <div class="broadcast-area">
+                <textarea id="broadcastMsg" placeholder="Текст рассылки"></textarea>
+                <div class="btn-row">
+                  <button class="btn-broadcast" onclick="adminBroadcast()">📢 Разослать</button>
+                  <button class="btn-reset" onclick="adminResetGame()">🔥 Обнулить игру</button>
+                </div>
+              </div>`;
+                panel.innerHTML = html;
+            }
+            window.adminGiveStars = function(targetId) {
+                const amount = parseInt(prompt('Сколько звёзд выдать?'));
+                if (!amount || amount <= 0) return;
+                let all = loadAllUsers();
+                const user = all.find(u => u.id === targetId);
+                if (user) { user.stars = (user.stars || 0) + amount;
                     saveAllUsers(all); if (targetId === userId) { stars = user.stars;
-                    updateBalanceUI(); }
+                        updateBalanceUI(); }
                     renderAdminPanel();
-                    alert(`Выдано ${amount}⭐ пользователю ${user.name}`); } };
-            window.adminBlockUser = function(targetId) { let all = loadAllUsers(); const user = all.find(u => u.id ===
-                    targetId); if (user) { user.blocked = !user.blocked;
-                    saveAllUsers(all); if (targetId === userId) { currentUser.blocked = user.blocked; if (user.blocked)
-                            alert('🚫 Вы были заблокированы.'); }
-                    renderAdminPanel(); } };
-            window.adminWriteUser = function(targetId) { if (targetId.startsWith('bot_')) { alert(
-                    'Это бот-пользователь (демо)'); return; }
-                tg.openTelegramLink(`https://t.me/${targetId}`); };
-            window.adminBroadcast = function() { const msg = document.getElementById('broadcastMsg')?.value.trim(); if (!msg)
-                    return;
+                    alert(`Выдано ${amount}⭐ пользователю ${user.name}`); }
+            };
+            window.adminBlockUser = function(targetId) {
+                let all = loadAllUsers();
+                const user = all.find(u => u.id === targetId);
+                if (user) {
+                    user.blocked = !user.blocked;
+                    saveAllUsers(all);
+                    if (targetId === userId) { currentUser.blocked = user.blocked; if (user.blocked) alert(
+                            '🚫 Вы были заблокированы.'); }
+                    renderAdminPanel();
+                }
+            };
+            window.adminWriteUser = function(targetId) {
+                if (targetId.startsWith('bot_')) { alert('Это бот-пользователь (демо)'); return; }
+                tg.openTelegramLink(`https://t.me/${targetId}`);
+            };
+            window.adminBroadcast = function() {
+                const msg = document.getElementById('broadcastMsg')?.value.trim();
+                if (!msg) return;
                 localStorage.setItem(BROADCAST_KEY, msg);
-                alert('✅ Рассылка сохранена. Все игроки увидят сообщение при входе.'); };
-            window.adminResetGame = function() { if (confirm('Сбросить ВСЕ данные? Это необратимо.')) { localStorage.removeItem(
-                        ALL_USERS_KEY);
+                alert('✅ Рассылка сохранена. Все игроки увидят сообщение при входе.');
+            };
+            window.adminResetGame = function() {
+                if (confirm('Сбросить ВСЕ данные? Это необратимо.')) {
+                    localStorage.removeItem(ALL_USERS_KEY);
                     localStorage.removeItem(BOTS_INITIALIZED_KEY);
                     localStorage.removeItem(ROUND_COUNTER_KEY);
                     localStorage.removeItem(ACTIVITY_FEED_KEY);
                     localStorage.removeItem(BROADCAST_KEY);
                     localStorage.removeItem(REFERRALS_KEY);
-                    location.reload(); } };
+                    location.reload();
+                }
+            };
 
+            // ── Init ──
             initNebulaParticles(crashCanvas.width, crashCanvas.height);
             updateBalanceUI();
             updateHistUI();
@@ -3151,7 +3465,7 @@
             updateTasksUI();
             renderCaseGrid('common');
             startBreak();
-            console.log('🎁 Crush Gift Spin обновлён: новый дизайн, ВелоДрун кейс, превью кейсов, анимация звезды');
+            console.log('🎁 Crush Gift Spin обновлён: кейсы 10⭐, ежедневный 2⭐ (70%), спин 50⭐');
         })();
     </script>
 </body>
