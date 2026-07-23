@@ -57,8 +57,6 @@
         ::-webkit-scrollbar-track {
             background: transparent;
         }
-
-        /* Header */
         .header {
             background: var(--bg-secondary);
             border-bottom: 1px solid var(--border);
@@ -145,22 +143,22 @@
         .user-name-sm:active {
             opacity: 0.7;
         }
-
-        /* Tabs */
         .tabs {
             display: flex;
             background: var(--bg-secondary);
             border-bottom: 1px solid var(--border);
             flex-shrink: 0;
-            padding: 0 4px;
+            padding: 0 2px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
         }
         .tab-btn {
-            flex: 1;
-            padding: 10px 4px;
+            flex: 1 0 auto;
+            padding: 10px 6px;
             background: transparent;
             border: none;
             color: var(--text-secondary);
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 600;
             cursor: pointer;
             border-bottom: 2px solid transparent;
@@ -169,6 +167,7 @@
             text-align: center;
             letter-spacing: 0.2px;
             border-radius: 0;
+            min-width: fit-content;
         }
         .tab-btn.active {
             color: var(--gold-bright);
@@ -188,8 +187,6 @@
         .tab-content.active {
             display: flex;
         }
-
-        /* Crash tab layout */
         .crash-container {
             display: flex;
             flex-direction: column;
@@ -199,8 +196,6 @@
             overflow-y: auto;
             overflow-x: hidden;
         }
-
-        /* Canvas area */
         .diagram-wrap {
             display: flex;
             flex-direction: column;
@@ -221,8 +216,6 @@
             display: block;
             border-radius: var(--radius-sm);
         }
-
-        /* Status text under canvas */
         .info-text {
             font-size: 13px;
             color: var(--text-secondary);
@@ -243,8 +236,6 @@
         .info-text.pending {
             color: var(--accent-blue);
         }
-
-        /* Auto-bar */
         .auto-bar {
             background: var(--bg-secondary);
             padding: 7px 12px;
@@ -308,8 +299,6 @@
             color: #f0b90b;
             background: rgba(240, 185, 11, 0.08);
         }
-
-        /* Controls */
         .controls-row {
             display: flex;
             flex-wrap: wrap;
@@ -430,8 +419,6 @@
             border-color: var(--red);
             color: var(--red);
         }
-
-        /* Crash history bar */
         .crash-history-bar {
             background: var(--bg-secondary);
             padding: 7px 12px;
@@ -486,8 +473,6 @@
             color: #ff6b75;
             border-color: rgba(244, 66, 80, 0.2);
         }
-
-        /* Live feed */
         .live-feed {
             flex: 1;
             min-height: 60px;
@@ -611,8 +596,6 @@
             padding: 10px 0;
             opacity: 0.6;
         }
-
-        /* Cases - 2 column grid, scrollable */
         .cases-scroll-area {
             flex: 1;
             overflow-y: auto;
@@ -751,7 +734,6 @@
                 box-shadow: 0 0 35px rgba(255, 60, 0, 0.3);
             }
         }
-
         #caseCanvas {
             width: 100%;
             max-width: 280px;
@@ -771,8 +753,6 @@
             font-weight: 600;
             min-height: 24px;
         }
-
-        /* Inventory */
         .inventory-grid {
             display: flex;
             flex-wrap: wrap;
@@ -847,8 +827,6 @@
         .inv-slot button:active {
             transform: scale(0.93);
         }
-
-        /* Modal */
         .modal {
             display: none;
             position: fixed;
@@ -960,8 +938,6 @@
             text-align: center;
             min-height: 18px;
         }
-
-        /* Case overlay */
         .case-overlay {
             display: none;
             position: fixed;
@@ -1012,8 +988,6 @@
         .case-overlay .close-overlay-btn:active {
             transform: scale(0.94);
         }
-
-        /* Admin */
         .admin-panel {
             padding: 12px;
             background: var(--bg-secondary);
@@ -1166,6 +1140,269 @@
             color: var(--text-secondary);
         }
 
+        /* ── Spin Tab Styles ── */
+        .spin-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 16px 10px;
+            gap: 14px;
+            flex: 1;
+            overflow-y: auto;
+        }
+        .spin-wheel-wrap {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        canvas#spinWheelCanvas {
+            width: 100%;
+            max-width: 320px;
+            aspect-ratio: 1/1;
+            display: block;
+            border-radius: 50%;
+            transition: box-shadow 0.4s;
+        }
+        .spin-wheel-wrap .spin-pointer {
+            position: absolute;
+            top: -18px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 38px;
+            z-index: 5;
+            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.6));
+            pointer-events: none;
+            animation: pointerBounce 1s ease-in-out infinite;
+        }
+        @keyframes pointerBounce {
+            0%,
+            100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            50% {
+                transform: translateX(-50%) translateY(-6px);
+            }
+        }
+        .spin-info-card {
+            background: var(--bg-secondary);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            padding: 14px;
+            text-align: center;
+            width: 100%;
+            max-width: 340px;
+        }
+        .spin-info-card .spin-cost {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--gold-bright);
+            margin-bottom: 4px;
+        }
+        .spin-info-card .spin-cost small {
+            font-size: 12px;
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+        .spin-info-card .spin-note {
+            font-size: 11px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+        .spin-result {
+            font-size: 16px;
+            font-weight: 700;
+            text-align: center;
+            min-height: 28px;
+            padding: 4px;
+            transition: all 0.3s;
+            color: var(--gold-bright);
+        }
+        .spin-prizes-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px;
+            width: 100%;
+            max-width: 340px;
+        }
+        .spin-prize-chip {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-xs);
+            padding: 6px 4px;
+            text-align: center;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        .spin-prize-chip.rare-prize {
+            border-color: rgba(240, 185, 11, 0.5);
+            color: var(--gold-bright);
+            background: var(--gold-dim);
+            animation: rareGlow 2s ease-in-out infinite;
+        }
+        @keyframes rareGlow {
+            0%,
+            100% {
+                box-shadow: 0 0 8px rgba(240, 185, 11, 0.2);
+            }
+            50% {
+                box-shadow: 0 0 20px rgba(240, 185, 11, 0.5);
+            }
+        }
+
+        /* ── Tasks Tab Styles ── */
+        .tasks-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            padding: 12px 10px;
+            flex: 1;
+            overflow-y: auto;
+        }
+        .task-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 16px 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            transition: border 0.2s;
+        }
+        .task-card.completed {
+            border-color: var(--green);
+            opacity: 0.7;
+        }
+        .task-card .task-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .task-card .task-icon {
+            font-size: 36px;
+            flex-shrink: 0;
+        }
+        .task-card .task-info {
+            flex: 1;
+            min-width: 0;
+        }
+        .task-card .task-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        .task-card .task-desc {
+            font-size: 11px;
+            color: var(--text-secondary);
+            margin-top: 2px;
+        }
+        .task-card .task-reward {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--gold-bright);
+            margin-top: 3px;
+        }
+        .task-card .task-btn {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: var(--radius-xs);
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.15s;
+            min-height: 38px;
+            letter-spacing: 0.3px;
+            color: #fff;
+            background: var(--accent-blue);
+        }
+        .task-card .task-btn:active {
+            transform: scale(0.96);
+            filter: brightness(0.85);
+        }
+        .task-card .task-btn.green-btn {
+            background: var(--green);
+        }
+        .task-card .task-btn:disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
+            background: #3a4458;
+        }
+        .referral-box {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .referral-box .ref-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-align: center;
+        }
+        .referral-box .ref-stats {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .referral-box .ref-stat {
+            background: var(--bg-tertiary);
+            border-radius: var(--radius-xs);
+            padding: 8px 14px;
+            text-align: center;
+            flex: 1;
+            min-width: 80px;
+        }
+        .referral-box .ref-stat .ref-num {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--gold-bright);
+        }
+        .referral-box .ref-stat .ref-label {
+            font-size: 10px;
+            color: var(--text-secondary);
+        }
+        .referral-box .ref-link-row {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+        }
+        .referral-box .ref-link-input {
+            flex: 1;
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-xs);
+            padding: 8px 10px;
+            color: var(--text-primary);
+            font-size: 11px;
+            outline: none;
+            min-width: 0;
+            font-family: var(--font-mono);
+            word-break: break-all;
+            cursor: default;
+        }
+        .referral-box .ref-copy-btn {
+            background: var(--gold);
+            color: #0a0e13;
+            border: none;
+            border-radius: var(--radius-xs);
+            padding: 8px 14px;
+            font-weight: 700;
+            font-size: 12px;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.15s;
+        }
+        .referral-box .ref-copy-btn:active {
+            transform: scale(0.94);
+        }
+
         @media (max-width: 420px) {
             .header {
                 padding: 7px 10px;
@@ -1189,7 +1426,7 @@
             }
             .tab-btn {
                 font-size: 10px;
-                padding: 7px 3px;
+                padding: 7px 4px;
             }
             .controls-row {
                 flex-direction: column;
@@ -1206,6 +1443,9 @@
             }
             canvas#crashCanvas {
                 max-width: 240px;
+            }
+            canvas#spinWheelCanvas {
+                max-width: 260px;
             }
             .case-card {
                 padding: 12px 8px;
@@ -1229,6 +1469,14 @@
             .case-grid {
                 gap: 7px;
             }
+            .spin-prizes-grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 4px;
+            }
+            .spin-prize-chip {
+                font-size: 9px;
+                padding: 4px 2px;
+            }
         }
     </style>
 </head>
@@ -1250,6 +1498,8 @@
     <div class="tabs">
         <button class="tab-btn active" data-tab="crash">📈 Crash</button>
         <button class="tab-btn" data-tab="cases">📦 Кейсы</button>
+        <button class="tab-btn" data-tab="spin">🎡 Spin</button>
+        <button class="tab-btn" data-tab="tasks">📋 Задания</button>
         <button class="tab-btn" data-tab="inventory">🎒 Инвентарь</button>
         <button class="tab-btn" id="adminTabBtn" style="display:none;" data-tab="admin">🛡️ Админ</button>
     </div>
@@ -1305,7 +1555,6 @@
         </div>
         <div class="cases-scroll-area">
             <div class="case-grid">
-                <!-- Row 1: Ежедневный и Промо -->
                 <div class="case-card gold-border">
                     <div class="case-icon">🎁</div>
                     <div class="case-name" style="color:var(--gold-bright);">Ежедневный</div>
@@ -1319,7 +1568,6 @@
                     <button class="promo-btn" id="promoCaseBtn">Ввести код</button>
                     <span class="case-tag" id="promoStatus">доступен</span>
                 </div>
-                <!-- Row 2: Обычный и Редкий -->
                 <div class="case-card">
                     <div class="case-icon">📦</div>
                     <div class="case-name" style="color:#4a8ab5;">Обычный</div>
@@ -1332,7 +1580,6 @@
                     <div class="case-price stars">200 ⭐</div>
                     <button onclick="openCase('rare')">Открыть</button>
                 </div>
-                <!-- Row 3: Эпический и Легендарный -->
                 <div class="case-card orange-border">
                     <div class="case-icon">🔥</div>
                     <div class="case-name" style="color:#ff6b35;">Эпический</div>
@@ -1345,7 +1592,6 @@
                     <div class="case-price stars">1500 ⭐</div>
                     <button id="legendaryCaseBtn">Открыть</button>
                 </div>
-                <!-- Row 4: Уникальный и Бурмалда -->
                 <div class="case-card unique-border">
                     <div class="case-rarity" style="color:#ff3d00;">ULTRA</div>
                     <div class="case-icon">🌟</div>
@@ -1361,6 +1607,71 @@
                     <button class="burmalda-btn" id="burmaldaCaseBtn">Открыть</button>
                     <span class="case-tag">15-200 ⭐</span>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Spin Tab (Wheel of Fortune) -->
+    <div class="tab-content" id="spinTab">
+        <div class="spin-container">
+            <div class="spin-wheel-wrap">
+                <span class="spin-pointer">🔻</span>
+                <canvas id="spinWheelCanvas" width="320" height="320"></canvas>
+            </div>
+            <div class="spin-result" id="spinResult">🎡 Испытай удачу!</div>
+            <div class="spin-info-card">
+                <div class="spin-cost">500 ⭐ <small>за прокрутку</small></div>
+                <button class="btn btn-gold" id="spinBtn" style="width:100%; font-size:15px; padding:12px;">🎰 Крутить колесо</button>
+                <div class="spin-note">Шанс выпадения 500, 1000 и 2500 ⭐ — 0.01% каждый</div>
+            </div>
+            <div class="spin-prizes-grid">
+                <span class="spin-prize-chip">50 ⭐</span>
+                <span class="spin-prize-chip">100 ⭐</span>
+                <span class="spin-prize-chip">250 ⭐</span>
+                <span class="spin-prize-chip">400 ⭐</span>
+                <span class="spin-prize-chip rare-prize">500 ⭐</span>
+                <span class="spin-prize-chip rare-prize">1000 ⭐</span>
+                <span class="spin-prize-chip rare-prize" style="background:rgba(255,215,0,0.2);border-color:#ffd700;">2500 ⭐</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tasks Tab -->
+    <div class="tab-content" id="tasksTab">
+        <div class="tasks-container">
+            <!-- Subscribe Task -->
+            <div class="task-card" id="subscribeTaskCard">
+                <div class="task-header">
+                    <div class="task-icon">📢</div>
+                    <div class="task-info">
+                        <div class="task-title">Подписаться на канал</div>
+                        <div class="task-desc">Подпишись на наш Telegram-канал и получи бонус</div>
+                        <div class="task-reward">🏆 +5 ⭐</div>
+                    </div>
+                </div>
+                <button class="task-btn" id="subscribeGoBtn">📢 Перейти в канал</button>
+                <button class="task-btn green-btn" id="subscribeCheckBtn" style="display:none;">✅ Проверить подписку</button>
+                <div id="subscribeStatus" style="text-align:center;font-size:12px;min-height:18px;"></div>
+            </div>
+
+            <!-- Referrals -->
+            <div class="referral-box">
+                <div class="ref-title">👥 Рефералы</div>
+                <div class="ref-stats">
+                    <div class="ref-stat">
+                        <div class="ref-num" id="refCount">0</div>
+                        <div class="ref-label">Приглашено</div>
+                    </div>
+                    <div class="ref-stat">
+                        <div class="ref-num" id="refEarnings">0 ⭐</div>
+                        <div class="ref-label">Заработано</div>
+                    </div>
+                </div>
+                <div class="ref-link-row">
+                    <input class="ref-link-input" id="refLinkInput" type="text" readonly value="" onclick="this.select()">
+                    <button class="ref-copy-btn" id="refCopyBtn">📋 Копировать</button>
+                </div>
+                <div style="text-align:center;font-size:10px;color:var(--text-secondary);">+1 ⭐ за каждого приглашённого друга</div>
             </div>
         </div>
     </div>
@@ -1459,8 +1770,8 @@
             const ROUND_COUNTER_KEY = 'gift_round_counter';
             const ACTIVITY_FEED_KEY = 'gift_activity_feed';
             const BOTS_INITIALIZED_KEY = 'gift_bots_initialized_v1';
+            const REFERRALS_KEY = 'gift_referrals_v1';
 
-            // ── Bot users for admin panel ──
             const botNames = [
                 'Алексей_777', 'МарияStar', 'Дмитрий_К', 'Анна_Белла', 'Сергей_Топ',
                 'Ольга_Фокс', 'Никита_Хан', 'Елена_Вайб', 'Артем_Кинг', 'Виктория_Роуз',
@@ -1488,7 +1799,10 @@
                             totalLosses: Math.floor(Math.random() * 40),
                             lastDailyClaim: Date.now() - Math.floor(Math.random() * 86400000),
                             usedPromoCodes: [],
-                            inventory: []
+                            inventory: [],
+                            subscriptionVerified: false,
+                            referralCount: 0,
+                            referralEarnings: 0
                         });
                     }
                 });
@@ -1505,6 +1819,12 @@
 
             function saveAllUsers(users) { localStorage.setItem(ALL_USERS_KEY, JSON.stringify(users)); }
 
+            function loadReferrals() {
+                try { return JSON.parse(localStorage.getItem(REFERRALS_KEY)) || []; } catch (e) { return []; }
+            }
+
+            function saveReferrals(refs) { localStorage.setItem(REFERRALS_KEY, JSON.stringify(refs)); }
+
             function getCurrentUserData() {
                 let all = loadAllUsers();
                 let user = all.find(u => u.id === userId && !u.isBot);
@@ -1513,7 +1833,7 @@
                         id: userId,
                         name: userName,
                         blocked: false,
-                        stars: 1200,
+                        stars: 3,
                         isBot: false,
                         history: [],
                         totalGames: 0,
@@ -1521,15 +1841,57 @@
                         totalLosses: 0,
                         lastDailyClaim: 0,
                         usedPromoCodes: [],
-                        inventory: []
+                        inventory: [],
+                        subscriptionVerified: false,
+                        referralCount: 0,
+                        referralEarnings: 0
                     };
                     all.push(user);
                     saveAllUsers(all);
+                    // Check for referral
+                    checkReferralOnStart();
                 } else if (user.name !== userName) {
                     user.name = userName;
                     saveAllUsers(all);
                 }
+                // Ensure new fields exist
+                if (user.subscriptionVerified === undefined) user.subscriptionVerified = false;
+                if (user.referralCount === undefined) user.referralCount = 0;
+                if (user.referralEarnings === undefined) user.referralEarnings = 0;
                 return user;
+            }
+
+            function checkReferralOnStart() {
+                // Check URL params or Telegram start_param for referral
+                const urlParams = new URLSearchParams(window.location.search);
+                const refParam = urlParams.get('start') || urlParams.get('ref') || tg.initDataUnsafe?.start_param || '';
+                if (refParam && refParam.startsWith('ref_')) {
+                    const referrerId = refParam.replace('ref_', '');
+                    if (referrerId && referrerId !== userId) {
+                        processReferral(referrerId);
+                    }
+                }
+            }
+
+            function processReferral(referrerId) {
+                let referrals = loadReferrals();
+                const alreadyReferred = referrals.find(r => r.referredId === userId);
+                if (alreadyReferred) return;
+                referrals.push({
+                    referrerId: referrerId,
+                    referredId: userId,
+                    timestamp: Date.now()
+                });
+                saveReferrals(referrals);
+                // Credit referrer
+                let all = loadAllUsers();
+                const referrer = all.find(u => u.id === referrerId);
+                if (referrer) {
+                    referrer.stars = (referrer.stars || 0) + 1;
+                    referrer.referralCount = (referrer.referralCount || 0) + 1;
+                    referrer.referralEarnings = (referrer.referralEarnings || 0) + 1;
+                    saveAllUsers(all);
+                }
             }
 
             function updateCurrentUserInStorage(updatedData) {
@@ -1540,7 +1902,6 @@
                 saveAllUsers(all);
             }
 
-            // Initialize bot users
             initBotUsers();
 
             let currentUser = getCurrentUserData();
@@ -1552,6 +1913,9 @@
             let lastDailyClaim = currentUser.lastDailyClaim || 0;
             let usedPromoCodes = currentUser.usedPromoCodes || [];
             let inventory = currentUser.inventory || [];
+            let subscriptionVerified = currentUser.subscriptionVerified || false;
+            let referralCount = currentUser.referralCount || 0;
+            let referralEarnings = currentUser.referralEarnings || 0;
 
             function persistGameData() {
                 updateCurrentUserInStorage({
@@ -1562,7 +1926,10 @@
                     totalLosses,
                     lastDailyClaim,
                     usedPromoCodes,
-                    inventory
+                    inventory,
+                    subscriptionVerified,
+                    referralCount,
+                    referralEarnings
                 });
             }
 
@@ -1575,7 +1942,6 @@
                 localStorage.setItem(ACTIVITY_FEED_KEY, JSON.stringify(feed));
             }
 
-            // ── Round Counter & Sync ──
             function getRoundNumber() {
                 return parseInt(localStorage.getItem(ROUND_COUNTER_KEY)) || 1;
             }
@@ -1594,16 +1960,14 @@
                 };
             }
 
-            // ── Reduced chance of high multipliers ──
             function generateCrashPoint(roundNum) {
                 const seed = roundNum * 7919 + 104729;
                 const rng = seededRandom(seed);
                 const p = rng();
-                // Skewed distribution: mostly low multipliers
-                if (p < 0.75) return 1.01 + rng() * (1.45 - 1.01); // 75%: 1.01-1.45
-                if (p < 0.90) return 1.45 + rng() * (1.85 - 1.45); // 15%: 1.45-1.85
-                if (p < 0.97) return 1.85 + rng() * (4.0 - 1.85); // 7%: 1.85-4.0
-                return 4.0 + rng() * (15.0 - 4.0); // 3%: 4.0-15.0
+                if (p < 0.75) return 1.01 + rng() * (1.45 - 1.01);
+                if (p < 0.90) return 1.45 + rng() * (1.85 - 1.45);
+                if (p < 0.97) return 1.85 + rng() * (4.0 - 1.85);
+                return 4.0 + rng() * (15.0 - 4.0);
             }
 
             function checkBroadcast() {
@@ -1731,7 +2095,6 @@
                 }, 1800);
             });
 
-            // ── Enhanced particle system ──
             function spawnParticle(cx, cy, intensity) {
                 const angle = Math.random() * Math.PI * 2;
                 const speed = 0.3 + Math.random() * 4.0 * intensity;
@@ -1818,7 +2181,6 @@
             }
 
             function drawParticlesAndLines() {
-                // Nebula background particles
                 for (const np of nebulaParticles) {
                     const alpha = np.alpha * (0.7 + 0.3 * Math.sin(np.pulse));
                     ctx.save();
@@ -1832,7 +2194,6 @@
                     ctx.fill();
                     ctx.restore();
                 }
-                // Speed lines
                 for (const sl of speedLines) {
                     ctx.save();
                     ctx.globalAlpha = sl.alpha * sl.life;
@@ -1846,9 +2207,7 @@
                     ctx.stroke();
                     ctx.restore();
                 }
-                // Particles with trails
                 for (const p of particles) {
-                    // Trail
                     if (p.trail.length > 1) {
                         ctx.save();
                         ctx.globalAlpha = 0.25 * p.life;
@@ -1865,7 +2224,6 @@
                         ctx.stroke();
                         ctx.restore();
                     }
-                    // Particle
                     ctx.save();
                     ctx.globalAlpha = p.life * 0.8;
                     ctx.shadowColor = p.color;
@@ -1878,13 +2236,10 @@
                 }
             }
 
-            // ── Drawing (improved graphics, no progress ring) ──
             function drawCrashScene() {
                 const w = crashCanvas.width,
                     h = crashCanvas.height;
                 ctx.clearRect(0, 0, w, h);
-
-                // Deep space background with subtle gradient
                 const bgGrad = ctx.createRadialGradient(w / 2, h / 2, 5, w / 2, h / 2, w * 0.85);
                 bgGrad.addColorStop(0, '#1a2840');
                 bgGrad.addColorStop(0.4, '#0f1828');
@@ -1892,8 +2247,6 @@
                 bgGrad.addColorStop(1, '#040810');
                 ctx.fillStyle = bgGrad;
                 ctx.fillRect(0, 0, w, h);
-
-                // Subtle grid
                 ctx.strokeStyle = 'rgba(25, 40, 60, 0.25)';
                 ctx.lineWidth = 0.4;
                 const gridSpacing = 30;
@@ -1909,12 +2262,9 @@
                     ctx.lineTo(w, y);
                     ctx.stroke();
                 }
-
                 const intensity = Math.min(1, (currentMultiplier - 1) / 6);
                 const rotSpeed = 0.015 + intensity * 0.14;
                 starAngle += rotSpeed;
-
-                // Spawn particles
                 if (Math.random() < 0.25 + intensity * 0.55) {
                     particles.push(spawnParticle(w / 2, h / 2, intensity));
                 }
@@ -1925,8 +2275,6 @@
                 if (speedLines.length > 50) speedLines.splice(0, speedLines.length - 50);
                 updateParticles();
                 drawParticlesAndLines();
-
-                // Star glow - multi-layered
                 const multColor = getMultiplierColor(currentMultiplier);
                 for (let glow = 3; glow >= 0; glow--) {
                     const glowSize = 30 + glow * 25 + intensity * 30;
@@ -1943,14 +2291,11 @@
                     ctx.arc(w / 2, h / 2, glowSize, 0, Math.PI * 2);
                     ctx.fill();
                 }
-
-                // Central star with enhanced rendering
                 const pulse = 1 + 0.05 * Math.sin(performance.now() / 140);
                 const starSize = 40 * pulse;
                 ctx.save();
                 ctx.translate(w / 2, h / 2);
                 ctx.rotate(starAngle);
-                // Outer glow
                 ctx.shadowColor = '#ffd700';
                 ctx.shadowBlur = 55 + intensity * 25;
                 ctx.font = `bold ${starSize}px "Segoe UI", sans-serif`;
@@ -1958,15 +2303,12 @@
                 ctx.textBaseline = 'middle';
                 ctx.fillStyle = '#ffe566';
                 ctx.fillText('⭐', 0, 2);
-                // Inner bright star
                 ctx.shadowBlur = 20;
                 ctx.font = `bold ${starSize * 0.7}px "Segoe UI", sans-serif`;
                 ctx.fillStyle = '#ffffff';
                 ctx.fillText('⭐', 0, 1);
                 ctx.shadowBlur = 0;
                 ctx.restore();
-
-                // Inner bright core
                 const coreGrd = ctx.createRadialGradient(w / 2, h / 2, 2, w / 2, h / 2, 22);
                 coreGrd.addColorStop(0, 'rgba(255,255,255,0.95)');
                 coreGrd.addColorStop(0.4, 'rgba(255,245,210,0.4)');
@@ -1975,8 +2317,6 @@
                 ctx.beginPath();
                 ctx.arc(w / 2, h / 2, 22, 0, Math.PI * 2);
                 ctx.fill();
-
-                // Bold multiplier display
                 const mx = 14,
                     my = 34;
                 ctx.font = 'bold 32px "Segoe UI", sans-serif';
@@ -1994,7 +2334,6 @@
                 ctx.textAlign = 'start';
             }
 
-            // ── Button state management ──
             function updateUnifiedButton() {
                 const isBlocked = currentUser.blocked;
                 cancelPendingBtn.style.display = 'none';
@@ -2032,7 +2371,6 @@
                 autoInput.disabled = isBlocked;
             }
 
-            // ── Game logic ──
             function startBreak() {
                 crashInfo.textContent = 'Следующий раунд через 5...';
                 crashInfo.className = 'info-text';
@@ -2055,7 +2393,6 @@
                 if (isBlockedCheck()) return;
                 currentRound = incrementRoundNumber();
                 crashPoint = generateCrashPoint(currentRound);
-
                 if (pendingBet) {
                     if (!isDemoMode && pendingBet.amount > stars) {
                         crashInfo.textContent = '❌ Недостаточно звёзд!';
@@ -2077,7 +2414,6 @@
                 } else {
                     activeBet = null;
                 }
-
                 currentMultiplier = 1.0;
                 starAngle = 0;
                 particles = [];
@@ -2087,7 +2423,6 @@
                 startTime = performance.now();
                 crashInfo.textContent = '🚀 Полёт...';
                 crashInfo.className = 'info-text';
-
                 if (activeBet && activeBet.auto_withdraw > 0) {
                     autoDisplay.textContent = `x${activeBet.auto_withdraw.toFixed(2)}`;
                 } else {
@@ -2110,21 +2445,17 @@
                 const elapsed = (now - startTime) / 1000;
                 const rate = getGrowthRate(currentMultiplier);
                 currentMultiplier = Math.exp(rate * elapsed);
-
                 if (currentMultiplier >= crashPoint || currentMultiplier >= 30) {
                     currentMultiplier = Math.min(crashPoint, 30);
                     drawCrashScene();
                     crash();
                     return;
                 }
-
                 drawCrashScene();
-
                 if (activeBet && activeBet.auto_withdraw > 0 && currentMultiplier >= activeBet.auto_withdraw) {
                     autoWithdraw();
                     return;
                 }
-
                 if (activeBet) updateUnifiedButton();
                 animFrameId = requestAnimationFrame(animateCrash);
             }
@@ -2137,7 +2468,6 @@
                 if (history.length > 30) history.shift();
                 updateHistUI();
                 persistGameData();
-
                 if (activeBet) {
                     const betAmount = activeBet.amount;
                     if (activeBet.protection && crashMult <= 1.01) {
@@ -2155,7 +2485,6 @@
                     crashInfo.textContent = `💥 Крах на x${crashMult.toFixed(2)}`;
                     crashInfo.className = 'info-text loss';
                 }
-
                 updateBalanceUI();
                 persistGameData();
                 if (pendingBet) {
@@ -2303,7 +2632,6 @@
                 showCaseAnimation(reward, 'Кейс');
             };
 
-            // ── Daily Case ──
             document.getElementById('dailyCaseBtn').addEventListener('click', () => {
                 if (isBlockedCheck()) return;
                 const now = Date.now();
@@ -2324,7 +2652,6 @@
                 showCaseAnimation(reward, 'Ежедневный кейс');
             });
 
-            // ── Promo Case ──
             const VALID_CODES = ['Бурмалда', 'Павел', 'Матвей', 'Скебоб', '67', 'Стефан', 'Даша', 'Саша'];
             const promoBtn = document.getElementById('promoCaseBtn');
             const promoStatus = document.getElementById('promoStatus');
@@ -2366,7 +2693,6 @@
                 showCaseAnimation(reward, `Промо-кейс (${code})`);
             });
 
-            // ── Legendary Case ──
             const legendaryItems = [
                 { name: 'Ракета', icon: '🚀', value: 50, weight: 1 / 50 },
                 { name: 'Кубок', icon: '🏆', value: 100, weight: 1 / 100 },
@@ -2394,7 +2720,6 @@
             }
             document.getElementById('legendaryCaseBtn').addEventListener('click', openLegendaryCase);
 
-            // ── Unique Case (Уникальный) ──
             const uniqueItems = [
                 { name: 'Кирпич', icon: '🧱', value: 5622, weight: 50 },
                 { name: 'Мини Оскар', icon: '🏅', value: 6500, weight: 28 },
@@ -2421,14 +2746,13 @@
             }
             document.getElementById('uniqueCaseBtn').addEventListener('click', openUniqueCase);
 
-            // ── Burmalda Case (Бурмалда) ──
             function openBurmaldaCase() {
                 if (isBlockedCheck()) return;
                 if (!isDemoMode && stars < 300) { alert('Недостаточно звёзд! Нужно 300 ⭐'); return; }
                 if (!isDemoMode) { stars -= 300;
                     updateBalanceUI();
                     persistGameData(); }
-                const reward = Math.floor(Math.random() * 186) + 15; // 15 to 200
+                const reward = Math.floor(Math.random() * 186) + 15;
                 if (!isDemoMode) { stars += reward;
                     updateBalanceUI();
                     persistGameData(); }
@@ -2437,7 +2761,6 @@
             }
             document.getElementById('burmaldaCaseBtn').addEventListener('click', openBurmaldaCase);
 
-            // ── Inventory with Drag & Drop ──
             function renderInventory() {
                 const grid = document.getElementById('inventoryGrid');
                 if (!inventory.length) {
@@ -2464,13 +2787,11 @@
             }
 
             let dragSourceIndex = null;
-
             window.handleDragStart = function(event, index) {
                 dragSourceIndex = index;
                 event.target.classList.add('dragging');
                 event.dataTransfer.effectAllowed = 'move';
                 event.dataTransfer.setData('text/plain', index.toString());
-                // Set a small drag image
                 const ghost = event.target.cloneNode(true);
                 ghost.style.position = 'absolute';
                 ghost.style.top = '-9999px';
@@ -2480,22 +2801,18 @@
                 event.dataTransfer.setDragImage(ghost, ghost.offsetWidth / 2, ghost.offsetHeight / 2);
                 setTimeout(() => document.body.removeChild(ghost), 0);
             };
-
             window.handleDragOver = function(event) {
                 event.preventDefault();
                 event.dataTransfer.dropEffect = 'move';
                 event.target.closest('.inv-slot')?.classList.add('drag-over');
             };
-
             window.handleDragLeave = function(event) {
                 event.target.closest('.inv-slot')?.classList.remove('drag-over');
             };
-
             window.handleDrop = function(event, targetIndex) {
                 event.preventDefault();
                 event.target.closest('.inv-slot')?.classList.remove('drag-over');
                 if (dragSourceIndex !== null && dragSourceIndex !== targetIndex) {
-                    // Swap items
                     const temp = inventory[dragSourceIndex];
                     inventory[dragSourceIndex] = inventory[targetIndex];
                     inventory[targetIndex] = temp;
@@ -2503,16 +2820,13 @@
                     renderInventory();
                 }
                 dragSourceIndex = null;
-                // Remove all drag-over classes
                 document.querySelectorAll('.inv-slot.drag-over').forEach(el => el.classList.remove('drag-over'));
             };
-
             window.handleDragEnd = function(event) {
                 event.target.classList.remove('dragging');
                 document.querySelectorAll('.inv-slot.drag-over').forEach(el => el.classList.remove('drag-over'));
                 dragSourceIndex = null;
             };
-
             window.sellInventoryItem = function(index) {
                 const item = inventory[index];
                 if (!item) return;
@@ -2641,6 +2955,282 @@
             }
             drawCaseStatic();
 
+            // ── Spin Wheel ──
+            const spinWheelCanvas = document.getElementById('spinWheelCanvas');
+            const spinCtx = spinWheelCanvas.getContext('2d');
+            const spinResult = document.getElementById('spinResult');
+            const spinBtn = document.getElementById('spinBtn');
+
+            // Prize configuration: [value, probability]
+            const spinPrizes = [
+                { value: 50, prob: 0.35, color: '#4a9cf7', label: '50' },
+                { value: 100, prob: 0.30, color: '#16c95a', label: '100' },
+                { value: 250, prob: 0.20, color: '#f39c12', label: '250' },
+                { value: 400, prob: 0.1497, color: '#b388ff', label: '400' },
+                { value: 500, prob: 0.0001, color: '#f0b90b', label: '500' },
+                { value: 1000, prob: 0.0001, color: '#ff4444', label: '1000' },
+                { value: 2500, prob: 0.0001, color: '#ffffff', label: '2500' }
+            ];
+
+            let spinAngle = 0;
+            let isSpinning = false;
+
+            function drawSpinWheel() {
+                const w = spinWheelCanvas.width;
+                const h = spinWheelCanvas.height;
+                const cx = w / 2;
+                const cy = h / 2;
+                const radius = w / 2 - 8;
+                spinCtx.clearRect(0, 0, w, h);
+
+                // Outer ring glow
+                const outerGlow = spinCtx.createRadialGradient(cx, cy, radius - 4, cx, cy, radius + 8);
+                outerGlow.addColorStop(0, 'rgba(240,185,11,0.3)');
+                outerGlow.addColorStop(1, 'rgba(240,185,11,0)');
+                spinCtx.fillStyle = outerGlow;
+                spinCtx.beginPath();
+                spinCtx.arc(cx, cy, radius + 8, 0, Math.PI * 2);
+                spinCtx.fill();
+
+                // Outer ring
+                spinCtx.beginPath();
+                spinCtx.arc(cx, cy, radius + 4, 0, Math.PI * 2);
+                spinCtx.strokeStyle = '#f0b90b';
+                spinCtx.lineWidth = 3;
+                spinCtx.stroke();
+
+                // Segments (7 equal visual segments, weighted by probability for selection)
+                const segmentAngle = (Math.PI * 2) / spinPrizes.length;
+                spinPrizes.forEach((prize, i) => {
+                    const startAngle = spinAngle + i * segmentAngle - Math.PI / 2;
+                    const endAngle = startAngle + segmentAngle;
+
+                    // Segment fill with gradient
+                    const grad = spinCtx.createRadialGradient(cx, cy, radius * 0.2, cx, cy, radius);
+                    grad.addColorStop(0, prize.color);
+                    grad.addColorStop(0.7, prize.color);
+                    grad.addColorStop(1, 'rgba(0,0,0,0.4)');
+                    spinCtx.beginPath();
+                    spinCtx.moveTo(cx, cy);
+                    spinCtx.arc(cx, cy, radius, startAngle, endAngle);
+                    spinCtx.closePath();
+                    spinCtx.fillStyle = grad;
+                    spinCtx.fill();
+                    spinCtx.strokeStyle = 'rgba(255,255,255,0.15)';
+                    spinCtx.lineWidth = 1.5;
+                    spinCtx.stroke();
+
+                    // Label
+                    const midAngle = startAngle + segmentAngle / 2;
+                    const labelRadius = radius * 0.68;
+                    const lx = cx + Math.cos(midAngle) * labelRadius;
+                    const ly = cy + Math.sin(midAngle) * labelRadius;
+                    spinCtx.save();
+                    spinCtx.translate(lx, ly);
+                    spinCtx.rotate(midAngle + Math.PI / 2);
+                    spinCtx.font = 'bold 14px "Segoe UI", sans-serif';
+                    spinCtx.textAlign = 'center';
+                    spinCtx.textBaseline = 'middle';
+                    spinCtx.fillStyle = '#fff';
+                    spinCtx.shadowColor = 'rgba(0,0,0,0.7)';
+                    spinCtx.shadowBlur = 3;
+                    spinCtx.fillText(`${prize.value} ⭐`, 0, 0);
+                    spinCtx.shadowBlur = 0;
+                    spinCtx.restore();
+                });
+
+                // Center circle
+                const centerGrad = spinCtx.createRadialGradient(cx, cy, 8, cx, cy, 42);
+                centerGrad.addColorStop(0, '#fff');
+                centerGrad.addColorStop(0.5, '#f0b90b');
+                centerGrad.addColorStop(1, '#8b6914');
+                spinCtx.beginPath();
+                spinCtx.arc(cx, cy, 42, 0, Math.PI * 2);
+                spinCtx.fillStyle = centerGrad;
+                spinCtx.fill();
+                spinCtx.strokeStyle = 'rgba(255,255,255,0.4)';
+                spinCtx.lineWidth = 2;
+                spinCtx.stroke();
+                spinCtx.font = 'bold 16px "Segoe UI", sans-serif';
+                spinCtx.textAlign = 'center';
+                spinCtx.textBaseline = 'middle';
+                spinCtx.fillStyle = '#0a0e13';
+                spinCtx.fillText('🎰', cx, cy);
+
+                // Tick marks around edge
+                for (let i = 0; i < 28; i++) {
+                    const ta = spinAngle + i * (Math.PI * 2 / 28) - Math.PI / 2;
+                    const innerR = radius - 5;
+                    const outerR = radius + 3;
+                    spinCtx.beginPath();
+                    spinCtx.moveTo(cx + Math.cos(ta) * innerR, cy + Math.sin(ta) * innerR);
+                    spinCtx.lineTo(cx + Math.cos(ta) * outerR, cy + Math.sin(ta) * outerR);
+                    spinCtx.strokeStyle = i % 4 === 0 ? '#f0b90b' : 'rgba(255,255,255,0.3)';
+                    spinCtx.lineWidth = i % 4 === 0 ? 2 : 1;
+                    spinCtx.stroke();
+                }
+            }
+
+            function getRandomPrize() {
+                const rand = Math.random();
+                let cumulative = 0;
+                for (const prize of spinPrizes) {
+                    cumulative += prize.prob;
+                    if (rand <= cumulative) return prize;
+                }
+                return spinPrizes[0];
+            }
+
+            function spinTheWheel() {
+                if (isSpinning) return;
+                if (isBlockedCheck()) return;
+                if (!isDemoMode && stars < 500) {
+                    spinResult.textContent = '❌ Недостаточно звёзд! Нужно 500 ⭐';
+                    spinResult.style.color = 'var(--red)';
+                    return;
+                }
+                if (!isDemoMode) {
+                    stars -= 500;
+                    updateBalanceUI();
+                    persistGameData();
+                }
+                isSpinning = true;
+                spinBtn.disabled = true;
+                spinBtn.textContent = '🎰 Крутится...';
+                spinResult.textContent = '🎡 Крутим...';
+                spinResult.style.color = 'var(--gold-bright)';
+
+                const selectedPrize = getRandomPrize();
+                // Calculate the angle to land on the selected prize
+                const segmentAngle = (Math.PI * 2) / spinPrizes.length;
+                const prizeIndex = spinPrizes.indexOf(selectedPrize);
+                // Target angle: align the pointer (top, -PI/2) with the center of the selected segment
+                const targetSegmentCenter = prizeIndex * segmentAngle + segmentAngle / 2;
+                const pointerAngle = -Math.PI / 2; // pointer is at top
+                // We need: spinAngle + targetSegmentCenter ≡ pointerAngle (mod 2PI)
+                // spinAngle = pointerAngle - targetSegmentCenter + full rotations
+                const fullRotations = (5 + Math.floor(Math.random() * 5)) * Math.PI * 2;
+                const targetAngle = pointerAngle - targetSegmentCenter + fullRotations;
+                const startAngle = spinAngle;
+                const totalSpin = targetAngle - startAngle;
+                const duration = 4000 + Math.random() * 1500;
+                const startTime = performance.now();
+
+                function easeOutCubic(t) {
+                    return 1 - Math.pow(1 - t, 3);
+                }
+
+                function animateSpin(ts) {
+                    const elapsed = ts - startTime;
+                    const progress = Math.min(1, elapsed / duration);
+                    const easedProgress = easeOutCubic(progress);
+                    spinAngle = startAngle + totalSpin * easedProgress;
+                    drawSpinWheel();
+                    if (progress < 1) {
+                        requestAnimationFrame(animateSpin);
+                    } else {
+                        spinAngle = targetAngle;
+                        drawSpinWheel();
+                        // Award prize
+                        if (!isDemoMode) {
+                            stars += selectedPrize.value;
+                            updateBalanceUI();
+                            persistGameData();
+                        }
+                        addFeedItem(userName, 'колесо удачи', selectedPrize.value, 'win', '🎡');
+                        spinResult.textContent = `🎉 Выпало: ${selectedPrize.value} ⭐!`;
+                        spinResult.style.color = 'var(--green)';
+                        isSpinning = false;
+                        spinBtn.disabled = false;
+                        spinBtn.textContent = '🎰 Крутить колесо';
+                    }
+                }
+                requestAnimationFrame(animateSpin);
+            }
+
+            spinBtn.addEventListener('click', spinTheWheel);
+            drawSpinWheel();
+
+            // ── Tasks Tab ──
+            const subscribeGoBtn = document.getElementById('subscribeGoBtn');
+            const subscribeCheckBtn = document.getElementById('subscribeCheckBtn');
+            const subscribeStatus = document.getElementById('subscribeStatus');
+            const subscribeTaskCard = document.getElementById('subscribeTaskCard');
+            const refCountEl = document.getElementById('refCount');
+            const refEarningsEl = document.getElementById('refEarnings');
+            const refLinkInput = document.getElementById('refLinkInput');
+            const refCopyBtn = document.getElementById('refCopyBtn');
+
+            // Generate unique referral link
+            const refLink = `https://t.me/CrashGiftSpin_bot?start=ref_${userId}`;
+            refLinkInput.value = refLink;
+
+            function updateTasksUI() {
+                // Subscribe task
+                if (subscriptionVerified) {
+                    subscribeTaskCard.classList.add('completed');
+                    subscribeGoBtn.style.display = 'none';
+                    subscribeCheckBtn.style.display = 'none';
+                    subscribeStatus.textContent = '✅ Задание выполнено! +5 ⭐ получено';
+                    subscribeStatus.style.color = 'var(--green)';
+                } else {
+                    subscribeTaskCard.classList.remove('completed');
+                    subscribeGoBtn.style.display = 'block';
+                    subscribeCheckBtn.style.display = 'block';
+                    subscribeStatus.textContent = '';
+                }
+                // Referral stats
+                refCountEl.textContent = referralCount;
+                refEarningsEl.textContent = `${referralEarnings} ⭐`;
+            }
+
+            subscribeGoBtn.addEventListener('click', () => {
+                tg.openTelegramLink('https://t.me/CrashGiftSpin');
+                // Show check button more prominently
+                subscribeStatus.textContent = '👆 Перейдите в канал и нажмите «Подписаться», затем вернитесь и нажмите «Проверить»';
+                subscribeStatus.style.color = 'var(--accent-blue)';
+            });
+
+            subscribeCheckBtn.addEventListener('click', () => {
+                if (subscriptionVerified) return;
+                // Simulate subscription check (in production, this would use bot API)
+                // We'll mark as verified after a short delay
+                subscribeStatus.textContent = '🔍 Проверяем подписку...';
+                subscribeStatus.style.color = 'var(--gold-bright)';
+                setTimeout(() => {
+                    subscriptionVerified = true;
+                    if (!isDemoMode) {
+                        stars += 5;
+                        updateBalanceUI();
+                    }
+                    persistGameData();
+                    updateTasksUI();
+                    addFeedItem(userName, 'подписка на канал', 5, 'win', '📢');
+                    subscribeStatus.textContent = '✅ Подписка подтверждена! +5 ⭐';
+                    subscribeStatus.style.color = 'var(--green)';
+                }, 1200);
+            });
+
+            refCopyBtn.addEventListener('click', () => {
+                refLinkInput.select();
+                refLinkInput.setSelectionRange(0, 99999);
+                try {
+                    navigator.clipboard.writeText(refLinkInput.value);
+                    refCopyBtn.textContent = '✅ Скопировано!';
+                    setTimeout(() => { refCopyBtn.textContent = '📋 Копировать'; }, 1800);
+                } catch (e) {
+                    // Fallback
+                    refLinkInput.select();
+                    alert('Ссылка выделена. Скопируйте её вручную.');
+                }
+            });
+
+            refLinkInput.addEventListener('click', () => {
+                refLinkInput.select();
+            });
+
+            updateTasksUI();
+
             // ── Tabs ──
             document.querySelectorAll('.tab-btn').forEach(btn => {
                 btn.addEventListener('click', () => {
@@ -2651,6 +3241,15 @@
                     if (btn.dataset.tab === 'cases') drawCaseStatic();
                     if (btn.dataset.tab === 'inventory') renderInventory();
                     if (btn.dataset.tab === 'admin') renderAdminPanel();
+                    if (btn.dataset.tab === 'spin') drawSpinWheel();
+                    if (btn.dataset.tab === 'tasks') {
+                        updateTasksUI();
+                        // Refresh referral stats from storage
+                        const u = getCurrentUserData();
+                        referralCount = u.referralCount || 0;
+                        referralEarnings = u.referralEarnings || 0;
+                        updateTasksUI();
+                    }
                 });
             });
 
@@ -2704,11 +3303,11 @@
                 alert(`✅ Заявка на вывод ${amount} ⭐ отправлена.`);
             });
 
-            // ── Admin Panel (shows ALL registered players) ──
+            // ── Admin Panel ──
             function renderAdminPanel() {
                 if (!isAdmin) return;
                 const panel = document.getElementById('adminPanel');
-                let all = loadAllUsers(); // includes bots and real users
+                let all = loadAllUsers();
                 const searchTerm = document.getElementById('adminSearch')?.value?.toLowerCase() || '';
                 const filtered = all.filter(u =>
                     (u.name || '').toLowerCase().includes(searchTerm) ||
@@ -2795,6 +3394,7 @@
                     localStorage.removeItem(ROUND_COUNTER_KEY);
                     localStorage.removeItem(ACTIVITY_FEED_KEY);
                     localStorage.removeItem(BROADCAST_KEY);
+                    localStorage.removeItem(REFERRALS_KEY);
                     location.reload();
                 }
             };
@@ -2808,8 +3408,10 @@
             renderFeed();
             drawCrashScene();
             updateUnifiedButton();
+            updateTasksUI();
             startBreak();
-            console.log('🎁 Crush Gift Spin v5 загружен (2 новых кейса, drag&drop, все игроки в админке, улучшенная графика)');
+            console.log(
+                '🎁 Crush Gift Spin v6 загружен (Spin, Задания, Рефералы, начальный баланс 3⭐)');
         })();
     </script>
 </body>
