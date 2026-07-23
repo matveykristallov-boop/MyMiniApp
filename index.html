@@ -28,6 +28,8 @@
             --red-bg: rgba(244, 66, 80, 0.1);
             --accent-blue: #4a7cf7;
             --accent-blue-bg: rgba(74, 124, 247, 0.1);
+            --purple: #b388ff;
+            --orange: #ff6b35;
             --radius: 16px;
             --radius-sm: 10px;
             --radius-xs: 7px;
@@ -176,7 +178,6 @@
         .tab-btn:active {
             opacity: 0.5;
         }
-
         .tab-content {
             flex: 1;
             overflow-y: auto;
@@ -611,60 +612,81 @@
             opacity: 0.6;
         }
 
-        /* Cases */
+        /* Cases - 2 column grid, scrollable */
+        .cases-scroll-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 6px 8px;
+        }
         .case-grid {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 8px;
-            padding: 10px 8px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            padding: 4px 0;
         }
         .case-card {
             background: var(--bg-secondary);
-            border: 1px solid var(--border);
+            border: 1.5px solid var(--border);
             border-radius: var(--radius);
-            padding: 12px 10px;
-            width: 100px;
+            padding: 16px 12px;
             text-align: center;
             display: flex;
             flex-direction: column;
-            gap: 5px;
-            transition: border 0.2s, transform 0.15s;
+            gap: 8px;
+            transition: border 0.2s, transform 0.15s, box-shadow 0.2s;
+            cursor: pointer;
+            min-height: 150px;
+            justify-content: center;
+            align-items: center;
+            position: relative;
         }
         .case-card:active {
-            transform: scale(0.97);
+            transform: scale(0.96);
             border-color: var(--gold);
+            box-shadow: 0 0 20px rgba(240, 185, 11, 0.15);
         }
         .case-card .case-icon {
-            font-size: 26px;
+            font-size: 44px;
+            transition: transform 0.2s;
+        }
+        .case-card:active .case-icon {
+            transform: scale(1.15);
         }
         .case-card .case-name {
-            font-size: 12px;
+            font-size: 14px;
             font-weight: 700;
             color: var(--text-primary);
+            letter-spacing: 0.3px;
         }
         .case-card .case-price {
-            color: var(--gold-bright);
-            font-size: 12px;
+            font-size: 13px;
             font-weight: 600;
+            font-family: var(--font-mono);
         }
         .case-card .case-price.free {
             color: var(--green);
         }
+        .case-card .case-price.stars {
+            color: var(--gold-bright);
+        }
         .case-card button {
             background: var(--green);
             border: none;
-            border-radius: var(--radius-xs);
-            padding: 5px;
+            border-radius: 20px;
+            padding: 8px 18px;
             color: #fff;
             font-weight: 700;
             cursor: pointer;
-            font-size: 11px;
+            font-size: 12px;
             transition: all 0.15s;
-            min-height: 28px;
+            min-height: 34px;
+            letter-spacing: 0.3px;
+            width: 100%;
+            max-width: 140px;
         }
         .case-card button:active {
-            transform: scale(0.94);
+            transform: scale(0.93);
+            filter: brightness(0.85);
         }
         .case-card button:disabled {
             opacity: 0.4;
@@ -672,17 +694,62 @@
             transform: none;
         }
         .case-card button.promo-btn {
-            background: var(--gold);
+            background: linear-gradient(135deg, #f0b90b, #e8a800);
             color: #0a0e13;
         }
+        .case-card button.unique-btn {
+            background: linear-gradient(135deg, #ff6b35, #ff3d00);
+            color: #fff;
+            box-shadow: 0 2px 12px rgba(255, 107, 53, 0.3);
+        }
+        .case-card button.burmalda-btn {
+            background: linear-gradient(135deg, #6c5ce7, #a855f7);
+            color: #fff;
+            box-shadow: 0 2px 12px rgba(108, 92, 231, 0.3);
+        }
         .case-card .case-tag {
-            font-size: 8px;
+            font-size: 9px;
             color: var(--text-secondary);
             background: var(--bg-tertiary);
-            padding: 1px 7px;
+            padding: 2px 9px;
             border-radius: 10px;
             display: inline-block;
-            margin-top: 1px;
+        }
+        .case-card .case-rarity {
+            position: absolute;
+            top: 8px;
+            right: 10px;
+            font-size: 9px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            opacity: 0.7;
+        }
+        .case-card.gold-border {
+            border-color: rgba(240, 185, 11, 0.5);
+            box-shadow: 0 0 15px rgba(240, 185, 11, 0.08);
+        }
+        .case-card.purple-border {
+            border-color: rgba(180, 130, 255, 0.5);
+            box-shadow: 0 0 15px rgba(180, 130, 255, 0.08);
+        }
+        .case-card.orange-border {
+            border-color: rgba(255, 107, 53, 0.5);
+            box-shadow: 0 0 15px rgba(255, 107, 53, 0.1);
+        }
+        .case-card.unique-border {
+            border-color: rgba(255, 60, 0, 0.6);
+            box-shadow: 0 0 20px rgba(255, 60, 0, 0.15);
+            animation: uniquePulse 2s ease-in-out infinite;
+        }
+        @keyframes uniquePulse {
+            0%,
+            100% {
+                box-shadow: 0 0 20px rgba(255, 60, 0, 0.15);
+            }
+            50% {
+                box-shadow: 0 0 35px rgba(255, 60, 0, 0.3);
+            }
         }
 
         #caseCanvas {
@@ -709,39 +776,73 @@
         .inventory-grid {
             display: flex;
             flex-wrap: wrap;
-            gap: 7px;
-            padding: 8px;
+            gap: 8px;
+            padding: 10px;
             justify-content: center;
         }
         .inv-slot {
             background: var(--bg-secondary);
-            border: 1px solid var(--border);
+            border: 2px solid var(--border);
             border-radius: var(--radius-sm);
-            padding: 7px;
-            min-width: 75px;
+            padding: 12px 10px;
+            min-width: 90px;
             text-align: center;
             font-size: 13px;
+            cursor: grab;
+            transition: all 0.2s;
+            user-select: none;
+            position: relative;
+        }
+        .inv-slot:active {
+            cursor: grabbing;
+        }
+        .inv-slot.dragging {
+            opacity: 0.4;
+            transform: scale(0.95);
+            border-style: dashed;
+            border-color: var(--gold);
+        }
+        .inv-slot.drag-over {
+            border-color: var(--gold-bright);
+            box-shadow: 0 0 20px rgba(240, 185, 11, 0.25);
+            transform: scale(1.04);
+            background: var(--bg-tertiary);
         }
         .inv-slot .gift-icon {
-            font-size: 24px;
+            font-size: 32px;
+            pointer-events: none;
         }
         .inv-slot .gift-name {
-            font-size: 11px;
+            font-size: 12px;
             color: var(--text-primary);
+            font-weight: 600;
+            pointer-events: none;
         }
         .inv-slot .gift-value {
-            font-size: 10px;
+            font-size: 11px;
             color: var(--gold-bright);
+            font-family: var(--font-mono);
+            pointer-events: none;
+        }
+        .inv-slot .drag-handle {
+            position: absolute;
+            top: 5px;
+            left: 8px;
+            font-size: 10px;
+            color: var(--text-secondary);
+            opacity: 0.5;
+            pointer-events: none;
         }
         .inv-slot button {
-            margin-top: 3px;
+            margin-top: 5px;
             background: var(--green);
             border: none;
             border-radius: 4px;
             color: #fff;
             font-size: 10px;
-            padding: 2px 7px;
+            padding: 4px 10px;
             cursor: pointer;
+            transition: 0.1s;
         }
         .inv-slot button:active {
             transform: scale(0.93);
@@ -1107,22 +1208,26 @@
                 max-width: 240px;
             }
             .case-card {
-                width: 80px;
-                padding: 8px 6px;
+                padding: 12px 8px;
+                min-height: 130px;
+                gap: 5px;
             }
             .case-card .case-icon {
-                font-size: 20px;
+                font-size: 32px;
             }
             .case-card .case-name {
-                font-size: 10px;
+                font-size: 12px;
             }
             .case-card .case-price {
-                font-size: 10px;
+                font-size: 11px;
             }
             .case-card button {
-                font-size: 9px;
-                padding: 3px;
-                min-height: 24px;
+                font-size: 10px;
+                padding: 6px 12px;
+                min-height: 28px;
+            }
+            .case-grid {
+                gap: 7px;
             }
         }
     </style>
@@ -1152,21 +1257,16 @@
     <!-- Crash Tab -->
     <div class="tab-content active" id="crashTab">
         <div class="crash-container">
-            <!-- Diagram -->
             <div class="diagram-wrap">
                 <canvas id="crashCanvas" width="280" height="280"></canvas>
             </div>
             <div class="info-text" id="crashInfo">Ожидание раунда...</div>
-
-            <!-- Auto-bar -->
             <div class="auto-bar">
                 <span class="label">⚡ Авто-вывод</span>
                 <span class="auto-value" id="autoDisplay">x1.00</span>
                 <span class="protection-tag" id="protectionTag">🛡️ Защита x1.0</span>
                 <span class="demo-tag" id="demoTag">🎮 Демо</span>
             </div>
-
-            <!-- Controls -->
             <div class="controls-row">
                 <div class="input-group">
                     <label for="betInput">Сумма ⭐</label>
@@ -1181,14 +1281,10 @@
                     <button class="btn-scheduled-indicator" id="cancelPendingBtn" style="display:none;">✕ Отменить</button>
                 </div>
             </div>
-
-            <!-- Crash History -->
             <div class="crash-history-bar">
                 <span class="hist-label">📜 История</span>
                 <div class="hist-list" id="histList"></div>
             </div>
-
-            <!-- Live Feed -->
             <div class="live-feed">
                 <div class="live-feed-header">
                     <span class="dot"></span>
@@ -1203,47 +1299,68 @@
 
     <!-- Cases Tab -->
     <div class="tab-content" id="casesTab">
-        <div style="text-align:center; padding:4px 8px 0;">
+        <div style="text-align:center; padding:4px 8px 0; flex-shrink:0;">
             <canvas id="caseCanvas" width="300" height="180"></canvas>
             <div id="caseResult"></div>
         </div>
-        <div class="case-grid">
-            <div class="case-card">
-                <div class="case-icon">🎁</div>
-                <div class="case-name" style="color:var(--gold-bright);">Ежедневный</div>
-                <div class="case-price free">Бесплатно</div>
-                <button id="dailyCaseBtn">Забрать</button>
-            </div>
-            <div class="case-card">
-                <div class="case-icon">🔑</div>
-                <div class="case-name" style="color:#b388ff;">Промо</div>
-                <div class="case-price">🎟️ Код</div>
-                <button class="promo-btn" id="promoCaseBtn">Ввести код</button>
-                <span class="case-tag" id="promoStatus">доступен</span>
-            </div>
-            <div class="case-card">
-                <div class="case-icon">📦</div>
-                <div class="case-name" style="color:#4a8ab5;">Обычный</div>
-                <div class="case-price">50 ⭐</div>
-                <button onclick="openCase('common')">Открыть</button>
-            </div>
-            <div class="case-card">
-                <div class="case-icon">💎</div>
-                <div class="case-name" style="color:#b388ff;">Редкий</div>
-                <div class="case-price">200 ⭐</div>
-                <button onclick="openCase('rare')">Открыть</button>
-            </div>
-            <div class="case-card">
-                <div class="case-icon">🔥</div>
-                <div class="case-name" style="color:#ff6b35;">Эпический</div>
-                <div class="case-price">500 ⭐</div>
-                <button onclick="openCase('epic')">Открыть</button>
-            </div>
-            <div class="case-card">
-                <div class="case-icon">👑</div>
-                <div class="case-name" style="color:#ffd700;">Легендарный</div>
-                <div class="case-price">1500 ⭐</div>
-                <button id="legendaryCaseBtn">Открыть</button>
+        <div class="cases-scroll-area">
+            <div class="case-grid">
+                <!-- Row 1: Ежедневный и Промо -->
+                <div class="case-card gold-border">
+                    <div class="case-icon">🎁</div>
+                    <div class="case-name" style="color:var(--gold-bright);">Ежедневный</div>
+                    <div class="case-price free">Бесплатно</div>
+                    <button id="dailyCaseBtn">Забрать</button>
+                </div>
+                <div class="case-card purple-border">
+                    <div class="case-icon">🔑</div>
+                    <div class="case-name" style="color:#b388ff;">Промо</div>
+                    <div class="case-price stars">🎟️ Код</div>
+                    <button class="promo-btn" id="promoCaseBtn">Ввести код</button>
+                    <span class="case-tag" id="promoStatus">доступен</span>
+                </div>
+                <!-- Row 2: Обычный и Редкий -->
+                <div class="case-card">
+                    <div class="case-icon">📦</div>
+                    <div class="case-name" style="color:#4a8ab5;">Обычный</div>
+                    <div class="case-price stars">50 ⭐</div>
+                    <button onclick="openCase('common')">Открыть</button>
+                </div>
+                <div class="case-card purple-border">
+                    <div class="case-icon">💎</div>
+                    <div class="case-name" style="color:#b388ff;">Редкий</div>
+                    <div class="case-price stars">200 ⭐</div>
+                    <button onclick="openCase('rare')">Открыть</button>
+                </div>
+                <!-- Row 3: Эпический и Легендарный -->
+                <div class="case-card orange-border">
+                    <div class="case-icon">🔥</div>
+                    <div class="case-name" style="color:#ff6b35;">Эпический</div>
+                    <div class="case-price stars">500 ⭐</div>
+                    <button onclick="openCase('epic')">Открыть</button>
+                </div>
+                <div class="case-card gold-border">
+                    <div class="case-icon">👑</div>
+                    <div class="case-name" style="color:#ffd700;">Легендарный</div>
+                    <div class="case-price stars">1500 ⭐</div>
+                    <button id="legendaryCaseBtn">Открыть</button>
+                </div>
+                <!-- Row 4: Уникальный и Бурмалда -->
+                <div class="case-card unique-border">
+                    <div class="case-rarity" style="color:#ff3d00;">ULTRA</div>
+                    <div class="case-icon">🌟</div>
+                    <div class="case-name" style="color:#ff5722;">Уникальный</div>
+                    <div class="case-price stars">8.000 ⭐</div>
+                    <button class="unique-btn" id="uniqueCaseBtn">Открыть</button>
+                    <span class="case-tag">Джекпот 530K!</span>
+                </div>
+                <div class="case-card" style="border-color:rgba(168,85,247,0.5);">
+                    <div class="case-icon">🌀</div>
+                    <div class="case-name" style="color:#a855f7;">Бурмалда</div>
+                    <div class="case-price stars">300 ⭐</div>
+                    <button class="burmalda-btn" id="burmaldaCaseBtn">Открыть</button>
+                    <span class="case-tag">15-200 ⭐</span>
+                </div>
             </div>
         </div>
     </div>
@@ -1252,6 +1369,7 @@
     <div class="tab-content" id="inventoryTab">
         <div style="padding:8px;">
             <h3 style="color:var(--gold-bright); text-align:center;">🎒 Инвентарь</h3>
+            <p style="text-align:center;font-size:10px;color:var(--text-secondary);">Перетаскивайте предметы для смены порядка</p>
         </div>
         <div class="inventory-grid" id="inventoryGrid">
             <div class="empty-feed">Инвентарь пуст</div>
@@ -1336,10 +1454,50 @@
             }
 
             // ── Storage Keys ──
-            const ALL_USERS_KEY = 'gift_all_users_v4';
+            const ALL_USERS_KEY = 'gift_all_users_v5';
             const BROADCAST_KEY = 'gift_broadcast_msg_v2';
             const ROUND_COUNTER_KEY = 'gift_round_counter';
             const ACTIVITY_FEED_KEY = 'gift_activity_feed';
+            const BOTS_INITIALIZED_KEY = 'gift_bots_initialized_v1';
+
+            // ── Bot users for admin panel ──
+            const botNames = [
+                'Алексей_777', 'МарияStar', 'Дмитрий_К', 'Анна_Белла', 'Сергей_Топ',
+                'Ольга_Фокс', 'Никита_Хан', 'Елена_Вайб', 'Артем_Кинг', 'Виктория_Роуз',
+                'Макс_Блейд', 'Ксения_Лав', 'Игорь_Флеш', 'Наталья_Скай', 'Роман_Джет',
+                'Юлия_Стар', 'Павел_Краш', 'Дарья_Спин'
+            ];
+
+            function initBotUsers() {
+                if (localStorage.getItem(BOTS_INITIALIZED_KEY)) return;
+                let all = loadAllUsers();
+                const existingBotIds = new Set(all.filter(u => u.isBot).map(u => u.id));
+                const newBots = [];
+                botNames.forEach((name, i) => {
+                    const botId = 'bot_' + (i + 1);
+                    if (!existingBotIds.has(botId)) {
+                        newBots.push({
+                            id: botId,
+                            name: name,
+                            blocked: false,
+                            stars: Math.floor(Math.random() * 8000) + 200,
+                            isBot: true,
+                            history: [],
+                            totalGames: Math.floor(Math.random() * 120) + 5,
+                            totalWins: Math.floor(Math.random() * 60),
+                            totalLosses: Math.floor(Math.random() * 40),
+                            lastDailyClaim: Date.now() - Math.floor(Math.random() * 86400000),
+                            usedPromoCodes: [],
+                            inventory: []
+                        });
+                    }
+                });
+                if (newBots.length > 0) {
+                    all = all.concat(newBots);
+                    saveAllUsers(all);
+                }
+                localStorage.setItem(BOTS_INITIALIZED_KEY, '1');
+            }
 
             function loadAllUsers() {
                 try { return JSON.parse(localStorage.getItem(ALL_USERS_KEY)) || []; } catch (e) { return []; }
@@ -1378,9 +1536,12 @@
                 let all = loadAllUsers();
                 const idx = all.findIndex(u => u.id === userId && !u.isBot);
                 if (idx !== -1) all[idx] = { ...all[idx], ...updatedData };
-                else all.push({ id: userId, name: userName, blocked: false, ...updatedData });
+                else all.push({ id: userId, name: userName, blocked: false, isBot: false, ...updatedData });
                 saveAllUsers(all);
             }
+
+            // Initialize bot users
+            initBotUsers();
 
             let currentUser = getCurrentUserData();
             let stars = currentUser.stars;
@@ -1416,8 +1577,7 @@
 
             // ── Round Counter & Sync ──
             function getRoundNumber() {
-                let r = parseInt(localStorage.getItem(ROUND_COUNTER_KEY)) || 1;
-                return r;
+                return parseInt(localStorage.getItem(ROUND_COUNTER_KEY)) || 1;
             }
 
             function incrementRoundNumber() {
@@ -1434,13 +1594,16 @@
                 };
             }
 
+            // ── Reduced chance of high multipliers ──
             function generateCrashPoint(roundNum) {
                 const seed = roundNum * 7919 + 104729;
                 const rng = seededRandom(seed);
                 const p = rng();
-                if (p < 0.70) return 1.01 + rng() * (1.70 - 1.01);
-                if (p < 0.90) return 1.70 + rng() * (1.95 - 1.70);
-                return 1.95 + rng() * (30.0 - 1.95);
+                // Skewed distribution: mostly low multipliers
+                if (p < 0.75) return 1.01 + rng() * (1.45 - 1.01); // 75%: 1.01-1.45
+                if (p < 0.90) return 1.45 + rng() * (1.85 - 1.45); // 15%: 1.45-1.85
+                if (p < 0.97) return 1.85 + rng() * (4.0 - 1.85); // 7%: 1.85-4.0
+                return 4.0 + rng() * (15.0 - 4.0); // 3%: 4.0-15.0
             }
 
             function checkBroadcast() {
@@ -1488,6 +1651,7 @@
             let starAngle = 0;
             let particles = [];
             let speedLines = [];
+            let nebulaParticles = [];
             let currentRound = getRoundNumber();
 
             const avatarColors = [
@@ -1539,7 +1703,8 @@
                 if (mult <= 1.30) return '#4a7cf7';
                 if (mult <= 1.90) return '#16c95a';
                 if (mult <= 2.30) return '#f39c12';
-                return '#e04050';
+                if (mult <= 5.0) return '#e04050';
+                return '#ff1744';
             }
 
             function getHistChipClass(mult) {
@@ -1566,19 +1731,21 @@
                 }, 1800);
             });
 
-            // ── Particle system ──
+            // ── Enhanced particle system ──
             function spawnParticle(cx, cy, intensity) {
                 const angle = Math.random() * Math.PI * 2;
-                const speed = 0.4 + Math.random() * 3.5 * intensity;
+                const speed = 0.3 + Math.random() * 4.0 * intensity;
+                const hue = 30 + Math.random() * 30;
                 return {
                     x: cx,
                     y: cy,
                     vx: Math.cos(angle) * speed,
                     vy: Math.sin(angle) * speed,
                     life: 1.0,
-                    decay: 0.006 + Math.random() * 0.03,
-                    size: 1.5 + Math.random() * 5,
-                    color: `hsl(${38 + Math.random() * 25}, 100%, ${55 + Math.random() * 35}%)`
+                    decay: 0.005 + Math.random() * 0.025,
+                    size: 1.2 + Math.random() * 6,
+                    color: `hsl(${hue}, 100%, ${55 + Math.random() * 35}%)`,
+                    trail: []
                 };
             }
 
@@ -1587,27 +1754,46 @@
                 let x, y, vx, vy;
                 const cx = w / 2,
                     cy = h / 2;
-                const speed = 1.5 + intensity * 5;
+                const speed = 1.5 + intensity * 6;
                 if (edge === 0) { x = Math.random() * w;
                     y = -5;
-                    vx = (cx - x) * 0.02;
+                    vx = (cx - x) * 0.015;
                     vy = speed; } else if (edge === 1) { x = w + 5;
                     y = Math.random() * h;
                     vx = -speed;
-                    vy = (cy - y) * 0.02; } else if (edge === 2) { x = Math.random() * w;
+                    vy = (cy - y) * 0.015; } else if (edge === 2) { x = Math.random() * w;
                     y = h + 5;
-                    vx = (cx - x) * 0.02;
+                    vx = (cx - x) * 0.015;
                     vy = -speed; } else { x = -5;
                     y = Math.random() * h;
                     vx = speed;
-                    vy = (cy - y) * 0.02; }
-                return { x, y, vx, vy, life: 1.0, decay: 0.015 + Math.random() * 0.04, length: 20 + Math.random() * 50,
-                    alpha: 0.15 + Math.random() * 0.35 };
+                    vy = (cy - y) * 0.015; }
+                return { x, y, vx, vy, life: 1.0, decay: 0.012 + Math.random() * 0.035, length: 18 + Math.random() * 55,
+                    alpha: 0.12 + Math.random() * 0.4, hue: 200 + Math.random() * 40 };
+            }
+
+            function initNebulaParticles(w, h) {
+                nebulaParticles = [];
+                for (let i = 0; i < 25; i++) {
+                    nebulaParticles.push({
+                        x: Math.random() * w,
+                        y: Math.random() * h,
+                        size: 20 + Math.random() * 60,
+                        alpha: 0.015 + Math.random() * 0.04,
+                        color: `hsl(${220 + Math.random() * 40}, 60%, ${30 + Math.random() * 40}%)`,
+                        driftX: (Math.random() - 0.5) * 0.15,
+                        driftY: (Math.random() - 0.5) * 0.15,
+                        pulse: Math.random() * Math.PI * 2
+                    });
+                }
             }
 
             function updateParticles() {
                 for (let i = particles.length - 1; i >= 0; i--) {
                     const p = particles[i];
+                    p.trail.push({ x: p.x, y: p.y, life: 0.6 });
+                    if (p.trail.length > 6) p.trail.shift();
+                    for (const t of p.trail) t.life -= 0.1;
                     p.x += p.vx;
                     p.y += p.vy;
                     p.life -= p.decay;
@@ -1620,27 +1806,70 @@
                     sl.life -= sl.decay;
                     if (sl.life <= 0) speedLines.splice(i, 1);
                 }
+                for (const np of nebulaParticles) {
+                    np.x += np.driftX;
+                    np.y += np.driftY;
+                    np.pulse += 0.003;
+                    if (np.x < -60) np.x = crashCanvas.width + 60;
+                    if (np.x > crashCanvas.width + 60) np.x = -60;
+                    if (np.y < -60) np.y = crashCanvas.height + 60;
+                    if (np.y > crashCanvas.height + 60) np.y = -60;
+                }
             }
 
             function drawParticlesAndLines() {
+                // Nebula background particles
+                for (const np of nebulaParticles) {
+                    const alpha = np.alpha * (0.7 + 0.3 * Math.sin(np.pulse));
+                    ctx.save();
+                    ctx.globalAlpha = alpha;
+                    const grad = ctx.createRadialGradient(np.x, np.y, 0, np.x, np.y, np.size);
+                    grad.addColorStop(0, np.color);
+                    grad.addColorStop(1, 'transparent');
+                    ctx.fillStyle = grad;
+                    ctx.beginPath();
+                    ctx.arc(np.x, np.y, np.size, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.restore();
+                }
+                // Speed lines
                 for (const sl of speedLines) {
                     ctx.save();
                     ctx.globalAlpha = sl.alpha * sl.life;
-                    ctx.strokeStyle = '#ffffff';
-                    ctx.lineWidth = 1;
-                    ctx.shadowColor = 'rgba(255,255,255,0.4)';
-                    ctx.shadowBlur = 6;
+                    ctx.strokeStyle = `hsl(${sl.hue}, 80%, 70%)`;
+                    ctx.lineWidth = 1.2;
+                    ctx.shadowColor = `hsl(${sl.hue}, 100%, 70%)`;
+                    ctx.shadowBlur = 8;
                     ctx.beginPath();
                     ctx.moveTo(sl.x, sl.y);
-                    ctx.lineTo(sl.x - sl.vx * sl.length * 0.3, sl.y - sl.vy * sl.length * 0.3);
+                    ctx.lineTo(sl.x - sl.vx * sl.length * 0.25, sl.y - sl.vy * sl.length * 0.25);
                     ctx.stroke();
                     ctx.restore();
                 }
+                // Particles with trails
                 for (const p of particles) {
+                    // Trail
+                    if (p.trail.length > 1) {
+                        ctx.save();
+                        ctx.globalAlpha = 0.25 * p.life;
+                        ctx.strokeStyle = p.color;
+                        ctx.lineWidth = p.size * 0.5;
+                        ctx.shadowColor = p.color;
+                        ctx.shadowBlur = 6;
+                        ctx.beginPath();
+                        ctx.moveTo(p.trail[0].x, p.trail[0].y);
+                        for (let t = 1; t < p.trail.length; t++) {
+                            ctx.lineTo(p.trail[t].x, p.trail[t].y);
+                        }
+                        ctx.lineTo(p.x, p.y);
+                        ctx.stroke();
+                        ctx.restore();
+                    }
+                    // Particle
                     ctx.save();
-                    ctx.globalAlpha = p.life * 0.7;
+                    ctx.globalAlpha = p.life * 0.8;
                     ctx.shadowColor = p.color;
-                    ctx.shadowBlur = 10;
+                    ctx.shadowBlur = 14;
                     ctx.fillStyle = p.color;
                     ctx.beginPath();
                     ctx.arc(p.x, p.y, p.size * p.life, 0, Math.PI * 2);
@@ -1649,24 +1878,25 @@
                 }
             }
 
-            // ── Drawing ──
+            // ── Drawing (improved graphics, no progress ring) ──
             function drawCrashScene() {
                 const w = crashCanvas.width,
                     h = crashCanvas.height;
                 ctx.clearRect(0, 0, w, h);
 
-                // Deep space background
-                const bgGrad = ctx.createRadialGradient(w / 2, h / 2, 10, w / 2, h / 2, w * 0.8);
-                bgGrad.addColorStop(0, '#141e2e');
-                bgGrad.addColorStop(0.5, '#0c131f');
-                bgGrad.addColorStop(1, '#06090f');
+                // Deep space background with subtle gradient
+                const bgGrad = ctx.createRadialGradient(w / 2, h / 2, 5, w / 2, h / 2, w * 0.85);
+                bgGrad.addColorStop(0, '#1a2840');
+                bgGrad.addColorStop(0.4, '#0f1828');
+                bgGrad.addColorStop(0.8, '#080e18');
+                bgGrad.addColorStop(1, '#040810');
                 ctx.fillStyle = bgGrad;
                 ctx.fillRect(0, 0, w, h);
 
                 // Subtle grid
-                ctx.strokeStyle = 'rgba(30, 45, 65, 0.3)';
-                ctx.lineWidth = 0.5;
-                const gridSpacing = 28;
+                ctx.strokeStyle = 'rgba(25, 40, 60, 0.25)';
+                ctx.lineWidth = 0.4;
+                const gridSpacing = 30;
                 for (let x = gridSpacing; x < w; x += gridSpacing) {
                     ctx.beginPath();
                     ctx.moveTo(x, 0);
@@ -1680,92 +1910,87 @@
                     ctx.stroke();
                 }
 
-                // Intensity based on multiplier
-                const intensity = Math.min(1, (currentMultiplier - 1) / 5);
-                const rotSpeed = 0.02 + intensity * 0.12;
+                const intensity = Math.min(1, (currentMultiplier - 1) / 6);
+                const rotSpeed = 0.015 + intensity * 0.14;
                 starAngle += rotSpeed;
 
-                // Spawn particles & speed lines
-                if (Math.random() < 0.3 + intensity * 0.5) {
+                // Spawn particles
+                if (Math.random() < 0.25 + intensity * 0.55) {
                     particles.push(spawnParticle(w / 2, h / 2, intensity));
                 }
-                if (Math.random() < 0.15 + intensity * 0.4) {
+                if (Math.random() < 0.12 + intensity * 0.45) {
                     speedLines.push(spawnSpeedLine(w, h, intensity));
                 }
-                if (particles.length > 120) particles.splice(0, particles.length - 120);
-                if (speedLines.length > 40) speedLines.splice(0, speedLines.length - 40);
+                if (particles.length > 150) particles.splice(0, particles.length - 150);
+                if (speedLines.length > 50) speedLines.splice(0, speedLines.length - 50);
                 updateParticles();
                 drawParticlesAndLines();
 
-                // Star glow
-                const glowGrd = ctx.createRadialGradient(w / 2, h / 2, 8, w / 2, h / 2, 70 + intensity * 40);
+                // Star glow - multi-layered
                 const multColor = getMultiplierColor(currentMultiplier);
-                glowGrd.addColorStop(0, multColor.replace(')', ', 0.45)').replace('rgb',
-                    'rgba').replace('#4a7cf7', 'rgba(74,124,247').replace('#16c95a', 'rgba(22,201,90').replace(
-                    '#f39c12', 'rgba(243,156,18').replace('#e04050', 'rgba(224,64,80'));
-                glowGrd.addColorStop(0.4, 'rgba(255,215,0,0.12)');
-                glowGrd.addColorStop(1, 'rgba(0,0,0,0)');
-                ctx.fillStyle = glowGrd;
-                ctx.beginPath();
-                ctx.arc(w / 2, h / 2, 70 + intensity * 40, 0, Math.PI * 2);
-                ctx.fill();
+                for (let glow = 3; glow >= 0; glow--) {
+                    const glowSize = 30 + glow * 25 + intensity * 30;
+                    const glowAlpha = (0.08 + glow * 0.06) * (1 + intensity * 0.5);
+                    const glowGrd = ctx.createRadialGradient(w / 2, h / 2, 5, w / 2, h / 2, glowSize);
+                    const baseColor = multColor.replace('#4a7cf7', '74,124,247').replace('#16c95a', '22,201,90')
+                        .replace('#f39c12', '243,156,18').replace('#e04050', '224,64,80').replace('#ff1744',
+                            '255,23,68');
+                    glowGrd.addColorStop(0, `rgba(${baseColor}, ${glowAlpha * 1.5})`);
+                    glowGrd.addColorStop(0.5, `rgba(255,215,0,${glowAlpha * 0.6})`);
+                    glowGrd.addColorStop(1, 'rgba(0,0,0,0)');
+                    ctx.fillStyle = glowGrd;
+                    ctx.beginPath();
+                    ctx.arc(w / 2, h / 2, glowSize, 0, Math.PI * 2);
+                    ctx.fill();
+                }
 
-                // Central star
-                const pulse = 1 + 0.06 * Math.sin(performance.now() / 150);
-                const starSize = 38 * pulse;
+                // Central star with enhanced rendering
+                const pulse = 1 + 0.05 * Math.sin(performance.now() / 140);
+                const starSize = 40 * pulse;
                 ctx.save();
                 ctx.translate(w / 2, h / 2);
                 ctx.rotate(starAngle);
+                // Outer glow
                 ctx.shadowColor = '#ffd700';
-                ctx.shadowBlur = 50 + intensity * 20;
+                ctx.shadowBlur = 55 + intensity * 25;
                 ctx.font = `bold ${starSize}px "Segoe UI", sans-serif`;
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
-                ctx.fillStyle = '#ffd700';
-                ctx.fillText('⭐', 0, 3);
+                ctx.fillStyle = '#ffe566';
+                ctx.fillText('⭐', 0, 2);
+                // Inner bright star
+                ctx.shadowBlur = 20;
+                ctx.font = `bold ${starSize * 0.7}px "Segoe UI", sans-serif`;
+                ctx.fillStyle = '#ffffff';
+                ctx.fillText('⭐', 0, 1);
                 ctx.shadowBlur = 0;
                 ctx.restore();
 
                 // Inner bright core
-                const coreGrd = ctx.createRadialGradient(w / 2, h / 2, 3, w / 2, h / 2, 20);
-                coreGrd.addColorStop(0, 'rgba(255,255,255,0.9)');
-                coreGrd.addColorStop(0.5, 'rgba(255,240,200,0.35)');
+                const coreGrd = ctx.createRadialGradient(w / 2, h / 2, 2, w / 2, h / 2, 22);
+                coreGrd.addColorStop(0, 'rgba(255,255,255,0.95)');
+                coreGrd.addColorStop(0.4, 'rgba(255,245,210,0.4)');
                 coreGrd.addColorStop(1, 'rgba(255,200,50,0)');
                 ctx.fillStyle = coreGrd;
                 ctx.beginPath();
-                ctx.arc(w / 2, h / 2, 20, 0, Math.PI * 2);
+                ctx.arc(w / 2, h / 2, 22, 0, Math.PI * 2);
                 ctx.fill();
 
-                // Bold multiplier top-left
-                const mx = 16,
-                    my = 36;
-                ctx.font = 'bold 30px "Segoe UI", sans-serif';
+                // Bold multiplier display
+                const mx = 14,
+                    my = 34;
+                ctx.font = 'bold 32px "Segoe UI", sans-serif';
                 ctx.textAlign = 'left';
                 ctx.textBaseline = 'top';
-                ctx.shadowColor = 'rgba(0,0,0,0.7)';
-                ctx.shadowBlur = 12;
+                ctx.shadowColor = 'rgba(0,0,0,0.8)';
+                ctx.shadowBlur = 14;
                 ctx.fillStyle = multColor;
                 const multText = `x${currentMultiplier.toFixed(2)}`;
                 ctx.fillText(multText, mx, my);
                 ctx.shadowBlur = 0;
-
-                // Small "множ." label
                 ctx.font = '10px "Segoe UI", sans-serif';
                 ctx.fillStyle = 'rgba(255,255,255,0.5)';
-                ctx.fillText('множитель', mx, my + 32);
-
-                // Progress ring
-                const ringProgress = Math.min(1, (currentMultiplier - 1) / (crashPoint - 1));
-                if (crashPoint > 1 && ringProgress < 1) {
-                    ctx.beginPath();
-                    ctx.arc(w / 2, h / 2, 55, -Math.PI / 2, -Math.PI / 2 + ringProgress * Math.PI * 2);
-                    ctx.strokeStyle = multColor;
-                    ctx.lineWidth = 2.5;
-                    ctx.globalAlpha = 0.5;
-                    ctx.stroke();
-                    ctx.globalAlpha = 1;
-                }
-
+                ctx.fillText('множитель', mx, my + 34);
                 ctx.textAlign = 'start';
             }
 
@@ -1773,14 +1998,12 @@
             function updateUnifiedButton() {
                 const isBlocked = currentUser.blocked;
                 cancelPendingBtn.style.display = 'none';
-
                 if (isBlocked) {
                     unifiedBtn.textContent = '🚫 Заблокирован';
                     unifiedBtn.className = 'btn btn-disabled';
                     unifiedBtn.disabled = true;
                     return;
                 }
-
                 if (gameRunning && activeBet) {
                     const winAmt = Math.floor(activeBet.amount * currentMultiplier);
                     unifiedBtn.textContent = `💸 Вывести ${winAmt} ⭐`;
@@ -1805,7 +2028,6 @@
                     unifiedBtn.className = 'btn btn-primary';
                     unifiedBtn.disabled = false;
                 }
-
                 betInput.disabled = isBlocked || (gameRunning && !!activeBet);
                 autoInput.disabled = isBlocked;
             }
@@ -1860,6 +2082,7 @@
                 starAngle = 0;
                 particles = [];
                 speedLines = [];
+                if (nebulaParticles.length === 0) initNebulaParticles(crashCanvas.width, crashCanvas.height);
                 gameRunning = true;
                 startTime = performance.now();
                 crashInfo.textContent = '🚀 Полёт...';
@@ -1875,10 +2098,10 @@
             }
 
             function getGrowthRate(mult) {
-                const baseRate = 0.05775;
-                if (mult < 1.10) return baseRate;
-                if (mult < 1.60) return baseRate * 1.5;
-                return baseRate * 2.0;
+                const baseRate = 0.052;
+                if (mult < 1.08) return baseRate;
+                if (mult < 1.50) return baseRate * 1.4;
+                return baseRate * 1.9;
             }
 
             function animateCrash(timestamp) {
@@ -1981,58 +2204,31 @@
 
             function placeOrScheduleBet() {
                 if (isBlockedCheck()) return;
-                if (gameRunning && activeBet) {
-                    manualWithdraw();
-                    return;
-                }
-                if (gameRunning && !activeBet && !pendingBet) {
-                    scheduleBet();
-                    return;
-                }
-                if (!gameRunning && pendingBet) {
-                    return;
-                }
-                if (!gameRunning && !pendingBet) {
-                    placeBetNow();
-                    return;
-                }
+                if (gameRunning && activeBet) { manualWithdraw(); return; }
+                if (gameRunning && !activeBet && !pendingBet) { scheduleBet(); return; }
+                if (!gameRunning && pendingBet) { return; }
+                if (!gameRunning && !pendingBet) { placeBetNow(); return; }
             }
 
             function placeBetNow() {
                 const bet = parseInt(betInput.value);
-                if (!bet || bet <= 0) {
-                    crashInfo.textContent = '❌ Введите ставку > 0';
-                    crashInfo.className = 'info-text loss';
-                    return;
-                }
-                if (!isDemoMode && bet > stars) {
-                    crashInfo.textContent = '❌ Недостаточно звёзд';
-                    crashInfo.className = 'info-text loss';
-                    return;
-                }
+                if (!bet || bet <= 0) { crashInfo.textContent = '❌ Введите ставку > 0';
+                    crashInfo.className = 'info-text loss'; return; }
+                if (!isDemoMode && bet > stars) { crashInfo.textContent = '❌ Недостаточно звёзд';
+                    crashInfo.className = 'info-text loss'; return; }
                 let auto = 0;
                 if (autoInput.value && autoInput.value.trim() !== '') {
                     auto = parseFloat(autoInput.value);
-                    if (isNaN(auto) || auto <= 1.0 || auto > 30) {
-                        crashInfo.textContent = '❌ Авто-вывод от 1.01 до 30';
-                        crashInfo.className = 'info-text loss';
-                        return;
-                    }
+                    if (isNaN(auto) || auto <= 1.0 || auto > 30) { crashInfo.textContent =
+                            '❌ Авто-вывод от 1.01 до 30';
+                        crashInfo.className = 'info-text loss'; return; }
                 }
-                pendingBet = {
-                    amount: bet,
-                    auto_withdraw: auto,
-                    protection: protectionEnabled
-                };
+                pendingBet = { amount: bet, auto_withdraw: auto, protection: protectionEnabled };
                 crashInfo.textContent = '✅ Ставка принята!';
                 crashInfo.className = 'info-text win';
                 updateUnifiedButton();
                 if (!gameRunning) {
-                    setTimeout(() => {
-                        if (pendingBet && !gameRunning) {
-                            startRound();
-                        }
-                    }, 400);
+                    setTimeout(() => { if (pendingBet && !gameRunning) startRound(); }, 400);
                 } else {
                     crashInfo.textContent = '⏳ Ставка запланирована на след. раунд';
                     crashInfo.className = 'info-text pending';
@@ -2041,30 +2237,18 @@
 
             function scheduleBet() {
                 const bet = parseInt(betInput.value);
-                if (!bet || bet <= 0) {
-                    crashInfo.textContent = '❌ Введите ставку > 0';
-                    crashInfo.className = 'info-text loss';
-                    return;
-                }
-                if (!isDemoMode && bet > stars) {
-                    crashInfo.textContent = '❌ Недостаточно звёзд';
-                    crashInfo.className = 'info-text loss';
-                    return;
-                }
+                if (!bet || bet <= 0) { crashInfo.textContent = '❌ Введите ставку > 0';
+                    crashInfo.className = 'info-text loss'; return; }
+                if (!isDemoMode && bet > stars) { crashInfo.textContent = '❌ Недостаточно звёзд';
+                    crashInfo.className = 'info-text loss'; return; }
                 let auto = 0;
                 if (autoInput.value && autoInput.value.trim() !== '') {
                     auto = parseFloat(autoInput.value);
-                    if (isNaN(auto) || auto <= 1.0 || auto > 30) {
-                        crashInfo.textContent = '❌ Авто-вывод от 1.01 до 30';
-                        crashInfo.className = 'info-text loss';
-                        return;
-                    }
+                    if (isNaN(auto) || auto <= 1.0 || auto > 30) { crashInfo.textContent =
+                            '❌ Авто-вывод от 1.01 до 30';
+                        crashInfo.className = 'info-text loss'; return; }
                 }
-                pendingBet = {
-                    amount: bet,
-                    auto_withdraw: auto,
-                    protection: protectionEnabled
-                };
+                pendingBet = { amount: bet, auto_withdraw: auto, protection: protectionEnabled };
                 crashInfo.textContent = '⏳ Ставка запланирована на следующий раунд!';
                 crashInfo.className = 'info-text pending';
                 updateUnifiedButton();
@@ -2076,10 +2260,8 @@
                 crashInfo.className = 'info-text loss';
                 updateUnifiedButton();
                 setTimeout(() => {
-                    if (!gameRunning && !isDemoMode) {
-                        crashInfo.textContent = 'Ожидание раунда...';
-                        crashInfo.className = 'info-text';
-                    }
+                    if (!gameRunning && !isDemoMode) { crashInfo.textContent = 'Ожидание раунда...';
+                        crashInfo.className = 'info-text'; }
                 }, 1500);
             }
 
@@ -2087,13 +2269,11 @@
             cancelPendingBtn.addEventListener('click', cancelPendingBet);
 
             function updateHistUI() {
-                if (!history.length) { histList.innerHTML =
-                    '<span class="hist-chip low">—</span>'; return; }
+                if (!history.length) { histList.innerHTML = '<span class="hist-chip low">—</span>'; return; }
                 let html = '';
                 history.slice(-10).reverse().forEach(val => {
                     const cls = getHistChipClass(val);
-                    html +=
-                        `<span class="hist-chip ${cls}">x${val.toFixed(2)}</span>`;
+                    html += `<span class="hist-chip ${cls}">x${val.toFixed(2)}</span>`;
                 });
                 histList.innerHTML = html;
             }
@@ -2123,6 +2303,7 @@
                 showCaseAnimation(reward, 'Кейс');
             };
 
+            // ── Daily Case ──
             document.getElementById('dailyCaseBtn').addEventListener('click', () => {
                 if (isBlockedCheck()) return;
                 const now = Date.now();
@@ -2143,6 +2324,7 @@
                 showCaseAnimation(reward, 'Ежедневный кейс');
             });
 
+            // ── Promo Case ──
             const VALID_CODES = ['Бурмалда', 'Павел', 'Матвей', 'Скебоб', '67', 'Стефан', 'Даша', 'Саша'];
             const promoBtn = document.getElementById('promoCaseBtn');
             const promoStatus = document.getElementById('promoStatus');
@@ -2184,6 +2366,7 @@
                 showCaseAnimation(reward, `Промо-кейс (${code})`);
             });
 
+            // ── Legendary Case ──
             const legendaryItems = [
                 { name: 'Ракета', icon: '🚀', value: 50, weight: 1 / 50 },
                 { name: 'Кубок', icon: '🏆', value: 100, weight: 1 / 100 },
@@ -2211,21 +2394,125 @@
             }
             document.getElementById('legendaryCaseBtn').addEventListener('click', openLegendaryCase);
 
+            // ── Unique Case (Уникальный) ──
+            const uniqueItems = [
+                { name: 'Кирпич', icon: '🧱', value: 5622, weight: 50 },
+                { name: 'Мини Оскар', icon: '🏅', value: 6500, weight: 28 },
+                { name: 'Чёрная кошка', icon: '🐈‍⬛', value: 9775, weight: 15 },
+                { name: 'Кепка', icon: '🧢', value: 43500, weight: 5 },
+                { name: 'Плюш Пепе', icon: '🐸', value: 530000, weight: 2 }
+            ];
+
+            function openUniqueCase() {
+                if (isBlockedCheck()) return;
+                if (!isDemoMode && stars < 8000) { alert('Недостаточно звёзд! Нужно 8.000 ⭐'); return; }
+                if (!isDemoMode) { stars -= 8000;
+                    updateBalanceUI();
+                    persistGameData(); }
+                const totalWeight = uniqueItems.reduce((s, i) => s + i.weight, 0);
+                let rand = Math.random() * totalWeight;
+                let selected = uniqueItems[0];
+                for (const item of uniqueItems) { rand -= item.weight; if (rand <= 0) { selected = item; break; } }
+                inventory.push({ ...selected, id: Date.now() + Math.random() });
+                persistGameData();
+                renderInventory();
+                addFeedItem(userName, 'уникальный кейс', selected.value, 'win', selected.icon);
+                showCaseAnimation(selected.value, `${selected.icon} ${selected.name}`);
+            }
+            document.getElementById('uniqueCaseBtn').addEventListener('click', openUniqueCase);
+
+            // ── Burmalda Case (Бурмалда) ──
+            function openBurmaldaCase() {
+                if (isBlockedCheck()) return;
+                if (!isDemoMode && stars < 300) { alert('Недостаточно звёзд! Нужно 300 ⭐'); return; }
+                if (!isDemoMode) { stars -= 300;
+                    updateBalanceUI();
+                    persistGameData(); }
+                const reward = Math.floor(Math.random() * 186) + 15; // 15 to 200
+                if (!isDemoMode) { stars += reward;
+                    updateBalanceUI();
+                    persistGameData(); }
+                addFeedItem(userName, 'Бурмалда кейс', reward, 'win', '🌀');
+                showCaseAnimation(reward, '🌀 Бурмалда');
+            }
+            document.getElementById('burmaldaCaseBtn').addEventListener('click', openBurmaldaCase);
+
+            // ── Inventory with Drag & Drop ──
             function renderInventory() {
                 const grid = document.getElementById('inventoryGrid');
-                if (!inventory.length) { grid.innerHTML = '<div class="empty-feed">Инвентарь пуст</div>'; return; }
+                if (!inventory.length) {
+                    grid.innerHTML = '<div class="empty-feed">Инвентарь пуст</div>';
+                    return;
+                }
                 let html = '';
                 inventory.forEach((item, index) => {
                     html += `
-                <div class="inv-slot">
+                <div class="inv-slot" draggable="true" data-index="${index}"
+                     ondragstart="handleDragStart(event, ${index})"
+                     ondragover="handleDragOver(event)"
+                     ondragleave="handleDragLeave(event)"
+                     ondrop="handleDrop(event, ${index})"
+                     ondragend="handleDragEnd(event)">
+                  <span class="drag-handle">⋮⋮</span>
                   <div class="gift-icon">${item.icon}</div>
                   <div class="gift-name">${item.name}</div>
                   <div class="gift-value">${item.value} ⭐</div>
-                  <button onclick="sellInventoryItem(${index})">Продать</button>
+                  <button onclick="event.stopPropagation(); sellInventoryItem(${index})">Продать</button>
                 </div>`;
                 });
                 grid.innerHTML = html;
             }
+
+            let dragSourceIndex = null;
+
+            window.handleDragStart = function(event, index) {
+                dragSourceIndex = index;
+                event.target.classList.add('dragging');
+                event.dataTransfer.effectAllowed = 'move';
+                event.dataTransfer.setData('text/plain', index.toString());
+                // Set a small drag image
+                const ghost = event.target.cloneNode(true);
+                ghost.style.position = 'absolute';
+                ghost.style.top = '-9999px';
+                ghost.style.opacity = '0.5';
+                ghost.style.width = event.target.offsetWidth + 'px';
+                document.body.appendChild(ghost);
+                event.dataTransfer.setDragImage(ghost, ghost.offsetWidth / 2, ghost.offsetHeight / 2);
+                setTimeout(() => document.body.removeChild(ghost), 0);
+            };
+
+            window.handleDragOver = function(event) {
+                event.preventDefault();
+                event.dataTransfer.dropEffect = 'move';
+                event.target.closest('.inv-slot')?.classList.add('drag-over');
+            };
+
+            window.handleDragLeave = function(event) {
+                event.target.closest('.inv-slot')?.classList.remove('drag-over');
+            };
+
+            window.handleDrop = function(event, targetIndex) {
+                event.preventDefault();
+                event.target.closest('.inv-slot')?.classList.remove('drag-over');
+                if (dragSourceIndex !== null && dragSourceIndex !== targetIndex) {
+                    // Swap items
+                    const temp = inventory[dragSourceIndex];
+                    inventory[dragSourceIndex] = inventory[targetIndex];
+                    inventory[targetIndex] = temp;
+                    persistGameData();
+                    renderInventory();
+                }
+                dragSourceIndex = null;
+                // Remove all drag-over classes
+                document.querySelectorAll('.inv-slot.drag-over').forEach(el => el.classList.remove('drag-over'));
+            };
+
+            window.handleDragEnd = function(event) {
+                event.target.classList.remove('dragging');
+                document.querySelectorAll('.inv-slot.drag-over').forEach(el => el.classList.remove('drag-over'));
+                dragSourceIndex = null;
+            };
+
             window.sellInventoryItem = function(index) {
                 const item = inventory[index];
                 if (!item) return;
@@ -2237,6 +2524,7 @@
                 addFeedItem(userName, 'продал предмет', item.value, 'win', item.icon);
             };
 
+            // ── Case Animation Overlay ──
             const caseOverlay = document.getElementById('caseOverlay');
             const caseAnimCanvas = document.getElementById('caseAnimCanvas');
             const animCtx = caseAnimCanvas.getContext('2d');
@@ -2257,17 +2545,17 @@
                     currentReward = 0,
                     increment = finalReward / totalFrames;
                 const starsArr = [];
-                for (let i = 0; i < 50; i++) {
+                for (let i = 0; i < 55; i++) {
                     starsArr.push({
                         x: Math.random() * w,
                         y: Math.random() * h,
-                        size: 7 + Math.random() * 18,
-                        speedX: (Math.random() - 0.5) * 5,
-                        speedY: (Math.random() - 0.5) * 5,
+                        size: 6 + Math.random() * 20,
+                        speedX: (Math.random() - 0.5) * 5.5,
+                        speedY: (Math.random() - 0.5) * 5.5,
                         rotation: Math.random() * Math.PI * 2,
-                        rotSpeed: (Math.random() - 0.5) * 0.08,
+                        rotSpeed: (Math.random() - 0.5) * 0.09,
                         glow: 0.3 + Math.random() * 0.7,
-                        color: `hsl(${40 + Math.random() * 20}, 100%, ${55 + Math.random() * 30}%)`
+                        color: `hsl(${38 + Math.random() * 25}, 100%, ${55 + Math.random() * 35}%)`
                     });
                 }
 
@@ -2356,10 +2644,8 @@
             // ── Tabs ──
             document.querySelectorAll('.tab-btn').forEach(btn => {
                 btn.addEventListener('click', () => {
-                    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove(
-                        'active'));
-                    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove(
-                        'active'));
+                    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
                     btn.classList.add('active');
                     document.getElementById(btn.dataset.tab + 'Tab').classList.add('active');
                     if (btn.dataset.tab === 'cases') drawCaseStatic();
@@ -2418,34 +2704,45 @@
                 alert(`✅ Заявка на вывод ${amount} ⭐ отправлена.`);
             });
 
-            // ── Admin ──
+            // ── Admin Panel (shows ALL registered players) ──
             function renderAdminPanel() {
                 if (!isAdmin) return;
                 const panel = document.getElementById('adminPanel');
-                let all = loadAllUsers().filter(u => !u.isBot);
+                let all = loadAllUsers(); // includes bots and real users
                 const searchTerm = document.getElementById('adminSearch')?.value?.toLowerCase() || '';
-                const filtered = all.filter(u => u.name.toLowerCase().includes(searchTerm) || u.id.includes(
-                    searchTerm));
+                const filtered = all.filter(u =>
+                    (u.name || '').toLowerCase().includes(searchTerm) ||
+                    (u.id || '').includes(searchTerm)
+                );
                 const totalUsers = all.length;
                 const totalStars = all.reduce((sum, u) => sum + (u.stars || 0), 0);
+                const blockedCount = all.filter(u => u.blocked).length;
                 let html = `
               <h3>🛡️ Админ-панель</h3>
               <div class="admin-stats">
-                <div class="stat-card"><span class="num">${totalUsers}</span> <span class="label">пользователей</span></div>
-                <div class="stat-card"><span class="num">⭐${totalStars}</span> <span class="label">всего звёзд</span></div>
+                <div class="stat-card"><span class="num">${totalUsers}</span> <span class="label">игроков</span></div>
+                <div class="stat-card"><span class="num">⭐${totalStars.toLocaleString()}</span> <span class="label">всего звёзд</span></div>
+                <div class="stat-card"><span class="num">${blockedCount}</span> <span class="label">заблок.</span></div>
               </div>
               <input type="text" id="adminSearch" class="search-box" placeholder="Поиск по нику или ID" value="${searchTerm}" oninput="renderAdminPanel()">
               <div class="admin-user-list">`;
                 if (filtered.length === 0) html +=
                     '<div class="empty-feed">Пользователи не найдены</div>';
                 else filtered.forEach(u => {
+                    const isBot = u.isBot ? ' 🤖' : '';
                     html += `
                   <div class="admin-user-item">
-                    <div class="user-info"><span>${u.name}</span><span class="badge">${u.id}</span>${u.blocked?' 🚫':''}<span class="badge">⭐${u.stars}</span></div>
+                    <div class="user-info">
+                      <span>${u.name}${isBot}</span>
+                      <span class="badge">ID:${u.id}</span>
+                      ${u.blocked ? ' 🚫' : ''}
+                      <span class="badge">⭐${(u.stars || 0).toLocaleString()}</span>
+                      <span class="badge">🎮${u.totalGames || 0}</span>
+                    </div>
                     <div class="actions">
                       <button class="gold" onclick="adminGiveStars('${u.id}')">⭐ Выдать</button>
-                      <button onclick="adminBlockUser('${u.id}')" class="${u.blocked?'':'danger'}">${u.blocked?'🔓 Разблок.':'🚫 Блок'}</button>
-                      <button onclick="adminWriteUser('${u.id}')">💬 Написать</button>
+                      <button onclick="adminBlockUser('${u.id}')" class="${u.blocked ? '' : 'danger'}">${u.blocked ? '🔓 Разблок.' : '🚫 Блок'}</button>
+                      <button onclick="adminWriteUser('${u.id}')">💬</button>
                     </div>
                   </div>`;
                 });
@@ -2463,7 +2760,7 @@
                 const amount = parseInt(prompt('Сколько звёзд выдать?'));
                 if (!amount || amount <= 0) return;
                 let all = loadAllUsers();
-                const user = all.find(u => u.id === targetId && !u.isBot);
+                const user = all.find(u => u.id === targetId);
                 if (user) { user.stars = (user.stars || 0) + amount;
                     saveAllUsers(all); if (targetId === userId) { stars = user.stars;
                         updateBalanceUI(); }
@@ -2472,25 +2769,38 @@
             };
             window.adminBlockUser = function(targetId) {
                 let all = loadAllUsers();
-                const user = all.find(u => u.id === targetId && !u.isBot);
-                if (user) { user.blocked = !user.blocked;
-                    saveAllUsers(all); if (targetId === userId) { currentUser.blocked = user.blocked; if (user
-                            .blocked) alert('🚫 Вы были заблокированы.'); }
-                    renderAdminPanel(); }
+                const user = all.find(u => u.id === targetId);
+                if (user) {
+                    user.blocked = !user.blocked;
+                    saveAllUsers(all);
+                    if (targetId === userId) { currentUser.blocked = user.blocked; if (user.blocked) alert(
+                            '🚫 Вы были заблокированы.'); }
+                    renderAdminPanel();
+                }
             };
-            window.adminWriteUser = function(targetId) { tg.openTelegramLink(`https://t.me/${targetId}`); };
+            window.adminWriteUser = function(targetId) {
+                if (targetId.startsWith('bot_')) { alert('Это бот-пользователь (демо)'); return; }
+                tg.openTelegramLink(`https://t.me/${targetId}`);
+            };
             window.adminBroadcast = function() {
                 const msg = document.getElementById('broadcastMsg')?.value.trim();
                 if (!msg) return;
                 localStorage.setItem(BROADCAST_KEY, msg);
-                alert('✅ Рассылка сохранена.');
+                alert('✅ Рассылка сохранена. Все игроки увидят сообщение при входе.');
             };
             window.adminResetGame = function() {
-                if (confirm('Сбросить ВСЕ данные? Это необратимо.')) { localStorage.clear();
-                    location.reload(); }
+                if (confirm('Сбросить ВСЕ данные? Это необратимо.')) {
+                    localStorage.removeItem(ALL_USERS_KEY);
+                    localStorage.removeItem(BOTS_INITIALIZED_KEY);
+                    localStorage.removeItem(ROUND_COUNTER_KEY);
+                    localStorage.removeItem(ACTIVITY_FEED_KEY);
+                    localStorage.removeItem(BROADCAST_KEY);
+                    location.reload();
+                }
             };
 
             // ── Init ──
+            initNebulaParticles(crashCanvas.width, crashCanvas.height);
             updateBalanceUI();
             updatePromoStatus();
             updateHistUI();
@@ -2499,7 +2809,7 @@
             drawCrashScene();
             updateUnifiedButton();
             startBreak();
-            console.log('🎁 Crush Gift Spin v4 загружен (синхронизация, единая кнопка, ускорение, современный дизайн)');
+            console.log('🎁 Crush Gift Spin v5 загружен (2 новых кейса, drag&drop, все игроки в админке, улучшенная графика)');
         })();
     </script>
 </body>
