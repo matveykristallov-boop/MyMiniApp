@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
@@ -38,6 +38,28 @@
             --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.10);
             --shadow-xl: 0 14px 40px rgba(0, 0, 0, 0.14);
         }
+        [data-theme="dark"] {
+            --bg-body: #1a1d26;
+            --bg-card: #242836;
+            --bg-card-hover: #2a2f3d;
+            --bg-elevated: #2a2f3d;
+            --bg-input: #323848;
+            --bg-overlay: rgba(0, 0, 0, 0.7);
+            --border: #3a4055;
+            --border-light: #323848;
+            --border-focus: #5a6080;
+            --text-primary: #e8eaef;
+            --text-secondary: #a8afc0;
+            --text-muted: #7880a0;
+            --gold-dim: rgba(232, 168, 23, 0.12);
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
+            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.3);
+            --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.4);
+            --shadow-xl: 0 14px 40px rgba(0, 0, 0, 0.5);
+            --green-bg: rgba(16, 185, 129, 0.1);
+            --red-bg: rgba(239, 68, 68, 0.1);
+            --accent-blue-bg: rgba(79, 125, 243, 0.1);
+        }
         * {
             margin: 0;
             padding: 0;
@@ -55,6 +77,7 @@
             -webkit-tap-highlight-color: transparent;
             -webkit-font-smoothing: antialiased;
             letter-spacing: -0.01em;
+            transition: background 0.3s, color 0.3s;
         }
         ::-webkit-scrollbar {
             width: 3px;
@@ -78,6 +101,7 @@
             gap: 8px;
             box-shadow: var(--shadow-sm);
             z-index: 10;
+            transition: background 0.3s, border 0.3s;
         }
         .header-left {
             display: flex;
@@ -159,6 +183,7 @@
             -webkit-overflow-scrolling: touch;
             box-shadow: var(--shadow-sm);
             z-index: 9;
+            transition: background 0.3s;
         }
         .tab-btn {
             flex: 1 0 auto;
@@ -191,6 +216,7 @@
             background: var(--bg-body);
             display: none;
             flex-direction: column;
+            transition: background 0.3s;
         }
         .tab-content.active {
             display: flex;
@@ -217,6 +243,7 @@
             border: 1px solid var(--border);
             overflow: hidden;
             box-shadow: var(--shadow-md);
+            transition: background 0.3s, border 0.3s;
         }
         canvas#crashCanvas {
             width: 100%;
@@ -224,6 +251,120 @@
             aspect-ratio: 1/1;
             display: block;
             border-radius: var(--radius-sm);
+        }
+        .diagram-overlay-controls {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            right: 10px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 10px;
+            pointer-events: none;
+            z-index: 5;
+        }
+        .diagram-bet-input-wrap {
+            pointer-events: auto;
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 4px 8px;
+            border: 1.5px solid var(--border);
+            box-shadow: var(--shadow-md);
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            min-width: 80px;
+            transition: background 0.3s, border 0.3s;
+        }
+        .diagram-bet-input-wrap label {
+            font-size: 8px;
+            color: var(--text-muted);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .diagram-bet-input-wrap input {
+            background: var(--bg-input);
+            border: 1.5px solid var(--border);
+            border-radius: 8px;
+            padding: 6px 8px;
+            color: var(--text-primary);
+            font-size: 14px;
+            outline: none;
+            width: 90px;
+            min-height: 30px;
+            transition: border 0.2s, background 0.3s, color 0.3s;
+            font-weight: 500;
+            -webkit-appearance: none;
+            appearance: none;
+            caret-color: var(--gold);
+        }
+        .diagram-bet-input-wrap input:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px rgba(232, 168, 23, 0.1);
+            background: var(--bg-elevated);
+        }
+        .diagram-bet-btn-wrap {
+            pointer-events: auto;
+        }
+        .diagram-bet-btn {
+            border: none;
+            border-radius: 14px;
+            padding: 12px 20px;
+            font-weight: 800;
+            font-size: 15px;
+            cursor: pointer;
+            color: #fff;
+            transition: all 0.15s;
+            min-height: 46px;
+            letter-spacing: 0.3px;
+            white-space: nowrap;
+            box-shadow: var(--shadow-lg);
+            background: var(--green);
+            min-width: 100px;
+        }
+        .diagram-bet-btn:active {
+            transform: scale(0.94);
+            filter: brightness(0.85);
+        }
+        .diagram-bet-btn.gold-btn {
+            background: linear-gradient(135deg, #e8a817, #d4940f);
+            box-shadow: 0 4px 20px rgba(232, 168, 23, 0.35);
+        }
+        .diagram-bet-btn.accent-btn {
+            background: var(--accent-blue);
+        }
+        .diagram-bet-btn.outline-btn {
+            background: transparent;
+            border: 2px solid var(--gold);
+            color: #b8860b;
+        }
+        .diagram-bet-btn.disabled-btn {
+            background: #cbd5e1;
+            cursor: not-allowed;
+            opacity: 0.55;
+            pointer-events: none;
+            box-shadow: none;
+            color: #94a3b8;
+        }
+        .diagram-cancel-scheduled {
+            pointer-events: auto;
+            position: absolute;
+            top: 8px;
+            right: 10px;
+            background: var(--accent-blue-bg);
+            border: 1px solid var(--accent-blue);
+            color: var(--accent-blue);
+            font-size: 9px;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.15s;
+            display: none;
+            z-index: 6;
         }
         .info-text {
             font-size: 13px;
@@ -256,6 +397,7 @@
             border: 1px solid var(--border);
             flex-wrap: wrap;
             box-shadow: var(--shadow-sm);
+            transition: background 0.3s, border 0.3s;
         }
         .auto-bar .label {
             font-size: 10px;
@@ -286,6 +428,9 @@
             transition: all 0.2s;
             white-space: nowrap;
         }
+        [data-theme="dark"] .auto-bar .protection-tag {
+            background: #323848;
+        }
         .auto-bar .protection-tag.active {
             border-color: var(--gold);
             color: #b8860b;
@@ -304,6 +449,9 @@
             white-space: nowrap;
             margin-left: auto;
         }
+        [data-theme="dark"] .auto-bar .demo-tag {
+            background: #323848;
+        }
         .auto-bar .demo-tag.active-demo {
             border-color: var(--gold);
             color: #b8860b;
@@ -320,6 +468,7 @@
             flex-shrink: 0;
             align-items: flex-end;
             box-shadow: var(--shadow-sm);
+            transition: background 0.3s, border 0.3s;
         }
         .controls-row .input-group {
             display: flex;
@@ -345,7 +494,7 @@
             outline: none;
             width: 100%;
             min-height: 40px;
-            transition: border 0.2s, box-shadow 0.2s;
+            transition: border 0.2s, box-shadow 0.2s, background 0.3s, color 0.3s;
             font-weight: 500;
             -webkit-appearance: none;
             appearance: none;
@@ -354,12 +503,15 @@
         .controls-row .input-group input:focus {
             border-color: var(--gold);
             box-shadow: 0 0 0 3px rgba(232, 168, 23, 0.1);
-            background: #fff;
+            background: var(--bg-elevated);
         }
         .controls-row .input-group input:disabled {
             opacity: 0.4;
             cursor: not-allowed;
             background: #e8eaef;
+        }
+        [data-theme="dark"] .controls-row .input-group input:disabled {
+            background: #2a2f3d;
         }
         .controls-row .button-group {
             display: flex;
@@ -444,6 +596,7 @@
             overflow-x: auto;
             flex-wrap: nowrap;
             box-shadow: var(--shadow-sm);
+            transition: background 0.3s, border 0.3s;
         }
         .crash-history-bar .hist-label {
             font-size: 10px;
@@ -500,6 +653,7 @@
             flex-direction: column;
             margin-top: 1px;
             box-shadow: var(--shadow-sm);
+            transition: background 0.3s, border 0.3s;
         }
         .live-feed-header {
             font-size: 10px;
@@ -630,7 +784,7 @@
             display: flex;
             flex-direction: column;
             gap: 8px;
-            transition: border 0.2s, transform 0.15s, box-shadow 0.2s;
+            transition: border 0.2s, transform 0.15s, box-shadow 0.2s, background 0.3s;
             cursor: pointer;
             min-height: 150px;
             justify-content: center;
@@ -717,6 +871,9 @@
             padding: 2px 9px;
             border-radius: 10px;
             display: inline-block;
+        }
+        [data-theme="dark"] .case-card .case-tag {
+            background: #323848;
         }
         .case-card .case-rarity {
             position: absolute;
@@ -810,6 +967,9 @@
             transform: scale(1.04);
             background: #fefce8;
         }
+        [data-theme="dark"] .inv-slot.drag-over {
+            background: #3a3520;
+        }
         .inv-slot .gift-icon {
             font-size: 32px;
             pointer-events: none;
@@ -876,6 +1036,7 @@
             gap: 10px;
             animation: modalIn 0.2s ease;
             box-shadow: var(--shadow-xl);
+            transition: background 0.3s, border 0.3s;
         }
         @keyframes modalIn {
             from {
@@ -907,7 +1068,7 @@
             font-size: 15px;
             outline: none;
             width: 100%;
-            transition: border 0.2s;
+            transition: border 0.2s, background 0.3s, color 0.3s;
             -webkit-appearance: none;
             appearance: none;
             caret-color: var(--gold);
@@ -953,6 +1114,10 @@
         .modal-content .btn-telegram {
             background: var(--accent-blue);
             box-shadow: 0 2px 8px rgba(79, 125, 243, 0.2);
+        }
+        .modal-content .btn-theme {
+            background: #6366f1;
+            box-shadow: 0 2px 8px rgba(99, 102, 241, 0.2);
         }
         .modal-content .error-text {
             color: var(--red);
@@ -1036,7 +1201,6 @@
         .case-overlay .close-overlay-btn:active {
             transform: scale(0.94);
         }
-        /* Case preview modal */
         .case-preview-overlay {
             display: none;
             position: fixed;
@@ -1068,6 +1232,7 @@
             gap: 10px;
             box-shadow: var(--shadow-xl);
             animation: modalIn 0.2s ease;
+            transition: background 0.3s, border 0.3s;
         }
         .case-preview-content .preview-header {
             display: flex;
@@ -1106,6 +1271,10 @@
             border-radius: var(--radius-xs);
             border: 1px solid var(--border-light);
             flex-shrink: 0;
+            transition: background 0.3s, border 0.3s;
+        }
+        [data-theme="dark"] .case-preview-content .preview-item {
+            background: #2a2f3d;
         }
         .case-preview-content .preview-item .pi-icon {
             font-size: 28px;
@@ -1133,9 +1302,15 @@
             padding: 2px 8px;
             border-radius: 10px;
         }
+        [data-theme="dark"] .case-preview-content .preview-item .pi-chance {
+            background: #323848;
+        }
         .case-preview-content .preview-item.pi-highlight {
             background: #fefce8;
             border-color: rgba(232, 168, 23, 0.25);
+        }
+        [data-theme="dark"] .case-preview-content .preview-item.pi-highlight {
+            background: #3a3520;
         }
         .case-preview-content .preview-buttons {
             display: flex;
@@ -1152,6 +1327,7 @@
             border-radius: var(--radius);
             border: 1px solid var(--border);
             box-shadow: var(--shadow-sm);
+            transition: background 0.3s, border 0.3s;
         }
         .admin-panel h3 {
             color: #b8860b;
@@ -1170,6 +1346,7 @@
             margin-bottom: 10px;
             -webkit-appearance: none;
             appearance: none;
+            transition: background 0.3s, border 0.3s, color 0.3s;
         }
         .admin-panel .search-box:focus {
             border-color: var(--gold);
@@ -1181,6 +1358,10 @@
             border-radius: var(--radius-xs);
             background: #fafbfc;
             border: 1px solid var(--border);
+            transition: background 0.3s, border 0.3s;
+        }
+        [data-theme="dark"] .admin-user-list {
+            background: #2a2f3d;
         }
         .admin-user-item {
             display: flex;
@@ -1191,6 +1372,7 @@
             font-size: 12px;
             flex-wrap: wrap;
             gap: 4px;
+            transition: border 0.3s;
         }
         .admin-user-item:last-child {
             border-bottom: none;
@@ -1207,6 +1389,9 @@
             border-radius: 9px;
             font-size: 9px;
             color: var(--text-muted);
+        }
+        [data-theme="dark"] .admin-user-item .user-info .badge {
+            background: #323848;
         }
         .admin-user-item .actions {
             display: flex;
@@ -1251,6 +1436,7 @@
             font-family: inherit;
             font-size: 12px;
             outline: none;
+            transition: background 0.3s, border 0.3s, color 0.3s;
         }
         .admin-panel .broadcast-area textarea:focus {
             border-color: var(--gold);
@@ -1284,6 +1470,10 @@
             padding: 7px 12px;
             flex: 1 1 auto;
             text-align: center;
+            transition: background 0.3s, border 0.3s;
+        }
+        [data-theme="dark"] .admin-stats .stat-card {
+            background: #2a2f3d;
         }
         .admin-stats .stat-card .num {
             font-size: 18px;
@@ -1347,6 +1537,7 @@
             width: 100%;
             max-width: 340px;
             box-shadow: var(--shadow-sm);
+            transition: background 0.3s, border 0.3s;
         }
         .spin-info-card .spin-cost {
             font-size: 20px;
@@ -1385,6 +1576,7 @@
             font-weight: 600;
             color: var(--text-primary);
             box-shadow: var(--shadow-sm);
+            transition: background 0.3s, border 0.3s;
         }
         .spin-prize-chip.rare-prize {
             border-color: rgba(232, 168, 23, 0.4);
@@ -1417,7 +1609,7 @@
             display: flex;
             flex-direction: column;
             gap: 10px;
-            transition: border 0.2s;
+            transition: border 0.2s, background 0.3s;
             box-shadow: var(--shadow-sm);
         }
         .task-card.completed {
@@ -1489,6 +1681,7 @@
             flex-direction: column;
             gap: 8px;
             box-shadow: var(--shadow-sm);
+            transition: background 0.3s, border 0.3s;
         }
         .referral-box .ref-title {
             font-size: 14px;
@@ -1510,6 +1703,10 @@
             flex: 1;
             min-width: 80px;
             border: 1px solid var(--border-light);
+            transition: background 0.3s, border 0.3s;
+        }
+        [data-theme="dark"] .referral-box .ref-stat {
+            background: #2a2f3d;
         }
         .referral-box .ref-stat .ref-num {
             font-size: 20px;
@@ -1538,6 +1735,7 @@
             font-family: var(--font-mono);
             word-break: break-all;
             cursor: default;
+            transition: background 0.3s, border 0.3s, color 0.3s;
         }
         .referral-box .ref-copy-btn {
             background: var(--gold);
@@ -1563,6 +1761,7 @@
             flex-shrink: 0;
             overflow-x: auto;
             box-shadow: var(--shadow-sm);
+            transition: background 0.3s, border 0.3s;
         }
         .collection-tab {
             padding: 6px 14px;
@@ -1575,6 +1774,9 @@
             cursor: pointer;
             white-space: nowrap;
             transition: all 0.2s;
+        }
+        [data-theme="dark"] .collection-tab {
+            background: #323848;
         }
         .collection-tab.active {
             background: var(--gold-dim);
@@ -1670,6 +1872,17 @@
                 padding: 8px 4px;
                 min-height: 36px;
             }
+            .diagram-bet-input-wrap input {
+                width: 70px;
+                font-size: 12px;
+                min-height: 26px;
+            }
+            .diagram-bet-btn {
+                font-size: 13px;
+                padding: 10px 16px;
+                min-height: 38px;
+                min-width: 80px;
+            }
         }
     </style>
 </head>
@@ -1698,29 +1911,26 @@
     <!-- Crash Tab -->
     <div class="tab-content active" id="crashTab">
         <div class="crash-container">
-            <div class="diagram-wrap">
+            <div class="diagram-wrap" id="diagramWrap">
                 <canvas id="crashCanvas" width="280" height="280"></canvas>
+                <div class="diagram-overlay-controls">
+                    <div class="diagram-bet-input-wrap">
+                        <label for="betInput">💰 Ставка ⭐</label>
+                        <input type="number" id="betInput" placeholder="0" min="1" step="1" inputmode="decimal">
+                    </div>
+                    <div class="diagram-bet-btn-wrap">
+                        <button class="diagram-bet-btn" id="unifiedBtn">💰 Ставка</button>
+                    </div>
+                </div>
+                <button class="diagram-cancel-scheduled" id="cancelPendingBtn">✕ Отменить</button>
             </div>
             <div class="info-text" id="crashInfo">Ожидание раунда...</div>
             <div class="auto-bar">
                 <span class="label">⚡ Авто-вывод</span>
                 <span class="auto-value" id="autoDisplay">x1.00</span>
+                <input type="number" id="autoInput" placeholder="0" min="0" step="0.01" inputmode="decimal" style="width:70px;background:var(--bg-input);border:1.5px solid var(--border);border-radius:8px;padding:5px 8px;color:var(--text-primary);font-size:13px;outline:none;min-height:30px;transition:all 0.2s;">
                 <span class="protection-tag" id="protectionTag">🛡️ Защита x1.0</span>
                 <span class="demo-tag" id="demoTag">🎮 Демо</span>
-            </div>
-            <div class="controls-row">
-                <div class="input-group">
-                    <label for="betInput">Сумма ⭐</label>
-                    <input type="number" id="betInput" placeholder="0" min="1" step="1" inputmode="decimal">
-                </div>
-                <div class="input-group">
-                    <label for="autoInput">Авто-стоп X</label>
-                    <input type="number" id="autoInput" placeholder="0" min="0" step="0.01" inputmode="decimal">
-                </div>
-                <div class="button-group">
-                    <button class="btn btn-primary" id="unifiedBtn">💰 Ставка</button>
-                    <button class="btn-scheduled-indicator" id="cancelPendingBtn" style="display:none;">✕ Отменить</button>
-                </div>
             </div>
             <div class="crash-history-bar">
                 <span class="hist-label">📜 История</span>
@@ -1787,6 +1997,7 @@
                     </div>
                 </div>
                 <button class="task-btn" id="subscribeGoBtn">📢 Перейти в канал</button>
+                <button class="task-btn green-btn" id="checkSubBtn" style="display:none;">✅ Проверить подписку</button>
                 <div id="subscribeStatus" style="text-align:center;font-size:12px;min-height:18px;"></div>
             </div>
             <div class="referral-box">
@@ -1834,6 +2045,7 @@
             <div style="font-size:26px;font-weight:700;text-align:center;color:#b8860b;" id="profileBalance"></div>
             <button class="btn btn-gold" id="profileDepositBtn">💰 Пополнить</button>
             <button class="btn btn-primary" id="profileWithdrawBtn">💸 Вывести</button>
+            <button class="btn btn-theme" id="profileThemeBtn">🌓 Переключить тему</button>
             <button class="btn btn-cancel" id="closeProfileBtn">✕ Закрыть</button>
         </div>
     </div>
@@ -1914,12 +2126,28 @@
                 document.getElementById('adminTabBtn').style.display = 'inline-block';
             }
 
+            // Theme management
+            function getTheme() { return localStorage.getItem('gift_theme_v1') || 'light'; }
+
+            function applyTheme(theme) {
+                document.documentElement.setAttribute('data-theme', theme);
+                localStorage.setItem('gift_theme_v1', theme);
+            }
+
+            function toggleTheme() {
+                const current = getTheme();
+                const next = current === 'light' ? 'dark' : 'light';
+                applyTheme(next);
+            }
+            applyTheme(getTheme());
+
             const ALL_USERS_KEY = 'gift_all_users_v6';
             const BROADCAST_KEY = 'gift_broadcast_msg_v3';
             const ROUND_COUNTER_KEY = 'gift_round_counter_v2';
             const ACTIVITY_FEED_KEY = 'gift_activity_feed_v2';
             const BOTS_INITIALIZED_KEY = 'gift_bots_initialized_v2';
             const REFERRALS_KEY = 'gift_referrals_v2';
+            const REFERRAL_PROCESSED_KEY = 'gift_ref_processed_v1';
 
             const botNames = [
                 'Алексей_777', 'МарияStar', 'Дмитрий_К', 'Анна_Белла', 'Сергей_Топ',
@@ -1972,6 +2200,17 @@
 
             function saveReferrals(refs) { localStorage.setItem(REFERRALS_KEY, JSON.stringify(refs)); }
 
+            function isReferralProcessed(refId) {
+                try { const arr = JSON.parse(localStorage.getItem(REFERRAL_PROCESSED_KEY)) || []; return arr.includes(
+                    refId); } catch (e) { return false; }
+            }
+
+            function markReferralProcessed(refId) {
+                try { const arr = JSON.parse(localStorage.getItem(REFERRAL_PROCESSED_KEY)) || []; if (!arr.includes(
+                        refId)) { arr.push(refId);
+                        localStorage.setItem(REFERRAL_PROCESSED_KEY, JSON.stringify(arr)); } } catch (e) {}
+            }
+
             function getCurrentUserData() {
                 let all = loadAllUsers();
                 let user = all.find(u => u.id === userId && !u.isBot);
@@ -1995,7 +2234,6 @@
                     };
                     all.push(user);
                     saveAllUsers(all);
-                    checkReferralOnStart();
                 } else if (user.name !== userName) {
                     user.name = userName;
                     saveAllUsers(all);
@@ -2007,12 +2245,12 @@
             }
 
             function checkReferralOnStart() {
-                const urlParams = new URLSearchParams(window.location.search);
-                const refParam = urlParams.get('start') || urlParams.get('ref') || tg.initDataUnsafe?.start_param || '';
+                const refParam = tg.initDataUnsafe?.start_param || '';
                 if (refParam && refParam.startsWith('ref_')) {
                     const referrerId = refParam.replace('ref_', '');
-                    if (referrerId && referrerId !== userId) {
+                    if (referrerId && referrerId !== userId && !isReferralProcessed(referrerId + '_' + userId)) {
                         processReferral(referrerId);
+                        markReferralProcessed(referrerId + '_' + userId);
                     }
                 }
             }
@@ -2042,6 +2280,7 @@
             }
 
             initBotUsers();
+            checkReferralOnStart();
 
             let currentUser = getCurrentUserData();
             let stars = currentUser.stars;
@@ -2096,8 +2335,15 @@
                 localStorage.removeItem(BROADCAST_KEY); } }
             checkBroadcast();
 
-            function isBlockedCheck() { if (currentUser.blocked) { alert(
-                    '🚫 Вы заблокированы администратором.'); return true; } return false; }
+            function isBlockedCheck() {
+                let all = loadAllUsers();
+                const u = all.find(x => x.id === userId && !x.isBot);
+                if (u && u.blocked) {
+                    alert('🚫 Вы заблокированы администратором.');
+                    return true;
+                }
+                return false;
+            }
 
             const balanceDisplay = document.getElementById('balanceDisplay');
             const crashCanvas = document.getElementById('crashCanvas');
@@ -2152,7 +2398,8 @@
                         'win') { amountClass = 'win';
                         sign = '+'; } if (item.type === 'loss') { amountClass = 'loss';
                         sign = '-'; }
-                    html += `<div class="feed-item"><div class="fi-avatar" style="background:${item.color};">${item.avatar}</div><span class="fi-name">${item.name}</span><span class="fi-action">${item.action}</span><span class="fi-amount ${amountClass}">${item.emoji} ${sign}${item.amount} ⭐</span></div>`; });
+                    html +=
+                        `<div class="feed-item"><div class="fi-avatar" style="background:${item.color};">${item.avatar}</div><span class="fi-name">${item.name}</span><span class="fi-action">${item.action}</span><span class="fi-amount ${amountClass}">${item.emoji} ${sign}${item.amount} ⭐</span></div>`; });
                 feedList.innerHTML = html; }
 
             function getMultiplierColor(mult) { if (mult <= 1.30) return '#4f7df3'; if (mult <= 1.90) return '#10b981'; if (
@@ -2275,14 +2522,17 @@
 
             function drawCrashScene() { const w = crashCanvas.width,
                     h = crashCanvas.height;
-                ctx.clearRect(0, 0, w, h); const bgGrad = ctx.createRadialGradient(w / 2, h / 2, 5, w / 2, h / 2, w * 0.85);
-                bgGrad.addColorStop(0, '#e8ecf1');
-                bgGrad.addColorStop(0.4, '#dde2e9');
-                bgGrad.addColorStop(0.8, '#cfd5dd');
-                bgGrad.addColorStop(1, '#c4cad4');
+                ctx.clearRect(0, 0, w, h); const isDark = getTheme() === 'dark'; const bgGrad = ctx.createRadialGradient(w / 2,
+                    h / 2, 5, w / 2, h / 2, w * 0.85); if (isDark) { bgGrad.addColorStop(0, '#2a3040');
+                    bgGrad.addColorStop(0.4, '#222838');
+                    bgGrad.addColorStop(0.8, '#1a1f2e');
+                    bgGrad.addColorStop(1, '#151a26'); } else { bgGrad.addColorStop(0, '#e8ecf1');
+                    bgGrad.addColorStop(0.4, '#dde2e9');
+                    bgGrad.addColorStop(0.8, '#cfd5dd');
+                    bgGrad.addColorStop(1, '#c4cad4'); }
                 ctx.fillStyle = bgGrad;
                 ctx.fillRect(0, 0, w, h);
-                ctx.strokeStyle = 'rgba(180,188,200,0.25)';
+                ctx.strokeStyle = isDark ? 'rgba(100,110,130,0.2)' : 'rgba(180,188,200,0.25)';
                 ctx.lineWidth = 0.4; const gridSpacing = 30; for (let x = gridSpacing; x < w; x += gridSpacing) { ctx
                     .beginPath();
                     ctx.moveTo(x, 0);
@@ -2349,31 +2599,25 @@
                 ctx.fillText(multText, mx, my);
                 ctx.shadowBlur = 0;
                 ctx.font = '10px "Segoe UI", sans-serif';
-                ctx.fillStyle = 'rgba(80,85,95,0.6)';
+                ctx.fillStyle = isDark ? 'rgba(200,205,215,0.6)' : 'rgba(80,85,95,0.6)';
                 ctx.fillText('множитель', mx, my + 34);
                 ctx.textAlign = 'start'; }
 
-            function updateUnifiedButton() { const isBlocked = currentUser.blocked;
-                cancelPendingBtn.style.display = 'none'; if (isBlocked) { unifiedBtn.textContent = '🚫 Заблокирован';
-                    unifiedBtn.className = 'btn btn-disabled';
-                    unifiedBtn.disabled = true; return; } if (gameRunning && activeBet) { const winAmt = Math.floor(activeBet
-                        .amount * currentMultiplier);
+            function updateUnifiedButton() { cancelPendingBtn.style.display = 'none'; const isBlocked = currentUser
+            .blocked; if (isBlocked) { unifiedBtn.textContent = '🚫 Заблокирован';
+                    unifiedBtn.className = 'diagram-bet-btn disabled-btn'; return; } if (gameRunning && activeBet) { const
+                        winAmt = Math.floor(activeBet.amount * currentMultiplier);
                     unifiedBtn.textContent = `💸 Вывести ${winAmt} ⭐`;
-                    unifiedBtn.className = 'btn btn-gold';
-                    unifiedBtn.disabled = false; } else if (gameRunning && !activeBet && !pendingBet) { unifiedBtn
-                    .textContent = '📋 На след. раунд';
-                    unifiedBtn.className = 'btn btn-accent';
-                    unifiedBtn.disabled = false; } else if (gameRunning && pendingBet) { unifiedBtn.textContent =
-                        '⏳ Запланировано';
-                    unifiedBtn.className = 'btn btn-outline';
-                    unifiedBtn.disabled = true;
+                    unifiedBtn.className = 'diagram-bet-btn gold-btn'; } else if (gameRunning && !activeBet && !pendingBet) {
+                    unifiedBtn.textContent = '📋 На след. раунд';
+                    unifiedBtn.className = 'diagram-bet-btn accent-btn'; } else if (gameRunning && pendingBet) { unifiedBtn
+                    .textContent = '⏳ Запланировано';
+                    unifiedBtn.className = 'diagram-bet-btn outline-btn';
                     cancelPendingBtn.style.display = 'inline-flex'; } else if (!gameRunning && pendingBet) { unifiedBtn
                     .textContent = '⏳ Запланировано';
-                    unifiedBtn.className = 'btn btn-outline';
-                    unifiedBtn.disabled = true;
+                    unifiedBtn.className = 'diagram-bet-btn outline-btn';
                     cancelPendingBtn.style.display = 'inline-flex'; } else { unifiedBtn.textContent = '💰 Ставка';
-                    unifiedBtn.className = 'btn btn-primary';
-                    unifiedBtn.disabled = false; }
+                    unifiedBtn.className = 'diagram-bet-btn'; }
                 betInput.disabled = isBlocked || (gameRunning && !!activeBet);
                 autoInput.disabled = isBlocked; }
 
@@ -2527,8 +2771,9 @@
 
             function updateBalanceUI() { balanceDisplay.textContent = `⭐ ${stars}`; }
 
-            const casesConfig = { common: { price: 50, min: 10, max: 55 }, rare: { price: 200, min: 100, max: 210 },
-                epic: { price: 500, min: 300, max: 520 } };
+            // Updated case configs
+            const casesConfig = { common: { price: 50, min: 1, max: 100 }, rare: { price: 200, min: 1, max: 400 },
+                epic: { price: 500, min: 50, max: 1200 } };
 
             function openCaseCommon(type) { if (isBlockedCheck()) return; const cfg = casesConfig[type]; if (!cfg) return; if (
                     !isDemoMode && stars < cfg.price) { alert('Недостаточно звёзд!'); return; } if (!isDemoMode) { stars -=
@@ -2542,21 +2787,16 @@
                 showCaseAnimation(reward, 'Демо-кейс'); } }
 
             const VALID_CODES = ['Бурмалда', 'Павел', 'Матвей', 'Скебоб', '67', 'Стефан', 'Даша', 'Саша', 'ВелоДрун'];
-            const promoBtn = document.getElementById('promoCaseBtn');
-            const promoStatus = document.getElementById('promoStatus');
 
             function updatePromoStatus() { const used = usedPromoCodes || []; const available = VALID_CODES.filter(c => !used
-                    .includes(c));
-                promoStatus.textContent = available.length === 0 ? 'все использованы' : `${available.length} код(ов)`;
-                promoStatus.style.color = available.length === 0 ? 'var(--red)' : 'var(--green)';
-                promoBtn.disabled = available.length === 0; } if (promoBtn) { promoBtn.addEventListener('click', () => { if (
-                        isBlockedCheck()) return;
-                    document.getElementById('promoCodeInput').value = '';
-                    document.getElementById('promoMessage').textContent = '';
-                    document.getElementById('promoModal').style.display = 'flex'; }); }
-            document.getElementById('promoCloseBtn').addEventListener('click', () => document.getElementById('promoModal')
+                    .includes(c)); const promoStatus = document.getElementById('promoStatus'); if (promoStatus) { promoStatus
+                    .textContent = available.length === 0 ? 'все использованы' : `${available.length} код(ов)`;
+                    promoStatus.style.color = available.length === 0 ? 'var(--red)' : 'var(--green)'; } const promoBtn =
+                    document.getElementById('promoCaseBtn'); if (promoBtn) promoBtn.disabled = available.length ===
+                0; }
+            document.getElementById('promoCloseBtn')?.addEventListener('click', () => document.getElementById('promoModal')
                 .style.display = 'none');
-            document.getElementById('promoSubmitBtn').addEventListener('click', () => { const code = document.getElementById(
+            document.getElementById('promoSubmitBtn')?.addEventListener('click', () => { const code = document.getElementById(
                     'promoCodeInput').value.trim(); const msg = document.getElementById('promoMessage'); if (!code) { msg
                     .textContent = '❌ Введите код';
                     msg.className = 'error-text'; return; } if (usedPromoCodes.includes(code)) { msg.textContent =
@@ -2761,17 +3001,17 @@
                     openFn = null; if (caseType === 'common-case') { title = 'Обычный кейс';
                     icon = '📦';
                     price = '50 ⭐';
-                    items = [{ name: 'Звёзды', icon: '⭐', value: '10-55', chance: '100%' }];
+                    items = [{ name: 'Звёзды', icon: '⭐', value: '1-100', chance: '100%' }];
                     openFn = () => { casePreviewOverlay.classList.remove('active');
                     openCaseCommon('common'); }; } else if (caseType === 'rare-case') { title = 'Редкий кейс';
                     icon = '💎';
                     price = '200 ⭐';
-                    items = [{ name: 'Звёзды', icon: '⭐', value: '100-210', chance: '100%' }];
+                    items = [{ name: 'Звёзды', icon: '⭐', value: '1-400', chance: '100%' }];
                     openFn = () => { casePreviewOverlay.classList.remove('active');
                     openCaseCommon('rare'); }; } else if (caseType === 'epic-case') { title = 'Эпический кейс';
                     icon = '🔥';
                     price = '500 ⭐';
-                    items = [{ name: 'Звёзды', icon: '⭐', value: '300-520', chance: '100%' }];
+                    items = [{ name: 'Звёзды', icon: '⭐', value: '50-1200', chance: '100%' }];
                     openFn = () => { casePreviewOverlay.classList.remove('active');
                     openCaseCommon('epic'); }; } else if (caseType === 'legendary-case') { title = 'Легендарный кейс';
                     icon = '👑';
@@ -2824,16 +3064,16 @@
                     casePreviewOverlay.classList.remove('active'); } });
 
             function renderCaseGrid(collection) { let html = ''; if (collection === 'common') { html +=
-                    `<div class="case-card gold-border"><div class="case-icon">🎁</div><div class="case-name" style="color:#b8860b;">Ежедневный</div><div class="case-price free">Бесплатно</div><button id="dailyCaseBtn">Забрать</button></div><div class="case-card purple-border"><div class="case-icon">🔑</div><div class="case-name" style="color:#8b5cf6;">Промо</div><div class="case-price stars">🎟️ Код</div><button class="promo-btn" id="promoCaseBtn">Ввести код</button><span class="case-tag" id="promoStatus">доступен</span></div><div class="case-card"><div class="case-icon">📦</div><div class="case-name">Обычный</div><div class="case-price stars">50 ⭐</div><button class="preview-trigger-btn" data-preview="common-case">Открыть</button></div><div class="case-card purple-border"><div class="case-icon">💎</div><div class="case-name" style="color:#8b5cf6;">Редкий</div><div class="case-price stars">200 ⭐</div><button class="preview-trigger-btn" data-preview="rare-case">Открыть</button></div><div class="case-card orange-border"><div class="case-icon">🔥</div><div class="case-name" style="color:#f9733e;">Эпический</div><div class="case-price stars">500 ⭐</div><button class="preview-trigger-btn" data-preview="epic-case">Открыть</button></div><div class="case-card gold-border"><div class="case-icon">👑</div><div class="case-name" style="color:#b8860b;">Легендарный</div><div class="case-price stars">1500 ⭐</div><button class="preview-trigger-btn" data-preview="legendary-case">Открыть</button></div><div class="case-card unique-border"><div class="case-rarity" style="color:#ef4444;">ULTRA</div><div class="case-icon">🌟</div><div class="case-name" style="color:#ef4444;">Уникальный</div><div class="case-price stars">8.000 ⭐</div><button class="unique-btn preview-trigger-btn" data-preview="unique-case">Открыть</button><span class="case-tag">Джекпот 530K!</span></div><div class="case-card" style="border-color:rgba(139,92,246,0.4);"><div class="case-icon">🌀</div><div class="case-name" style="color:#8b5cf6;">Бурмалда</div><div class="case-price stars">300 ⭐</div><button class="burmalda-btn preview-trigger-btn" data-preview="burmalda-case">Открыть</button></div>`; } else if (collection === 'limited') { html =
+                    `<div class="case-card gold-border"><div class="case-icon">🎁</div><div class="case-name" style="color:#b8860b;">Ежедневный</div><div class="case-price free">Бесплатно</div><button id="dailyCaseBtn" class="preview-trigger-btn" data-preview="daily-case">Забрать</button></div><div class="case-card purple-border"><div class="case-icon">🔑</div><div class="case-name" style="color:#8b5cf6;">Промо</div><div class="case-price stars">🎟️ Код</div><button class="promo-btn" id="promoCaseBtn">Ввести код</button><span class="case-tag" id="promoStatus">доступен</span></div><div class="case-card"><div class="case-icon">📦</div><div class="case-name">Обычный</div><div class="case-price stars">50 ⭐</div><button class="preview-trigger-btn" data-preview="common-case">Открыть</button></div><div class="case-card purple-border"><div class="case-icon">💎</div><div class="case-name" style="color:#8b5cf6;">Редкий</div><div class="case-price stars">200 ⭐</div><button class="preview-trigger-btn" data-preview="rare-case">Открыть</button></div><div class="case-card orange-border"><div class="case-icon">🔥</div><div class="case-name" style="color:#f9733e;">Эпический</div><div class="case-price stars">500 ⭐</div><button class="preview-trigger-btn" data-preview="epic-case">Открыть</button></div><div class="case-card gold-border"><div class="case-icon">👑</div><div class="case-name" style="color:#b8860b;">Легендарный</div><div class="case-price stars">1500 ⭐</div><button class="preview-trigger-btn" data-preview="legendary-case">Открыть</button></div><div class="case-card unique-border"><div class="case-rarity" style="color:#ef4444;">ULTRA</div><div class="case-icon">🌟</div><div class="case-name" style="color:#ef4444;">Уникальный</div><div class="case-price stars">8.000 ⭐</div><button class="unique-btn preview-trigger-btn" data-preview="unique-case">Открыть</button><span class="case-tag">Джекпот 530K!</span></div><div class="case-card" style="border-color:rgba(139,92,246,0.4);"><div class="case-icon">🌀</div><div class="case-name" style="color:#8b5cf6;">Бурмалда</div><div class="case-price stars">300 ⭐</div><button class="burmalda-btn preview-trigger-btn" data-preview="burmalda-case">Открыть</button></div>`; } else if (collection === 'limited') { html =
                     `<div class="case-card velodrun-border"><div class="case-rarity" style="color:#06b6d4;">LIMITED</div><div class="case-icon">🚲</div><div class="case-name" style="color:#0891b2;">ВелоДрун</div><div class="case-price stars">500 ⭐</div><button class="velodrun-btn preview-trigger-btn" data-preview="velodrun-case">Открыть</button><span class="case-tag">Джекпот 720K!</span></div>`; } else if (collection === 'unique') { html =
                     '<div class="empty-feed">Уникальные кейсы появятся позже</div>'; }
                 caseGrid.innerHTML = html; if (collection === 'common') { document.getElementById('dailyCaseBtn')
-                    ?.addEventListener('click', () => { showCasePreview('daily-case'); });
-                    document.getElementById('promoCaseBtn')?.addEventListener('click', () => { if (isBlockedCheck())
-                            return;
-                        document.getElementById('promoCodeInput').value = '';
-                        document.getElementById('promoMessage').textContent = '';
-                        document.getElementById('promoModal').style.display = 'flex'; });
+                    ?.addEventListener('click', () => { showCasePreview('daily-case'); }); const promoBtn = document
+                        .getElementById('promoCaseBtn'); if (promoBtn) { promoBtn.addEventListener('click', () => { if (
+                                isBlockedCheck()) return;
+                            document.getElementById('promoCodeInput').value = '';
+                            document.getElementById('promoMessage').textContent = '';
+                            document.getElementById('promoModal').style.display = 'flex'; }); }
                     updatePromoStatus(); }
                 document.querySelectorAll('.preview-trigger-btn').forEach(btn => { btn.addEventListener('click',
                     function() { const previewType = this.dataset.preview; if (previewType) { showCasePreview(
@@ -2967,6 +3207,7 @@
             drawSpinWheel();
 
             const subscribeGoBtn = document.getElementById('subscribeGoBtn');
+            const checkSubBtn = document.getElementById('checkSubBtn');
             const subscribeStatus = document.getElementById('subscribeStatus');
             const subscribeTaskCard = document.getElementById('subscribeTaskCard');
             const refCountEl = document.getElementById('refCount');
@@ -2978,10 +3219,12 @@
 
             function updateTasksUI() { if (subscriptionVerified) { subscribeTaskCard.classList.add('completed');
                     subscribeGoBtn.style.display = 'none';
+                    checkSubBtn.style.display = 'none';
                     subscribeStatus.textContent = '✅ Задание выполнено! +5 ⭐ получено';
                     subscribeStatus.style.color = 'var(--green)'; } else { subscribeTaskCard.classList.remove(
                     'completed');
                     subscribeGoBtn.style.display = 'block';
+                    checkSubBtn.style.display = 'block';
                     subscribeStatus.textContent = ''; }
                 refCountEl.textContent = referralCount;
                 refEarningsEl.textContent = `${referralEarnings} ⭐`; }
@@ -2989,8 +3232,19 @@
             subscribeGoBtn.addEventListener('click', () => { if (subscriptionVerified) return;
                 pendingSubscription = true;
                 tg.openTelegramLink('https://t.me/CrashGiftSpin');
-                subscribeStatus.textContent = '👆 Подпишитесь на канал и вернитесь в приложение';
+                subscribeStatus.textContent = '👆 Подпишитесь на канал и нажмите "Проверить подписку"';
                 subscribeStatus.style.color = 'var(--accent-blue)'; });
+            checkSubBtn.addEventListener('click', () => { if (subscriptionVerified) return; if (pendingSubscription) {
+                    pendingSubscription = false;
+                    subscriptionVerified = true; if (!isDemoMode) { stars += 5;
+                    updateBalanceUI(); }
+                    persistGameData();
+                    updateTasksUI();
+                    addFeedItem(userName, 'подписка на канал', 5, 'win', '📢');
+                    subscribeStatus.textContent = '✅ Подписка подтверждена! +5 ⭐';
+                    subscribeStatus.style.color = 'var(--green)'; } else { subscribeStatus.textContent =
+                        '👆 Сначала нажмите "Перейти в канал" и подпишитесь';
+                    subscribeStatus.style.color = 'var(--accent-blue)'; } });
             document.addEventListener('visibilitychange', () => { if (!document.hidden && pendingSubscription && !
                     subscriptionVerified) { pendingSubscription = false;
                     subscriptionVerified = true; if (!isDemoMode) { stars += 5;
@@ -3016,8 +3270,7 @@
                     document.getElementById(btn.dataset.tab + 'Tab').classList.add('active'); if (btn.dataset.tab ===
                         'cases') { renderCaseGrid(activeCollection); } if (btn.dataset.tab === 'inventory')
                     renderInventory(); if (btn.dataset.tab === 'admin') renderAdminPanel(); if (btn.dataset.tab ===
-                        'spin') drawSpinWheel(); if (btn.dataset.tab === 'tasks') { updateTasksUI(); const u =
-                            getCurrentUserData();
+                        'spin') drawSpinWheel(); if (btn.dataset.tab === 'tasks') { const u = getCurrentUserData();
                         referralCount = u.referralCount || 0;
                         referralEarnings = u.referralEarnings || 0;
                         updateTasksUI(); } }); });
@@ -3027,10 +3280,17 @@
             document.getElementById('avatar').addEventListener('click', openProfile);
 
             function openProfile() { document.getElementById('profileName').textContent = userName;
-                document.getElementById('profileBalance').textContent = `⭐ ${stars}`;
+                document.getElementById('profileBalance').textContent = `⭐ ${stars}`; const themeBtn = document
+                    .getElementById('profileThemeBtn');
+                themeBtn.textContent = getTheme() === 'light' ? '🌙 Тёмная тема' : '☀️ Светлая тема';
                 profileModal.style.display = 'flex'; }
             document.getElementById('closeProfileBtn').addEventListener('click', () => profileModal.style.display =
             'none');
+            document.getElementById('profileThemeBtn').addEventListener('click', () => { toggleTheme(); const themeBtn =
+                    document.getElementById('profileThemeBtn');
+                themeBtn.textContent = getTheme() === 'light' ? '🌙 Тёмная тема' : '☀️ Светлая тема';
+                profileModal.style.display = 'none';
+                setTimeout(() => { profileModal.style.display = 'flex'; }, 100); });
             document.getElementById('profileDepositBtn').addEventListener('click', () => { profileModal.style.display =
                     'none';
                 document.getElementById('depositModal').style.display = 'flex';
@@ -3101,15 +3361,19 @@
                     0) { purchaseWithTelegramStars(starsCount); } }); });
 
             function renderAdminPanel() { if (!isAdmin) return; const panel = document.getElementById('adminPanel'); let all =
-                    loadAllUsers().filter(u => !u.isBot); const searchTerm = document.getElementById('adminSearch')?.value
-                    ?.toLowerCase() || ''; const filtered = all.filter(u => (u.name || '').toLowerCase().includes(
-                        searchTerm) || (u.id || '').includes(searchTerm)); const totalUsers = all.length; const totalStars =
-                    all.reduce((sum, u) => sum + (u.stars || 0), 0); const blockedCount = all.filter(u => u.blocked).length;
+                    loadAllUsers(); const searchTerm = document.getElementById('adminSearch')?.value?.toLowerCase() || '';
+                const realUsers = all.filter(u => !u.isBot);
+                const botUsers = all.filter(u => u.isBot);
+                const filtered = all.filter(u => (u.name || '').toLowerCase().includes(searchTerm) || (u.id || '')
+                    .includes(searchTerm)); const totalUsers = realUsers.length; const totalStars = realUsers.reduce((sum,
+                        u) => sum + (u.stars || 0), 0); const blockedCount = realUsers.filter(u => u.blocked).length;
                 let html =
-                    `<h3>🛡️ Админ-панель</h3><div class="admin-stats"><div class="stat-card"><span class="num">${totalUsers}</span><span class="label">игроков</span></div><div class="stat-card"><span class="num">⭐${totalStars.toLocaleString()}</span><span class="label">всего звёзд</span></div><div class="stat-card"><span class="num">${blockedCount}</span><span class="label">заблок.</span></div></div><input type="text" id="adminSearch" class="search-box" placeholder="Поиск по нику или ID" value="${searchTerm}" oninput="renderAdminPanel()"><div class="admin-user-list">`; if (
-                    filtered.length === 0) html += '<div class="empty-feed">Пользователи не найдены</div>'; else filtered
-                    .forEach(u => { html +=
-                        `<div class="admin-user-item"><div class="user-info"><span>${u.name}</span><span class="badge">ID:${u.id}</span>${u.blocked ? ' 🚫' : ''}<span class="badge">⭐${(u.stars || 0).toLocaleString()}</span><span class="badge">🎮${u.totalGames || 0}</span></div><div class="actions"><button class="gold" onclick="adminGiveStars('${u.id}')">⭐ Выдать</button><button onclick="adminBlockUser('${u.id}')" class="${u.blocked ? '' : 'danger'}">${u.blocked ? '🔓 Разблок.' : '🚫 Блок'}</button><button onclick="adminWriteUser('${u.id}')">💬</button></div></div>`; });
+                    `<h3>🛡️ Админ-панель</h3><div class="admin-stats"><div class="stat-card"><span class="num">${totalUsers}</span><span class="label">игроков</span></div><div class="stat-card"><span class="num">⭐${totalStars.toLocaleString()}</span><span class="label">всего звёзд</span></div><div class="stat-card"><span class="num">${blockedCount}</span><span class="label">заблок.</span></div><div class="stat-card"><span class="num">${botUsers.length}</span><span class="label">ботов</span></div></div><input type="text" id="adminSearch" class="search-box" placeholder="Поиск по нику или ID" value="${searchTerm}" oninput="renderAdminPanel()"><div class="admin-user-list">`;
+                if (filtered.length === 0) html +=
+                    '<div class="empty-feed">Пользователи не найдены</div>'; else filtered.forEach(u => { const isBot = u
+                        .isBot || false;
+                    html +=
+                        `<div class="admin-user-item"><div class="user-info"><span>${u.name}</span>${isBot ? ' 🤖' : ''}<span class="badge">ID:${u.id}</span>${u.blocked ? ' 🚫' : ''}<span class="badge">⭐${(u.stars || 0).toLocaleString()}</span><span class="badge">🎮${u.totalGames || 0}</span></div><div class="actions"><button class="gold" onclick="adminGiveStars('${u.id}')">⭐ Выдать</button>${!isBot ? `<button onclick="adminBlockUser('${u.id}')" class="${u.blocked ? '' : 'danger'}">${u.blocked ? '🔓 Разблок.' : '🚫 Блок'}</button>` : ''}<button onclick="adminWriteUser('${u.id}')">💬</button></div></div>`; });
                 html +=
                     `</div><div class="broadcast-area"><textarea id="broadcastMsg" placeholder="Текст рассылки"></textarea><div class="btn-row"><button class="btn-broadcast" onclick="adminBroadcast()" style="background:var(--accent-blue);">📢 Разослать</button><button class="btn-reset" onclick="adminResetGame()" style="background:var(--red);">🔥 Обнулить игру</button></div></div>`;
                 panel.innerHTML = html; }
@@ -3121,13 +3385,12 @@
                     renderAdminPanel();
                     alert(`Выдано ${amount}⭐ пользователю ${user.name}`); } };
             window.adminBlockUser = function(targetId) { let all = loadAllUsers(); const user = all.find(u => u.id ===
-                    targetId); if (user) { user.blocked = !user.blocked;
+                    targetId); if (user && !user.isBot) { user.blocked = !user.blocked;
                     saveAllUsers(all); if (targetId === userId) { currentUser.blocked = user.blocked; if (user.blocked)
                             alert('🚫 Вы были заблокированы.'); }
                     renderAdminPanel(); } };
             window.adminWriteUser = function(targetId) { if (targetId.startsWith('bot_')) { alert(
-                    'Это бот-пользователь (демо)'); return; }
-                tg.openTelegramLink(`https://t.me/${targetId}`); };
+                    'Это бот-пользователь (демо)'); return; } tg.openTelegramLink(`https://t.me/${targetId}`); };
             window.adminBroadcast = function() { const msg = document.getElementById('broadcastMsg')?.value.trim(); if (!msg)
                     return;
                 localStorage.setItem(BROADCAST_KEY, msg);
@@ -3139,6 +3402,7 @@
                     localStorage.removeItem(ACTIVITY_FEED_KEY);
                     localStorage.removeItem(BROADCAST_KEY);
                     localStorage.removeItem(REFERRALS_KEY);
+                    localStorage.removeItem(REFERRAL_PROCESSED_KEY);
                     location.reload(); } };
 
             initNebulaParticles(crashCanvas.width, crashCanvas.height);
@@ -3151,7 +3415,7 @@
             updateTasksUI();
             renderCaseGrid('common');
             startBreak();
-            console.log('🎁 Crush Gift Spin обновлён: новый дизайн, ВелоДрун кейс, превью кейсов, анимация звезды');
+            console.log('🎁 Crush Gift Spin обновлён: темы, кейсы, оверлей-контролы, рефералы, админ-панель');
         })();
     </script>
 </body>
