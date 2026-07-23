@@ -1576,17 +1576,17 @@
             </div>
             <div class="spin-result" id="spinResult">🎡 Испытай удачу!</div>
             <div class="spin-info-card">
-                <div class="spin-cost">50 ⭐ <small>за прокрутку</small></div>
+                <div class="spin-cost">500 ⭐ <small>за прокрутку</small></div>
                 <button class="btn btn-gold" id="spinBtn" style="width:100%; font-size:15px; padding:12px;">🎰 Крутить колесо</button>
             </div>
             <div class="spin-prizes-grid">
-                <span class="spin-prize-chip">5 ⭐</span>
-                <span class="spin-prize-chip">10 ⭐</span>
-                <span class="spin-prize-chip">25 ⭐</span>
-                <span class="spin-prize-chip">40 ⭐</span>
-                <span class="spin-prize-chip rare-prize">50 ⭐</span>
-                <span class="spin-prize-chip rare-prize">100 ⭐</span>
-                <span class="spin-prize-chip rare-prize" style="background:rgba(255,215,0,0.2);border-color:#ffd700;">250 ⭐</span>
+                <span class="spin-prize-chip">50 ⭐</span>
+                <span class="spin-prize-chip">100 ⭐</span>
+                <span class="spin-prize-chip">250 ⭐</span>
+                <span class="spin-prize-chip">400 ⭐</span>
+                <span class="spin-prize-chip rare-prize">500 ⭐</span>
+                <span class="spin-prize-chip rare-prize">1000 ⭐</span>
+                <span class="spin-prize-chip rare-prize" style="background:rgba(255,215,0,0.2);border-color:#ffd700;">2500 ⭐</span>
             </div>
         </div>
     </div>
@@ -2558,7 +2558,7 @@
 
             // ── Cases Logic ──
             const casesConfig = {
-                common: { price: 10, min: 1, max: 10 },
+                common: { price: 50, min: 10, max: 55 },
                 rare: { price: 200, min: 100, max: 210 },
                 epic: { price: 500, min: 300, max: 520 }
             };
@@ -2567,28 +2567,6 @@
                 if (isBlockedCheck()) return;
                 const cfg = casesConfig[type];
                 if (!cfg) return;
-                if (type === 'common') {
-                    // Обычный кейс: цена 10, шанс 0.1% на 10 звёзд, иначе от 1 до 9.
-                    if (!isDemoMode && stars < cfg.price) { alert('Недостаточно звёзд!'); return; }
-                    let reward;
-                    if (Math.random() < 0.001) {
-                        reward = 10; // максимум
-                    } else {
-                        reward = Math.floor(Math.random() * 9) + 1; // 1..9
-                    }
-                    if (!isDemoMode) {
-                        stars -= cfg.price;
-                        stars += reward;
-                        updateBalanceUI();
-                        persistGameData();
-                        addFeedItem(userName, 'кейс', reward, 'win', '📦');
-                        showCaseAnimation(reward, 'Обычный кейс');
-                    } else {
-                        showCaseAnimation(reward, 'Демо-обычный кейс');
-                    }
-                    return;
-                }
-                // Остальные типы остаются без изменений
                 if (!isDemoMode && stars < cfg.price) { alert('Недостаточно звёзд!'); return; }
                 if (!isDemoMode) {
                     stars -= cfg.price;
@@ -2604,8 +2582,7 @@
                 }
             }
 
-            // Ежедневный кейс: максимум 5 звёзд, шанс 70% на 2 звезды, иначе случайная из (1,3,4,5)
-            const dailyCaseBtn = document.getElementById('dailyCaseBtn');
+            const dailyBtn = document.getElementById('dailyCaseBtn');
             if (dailyBtn) {
                 dailyBtn.addEventListener('click', () => {
                     if (isBlockedCheck()) return;
@@ -2618,17 +2595,9 @@
                         alert(`⏳ Следующий через ${hours}ч ${mins}м`);
                         return;
                     }
-                    let reward;
-                    if (Math.random() < 0.7) {
-                        reward = 2;
-                    } else {
-                        const other = [1, 3, 4, 5];
-                        reward = other[Math.floor(Math.random() * other.length)];
-                    }
-                    if (!isDemoMode) { 
-                        stars += reward;
-                        updateBalanceUI(); 
-                    }
+                    const reward = Math.floor(Math.random() * 15) + 1;
+                    if (!isDemoMode) { stars += reward;
+                        updateBalanceUI(); }
                     lastDailyClaim = now;
                     persistGameData();
                     addFeedItem(userName, 'ежедневный кейс', reward, 'win', '🎁');
@@ -2946,7 +2915,7 @@
                 <div class="case-card">
                   <div class="case-icon">📦</div>
                   <div class="case-name" style="color:#4a8ab5;">Обычный</div>
-                  <div class="case-price stars">10 ⭐</div>
+                  <div class="case-price stars">50 ⭐</div>
                   <button onclick="openCaseCommon('common')">Открыть</button>
                 </div>
                 <div class="case-card purple-border">
@@ -2989,36 +2958,25 @@
                 caseGrid.innerHTML = html;
                 // re-attach event listeners for dynamic buttons
                 if (collection === 'common') {
-                    const dailyBtnNew = document.getElementById('dailyCaseBtn');
-                    if (dailyBtnNew) {
-                        dailyBtnNew.addEventListener('click', () => {
-                            if (isBlockedCheck()) return;
-                            const now = Date.now();
-                            const oneDay = 24 * 60 * 60 * 1000;
-                            if (now - lastDailyClaim < oneDay) {
-                                const remaining = oneDay - (now - lastDailyClaim);
-                                const hours = Math.floor(remaining / (60 * 60 * 1000));
-                                const mins = Math.floor((remaining % (60 * 60 * 1000)) / (60 * 1000));
-                                alert(`⏳ Следующий через ${hours}ч ${mins}м`);
-                                return;
-                            }
-                            let reward;
-                            if (Math.random() < 0.7) {
-                                reward = 2;
-                            } else {
-                                const other = [1, 3, 4, 5];
-                                reward = other[Math.floor(Math.random() * other.length)];
-                            }
-                            if (!isDemoMode) { 
-                                stars += reward;
-                                updateBalanceUI(); 
-                            }
-                            lastDailyClaim = now;
-                            persistGameData();
-                            addFeedItem(userName, 'ежедневный кейс', reward, 'win', '🎁');
-                            showCaseAnimation(reward, 'Ежедневный кейс');
-                        });
-                    }
+                    document.getElementById('dailyCaseBtn')?.addEventListener('click', () => {
+                        if (isBlockedCheck()) return;
+                        const now = Date.now();
+                        const oneDay = 24 * 60 * 60 * 1000;
+                        if (now - lastDailyClaim < oneDay) {
+                            const remaining = oneDay - (now - lastDailyClaim);
+                            const hours = Math.floor(remaining / (60 * 60 * 1000));
+                            const mins = Math.floor((remaining % (60 * 60 * 1000)) / (60 * 1000));
+                            alert(`⏳ Следующий через ${hours}ч ${mins}м`);
+                            return;
+                        }
+                        const reward = Math.floor(Math.random() * 15) + 1;
+                        if (!isDemoMode) { stars += reward;
+                            updateBalanceUI(); }
+                        lastDailyClaim = now;
+                        persistGameData();
+                        addFeedItem(userName, 'ежедневный кейс', reward, 'win', '🎁');
+                        showCaseAnimation(reward, 'Ежедневный кейс');
+                    });
                     document.getElementById('promoCaseBtn')?.addEventListener('click', () => {
                         if (isBlockedCheck()) return;
                         document.getElementById('promoCodeInput').value = '';
@@ -3048,13 +3006,13 @@
             const spinBtn = document.getElementById('spinBtn');
 
             const spinPrizes = [
-                { value: 5, prob: 0.35, color: '#4a9cf7', label: '5' },
-                { value: 10, prob: 0.30, color: '#16c95a', label: '10' },
-                { value: 25, prob: 0.20, color: '#f39c12', label: '25' },
-                { value: 40, prob: 0.1497, color: '#b388ff', label: '40' },
-                { value: 50, prob: 0.0001, color: '#f0b90b', label: '50' },
-                { value: 100, prob: 0.0001, color: '#ff4444', label: '100' },
-                { value: 250, prob: 0.0001, color: '#ffffff', label: '250' }
+                { value: 50, prob: 0.35, color: '#4a9cf7', label: '50' },
+                { value: 100, prob: 0.30, color: '#16c95a', label: '100' },
+                { value: 250, prob: 0.20, color: '#f39c12', label: '250' },
+                { value: 400, prob: 0.1497, color: '#b388ff', label: '400' },
+                { value: 500, prob: 0.0001, color: '#f0b90b', label: '500' },
+                { value: 1000, prob: 0.0001, color: '#ff4444', label: '1000' },
+                { value: 2500, prob: 0.0001, color: '#ffffff', label: '2500' }
             ];
 
             let spinAngle = 0;
@@ -3155,13 +3113,13 @@
             function spinTheWheel() {
                 if (isSpinning) return;
                 if (isBlockedCheck()) return;
-                if (!isDemoMode && stars < 50) {
-                    spinResult.textContent = '❌ Недостаточно звёзд! Нужно 50 ⭐';
+                if (!isDemoMode && stars < 500) {
+                    spinResult.textContent = '❌ Недостаточно звёзд! Нужно 500 ⭐';
                     spinResult.style.color = 'var(--red)';
                     return;
                 }
                 if (!isDemoMode) {
-                    stars -= 50;
+                    stars -= 500;
                     updateBalanceUI();
                     persistGameData();
                 }
@@ -3465,7 +3423,7 @@
             updateTasksUI();
             renderCaseGrid('common');
             startBreak();
-            console.log('🎁 Crush Gift Spin обновлён: кейсы 10⭐, ежедневный 2⭐ (70%), спин 50⭐');
+            console.log('🎁 Crush Gift Spin обновлён: коллекции, фикс кейсов, спин, задания, админ без ботов');
         })();
     </script>
 </body>
