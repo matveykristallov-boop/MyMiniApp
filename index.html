@@ -912,6 +912,11 @@
         }
         .modal-content .btn-telegram {
             background: var(--accent-blue);
+            box-shadow: 0 2px 8px rgba(74, 124, 247, 0.3);
+        }
+        .modal-content .btn-telegram:active {
+            transform: scale(0.96);
+            filter: brightness(0.85);
         }
         .modal-content .error-text {
             color: var(--red);
@@ -924,6 +929,25 @@
             font-size: 12px;
             text-align: center;
             min-height: 18px;
+        }
+        .deposit-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin: 6px 0;
+        }
+        .deposit-grid .btn {
+            font-size: 13px;
+            padding: 10px 6px;
+            min-height: 44px;
+            min-width: unset;
+            width: 100%;
+        }
+        .deposit-status {
+            font-size: 12px;
+            text-align: center;
+            min-height: 20px;
+            color: var(--text-secondary);
         }
         .case-overlay {
             display: none;
@@ -1093,9 +1117,6 @@
             cursor: pointer;
             transition: 0.1s;
             color: #fff;
-        }
-        .admin-panel .broadcast-area .btn-row button:active {
-            transform: scale(0.96);
         }
         .admin-panel .broadcast-area .btn-row .btn-broadcast {
             background: var(--accent-blue);
@@ -1487,6 +1508,15 @@
                 font-size: 9px;
                 padding: 4px 2px;
             }
+            .deposit-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 6px;
+            }
+            .deposit-grid .btn {
+                font-size: 11px;
+                padding: 8px 4px;
+                min-height: 36px;
+            }
         }
     </style>
 </head>
@@ -1655,18 +1685,28 @@
             <button class="btn btn-cancel" id="closeProfileBtn">✕ Закрыть</button>
         </div>
     </div>
+
+    <!-- Deposit Modal (updated with Telegram Stars purchase) -->
     <div class="modal" id="depositModal">
         <div class="modal-content">
-            <div class="modal-title">💰 Пополнение</div>
-            <div class="modal-sub">Введите сумму звёзд</div>
-            <input type="number" id="depositAmount" placeholder="Сумма ⭐" min="1" step="1">
-            <div class="btn-row">
-                <button class="btn btn-primary" id="simulateDepositBtn">Демо-пополнение</button>
-                <button class="btn btn-telegram" id="telegramDepositBtn">Telegram</button>
+            <div class="modal-title">💰 Пополнение звёздами</div>
+            <div class="modal-sub">Курс: 1 ⭐ Telegram = 2 ⭐ в игре</div>
+            <div class="deposit-grid">
+                <button class="btn btn-telegram" data-stars="5">5 ⭐ → 10 ⭐</button>
+                <button class="btn btn-telegram" data-stars="10">10 ⭐ → 20 ⭐</button>
+                <button class="btn btn-telegram" data-stars="25">25 ⭐ → 50 ⭐</button>
+                <button class="btn btn-telegram" data-stars="50">50 ⭐ → 100 ⭐</button>
+                <button class="btn btn-telegram" data-stars="100">100 ⭐ → 200 ⭐</button>
+                <button class="btn btn-telegram" data-stars="250">250 ⭐ → 500 ⭐</button>
             </div>
-            <button class="btn btn-cancel" id="closeDepositBtn">Отмена</button>
+            <div class="deposit-status" id="depositStatus">Выберите сумму для покупки</div>
+            <div style="display:flex; gap:8px;">
+                <button class="btn btn-primary" id="simulateDepositBtn" style="flex:1;">Демо-пополнение</button>
+                <button class="btn btn-cancel" id="closeDepositBtn" style="flex:1;">Отмена</button>
+            </div>
         </div>
     </div>
+
     <div class="modal" id="withdrawModal">
         <div class="modal-content">
             <div class="modal-title">💸 Вывод</div>
@@ -3283,6 +3323,7 @@
             document.getElementById('profileDepositBtn').addEventListener('click', () => {
                 profileModal.style.display = 'none';
                 document.getElementById('depositModal').style.display = 'flex';
+                document.getElementById('depositStatus').textContent = 'Выберите сумму для покупки';
             });
             document.getElementById('profileWithdrawBtn').addEventListener('click', () => {
                 profileModal.style.display = 'none';
@@ -3293,16 +3334,13 @@
             document.getElementById('closeDepositBtn').addEventListener('click', () => document.getElementById(
                 'depositModal').style.display = 'none');
             document.getElementById('simulateDepositBtn').addEventListener('click', () => {
-                const amount = parseInt(document.getElementById('depositAmount').value);
+                const amount = parseInt(prompt('Введите сумму для демо-пополнения:'));
                 if (!amount || amount <= 0) return;
                 stars += amount;
                 updateBalanceUI();
                 persistGameData();
                 document.getElementById('depositModal').style.display = 'none';
                 alert(`✅ Баланс пополнен на ${amount} ⭐ (демо)`);
-            });
-            document.getElementById('telegramDepositBtn').addEventListener('click', () => {
-                tg.openTelegramLink('https://t.me/CrushGiftSpin_bot?start=deposit');
             });
             document.getElementById('closeWithdrawBtn').addEventListener('click', () => document.getElementById(
                 'withdrawModal').style.display = 'none');
@@ -3318,11 +3356,108 @@
                 alert(`✅ Заявка на вывод ${amount} ⭐ отправлена.`);
             });
 
-            // ── Admin Panel (bots removed) ──
+            // ── Telegram Stars Payment Integration ──
+
+            let pendingStarsPurchase = null; // store amount of Telegram Stars being purchased
+
+            function purchaseWithTelegramStars(telegramStars) {
+                if (isBlockedCheck()) return;
+                if (!window.Telegram || !window.Telegram.WebApp) {
+                    alert('Это приложение работает только в Telegram.');
+                    return;
+                }
+                if (typeof Telegram.WebApp.openInvoice !== 'function') {
+                    alert('Платежи звёздами не поддерживаются в этой версии Telegram.');
+                    return;
+                }
+                if (telegramStars <= 0) return;
+
+                // store pending purchase for invoice_closed event
+                pendingStarsPurchase = telegramStars;
+                const description = `Купить ${telegramStars} ⭐ (Telegram) → ${telegramStars * 2} игровых звёзд`;
+                const payload = `buy_stars_${Date.now()}_${userId}`;
+
+                // Update status
+                document.getElementById('depositStatus').textContent = '⏳ Ожидание оплаты...';
+                document.getElementById('depositStatus').style.color = 'var(--accent-blue)';
+
+                try {
+                    Telegram.WebApp.openInvoice({
+                        currency: 'XTR',
+                        amount: telegramStars,
+                        description: description,
+                        payload: payload
+                    });
+                } catch (e) {
+                    console.error('Invoice error:', e);
+                    document.getElementById('depositStatus').textContent = '❌ Ошибка при открытии платежа';
+                    document.getElementById('depositStatus').style.color = 'var(--red)';
+                    pendingStarsPurchase = null;
+                }
+            }
+
+            // Listen for invoice closed event
+            if (window.Telegram && window.Telegram.WebApp && typeof Telegram.WebApp.onEvent === 'function') {
+                Telegram.WebApp.onEvent('invoice_closed', function(data) {
+                    console.log('Invoice closed:', data);
+
+                    if (data.status === 'paid' && pendingStarsPurchase) {
+                        const telegramStars = pendingStarsPurchase;
+                        const inGameStars = telegramStars * 2;
+
+                        // Credit in-game stars
+                        stars += inGameStars;
+                        updateBalanceUI();
+                        persistGameData();
+
+                        // Add feed item
+                        addFeedItem(userName, `покупка ${telegramStars} ⭐ Telegram`, inGameStars, 'win', '⭐');
+
+                        // Show animation
+                        showCaseAnimation(inGameStars, 'Покупка звёзд');
+
+                        // Update status
+                        document.getElementById('depositStatus').textContent =
+                            `✅ Успешно! +${inGameStars} ⭐ (${telegramStars} ⭐ Telegram)`;
+                        document.getElementById('depositStatus').style.color = 'var(--green)';
+
+                        pendingStarsPurchase = null;
+
+                        // Auto-close modal after a delay
+                        setTimeout(() => {
+                            document.getElementById('depositModal').style.display = 'none';
+                        }, 2000);
+
+                    } else if (data.status === 'failed' || data.status === 'cancelled') {
+                        document.getElementById('depositStatus').textContent =
+                            '❌ Платеж не завершён. Попробуйте снова.';
+                        document.getElementById('depositStatus').style.color = 'var(--red)';
+                        pendingStarsPurchase = null;
+                    } else {
+                        // Other status (e.g., 'pending')
+                        document.getElementById('depositStatus').textContent =
+                            '⏳ Статус: ' + (data.status || 'неизвестно');
+                    }
+                });
+            } else {
+                console.warn('Telegram WebApp onEvent not available');
+            }
+
+            // Attach listeners to deposit buttons
+            document.querySelectorAll('.deposit-grid .btn-telegram').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const starsCount = parseInt(this.dataset.stars);
+                    if (!isNaN(starsCount) && starsCount > 0) {
+                        purchaseWithTelegramStars(starsCount);
+                    }
+                });
+            });
+
+            // ── Admin Panel ──
             function renderAdminPanel() {
                 if (!isAdmin) return;
                 const panel = document.getElementById('adminPanel');
-                let all = loadAllUsers().filter(u => !u.isBot); // only real users
+                let all = loadAllUsers().filter(u => !u.isBot);
                 const searchTerm = document.getElementById('adminSearch')?.value?.toLowerCase() || '';
                 const filtered = all.filter(u =>
                     (u.name || '').toLowerCase().includes(searchTerm) ||
@@ -3423,7 +3558,7 @@
             updateTasksUI();
             renderCaseGrid('common');
             startBreak();
-            console.log('🎁 Crush Gift Spin обновлён: коллекции, фикс кейсов, спин, задания, админ без ботов');
+            console.log('🎁 Crush Gift Spin обновлён: интеграция с Telegram Stars (1:2)');
         })();
     </script>
 </body>
