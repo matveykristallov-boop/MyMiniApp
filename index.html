@@ -10,57 +10,65 @@
             padding: 0;
             box-sizing: border-box;
         }
+        :root {
+            --bg-deep: #06090f;
+            --bg-primary: #0b1018;
+            --bg-secondary: #111827;
+            --bg-tertiary: #1a2235;
+            --border: #1f2a3d;
+            --border-light: #2a374d;
+            --text-primary: #e9eef5;
+            --text-secondary: #8895b5;
+            --gold: #f0b90b;
+            --gold-bright: #fcd535;
+            --gold-dim: rgba(240, 185, 11, 0.1);
+            --green: #16c95a;
+            --green-bg: rgba(22, 201, 90, 0.1);
+            --red: #f44250;
+            --red-bg: rgba(244, 66, 80, 0.1);
+            --accent-blue: #4a7cf7;
+            --accent-blue-bg: rgba(74, 124, 247, 0.1);
+            --radius: 16px;
+            --radius-sm: 10px;
+            --radius-xs: 7px;
+            --font-mono: 'SF Mono', 'Cascadia Code', 'Consolas', monospace;
+        }
         body {
             font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
-            background: #0a0e13;
-            color: #e8edf5;
+            background: var(--bg-deep);
+            color: var(--text-primary);
             display: flex;
             flex-direction: column;
             height: 100vh;
             overflow: hidden;
             user-select: none;
-        }
-        :root {
-            --bg-primary: #0d1117;
-            --bg-secondary: #161b22;
-            --bg-tertiary: #1c2333;
-            --border: #2d3548;
-            --text-primary: #e8edf5;
-            --text-secondary: #8b95b0;
-            --gold: #f0b90b;
-            --gold-dim: rgba(240, 185, 11, 0.12);
-            --green: #1fbb5a;
-            --green-bg: rgba(31, 187, 90, 0.12);
-            --red: #e74c4c;
-            --red-bg: rgba(231, 76, 76, 0.12);
-            --accent-blue: #4a7cf7;
-            --radius: 14px;
-            --mult-blue: #4a7cf7;
-            --mult-green: #1fbb5a;
-            --mult-orange: #f39c12;
-            --mult-burgundy: #800020;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-font-smoothing: antialiased;
         }
         ::-webkit-scrollbar {
-            width: 3px;
+            width: 2px;
         }
         ::-webkit-scrollbar-thumb {
-            background: var(--border);
-            border-radius: 6px;
+            background: var(--border-light);
+            border-radius: 4px;
         }
         ::-webkit-scrollbar-track {
             background: transparent;
         }
 
+        /* Header */
         .header {
             background: var(--bg-secondary);
             border-bottom: 1px solid var(--border);
-            padding: 8px 14px;
+            padding: 10px 16px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             flex-shrink: 0;
-            min-height: 54px;
-            gap: 6px;
+            min-height: 52px;
+            gap: 8px;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
         }
         .header-left {
             display: flex;
@@ -71,20 +79,20 @@
         }
         .header-logo {
             font-weight: 800;
-            font-size: 16px;
-            background: linear-gradient(135deg, var(--gold), #f5d742);
+            font-size: 15px;
+            background: linear-gradient(135deg, #f0b90b, #fcd535, #f0b90b);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             white-space: nowrap;
-            letter-spacing: 0.3px;
+            letter-spacing: 0.2px;
         }
         .header-logo small {
             font-weight: 400;
-            font-size: 11px;
+            font-size: 10px;
             -webkit-text-fill-color: var(--text-secondary);
             background: none;
             color: var(--text-secondary);
-            margin-left: 4px;
+            margin-left: 3px;
         }
         .header-right {
             display: flex;
@@ -94,163 +102,76 @@
         }
         .balance-pill {
             background: var(--gold-dim);
-            color: var(--gold);
-            padding: 4px 14px;
-            border-radius: 30px;
+            color: var(--gold-bright);
+            padding: 5px 14px;
+            border-radius: 24px;
             font-weight: 700;
-            font-size: 15px;
+            font-size: 14px;
             white-space: nowrap;
-            border: 1px solid rgba(240, 185, 11, 0.15);
-        }
-        .avatar-sm,
-        .user-name-sm {
-            cursor: pointer;
-            transition: opacity 0.2s;
-        }
-        .avatar-sm:active,
-        .user-name-sm:active {
-            opacity: 0.7;
+            border: 1px solid rgba(240, 185, 11, 0.18);
+            letter-spacing: 0.2px;
         }
         .avatar-sm {
-            width: 32px;
-            height: 32px;
+            width: 30px;
+            height: 30px;
             border-radius: 50%;
             background: var(--accent-blue);
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 700;
-            font-size: 14px;
+            font-size: 13px;
             color: #fff;
             flex-shrink: 0;
+            cursor: pointer;
+            transition: transform 0.15s;
+            box-shadow: 0 0 0 2px rgba(74, 124, 247, 0.25);
+        }
+        .avatar-sm:active {
+            transform: scale(0.9);
         }
         .user-name-sm {
-            font-size: 13px;
-            color: var(--text-primary);
-            max-width: 80px;
+            font-size: 12px;
+            color: var(--text-secondary);
+            max-width: 70px;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
-        }
-
-        .top-wins {
-            background: var(--bg-secondary);
-            padding: 8px 14px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex-shrink: 0;
-            border-bottom: 1px solid var(--border);
-            overflow-x: auto;
-            flex-wrap: nowrap;
-        }
-        .top-wins-label {
-            font-size: 11px;
-            color: var(--text-secondary);
-            font-weight: 600;
-            white-space: nowrap;
-            letter-spacing: 0.5px;
-        }
-        .top-wins-list {
-            display: flex;
-            gap: 6px;
-            flex-wrap: nowrap;
-        }
-        .top-win-chip {
-            background: var(--bg-tertiary);
-            padding: 2px 10px;
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--gold);
-            border: 1px solid rgba(240, 185, 11, 0.08);
-            white-space: nowrap;
-        }
-        .top-win-chip.special {
-            background: rgba(240, 185, 11, 0.12);
-            border-color: rgba(240, 185, 11, 0.2);
-        }
-
-        .auto-bar {
-            background: var(--bg-secondary);
-            padding: 6px 14px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            flex-shrink: 0;
-            border-bottom: 1px solid var(--border);
-            flex-wrap: wrap;
-        }
-        .auto-bar .label {
-            font-size: 11px;
-            color: var(--text-secondary);
-            font-weight: 600;
-            letter-spacing: 0.3px;
-        }
-        .auto-bar .auto-value {
-            font-size: 14px;
-            font-weight: 700;
-            color: var(--gold);
-            background: var(--gold-dim);
-            padding: 1px 12px;
-            border-radius: 14px;
-            border: 1px solid rgba(240, 185, 11, 0.1);
-        }
-        .auto-bar .protection-tag {
-            font-size: 11px;
-            color: var(--text-secondary);
-            background: var(--bg-tertiary);
-            padding: 2px 12px;
-            border-radius: 14px;
-            border: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            gap: 4px;
             cursor: pointer;
+            font-weight: 500;
         }
-        .auto-bar .protection-tag.active {
-            border-color: var(--gold);
-            color: var(--gold);
-        }
-        .auto-bar .demo-tag {
-            font-size: 11px;
-            color: var(--text-secondary);
-            background: var(--bg-tertiary);
-            padding: 2px 12px;
-            border-radius: 14px;
-            border: 1px solid var(--border);
-            cursor: pointer;
-            margin-left: auto;
-        }
-        .auto-bar .demo-tag:active {
-            opacity: 0.6;
+        .user-name-sm:active {
+            opacity: 0.7;
         }
 
+        /* Tabs */
         .tabs {
             display: flex;
             background: var(--bg-secondary);
             border-bottom: 1px solid var(--border);
             flex-shrink: 0;
+            padding: 0 4px;
         }
         .tab-btn {
             flex: 1;
-            padding: 10px 6px;
+            padding: 10px 4px;
             background: transparent;
             border: none;
             color: var(--text-secondary);
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 600;
             cursor: pointer;
             border-bottom: 2px solid transparent;
             transition: all 0.2s;
             white-space: nowrap;
             text-align: center;
-            letter-spacing: 0.3px;
+            letter-spacing: 0.2px;
+            border-radius: 0;
         }
         .tab-btn.active {
-            color: var(--gold);
+            color: var(--gold-bright);
             border-bottom-color: var(--gold);
-            background: var(--bg-primary);
+            background: rgba(240, 185, 11, 0.03);
         }
         .tab-btn:active {
             opacity: 0.5;
@@ -267,43 +188,50 @@
             display: flex;
         }
 
+        /* Crash tab layout */
         .crash-container {
             display: flex;
             flex-direction: column;
             padding: 8px 10px;
-            gap: 6px;
+            gap: 7px;
             flex: 1;
-            overflow: hidden;
+            overflow-y: auto;
+            overflow-x: hidden;
         }
 
+        /* Canvas area */
         .diagram-wrap {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
-            padding: 2px 0;
+            padding: 4px 0;
             position: relative;
-        }
-        canvas#crashCanvas {
-            width: 100%;
-            max-width: 260px;
-            aspect-ratio: 1/1;
             background: var(--bg-secondary);
             border-radius: var(--radius);
             border: 1px solid var(--border);
+            overflow: hidden;
+        }
+        canvas#crashCanvas {
+            width: 100%;
+            max-width: 300px;
+            aspect-ratio: 1/1;
             display: block;
+            border-radius: var(--radius-sm);
         }
 
+        /* Status text under canvas */
         .info-text {
-            font-size: 14px;
-            color: var(--gold);
+            font-size: 13px;
+            color: var(--text-secondary);
             text-align: center;
-            min-height: 24px;
+            min-height: 20px;
             padding: 2px 4px;
             flex-shrink: 0;
             font-weight: 500;
             transition: color 0.3s;
+            letter-spacing: 0.3px;
         }
         .info-text.loss {
             color: var(--red);
@@ -315,6 +243,72 @@
             color: var(--accent-blue);
         }
 
+        /* Auto-bar */
+        .auto-bar {
+            background: var(--bg-secondary);
+            padding: 7px 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+            flex-wrap: wrap;
+        }
+        .auto-bar .label {
+            font-size: 10px;
+            color: var(--text-secondary);
+            font-weight: 600;
+            letter-spacing: 0.4px;
+            text-transform: uppercase;
+        }
+        .auto-bar .auto-value {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--gold-bright);
+            background: var(--gold-dim);
+            padding: 2px 10px;
+            border-radius: 14px;
+            border: 1px solid rgba(240, 185, 11, 0.15);
+            font-family: var(--font-mono);
+        }
+        .auto-bar .protection-tag {
+            font-size: 10px;
+            color: var(--text-secondary);
+            background: var(--bg-tertiary);
+            padding: 3px 10px;
+            border-radius: 14px;
+            border: 1px solid var(--border);
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+        .auto-bar .protection-tag.active {
+            border-color: var(--gold);
+            color: var(--gold-bright);
+            background: var(--gold-dim);
+        }
+        .auto-bar .demo-tag {
+            font-size: 10px;
+            color: var(--text-secondary);
+            background: var(--bg-tertiary);
+            padding: 3px 10px;
+            border-radius: 14px;
+            border: 1px solid var(--border);
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+            white-space: nowrap;
+            margin-left: auto;
+        }
+        .auto-bar .demo-tag.active-demo {
+            border-color: #f0b90b;
+            color: #f0b90b;
+            background: rgba(240, 185, 11, 0.08);
+        }
+
+        /* Controls */
         .controls-row {
             display: flex;
             flex-wrap: wrap;
@@ -329,37 +323,38 @@
         .controls-row .input-group {
             display: flex;
             flex-direction: column;
-            gap: 4px;
-            flex: 1 1 80px;
-            min-width: 70px;
+            gap: 3px;
+            flex: 1 1 70px;
+            min-width: 60px;
         }
         .controls-row .input-group label {
-            font-size: 10px;
+            font-size: 9px;
             color: var(--text-secondary);
-            font-weight: 600;
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.4px;
+            letter-spacing: 0.5px;
         }
         .controls-row .input-group input {
             background: var(--bg-primary);
             border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 8px 6px;
+            border-radius: var(--radius-xs);
+            padding: 7px 6px;
             color: var(--text-primary);
-            font-size: 15px;
+            font-size: 14px;
             outline: none;
             width: 100%;
-            min-height: 38px;
+            min-height: 36px;
             transition: border 0.2s;
+            font-weight: 500;
         }
         .controls-row .input-group input:focus {
             border-color: var(--gold);
+            box-shadow: 0 0 0 2px rgba(240, 185, 11, 0.08);
         }
         .controls-row .input-group input:disabled {
-            opacity: 0.4;
+            opacity: 0.35;
             cursor: not-allowed;
         }
-
         .controls-row .button-group {
             display: flex;
             gap: 6px;
@@ -367,67 +362,135 @@
             justify-content: flex-end;
             align-items: flex-end;
         }
-        .controls-row .btn {
+        .btn {
             border: none;
-            border-radius: 8px;
-            padding: 8px 14px;
+            border-radius: var(--radius-xs);
+            padding: 9px 16px;
             font-weight: 700;
             font-size: 13px;
             cursor: pointer;
             color: #fff;
             transition: all 0.15s;
-            min-height: 38px;
+            min-height: 36px;
             min-width: 70px;
             letter-spacing: 0.3px;
             white-space: nowrap;
+            position: relative;
+            overflow: hidden;
         }
         .btn:active {
-            transform: scale(0.97);
+            transform: scale(0.96);
+            filter: brightness(0.85);
         }
         .btn-primary {
             background: var(--green);
-        }
-        .btn-primary:active {
-            background: #17a84b;
-        }
-        .btn-cancel {
-            background: var(--red);
-        }
-        .btn-cancel:active {
-            background: #d43a3a;
+            box-shadow: 0 2px 12px rgba(22, 201, 90, 0.25);
         }
         .btn-gold {
-            background: var(--gold);
+            background: linear-gradient(135deg, #f0b90b, #e8a800);
             color: #0a0e13;
+            box-shadow: 0 2px 14px rgba(240, 185, 11, 0.3);
+            font-weight: 800;
         }
-        .btn-gold:active {
-            background: #dba40a;
+        .btn-accent {
+            background: var(--accent-blue);
+            box-shadow: 0 2px 12px rgba(74, 124, 247, 0.25);
         }
         .btn-outline {
             background: transparent;
-            border: 1px solid var(--gold);
-            color: var(--gold);
+            border: 1.5px solid var(--gold);
+            color: var(--gold-bright);
         }
-        .btn-outline:active {
-            background: var(--gold-dim);
+        .btn-cancel {
+            background: var(--red);
+            box-shadow: 0 2px 10px rgba(244, 66, 80, 0.2);
         }
         .btn-disabled {
-            background: #3a4055;
+            background: #2a3345;
             cursor: not-allowed;
-            opacity: 0.6;
+            opacity: 0.5;
             pointer-events: none;
+            box-shadow: none;
         }
-        .btn-scheduled {
-            background: var(--accent-blue);
+        .btn-scheduled-indicator {
+            background: var(--accent-blue-bg);
+            border: 1px solid var(--accent-blue);
+            color: var(--accent-blue);
+            font-size: 10px;
+            padding: 4px 10px;
+            border-radius: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.15s;
         }
-        .btn-scheduled:active {
-            background: #3a66d0;
+        .btn-scheduled-indicator:active {
+            background: rgba(244, 66, 80, 0.15);
+            border-color: var(--red);
+            color: var(--red);
         }
 
+        /* Crash history bar */
+        .crash-history-bar {
+            background: var(--bg-secondary);
+            padding: 7px 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-shrink: 0;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+            overflow-x: auto;
+            flex-wrap: nowrap;
+        }
+        .crash-history-bar .hist-label {
+            font-size: 10px;
+            color: var(--text-secondary);
+            font-weight: 600;
+            white-space: nowrap;
+            letter-spacing: 0.4px;
+            text-transform: uppercase;
+        }
+        .crash-history-bar .hist-list {
+            display: flex;
+            gap: 5px;
+            flex-wrap: nowrap;
+        }
+        .hist-chip {
+            padding: 2px 9px;
+            border-radius: 16px;
+            font-size: 12px;
+            font-weight: 700;
+            white-space: nowrap;
+            font-family: var(--font-mono);
+            border: 1px solid transparent;
+        }
+        .hist-chip.low {
+            background: rgba(74, 124, 247, 0.12);
+            color: #7ba4ff;
+            border-color: rgba(74, 124, 247, 0.2);
+        }
+        .hist-chip.mid {
+            background: rgba(22, 201, 90, 0.12);
+            color: #3ddb78;
+            border-color: rgba(22, 201, 90, 0.2);
+        }
+        .hist-chip.high {
+            background: rgba(240, 185, 11, 0.15);
+            color: #fcd535;
+            border-color: rgba(240, 185, 11, 0.25);
+        }
+        .hist-chip.crash {
+            background: rgba(244, 66, 80, 0.12);
+            color: #ff6b75;
+            border-color: rgba(244, 66, 80, 0.2);
+        }
+
+        /* Live feed */
         .live-feed {
             flex: 1;
-            min-height: 70px;
-            max-height: 140px;
+            min-height: 60px;
+            max-height: 130px;
             background: var(--bg-secondary);
             border-radius: var(--radius);
             border: 1px solid var(--border);
@@ -435,27 +498,28 @@
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            margin-top: 2px;
+            margin-top: 1px;
         }
         .live-feed-header {
             font-size: 10px;
             color: var(--text-secondary);
-            font-weight: 600;
-            padding-bottom: 4px;
+            font-weight: 700;
+            padding-bottom: 5px;
             border-bottom: 1px solid var(--border);
             flex-shrink: 0;
             display: flex;
             align-items: center;
             gap: 6px;
             letter-spacing: 0.5px;
+            text-transform: uppercase;
         }
         .live-feed-header .dot {
             display: inline-block;
-            width: 6px;
-            height: 6px;
+            width: 7px;
+            height: 7px;
             border-radius: 50%;
             background: var(--green);
-            animation: pulse-dot 1.2s ease-in-out infinite;
+            animation: pulse-dot 1s ease-in-out infinite;
         }
         @keyframes pulse-dot {
             0%,
@@ -464,37 +528,37 @@
                 transform: scale(1);
             }
             50% {
-                opacity: 0.3;
-                transform: scale(0.7);
+                opacity: 0.25;
+                transform: scale(0.6);
             }
         }
         .feed-list {
             flex: 1;
             overflow-y: auto;
-            padding-top: 4px;
+            padding-top: 3px;
             display: flex;
             flex-direction: column;
-            gap: 2px;
+            gap: 1px;
         }
         .feed-item {
             display: flex;
             align-items: center;
             gap: 6px;
-            font-size: 12px;
-            padding: 3px 6px;
+            font-size: 11px;
+            padding: 3px 5px;
             border-radius: 6px;
-            animation: feedIn 0.25s ease;
+            animation: feedIn 0.2s ease;
             flex-shrink: 0;
-            background: rgba(255, 255, 255, 0.015);
+            background: rgba(255, 255, 255, 0.01);
         }
         .feed-item .fi-avatar {
-            width: 20px;
-            height: 20px;
+            width: 18px;
+            height: 18px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 10px;
+            font-size: 9px;
             font-weight: 700;
             color: #fff;
             flex-shrink: 0;
@@ -505,19 +569,20 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            max-width: 70px;
-            font-size: 12px;
+            max-width: 60px;
+            font-size: 11px;
         }
         .feed-item .fi-action {
             color: var(--text-secondary);
-            font-size: 11px;
+            font-size: 10px;
             white-space: nowrap;
         }
         .feed-item .fi-amount {
             font-weight: 600;
             margin-left: auto;
             white-space: nowrap;
-            font-size: 12px;
+            font-size: 11px;
+            font-family: var(--font-mono);
         }
         .feed-item .fi-amount.win {
             color: var(--green);
@@ -531,7 +596,7 @@
         @keyframes feedIn {
             from {
                 opacity: 0;
-                transform: translateY(-6px);
+                transform: translateY(-5px);
             }
             to {
                 opacity: 1;
@@ -540,44 +605,47 @@
         }
         .empty-feed {
             color: var(--text-secondary);
-            font-size: 12px;
+            font-size: 11px;
             text-align: center;
             padding: 10px 0;
+            opacity: 0.6;
         }
 
+        /* Cases */
         .case-grid {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 10px;
-            padding: 12px 10px;
+            gap: 8px;
+            padding: 10px 8px;
         }
         .case-card {
             background: var(--bg-secondary);
             border: 1px solid var(--border);
             border-radius: var(--radius);
-            padding: 14px 12px;
-            width: 110px;
+            padding: 12px 10px;
+            width: 100px;
             text-align: center;
             display: flex;
             flex-direction: column;
-            gap: 6px;
-            transition: border 0.2s;
+            gap: 5px;
+            transition: border 0.2s, transform 0.15s;
         }
-        .case-card:hover {
+        .case-card:active {
+            transform: scale(0.97);
             border-color: var(--gold);
         }
         .case-card .case-icon {
-            font-size: 28px;
+            font-size: 26px;
         }
         .case-card .case-name {
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 700;
             color: var(--text-primary);
         }
         .case-card .case-price {
-            color: var(--gold);
-            font-size: 13px;
+            color: var(--gold-bright);
+            font-size: 12px;
             font-weight: 600;
         }
         .case-card .case-price.free {
@@ -586,18 +654,17 @@
         .case-card button {
             background: var(--green);
             border: none;
-            border-radius: 8px;
-            padding: 6px;
+            border-radius: var(--radius-xs);
+            padding: 5px;
             color: #fff;
             font-weight: 700;
             cursor: pointer;
-            font-size: 12px;
+            font-size: 11px;
             transition: all 0.15s;
-            min-height: 32px;
+            min-height: 28px;
         }
         .case-card button:active {
-            transform: scale(0.96);
-            background: #17a84b;
+            transform: scale(0.94);
         }
         .case-card button:disabled {
             opacity: 0.4;
@@ -608,39 +675,79 @@
             background: var(--gold);
             color: #0a0e13;
         }
-        .case-card button.promo-btn:active {
-            background: #dba40a;
-        }
         .case-card .case-tag {
-            font-size: 9px;
+            font-size: 8px;
             color: var(--text-secondary);
             background: var(--bg-tertiary);
-            padding: 1px 8px;
+            padding: 1px 7px;
             border-radius: 10px;
             display: inline-block;
-            margin-top: 2px;
+            margin-top: 1px;
         }
 
         #caseCanvas {
             width: 100%;
-            max-width: 300px;
+            max-width: 280px;
             height: auto;
             aspect-ratio: 300/180;
-            border-radius: var(--radius);
+            border-radius: var(--radius-sm);
             background: var(--bg-secondary);
             display: block;
             margin: 0 auto;
             border: 1px solid var(--border);
         }
         #caseResult {
-            font-size: 16px;
+            font-size: 14px;
             color: var(--green);
             text-align: center;
-            padding: 4px 0;
+            padding: 3px 0;
             font-weight: 600;
-            min-height: 30px;
+            min-height: 24px;
         }
 
+        /* Inventory */
+        .inventory-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
+            padding: 8px;
+            justify-content: center;
+        }
+        .inv-slot {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 7px;
+            min-width: 75px;
+            text-align: center;
+            font-size: 13px;
+        }
+        .inv-slot .gift-icon {
+            font-size: 24px;
+        }
+        .inv-slot .gift-name {
+            font-size: 11px;
+            color: var(--text-primary);
+        }
+        .inv-slot .gift-value {
+            font-size: 10px;
+            color: var(--gold-bright);
+        }
+        .inv-slot button {
+            margin-top: 3px;
+            background: var(--green);
+            border: none;
+            border-radius: 4px;
+            color: #fff;
+            font-size: 10px;
+            padding: 2px 7px;
+            cursor: pointer;
+        }
+        .inv-slot button:active {
+            transform: scale(0.93);
+        }
+
+        /* Modal */
         .modal {
             display: none;
             position: fixed;
@@ -648,29 +755,30 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.85);
             align-items: center;
             justify-content: center;
             z-index: 1000;
             padding: 16px;
-            backdrop-filter: blur(4px);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
         }
         .modal-content {
             background: var(--bg-secondary);
-            border-radius: 16px;
-            padding: 20px;
+            border-radius: var(--radius);
+            padding: 18px;
             width: 100%;
-            max-width: 340px;
+            max-width: 320px;
             border: 1px solid var(--border);
             display: flex;
             flex-direction: column;
-            gap: 12px;
-            animation: modalIn 0.25s ease;
+            gap: 10px;
+            animation: modalIn 0.2s ease;
         }
         @keyframes modalIn {
             from {
                 opacity: 0;
-                transform: scale(0.92);
+                transform: scale(0.9);
             }
             to {
                 opacity: 1;
@@ -678,7 +786,7 @@
             }
         }
         .modal-content .modal-title {
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 700;
             text-align: center;
             color: var(--text-primary);
@@ -686,15 +794,15 @@
         .modal-content .modal-sub {
             color: var(--text-secondary);
             text-align: center;
-            font-size: 13px;
+            font-size: 12px;
         }
         .modal-content input {
             background: var(--bg-primary);
             border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 10px 12px;
+            border-radius: var(--radius-xs);
+            padding: 9px 11px;
             color: var(--text-primary);
-            font-size: 16px;
+            font-size: 14px;
             outline: none;
             width: 100%;
             transition: border 0.2s;
@@ -704,27 +812,27 @@
         }
         .modal-content .btn-row {
             display: flex;
-            gap: 8px;
+            gap: 7px;
         }
         .modal-content .btn-row .btn {
             flex: 1;
             padding: 8px;
-            font-size: 13px;
+            font-size: 12px;
         }
         .modal-content .btn {
             border: none;
-            border-radius: 8px;
-            padding: 10px;
+            border-radius: var(--radius-xs);
+            padding: 9px;
             font-weight: 700;
-            font-size: 14px;
+            font-size: 13px;
             cursor: pointer;
             color: #fff;
             transition: all 0.15s;
             width: 100%;
-            min-height: 40px;
+            min-height: 36px;
         }
         .modal-content .btn:active {
-            transform: scale(0.97);
+            transform: scale(0.96);
         }
         .modal-content .btn-primary {
             background: var(--green);
@@ -741,17 +849,18 @@
         }
         .modal-content .error-text {
             color: var(--red);
-            font-size: 13px;
+            font-size: 12px;
             text-align: center;
-            min-height: 20px;
+            min-height: 18px;
         }
         .modal-content .success-text {
             color: var(--green);
-            font-size: 13px;
+            font-size: 12px;
             text-align: center;
-            min-height: 20px;
+            min-height: 18px;
         }
 
+        /* Case overlay */
         .case-overlay {
             display: none;
             position: fixed;
@@ -759,91 +868,51 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.85);
+            background: rgba(0, 0, 0, 0.9);
             z-index: 2000;
             align-items: center;
             justify-content: center;
             flex-direction: column;
             padding: 20px;
-            backdrop-filter: blur(6px);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
         }
         .case-overlay.active {
             display: flex;
         }
         .case-overlay canvas {
             width: 100%;
-            max-width: 360px;
+            max-width: 340px;
             aspect-ratio: 1/1;
             border-radius: var(--radius);
             background: var(--bg-secondary);
             border: 1px solid var(--border);
         }
         .case-overlay .result-label {
-            font-size: 22px;
+            font-size: 20px;
             font-weight: 700;
-            color: var(--gold);
-            margin-top: 12px;
+            color: var(--gold-bright);
+            margin-top: 10px;
             text-align: center;
         }
         .case-overlay .close-overlay-btn {
-            margin-top: 14px;
+            margin-top: 12px;
             background: var(--gold);
             color: #0a0e13;
             border: none;
-            border-radius: 10px;
-            padding: 10px 28px;
+            border-radius: var(--radius-xs);
+            padding: 9px 24px;
             font-weight: 700;
-            font-size: 15px;
+            font-size: 14px;
             cursor: pointer;
             transition: all 0.15s;
-            min-width: 120px;
+            min-width: 110px;
         }
         .case-overlay .close-overlay-btn:active {
-            transform: scale(0.95);
-            opacity: 0.8;
+            transform: scale(0.94);
         }
 
-        .inventory-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            padding: 8px;
-            justify-content: center;
-        }
-        .inv-slot {
-            background: var(--bg-secondary);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 8px;
-            min-width: 80px;
-            text-align: center;
-            font-size: 14px;
-        }
-        .inv-slot .gift-icon {
-            font-size: 28px;
-        }
-        .inv-slot .gift-name {
-            font-size: 12px;
-            color: var(--text-primary);
-        }
-        .inv-slot .gift-value {
-            font-size: 11px;
-            color: var(--gold);
-        }
-        .inv-slot button {
-            margin-top: 4px;
-            background: var(--green);
-            border: none;
-            border-radius: 6px;
-            color: #fff;
-            font-size: 11px;
-            padding: 2px 8px;
-            cursor: pointer;
-        }
-        .inv-slot button:active {
-            transform: scale(0.95);
-        }
-
+        /* Admin */
         .admin-panel {
             padding: 12px;
             background: var(--bg-secondary);
@@ -852,29 +921,29 @@
             border: 1px solid var(--border);
         }
         .admin-panel h3 {
-            color: var(--gold);
-            margin-bottom: 12px;
-            font-size: 18px;
+            color: var(--gold-bright);
+            margin-bottom: 10px;
+            font-size: 16px;
         }
         .admin-panel .search-box {
             width: 100%;
-            padding: 8px 12px;
+            padding: 7px 10px;
             background: var(--bg-primary);
             border: 1px solid var(--border);
-            border-radius: 8px;
+            border-radius: var(--radius-xs);
             color: var(--text-primary);
-            font-size: 14px;
+            font-size: 13px;
             outline: none;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
         .admin-panel .search-box:focus {
             border-color: var(--gold);
         }
         .admin-user-list {
-            max-height: 300px;
+            max-height: 280px;
             overflow-y: auto;
             margin: 8px 0;
-            border-radius: 8px;
+            border-radius: var(--radius-xs);
             background: var(--bg-primary);
             border: 1px solid var(--border);
         }
@@ -882,9 +951,9 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 8px 12px;
+            padding: 7px 10px;
             border-bottom: 1px solid var(--border);
-            font-size: 13px;
+            font-size: 12px;
             flex-wrap: wrap;
             gap: 4px;
         }
@@ -894,19 +963,19 @@
         .admin-user-item .user-info {
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 5px;
             flex-wrap: wrap;
         }
         .admin-user-item .user-info .badge {
             background: var(--bg-tertiary);
-            padding: 0 8px;
-            border-radius: 10px;
-            font-size: 10px;
+            padding: 0 7px;
+            border-radius: 9px;
+            font-size: 9px;
             color: var(--text-secondary);
         }
         .admin-user-item .actions {
             display: flex;
-            gap: 4px;
+            gap: 3px;
             flex-wrap: wrap;
         }
         .admin-user-item .actions button {
@@ -914,13 +983,13 @@
             border: none;
             border-radius: 4px;
             color: #fff;
-            padding: 2px 8px;
-            font-size: 11px;
+            padding: 2px 7px;
+            font-size: 10px;
             cursor: pointer;
             transition: 0.1s;
         }
         .admin-user-item .actions button:active {
-            transform: scale(0.95);
+            transform: scale(0.93);
         }
         .admin-user-item .actions button.danger {
             background: var(--red);
@@ -930,41 +999,41 @@
             color: #0a0e13;
         }
         .admin-panel .broadcast-area {
-            margin-top: 12px;
+            margin-top: 10px;
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 7px;
         }
         .admin-panel .broadcast-area textarea {
             width: 100%;
-            padding: 8px;
+            padding: 7px;
             background: var(--bg-primary);
             border: 1px solid var(--border);
-            border-radius: 8px;
+            border-radius: var(--radius-xs);
             color: var(--text-primary);
             resize: vertical;
-            min-height: 60px;
+            min-height: 50px;
             font-family: inherit;
-            font-size: 13px;
+            font-size: 12px;
         }
         .admin-panel .broadcast-area .btn-row {
             display: flex;
-            gap: 8px;
+            gap: 7px;
             flex-wrap: wrap;
         }
         .admin-panel .broadcast-area .btn-row button {
             flex: 1;
-            padding: 8px;
+            padding: 7px;
             border: none;
-            border-radius: 6px;
+            border-radius: var(--radius-xs);
             font-weight: 600;
-            font-size: 13px;
+            font-size: 12px;
             cursor: pointer;
             transition: 0.1s;
             color: #fff;
         }
         .admin-panel .broadcast-area .btn-row button:active {
-            transform: scale(0.97);
+            transform: scale(0.96);
         }
         .admin-panel .broadcast-area .btn-row .btn-broadcast {
             background: var(--accent-blue);
@@ -972,169 +1041,95 @@
         .admin-panel .broadcast-area .btn-row .btn-reset {
             background: var(--red);
         }
-
         .admin-stats {
             display: flex;
-            gap: 12px;
+            gap: 10px;
             flex-wrap: wrap;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
         .admin-stats .stat-card {
             background: var(--bg-primary);
             border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 8px 14px;
+            border-radius: var(--radius-xs);
+            padding: 7px 12px;
             flex: 1 1 auto;
             text-align: center;
         }
         .admin-stats .stat-card .num {
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 700;
-            color: var(--gold);
+            color: var(--gold-bright);
         }
         .admin-stats .stat-card .label {
-            font-size: 11px;
+            font-size: 10px;
             color: var(--text-secondary);
         }
 
-        @media (max-width: 460px) {
+        @media (max-width: 420px) {
             .header {
-                padding: 6px 10px;
-                min-height: 46px;
+                padding: 7px 10px;
+                min-height: 44px;
             }
             .header-logo {
-                font-size: 14px;
-            }
-            .header-logo small {
-                font-size: 10px;
+                font-size: 13px;
             }
             .balance-pill {
-                font-size: 13px;
+                font-size: 12px;
                 padding: 3px 10px;
             }
             .avatar-sm {
-                width: 28px;
-                height: 28px;
-                font-size: 12px;
+                width: 26px;
+                height: 26px;
+                font-size: 11px;
             }
             .user-name-sm {
-                font-size: 12px;
-                max-width: 60px;
-            }
-            .top-wins {
-                padding: 4px 10px;
-                gap: 6px;
-            }
-            .top-win-chip {
                 font-size: 11px;
-                padding: 1px 8px;
-            }
-            .top-wins-label {
-                font-size: 9px;
-            }
-            .auto-bar {
-                padding: 4px 10px;
-                gap: 6px;
-            }
-            .auto-bar .label {
-                font-size: 9px;
-            }
-            .auto-bar .auto-value {
-                font-size: 12px;
-                padding: 0 10px;
-            }
-            .auto-bar .protection-tag {
-                font-size: 10px;
-                padding: 1px 8px;
-            }
-            .auto-bar .demo-tag {
-                font-size: 10px;
-                padding: 1px 8px;
+                max-width: 50px;
             }
             .tab-btn {
-                font-size: 11px;
-                padding: 8px 4px;
+                font-size: 10px;
+                padding: 7px 3px;
             }
             .controls-row {
                 flex-direction: column;
                 align-items: stretch;
-                gap: 6px;
-            }
-            .controls-row .input-group {
-                flex: 1 1 auto;
+                gap: 5px;
             }
             .controls-row .button-group {
                 justify-content: center;
             }
-            .controls-row .btn {
+            .btn {
                 font-size: 12px;
-                padding: 6px 12px;
-                min-width: 60px;
+                padding: 7px 12px;
+                min-width: 55px;
             }
             canvas#crashCanvas {
-                max-width: 220px;
-            }
-            .feed-item {
-                font-size: 11px;
-                padding: 2px 4px;
-            }
-            .feed-item .fi-name {
-                max-width: 50px;
-                font-size: 11px;
-            }
-            .feed-item .fi-avatar {
-                width: 18px;
-                height: 18px;
-                font-size: 9px;
-            }
-            .feed-item .fi-action {
-                font-size: 10px;
-            }
-            .feed-item .fi-amount {
-                font-size: 11px;
+                max-width: 240px;
             }
             .case-card {
-                width: 90px;
-                padding: 10px 8px;
+                width: 80px;
+                padding: 8px 6px;
             }
             .case-card .case-icon {
-                font-size: 22px;
+                font-size: 20px;
             }
             .case-card .case-name {
-                font-size: 11px;
+                font-size: 10px;
             }
             .case-card .case-price {
-                font-size: 11px;
+                font-size: 10px;
             }
             .case-card button {
-                font-size: 10px;
-                padding: 4px;
-                min-height: 28px;
-            }
-            .live-feed {
-                min-height: 55px;
-                max-height: 110px;
-            }
-            .modal-content {
-                padding: 16px;
-                max-width: 300px;
-            }
-            .modal-content .modal-title {
-                font-size: 16px;
-            }
-            .admin-user-item {
-                font-size: 12px;
-                padding: 6px 8px;
-            }
-            .admin-user-item .actions button {
-                font-size: 10px;
-                padding: 1px 6px;
+                font-size: 9px;
+                padding: 3px;
+                min-height: 24px;
             }
         }
     </style>
 </head>
 <body>
 
+    <!-- Header -->
     <div class="header">
         <div class="header-left">
             <span class="header-logo">🎁 Crush Gift Spin <small>| MiniApp</small></span>
@@ -1146,18 +1141,7 @@
         </div>
     </div>
 
-    <div class="top-wins">
-        <span class="top-wins-label">📜 История Crash</span>
-        <div class="top-wins-list" id="topWinsList"></div>
-    </div>
-
-    <div class="auto-bar">
-        <span class="label">⚡ АВТО-ВЫВОД</span>
-        <span class="auto-value" id="autoDisplay">x1.00</span>
-        <span class="protection-tag" id="protectionTag">🛡️ Защита от x1.0</span>
-        <span class="demo-tag" id="demoTag">🎮 Демо</span>
-    </div>
-
+    <!-- Tabs -->
     <div class="tabs">
         <button class="tab-btn active" data-tab="crash">📈 Crash</button>
         <button class="tab-btn" data-tab="cases">📦 Кейсы</button>
@@ -1165,13 +1149,24 @@
         <button class="tab-btn" id="adminTabBtn" style="display:none;" data-tab="admin">🛡️ Админ</button>
     </div>
 
+    <!-- Crash Tab -->
     <div class="tab-content active" id="crashTab">
         <div class="crash-container">
+            <!-- Diagram -->
             <div class="diagram-wrap">
-                <canvas id="crashCanvas" width="240" height="240"></canvas>
+                <canvas id="crashCanvas" width="280" height="280"></canvas>
             </div>
             <div class="info-text" id="crashInfo">Ожидание раунда...</div>
 
+            <!-- Auto-bar -->
+            <div class="auto-bar">
+                <span class="label">⚡ Авто-вывод</span>
+                <span class="auto-value" id="autoDisplay">x1.00</span>
+                <span class="protection-tag" id="protectionTag">🛡️ Защита x1.0</span>
+                <span class="demo-tag" id="demoTag">🎮 Демо</span>
+            </div>
+
+            <!-- Controls -->
             <div class="controls-row">
                 <div class="input-group">
                     <label for="betInput">Сумма ⭐</label>
@@ -1182,11 +1177,18 @@
                     <input type="number" id="autoInput" placeholder="0" min="0" step="0.01">
                 </div>
                 <div class="button-group">
-                    <button class="btn btn-primary" id="playBtn">Ставка</button>
-                    <button class="btn btn-gold" id="withdrawBtn" disabled>Вывести</button>
+                    <button class="btn btn-primary" id="unifiedBtn">💰 Ставка</button>
+                    <button class="btn-scheduled-indicator" id="cancelPendingBtn" style="display:none;">✕ Отменить</button>
                 </div>
             </div>
 
+            <!-- Crash History -->
+            <div class="crash-history-bar">
+                <span class="hist-label">📜 История</span>
+                <div class="hist-list" id="histList"></div>
+            </div>
+
+            <!-- Live Feed -->
             <div class="live-feed">
                 <div class="live-feed-header">
                     <span class="dot"></span>
@@ -1199,15 +1201,16 @@
         </div>
     </div>
 
+    <!-- Cases Tab -->
     <div class="tab-content" id="casesTab">
-        <div style="text-align:center; padding:6px 10px 0;">
+        <div style="text-align:center; padding:4px 8px 0;">
             <canvas id="caseCanvas" width="300" height="180"></canvas>
             <div id="caseResult"></div>
         </div>
         <div class="case-grid">
             <div class="case-card">
                 <div class="case-icon">🎁</div>
-                <div class="case-name" style="color:var(--gold);">Ежедневный</div>
+                <div class="case-name" style="color:var(--gold-bright);">Ежедневный</div>
                 <div class="case-price free">Бесплатно</div>
                 <button id="dailyCaseBtn">Забрать</button>
             </div>
@@ -1245,30 +1248,32 @@
         </div>
     </div>
 
+    <!-- Inventory Tab -->
     <div class="tab-content" id="inventoryTab">
-        <div style="padding:10px;">
-            <h3 style="color:var(--gold); text-align:center;">🎒 Инвентарь</h3>
+        <div style="padding:8px;">
+            <h3 style="color:var(--gold-bright); text-align:center;">🎒 Инвентарь</h3>
         </div>
         <div class="inventory-grid" id="inventoryGrid">
             <div class="empty-feed">Инвентарь пуст</div>
         </div>
     </div>
 
+    <!-- Admin Tab -->
     <div class="tab-content" id="adminTab">
         <div class="admin-panel" id="adminPanel"></div>
     </div>
 
+    <!-- Modals -->
     <div class="modal" id="profileModal">
         <div class="modal-content">
             <div class="modal-title">👤 Профиль</div>
             <div class="modal-sub" id="profileName"></div>
-            <div class="stat-balance" style="font-size:28px;" id="profileBalance"></div>
+            <div style="font-size:26px;font-weight:700;text-align:center;color:var(--gold-bright);" id="profileBalance"></div>
             <button class="btn btn-gold" id="profileDepositBtn">💰 Пополнить</button>
             <button class="btn btn-primary" id="profileWithdrawBtn">💸 Вывести</button>
             <button class="btn btn-cancel" id="closeProfileBtn">✕ Закрыть</button>
         </div>
     </div>
-
     <div class="modal" id="depositModal">
         <div class="modal-content">
             <div class="modal-title">💰 Пополнение</div>
@@ -1281,7 +1286,6 @@
             <button class="btn btn-cancel" id="closeDepositBtn">Отмена</button>
         </div>
     </div>
-
     <div class="modal" id="withdrawModal">
         <div class="modal-content">
             <div class="modal-title">💸 Вывод</div>
@@ -1292,7 +1296,6 @@
             <button class="btn btn-cancel" id="closeWithdrawBtn">Отмена</button>
         </div>
     </div>
-
     <div class="modal" id="promoModal">
         <div class="modal-content">
             <div class="modal-title">🔑 Промо-кейс</div>
@@ -1305,7 +1308,6 @@
             </div>
         </div>
     </div>
-
     <div class="case-overlay" id="caseOverlay">
         <canvas id="caseAnimCanvas" width="360" height="360"></canvas>
         <div class="result-label" id="caseOverlayResult">🎉 +0 ⭐</div>
@@ -1333,19 +1335,17 @@
                 document.getElementById('adminTabBtn').style.display = 'inline-block';
             }
 
-            const ALL_USERS_KEY = 'gift_all_users_v3';
-            const BROADCAST_KEY = 'gift_broadcast_msg';
+            // ── Storage Keys ──
+            const ALL_USERS_KEY = 'gift_all_users_v4';
+            const BROADCAST_KEY = 'gift_broadcast_msg_v2';
+            const ROUND_COUNTER_KEY = 'gift_round_counter';
+            const ACTIVITY_FEED_KEY = 'gift_activity_feed';
 
             function loadAllUsers() {
-                try {
-                    const raw = localStorage.getItem(ALL_USERS_KEY);
-                    return raw ? JSON.parse(raw) : [];
-                } catch (e) { return []; }
+                try { return JSON.parse(localStorage.getItem(ALL_USERS_KEY)) || []; } catch (e) { return []; }
             }
 
-            function saveAllUsers(users) {
-                localStorage.setItem(ALL_USERS_KEY, JSON.stringify(users));
-            }
+            function saveAllUsers(users) { localStorage.setItem(ALL_USERS_KEY, JSON.stringify(users)); }
 
             function getCurrentUserData() {
                 let all = loadAllUsers();
@@ -1367,11 +1367,9 @@
                     };
                     all.push(user);
                     saveAllUsers(all);
-                } else {
-                    if (user.name !== userName) {
-                        user.name = userName;
-                        saveAllUsers(all);
-                    }
+                } else if (user.name !== userName) {
+                    user.name = userName;
+                    saveAllUsers(all);
                 }
                 return user;
             }
@@ -1379,11 +1377,8 @@
             function updateCurrentUserInStorage(updatedData) {
                 let all = loadAllUsers();
                 const idx = all.findIndex(u => u.id === userId && !u.isBot);
-                if (idx !== -1) {
-                    all[idx] = { ...all[idx], ...updatedData };
-                } else {
-                    all.push({ id: userId, name: userName, blocked: false, ...updatedData });
-                }
+                if (idx !== -1) all[idx] = { ...all[idx], ...updatedData };
+                else all.push({ id: userId, name: userName, blocked: false, ...updatedData });
                 saveAllUsers(all);
             }
 
@@ -1399,15 +1394,53 @@
 
             function persistGameData() {
                 updateCurrentUserInStorage({
-                    stars: stars,
-                    history: history,
-                    totalGames: totalGames,
-                    totalWins: totalWins,
-                    totalLosses: totalLosses,
-                    lastDailyClaim: lastDailyClaim,
-                    usedPromoCodes: usedPromoCodes,
-                    inventory: inventory
+                    stars,
+                    history,
+                    totalGames,
+                    totalWins,
+                    totalLosses,
+                    lastDailyClaim,
+                    usedPromoCodes,
+                    inventory
                 });
+            }
+
+            function loadActivityFeed() {
+                try { return JSON.parse(localStorage.getItem(ACTIVITY_FEED_KEY)) || []; } catch (e) { return []; }
+            }
+
+            function saveActivityFeed(feed) {
+                if (feed.length > 60) feed = feed.slice(0, 60);
+                localStorage.setItem(ACTIVITY_FEED_KEY, JSON.stringify(feed));
+            }
+
+            // ── Round Counter & Sync ──
+            function getRoundNumber() {
+                let r = parseInt(localStorage.getItem(ROUND_COUNTER_KEY)) || 1;
+                return r;
+            }
+
+            function incrementRoundNumber() {
+                let r = getRoundNumber() + 1;
+                localStorage.setItem(ROUND_COUNTER_KEY, r.toString());
+                return r;
+            }
+
+            function seededRandom(seed) {
+                let s = Math.abs(seed) % 2147483647 || 1;
+                return function() {
+                    s = (s * 16807) % 2147483647;
+                    return (s - 1) / 2147483646;
+                };
+            }
+
+            function generateCrashPoint(roundNum) {
+                const seed = roundNum * 7919 + 104729;
+                const rng = seededRandom(seed);
+                const p = rng();
+                if (p < 0.70) return 1.01 + rng() * (1.70 - 1.01);
+                if (p < 0.90) return 1.70 + rng() * (1.95 - 1.70);
+                return 1.95 + rng() * (30.0 - 1.95);
             }
 
             function checkBroadcast() {
@@ -1427,6 +1460,7 @@
                 return false;
             }
 
+            // ── DOM refs ──
             const balanceDisplay = document.getElementById('balanceDisplay');
             const crashCanvas = document.getElementById('crashCanvas');
             const ctx = crashCanvas.getContext('2d');
@@ -1435,60 +1469,13 @@
             const autoInput = document.getElementById('autoInput');
             const autoDisplay = document.getElementById('autoDisplay');
             const protectionTag = document.getElementById('protectionTag');
-            const playBtn = document.getElementById('playBtn');
-            const withdrawBtn = document.getElementById('withdrawBtn');
+            const unifiedBtn = document.getElementById('unifiedBtn');
+            const cancelPendingBtn = document.getElementById('cancelPendingBtn');
             const feedList = document.getElementById('feedList');
+            const histList = document.getElementById('histList');
+            const demoTag = document.getElementById('demoTag');
 
-            let feedItems = [];
-
-            const avatarColors = [
-                '#e74c3c', '#3498db', '#2ecc71', '#f39c12', '#9b59b6',
-                '#1abc9c', '#e67e22', '#e84393', '#00b894', '#6c5ce7'
-            ];
-
-            function getColorForName(name) {
-                let hash = 0;
-                for (let i = 0; i < name.length; i++) {
-                    hash = name.charCodeAt(i) + ((hash << 5) - hash);
-                }
-                return avatarColors[Math.abs(hash) % avatarColors.length];
-            }
-
-            function addFeedItem(name, action, amount, type, emoji = '') {
-                const avatar = name.charAt(0).toUpperCase();
-                const color = getColorForName(name);
-                const item = { name, action, amount, type, emoji, avatar, color, ts: Date.now() };
-                feedItems.unshift(item);
-                if (feedItems.length > 50) feedItems.pop();
-                renderFeed();
-            }
-
-            function renderFeed() {
-                if (feedItems.length === 0) {
-                    feedList.innerHTML = '<div class="empty-feed">Нет активных ставок</div>';
-                    return;
-                }
-                let html = '';
-                feedItems.forEach(item => {
-                    let amountClass = 'bet';
-                    let sign = '';
-                    if (item.type === 'win') { amountClass = 'win';
-                        sign = '+'; }
-                    if (item.type === 'loss') { amountClass = 'loss';
-                        sign = '-'; }
-                    const amountStr = `${sign}${item.amount} ⭐`;
-                    html += `
-                <div class="feed-item">
-                  <div class="fi-avatar" style="background:${item.color};">${item.avatar}</div>
-                  <span class="fi-name">${item.name}</span>
-                  <span class="fi-action">${item.action}</span>
-                  <span class="fi-amount ${amountClass}">${item.emoji} ${amountStr}</span>
-                </div>
-              `;
-                });
-                feedList.innerHTML = html;
-            }
-
+            let feedItems = loadActivityFeed();
             let gameRunning = false,
                 activeBet = null,
                 pendingBet = null;
@@ -1498,244 +1485,335 @@
             let isDemoMode = false;
             let animFrameId = null;
             let startTime = 0;
-            const GROWTH_RATE = 0.05775;
             let starAngle = 0;
-            let sparkles = [];
+            let particles = [];
+            let speedLines = [];
+            let currentRound = getRoundNumber();
 
-            // ——— Цветовая схема для множителя ———
+            const avatarColors = [
+                '#e74c3c', '#3498db', '#2ecc71', '#f39c12', '#9b59b6',
+                '#1abc9c', '#e67e22', '#e84393', '#00b894', '#6c5ce7'
+            ];
+
+            function getColorForName(name) {
+                let hash = 0;
+                for (let i = 0; i < name.length; i++) hash = name.charCodeAt(i) + ((hash << 5) - hash);
+                return avatarColors[Math.abs(hash) % avatarColors.length];
+            }
+
+            function addFeedItem(name, action, amount, type, emoji = '') {
+                const avatar = name.charAt(0).toUpperCase();
+                const color = getColorForName(name);
+                const item = { name, action, amount, type, emoji, avatar, color, ts: Date.now() };
+                feedItems.unshift(item);
+                if (feedItems.length > 50) feedItems.pop();
+                saveActivityFeed(feedItems);
+                renderFeed();
+            }
+
+            function renderFeed() {
+                if (feedItems.length === 0) {
+                    feedList.innerHTML = '<div class="empty-feed">Нет активных ставок</div>';
+                    return;
+                }
+                let html = '';
+                feedItems.slice(0, 20).forEach(item => {
+                    let amountClass = 'bet';
+                    let sign = '';
+                    if (item.type === 'win') { amountClass = 'win';
+                        sign = '+'; }
+                    if (item.type === 'loss') { amountClass = 'loss';
+                        sign = '-'; }
+                    html += `
+                <div class="feed-item">
+                  <div class="fi-avatar" style="background:${item.color};">${item.avatar}</div>
+                  <span class="fi-name">${item.name}</span>
+                  <span class="fi-action">${item.action}</span>
+                  <span class="fi-amount ${amountClass}">${item.emoji} ${sign}${item.amount} ⭐</span>
+                </div>`;
+                });
+                feedList.innerHTML = html;
+            }
+
             function getMultiplierColor(mult) {
-                if (mult >= 1.0 && mult <= 1.30) return '#4a7cf7';
-                if (mult >= 1.31 && mult <= 1.90) return '#1fbb5a';
-                if (mult >= 1.91 && mult <= 2.30) return '#f39c12';
-                return '#800020';
+                if (mult <= 1.30) return '#4a7cf7';
+                if (mult <= 1.90) return '#16c95a';
+                if (mult <= 2.30) return '#f39c12';
+                return '#e04050';
+            }
+
+            function getHistChipClass(mult) {
+                if (mult <= 1.30) return 'low';
+                if (mult <= 1.90) return 'mid';
+                if (mult <= 3.0) return 'high';
+                return 'crash';
             }
 
             protectionTag.addEventListener('click', () => {
                 protectionEnabled = !protectionEnabled;
                 protectionTag.classList.toggle('active', protectionEnabled);
-                protectionTag.textContent = protectionEnabled ? '🛡️ Защита включена' : '🛡️ Защита от x1.0';
+                protectionTag.textContent = protectionEnabled ? '🛡️ Защита вкл' : '🛡️ Защита x1.0';
             });
 
-            document.getElementById('demoTag').addEventListener('click', () => {
+            demoTag.addEventListener('click', () => {
                 isDemoMode = !isDemoMode;
-                const demoTag = document.getElementById('demoTag');
+                demoTag.classList.toggle('active-demo', isDemoMode);
                 demoTag.textContent = isDemoMode ? '🎮 Демо (вкл)' : '🎮 Демо';
-                demoTag.style.borderColor = isDemoMode ? 'var(--gold)' : 'var(--border)';
-                demoTag.style.color = isDemoMode ? 'var(--gold)' : 'var(--text-secondary)';
                 crashInfo.textContent = isDemoMode ? '🎮 Демо-режим' : '';
                 setTimeout(() => {
-                    if (!gameRunning && !isDemoMode) crashInfo.textContent = 'Ожидание раунда...';
-                }, 2000);
+                    if (!gameRunning && !isDemoMode && !pendingBet) crashInfo.textContent =
+                        'Ожидание раунда...';
+                }, 1800);
             });
 
-            function generateCrashPoint() {
-                const p = Math.random();
-                if (p < 0.30) return 1.01 + Math.random() * (1.60 - 1.01);
-                if (p < 0.60) return 1.60 + Math.random() * (2.16 - 1.60);
-                if (p < 0.80) return 2.16 + Math.random() * (5.0 - 2.16);
-                return 5.0 + Math.random() * (30.0 - 5.0);
-            }
-
-            function mapMultiplierToPosition(mult) {
-                const w = crashCanvas.width,
-                    h = crashCanvas.height;
-                const maxMult = 30;
-                const progress = Math.min((mult - 1) / (maxMult - 1), 1);
-                const startX = 30,
-                    startY = h - 30;
-                const endX = w - 30,
-                    endY = 30;
+            // ── Particle system ──
+            function spawnParticle(cx, cy, intensity) {
+                const angle = Math.random() * Math.PI * 2;
+                const speed = 0.4 + Math.random() * 3.5 * intensity;
                 return {
-                    x: startX + (endX - startX) * progress,
-                    y: startY + (endY - startY) * progress
+                    x: cx,
+                    y: cy,
+                    vx: Math.cos(angle) * speed,
+                    vy: Math.sin(angle) * speed,
+                    life: 1.0,
+                    decay: 0.006 + Math.random() * 0.03,
+                    size: 1.5 + Math.random() * 5,
+                    color: `hsl(${38 + Math.random() * 25}, 100%, ${55 + Math.random() * 35}%)`
                 };
             }
 
-            // ——— Генерация искр ———
-            function spawnSparkles(count, cx, cy) {
-                for (let i = 0; i < count; i++) {
-                    const angle = Math.random() * Math.PI * 2;
-                    const speed = 0.5 + Math.random() * 2.5;
-                    sparkles.push({
-                        x: cx,
-                        y: cy,
-                        vx: Math.cos(angle) * speed,
-                        vy: Math.sin(angle) * speed,
-                        life: 1.0,
-                        decay: 0.005 + Math.random() * 0.025,
-                        size: 2 + Math.random() * 6,
-                        color: `hsl(${40 + Math.random() * 30}, 100%, ${60 + Math.random() * 30}%)`
-                    });
+            function spawnSpeedLine(w, h, intensity) {
+                const edge = Math.floor(Math.random() * 4);
+                let x, y, vx, vy;
+                const cx = w / 2,
+                    cy = h / 2;
+                const speed = 1.5 + intensity * 5;
+                if (edge === 0) { x = Math.random() * w;
+                    y = -5;
+                    vx = (cx - x) * 0.02;
+                    vy = speed; } else if (edge === 1) { x = w + 5;
+                    y = Math.random() * h;
+                    vx = -speed;
+                    vy = (cy - y) * 0.02; } else if (edge === 2) { x = Math.random() * w;
+                    y = h + 5;
+                    vx = (cx - x) * 0.02;
+                    vy = -speed; } else { x = -5;
+                    y = Math.random() * h;
+                    vx = speed;
+                    vy = (cy - y) * 0.02; }
+                return { x, y, vx, vy, life: 1.0, decay: 0.015 + Math.random() * 0.04, length: 20 + Math.random() * 50,
+                    alpha: 0.15 + Math.random() * 0.35 };
+            }
+
+            function updateParticles() {
+                for (let i = particles.length - 1; i >= 0; i--) {
+                    const p = particles[i];
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    p.life -= p.decay;
+                    if (p.life <= 0) particles.splice(i, 1);
+                }
+                for (let i = speedLines.length - 1; i >= 0; i--) {
+                    const sl = speedLines[i];
+                    sl.x += sl.vx;
+                    sl.y += sl.vy;
+                    sl.life -= sl.decay;
+                    if (sl.life <= 0) speedLines.splice(i, 1);
                 }
             }
 
-            function updateSparkles() {
-                for (let i = sparkles.length - 1; i >= 0; i--) {
-                    const s = sparkles[i];
-                    s.x += s.vx;
-                    s.y += s.vy;
-                    s.vy += 0.02;
-                    s.life -= s.decay;
-                    if (s.life <= 0) {
-                        sparkles.splice(i, 1);
-                    }
-                }
-            }
-
-            function drawSparkles() {
-                for (const s of sparkles) {
+            function drawParticlesAndLines() {
+                for (const sl of speedLines) {
                     ctx.save();
-                    ctx.globalAlpha = s.life * 0.8;
-                    ctx.shadowColor = s.color;
-                    ctx.shadowBlur = 12;
-                    ctx.fillStyle = s.color;
+                    ctx.globalAlpha = sl.alpha * sl.life;
+                    ctx.strokeStyle = '#ffffff';
+                    ctx.lineWidth = 1;
+                    ctx.shadowColor = 'rgba(255,255,255,0.4)';
+                    ctx.shadowBlur = 6;
                     ctx.beginPath();
-                    ctx.arc(s.x, s.y, s.size * s.life, 0, Math.PI * 2);
+                    ctx.moveTo(sl.x, sl.y);
+                    ctx.lineTo(sl.x - sl.vx * sl.length * 0.3, sl.y - sl.vy * sl.length * 0.3);
+                    ctx.stroke();
+                    ctx.restore();
+                }
+                for (const p of particles) {
+                    ctx.save();
+                    ctx.globalAlpha = p.life * 0.7;
+                    ctx.shadowColor = p.color;
+                    ctx.shadowBlur = 10;
+                    ctx.fillStyle = p.color;
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.size * p.life, 0, Math.PI * 2);
                     ctx.fill();
                     ctx.restore();
                 }
             }
 
-            // ——— Рисовка летящей звезды ———
-            function drawFlyingStar() {
+            // ── Drawing ──
+            function drawCrashScene() {
                 const w = crashCanvas.width,
                     h = crashCanvas.height;
                 ctx.clearRect(0, 0, w, h);
-                const grad = ctx.createRadialGradient(w / 2, h / 2, 20, w / 2, h / 2, w * 0.7);
-                grad.addColorStop(0, '#1a2030');
-                grad.addColorStop(1, '#0a0e13');
-                ctx.fillStyle = grad;
+
+                // Deep space background
+                const bgGrad = ctx.createRadialGradient(w / 2, h / 2, 10, w / 2, h / 2, w * 0.8);
+                bgGrad.addColorStop(0, '#141e2e');
+                bgGrad.addColorStop(0.5, '#0c131f');
+                bgGrad.addColorStop(1, '#06090f');
+                ctx.fillStyle = bgGrad;
                 ctx.fillRect(0, 0, w, h);
 
-                // Сетка
-                ctx.strokeStyle = 'rgba(45, 53, 72, 0.25)';
+                // Subtle grid
+                ctx.strokeStyle = 'rgba(30, 45, 65, 0.3)';
                 ctx.lineWidth = 0.5;
-                for (let i = 0; i < 10; i++) {
-                    const x = 30 + (w - 60) * (i / 9);
+                const gridSpacing = 28;
+                for (let x = gridSpacing; x < w; x += gridSpacing) {
                     ctx.beginPath();
-                    ctx.moveTo(x, 30);
-                    ctx.lineTo(x, h - 30);
+                    ctx.moveTo(x, 0);
+                    ctx.lineTo(x, h);
                     ctx.stroke();
-                    const y = 30 + (h - 60) * (i / 9);
+                }
+                for (let y = gridSpacing; y < h; y += gridSpacing) {
                     ctx.beginPath();
-                    ctx.moveTo(30, y);
-                    ctx.lineTo(w - 30, y);
+                    ctx.moveTo(0, y);
+                    ctx.lineTo(w, y);
                     ctx.stroke();
                 }
 
-                // Кривая
+                // Intensity based on multiplier
+                const intensity = Math.min(1, (currentMultiplier - 1) / 5);
+                const rotSpeed = 0.02 + intensity * 0.12;
+                starAngle += rotSpeed;
+
+                // Spawn particles & speed lines
+                if (Math.random() < 0.3 + intensity * 0.5) {
+                    particles.push(spawnParticle(w / 2, h / 2, intensity));
+                }
+                if (Math.random() < 0.15 + intensity * 0.4) {
+                    speedLines.push(spawnSpeedLine(w, h, intensity));
+                }
+                if (particles.length > 120) particles.splice(0, particles.length - 120);
+                if (speedLines.length > 40) speedLines.splice(0, speedLines.length - 40);
+                updateParticles();
+                drawParticlesAndLines();
+
+                // Star glow
+                const glowGrd = ctx.createRadialGradient(w / 2, h / 2, 8, w / 2, h / 2, 70 + intensity * 40);
+                const multColor = getMultiplierColor(currentMultiplier);
+                glowGrd.addColorStop(0, multColor.replace(')', ', 0.45)').replace('rgb',
+                    'rgba').replace('#4a7cf7', 'rgba(74,124,247').replace('#16c95a', 'rgba(22,201,90').replace(
+                    '#f39c12', 'rgba(243,156,18').replace('#e04050', 'rgba(224,64,80'));
+                glowGrd.addColorStop(0.4, 'rgba(255,215,0,0.12)');
+                glowGrd.addColorStop(1, 'rgba(0,0,0,0)');
+                ctx.fillStyle = glowGrd;
                 ctx.beginPath();
-                ctx.strokeStyle = 'rgba(240, 185, 11, 0.15)';
-                ctx.lineWidth = 2;
-                for (let m = 1.0; m <= Math.min(currentMultiplier, 30); m += 0.02) {
-                    const p = mapMultiplierToPosition(m);
-                    if (m === 1.0) ctx.moveTo(p.x, p.y);
-                    else ctx.lineTo(p.x, p.y);
-                }
-                ctx.stroke();
+                ctx.arc(w / 2, h / 2, 70 + intensity * 40, 0, Math.PI * 2);
+                ctx.fill();
 
-                // Позиция звезды
-                const pos = mapMultiplierToPosition(currentMultiplier);
-
-                // Хвост — звёздный след
-                const trailLen = 18;
-                for (let i = trailLen; i >= 0; i--) {
-                    const t = i / trailLen;
-                    const mult = Math.max(1.0, currentMultiplier - t * 0.15);
-                    const tp = mapMultiplierToPosition(mult);
-                    const alpha = 0.05 + t * 0.35;
-                    const size = 6 + t * 10;
-                    ctx.save();
-                    ctx.globalAlpha = alpha;
-                    ctx.font = `${size}px "Segoe UI"`;
-                    ctx.textAlign = 'center';
-                    ctx.textBaseline = 'middle';
-                    ctx.shadowColor = '#f0b90b';
-                    ctx.shadowBlur = 8 * (1 - t * 0.5);
-                    ctx.fillStyle = '#f0b90b';
-                    ctx.fillText('✦', tp.x, tp.y + 2);
-                    ctx.restore();
-                }
-
-                // Основная звезда
-                const pulse = 1 + 0.08 * Math.sin(performance.now() / 180);
-                const size = 44 * pulse;
-                starAngle += 0.025;
-
+                // Central star
+                const pulse = 1 + 0.06 * Math.sin(performance.now() / 150);
+                const starSize = 38 * pulse;
                 ctx.save();
-                ctx.translate(pos.x, pos.y);
+                ctx.translate(w / 2, h / 2);
                 ctx.rotate(starAngle);
                 ctx.shadowColor = '#ffd700';
-                ctx.shadowBlur = 45;
-                ctx.font = `bold ${size}px "Segoe UI"`;
+                ctx.shadowBlur = 50 + intensity * 20;
+                ctx.font = `bold ${starSize}px "Segoe UI", sans-serif`;
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
                 ctx.fillStyle = '#ffd700';
-                ctx.fillText('⭐', 0, 4);
+                ctx.fillText('⭐', 0, 3);
+                ctx.shadowBlur = 0;
                 ctx.restore();
 
-                // Доп. свечение
-                const grd = ctx.createRadialGradient(pos.x, pos.y, 2, pos.x, pos.y, 50);
-                grd.addColorStop(0, 'rgba(255, 215, 0, 0.30)');
-                grd.addColorStop(0.5, 'rgba(255, 215, 0, 0.08)');
-                grd.addColorStop(1, 'rgba(255, 215, 0, 0)');
-                ctx.fillStyle = grd;
+                // Inner bright core
+                const coreGrd = ctx.createRadialGradient(w / 2, h / 2, 3, w / 2, h / 2, 20);
+                coreGrd.addColorStop(0, 'rgba(255,255,255,0.9)');
+                coreGrd.addColorStop(0.5, 'rgba(255,240,200,0.35)');
+                coreGrd.addColorStop(1, 'rgba(255,200,50,0)');
+                ctx.fillStyle = coreGrd;
                 ctx.beginPath();
-                ctx.arc(pos.x, pos.y, 50, 0, Math.PI * 2);
+                ctx.arc(w / 2, h / 2, 20, 0, Math.PI * 2);
                 ctx.fill();
 
-                // Искры
-                if (Math.random() < 0.25) {
-                    spawnSparkles(2 + Math.floor(Math.random() * 3), pos.x, pos.y);
-                }
-                updateSparkles();
-                drawSparkles();
-
-                // Множитель с цветом
-                const multColor = getMultiplierColor(currentMultiplier);
-                ctx.font = 'bold 24px "Segoe UI"';
-                ctx.textAlign = 'center';
-                ctx.shadowColor = 'rgba(0,0,0,0.8)';
-                ctx.shadowBlur = 14;
+                // Bold multiplier top-left
+                const mx = 16,
+                    my = 36;
+                ctx.font = 'bold 30px "Segoe UI", sans-serif';
+                ctx.textAlign = 'left';
+                ctx.textBaseline = 'top';
+                ctx.shadowColor = 'rgba(0,0,0,0.7)';
+                ctx.shadowBlur = 12;
                 ctx.fillStyle = multColor;
-                ctx.fillText(`${currentMultiplier.toFixed(2)}x`, w / 2, h - 16);
+                const multText = `x${currentMultiplier.toFixed(2)}`;
+                ctx.fillText(multText, mx, my);
                 ctx.shadowBlur = 0;
+
+                // Small "множ." label
+                ctx.font = '10px "Segoe UI", sans-serif';
+                ctx.fillStyle = 'rgba(255,255,255,0.5)';
+                ctx.fillText('множитель', mx, my + 32);
+
+                // Progress ring
+                const ringProgress = Math.min(1, (currentMultiplier - 1) / (crashPoint - 1));
+                if (crashPoint > 1 && ringProgress < 1) {
+                    ctx.beginPath();
+                    ctx.arc(w / 2, h / 2, 55, -Math.PI / 2, -Math.PI / 2 + ringProgress * Math.PI * 2);
+                    ctx.strokeStyle = multColor;
+                    ctx.lineWidth = 2.5;
+                    ctx.globalAlpha = 0.5;
+                    ctx.stroke();
+                    ctx.globalAlpha = 1;
+                }
+
                 ctx.textAlign = 'start';
             }
 
-            function updateButtonsState() {
+            // ── Button state management ──
+            function updateUnifiedButton() {
                 const isBlocked = currentUser.blocked;
-                const hasPending = !!pendingBet;
+                cancelPendingBtn.style.display = 'none';
 
-                if (gameRunning) {
-                    playBtn.textContent = 'Игра...';
-                    playBtn.className = 'btn btn-disabled';
-                    playBtn.disabled = true;
-                } else if (hasPending) {
-                    playBtn.textContent = 'Отменить';
-                    playBtn.className = 'btn btn-cancel';
-                    playBtn.disabled = isBlocked;
-                } else {
-                    playBtn.textContent = 'Ставка';
-                    playBtn.className = 'btn btn-primary';
-                    playBtn.disabled = isBlocked;
+                if (isBlocked) {
+                    unifiedBtn.textContent = '🚫 Заблокирован';
+                    unifiedBtn.className = 'btn btn-disabled';
+                    unifiedBtn.disabled = true;
+                    return;
                 }
 
-                withdrawBtn.disabled = !(gameRunning && activeBet) || isBlocked;
                 if (gameRunning && activeBet) {
                     const winAmt = Math.floor(activeBet.amount * currentMultiplier);
-                    withdrawBtn.textContent = `💰 Вывести (${winAmt} ⭐)`;
+                    unifiedBtn.textContent = `💸 Вывести ${winAmt} ⭐`;
+                    unifiedBtn.className = 'btn btn-gold';
+                    unifiedBtn.disabled = false;
+                } else if (gameRunning && !activeBet && !pendingBet) {
+                    unifiedBtn.textContent = '📋 На след. раунд';
+                    unifiedBtn.className = 'btn btn-accent';
+                    unifiedBtn.disabled = false;
+                } else if (gameRunning && pendingBet) {
+                    unifiedBtn.textContent = '⏳ Запланировано';
+                    unifiedBtn.className = 'btn btn-outline';
+                    unifiedBtn.disabled = true;
+                    cancelPendingBtn.style.display = 'inline-flex';
+                } else if (!gameRunning && pendingBet) {
+                    unifiedBtn.textContent = '⏳ Запланировано';
+                    unifiedBtn.className = 'btn btn-outline';
+                    unifiedBtn.disabled = true;
+                    cancelPendingBtn.style.display = 'inline-flex';
                 } else {
-                    withdrawBtn.textContent = '💰 Вывести';
+                    unifiedBtn.textContent = '💰 Ставка';
+                    unifiedBtn.className = 'btn btn-primary';
+                    unifiedBtn.disabled = false;
                 }
 
-                // Ввод ставки разрешён всегда (кроме блокировки) — можно планировать на следующий раунд
-                betInput.disabled = isBlocked;
+                betInput.disabled = isBlocked || (gameRunning && !!activeBet);
                 autoInput.disabled = isBlocked;
             }
 
+            // ── Game logic ──
             function startBreak() {
                 crashInfo.textContent = 'Следующий раунд через 5...';
+                crashInfo.className = 'info-text';
                 let count = 5;
                 const tick = () => {
                     if (count <= 0) {
@@ -1753,12 +1831,15 @@
             function startRound() {
                 if (gameRunning) return;
                 if (isBlockedCheck()) return;
+                currentRound = incrementRoundNumber();
+                crashPoint = generateCrashPoint(currentRound);
 
-                // Если есть запланированная ставка — активируем
                 if (pendingBet) {
                     if (!isDemoMode && pendingBet.amount > stars) {
                         crashInfo.textContent = '❌ Недостаточно звёзд!';
-                        cancelBet();
+                        crashInfo.className = 'info-text loss';
+                        pendingBet = null;
+                        updateUnifiedButton();
                         startBreak();
                         return;
                     }
@@ -1776,7 +1857,9 @@
                 }
 
                 currentMultiplier = 1.0;
-                crashPoint = generateCrashPoint();
+                starAngle = 0;
+                particles = [];
+                speedLines = [];
                 gameRunning = true;
                 startTime = performance.now();
                 crashInfo.textContent = '🚀 Полёт...';
@@ -1787,31 +1870,39 @@
                 } else {
                     autoDisplay.textContent = 'x1.00';
                 }
-                updateButtonsState();
+                updateUnifiedButton();
                 animateCrash();
+            }
+
+            function getGrowthRate(mult) {
+                const baseRate = 0.05775;
+                if (mult < 1.10) return baseRate;
+                if (mult < 1.60) return baseRate * 1.5;
+                return baseRate * 2.0;
             }
 
             function animateCrash(timestamp) {
                 if (!gameRunning) return;
                 const now = performance.now();
                 const elapsed = (now - startTime) / 1000;
-                currentMultiplier = Math.exp(GROWTH_RATE * elapsed);
+                const rate = getGrowthRate(currentMultiplier);
+                currentMultiplier = Math.exp(rate * elapsed);
 
                 if (currentMultiplier >= crashPoint || currentMultiplier >= 30) {
                     currentMultiplier = Math.min(crashPoint, 30);
-                    drawFlyingStar();
+                    drawCrashScene();
                     crash();
                     return;
                 }
 
-                drawFlyingStar();
+                drawCrashScene();
 
                 if (activeBet && activeBet.auto_withdraw > 0 && currentMultiplier >= activeBet.auto_withdraw) {
                     autoWithdraw();
                     return;
                 }
 
-                if (activeBet) updateButtonsState();
+                if (activeBet) updateUnifiedButton();
                 animFrameId = requestAnimationFrame(animateCrash);
             }
 
@@ -1820,8 +1911,8 @@
                 if (animFrameId) cancelAnimationFrame(animFrameId);
                 const crashMult = Math.round(currentMultiplier * 100) / 100;
                 history.push(crashMult);
-                if (history.length > 20) history.shift();
-                updateTopWinsUI();
+                if (history.length > 30) history.shift();
+                updateHistUI();
                 persistGameData();
 
                 if (activeBet) {
@@ -1844,14 +1935,12 @@
 
                 updateBalanceUI();
                 persistGameData();
-                // НЕ сбрасываем pendingBet — он остаётся для следующего раунда
-                // Если есть запланированная ставка — покажем это
                 if (pendingBet) {
                     crashInfo.textContent += ' ⏳ Ставка на след. раунд';
                     crashInfo.className = 'info-text pending';
                 }
                 activeBet = null;
-                updateButtonsState();
+                updateUnifiedButton();
                 setTimeout(startBreak, 800);
             }
 
@@ -1864,9 +1953,12 @@
                 crashInfo.textContent = `✅ Авто-вывод при x${currentMultiplier.toFixed(2)}`;
                 crashInfo.className = 'info-text win';
                 addFeedItem(userName, 'выигрыш', win, 'win', '🏆');
-                activeBet = null;
+                history.push(Math.round(currentMultiplier * 100) / 100);
+                if (history.length > 30) history.shift();
+                updateHistUI();
                 persistGameData();
-                updateButtonsState();
+                activeBet = null;
+                updateUnifiedButton();
             }
 
             function manualWithdraw() {
@@ -1879,36 +1971,34 @@
                     crashInfo.className = 'info-text win';
                     addFeedItem(userName, 'выигрыш', win, 'win', '🏆');
                     history.push(Math.round(currentMultiplier * 100) / 100);
-                    if (history.length > 20) history.shift();
-                    updateTopWinsUI();
+                    if (history.length > 30) history.shift();
+                    updateHistUI();
                     persistGameData();
                     activeBet = null;
-                    updateButtonsState();
+                    updateUnifiedButton();
                 }
             }
 
-            function resetCrashState() {
-                gameRunning = false;
-                // activeBet сбрасываем, но pendingBet НЕ трогаем
-                activeBet = null;
-                currentMultiplier = 1.0;
-                drawFlyingStar();
-                autoDisplay.textContent = 'x1.00';
-                crashInfo.className = 'info-text';
-                if (!isDemoMode) crashInfo.textContent = pendingBet ? '⏳ Ставка запланирована' : 'Ожидание раунда...';
-                if (pendingBet) crashInfo.className = 'info-text pending';
-                updateButtonsState();
-            }
-
-            function placeBet() {
+            function placeOrScheduleBet() {
                 if (isBlockedCheck()) return;
-
-                // Если уже есть запланированная ставка — отменяем её (toggle)
-                if (pendingBet) {
-                    cancelBet();
+                if (gameRunning && activeBet) {
+                    manualWithdraw();
                     return;
                 }
+                if (gameRunning && !activeBet && !pendingBet) {
+                    scheduleBet();
+                    return;
+                }
+                if (!gameRunning && pendingBet) {
+                    return;
+                }
+                if (!gameRunning && !pendingBet) {
+                    placeBetNow();
+                    return;
+                }
+            }
 
+            function placeBetNow() {
                 const bet = parseInt(betInput.value);
                 if (!bet || bet <= 0) {
                     crashInfo.textContent = '❌ Введите ставку > 0';
@@ -1920,7 +2010,6 @@
                     crashInfo.className = 'info-text loss';
                     return;
                 }
-
                 let auto = 0;
                 if (autoInput.value && autoInput.value.trim() !== '') {
                     auto = parseFloat(autoInput.value);
@@ -1930,33 +2019,62 @@
                         return;
                     }
                 }
-
                 pendingBet = {
                     amount: bet,
                     auto_withdraw: auto,
                     protection: protectionEnabled
                 };
-
-                const isGameRunning = gameRunning;
-                if (isGameRunning) {
-                    crashInfo.textContent = '⏳ Ставка запланирована на следующий раунд!';
-                    crashInfo.className = 'info-text pending';
+                crashInfo.textContent = '✅ Ставка принята!';
+                crashInfo.className = 'info-text win';
+                updateUnifiedButton();
+                if (!gameRunning) {
+                    setTimeout(() => {
+                        if (pendingBet && !gameRunning) {
+                            startRound();
+                        }
+                    }, 400);
                 } else {
-                    crashInfo.textContent = '✅ Ставка принята на след. раунд';
-                    crashInfo.className = 'info-text win';
-                }
-                updateButtonsState();
-                // Если игра не идёт, сразу запускаем раунд (если не в демо и не ожидание)
-                if (!gameRunning && !isDemoMode) {
-                    // Ничего не делаем, ждём старта
+                    crashInfo.textContent = '⏳ Ставка запланирована на след. раунд';
+                    crashInfo.className = 'info-text pending';
                 }
             }
 
-            function cancelBet() {
+            function scheduleBet() {
+                const bet = parseInt(betInput.value);
+                if (!bet || bet <= 0) {
+                    crashInfo.textContent = '❌ Введите ставку > 0';
+                    crashInfo.className = 'info-text loss';
+                    return;
+                }
+                if (!isDemoMode && bet > stars) {
+                    crashInfo.textContent = '❌ Недостаточно звёзд';
+                    crashInfo.className = 'info-text loss';
+                    return;
+                }
+                let auto = 0;
+                if (autoInput.value && autoInput.value.trim() !== '') {
+                    auto = parseFloat(autoInput.value);
+                    if (isNaN(auto) || auto <= 1.0 || auto > 30) {
+                        crashInfo.textContent = '❌ Авто-вывод от 1.01 до 30';
+                        crashInfo.className = 'info-text loss';
+                        return;
+                    }
+                }
+                pendingBet = {
+                    amount: bet,
+                    auto_withdraw: auto,
+                    protection: protectionEnabled
+                };
+                crashInfo.textContent = '⏳ Ставка запланирована на следующий раунд!';
+                crashInfo.className = 'info-text pending';
+                updateUnifiedButton();
+            }
+
+            function cancelPendingBet() {
                 pendingBet = null;
-                crashInfo.textContent = '❌ Ставка отменена';
+                crashInfo.textContent = '❌ Запланированная ставка отменена';
                 crashInfo.className = 'info-text loss';
-                updateButtonsState();
+                updateUnifiedButton();
                 setTimeout(() => {
                     if (!gameRunning && !isDemoMode) {
                         crashInfo.textContent = 'Ожидание раунда...';
@@ -1965,26 +2083,28 @@
                 }, 1500);
             }
 
-            playBtn.addEventListener('click', placeBet);
-            withdrawBtn.addEventListener('click', manualWithdraw);
+            unifiedBtn.addEventListener('click', placeOrScheduleBet);
+            cancelPendingBtn.addEventListener('click', cancelPendingBet);
 
-            function updateTopWinsUI() {
-                const list = document.getElementById('topWinsList');
-                if (!history.length) { list.innerHTML = '<span class="top-win-chip">—</span>'; return; }
+            function updateHistUI() {
+                if (!history.length) { histList.innerHTML =
+                    '<span class="hist-chip low">—</span>'; return; }
                 let html = '';
-                history.slice(-6).reverse().forEach((val, i) => {
-                    html += `<span class="top-win-chip${i === 0 ? ' special' : ''}">x${val.toFixed(2)}</span>`;
+                history.slice(-10).reverse().forEach(val => {
+                    const cls = getHistChipClass(val);
+                    html +=
+                        `<span class="hist-chip ${cls}">x${val.toFixed(2)}</span>`;
                 });
-                list.innerHTML = html;
+                histList.innerHTML = html;
             }
 
             function updateBalanceUI() {
                 balanceDisplay.textContent = `⭐ ${stars}`;
             }
 
+            // ── Cases ──
             const caseCanvas = document.getElementById('caseCanvas');
             const caseCtx = caseCanvas.getContext('2d');
-
             const casesConfig = {
                 common: { price: 50, min: 10, max: 55 },
                 rare: { price: 200, min: 100, max: 210 },
@@ -1996,11 +2116,9 @@
                 const cfg = casesConfig[type];
                 if (!cfg) return;
                 if (!isDemoMode && stars < cfg.price) { alert('Недостаточно звёзд!'); return; }
-                if (!isDemoMode) {
-                    stars -= cfg.price;
+                if (!isDemoMode) { stars -= cfg.price;
                     updateBalanceUI();
-                    persistGameData();
-                }
+                    persistGameData(); }
                 const reward = cfg.min + Math.floor(Math.random() * (cfg.max - cfg.min + 1));
                 showCaseAnimation(reward, 'Кейс');
             };
@@ -2043,10 +2161,8 @@
                 document.getElementById('promoMessage').textContent = '';
                 document.getElementById('promoModal').style.display = 'flex';
             });
-
-            document.getElementById('promoCloseBtn').addEventListener('click', () =>
-                document.getElementById('promoModal').style.display = 'none');
-
+            document.getElementById('promoCloseBtn').addEventListener('click', () => document.getElementById(
+                'promoModal').style.display = 'none');
             document.getElementById('promoSubmitBtn').addEventListener('click', () => {
                 const code = document.getElementById('promoCodeInput').value.trim();
                 const msg = document.getElementById('promoMessage');
@@ -2083,13 +2199,10 @@
                 if (!isDemoMode) { stars -= 1500;
                     updateBalanceUI();
                     persistGameData(); }
-                const totalWeight = legendaryItems.reduce((sum, item) => sum + item.weight, 0);
+                const totalWeight = legendaryItems.reduce((s, i) => s + i.weight, 0);
                 let rand = Math.random() * totalWeight;
                 let selected = legendaryItems[0];
-                for (const item of legendaryItems) {
-                    rand -= item.weight;
-                    if (rand <= 0) { selected = item; break; }
-                }
+                for (const item of legendaryItems) { rand -= item.weight; if (rand <= 0) { selected = item; break; } }
                 inventory.push({ ...selected, id: Date.now() + Math.random() });
                 persistGameData();
                 renderInventory();
@@ -2109,12 +2222,10 @@
                   <div class="gift-name">${item.name}</div>
                   <div class="gift-value">${item.value} ⭐</div>
                   <button onclick="sellInventoryItem(${index})">Продать</button>
-                </div>
-              `;
+                </div>`;
                 });
                 grid.innerHTML = html;
             }
-
             window.sellInventoryItem = function(index) {
                 const item = inventory[index];
                 if (!item) return;
@@ -2142,19 +2253,19 @@
                 const w = caseAnimCanvas.width,
                     h = caseAnimCanvas.height;
                 let frame = 0,
-                    totalFrames = 80,
+                    totalFrames = 70,
                     currentReward = 0,
                     increment = finalReward / totalFrames;
                 const starsArr = [];
-                for (let i = 0; i < 60; i++) {
+                for (let i = 0; i < 50; i++) {
                     starsArr.push({
                         x: Math.random() * w,
                         y: Math.random() * h,
-                        size: 8 + Math.random() * 22,
-                        speedX: (Math.random() - 0.5) * 6,
-                        speedY: (Math.random() - 0.5) * 6,
+                        size: 7 + Math.random() * 18,
+                        speedX: (Math.random() - 0.5) * 5,
+                        speedY: (Math.random() - 0.5) * 5,
                         rotation: Math.random() * Math.PI * 2,
-                        rotSpeed: (Math.random() - 0.5) * 0.1,
+                        rotSpeed: (Math.random() - 0.5) * 0.08,
                         glow: 0.3 + Math.random() * 0.7,
                         color: `hsl(${40 + Math.random() * 20}, 100%, ${55 + Math.random() * 30}%)`
                     });
@@ -2162,47 +2273,44 @@
 
                 function drawFrame() {
                     animCtx.clearRect(0, 0, w, h);
-                    const grad = animCtx.createRadialGradient(w / 2, h / 2, 20, w / 2, h / 2, w * 0.7);
-                    grad.addColorStop(0, '#1c2333');
-                    grad.addColorStop(1, '#0a0e13');
+                    const grad = animCtx.createRadialGradient(w / 2, h / 2, 15, w / 2, h / 2, w * 0.7);
+                    grad.addColorStop(0, '#1a2235');
+                    grad.addColorStop(1, '#06090f');
                     animCtx.fillStyle = grad;
                     animCtx.fillRect(0, 0, w, h);
                     starsArr.forEach(s => {
                         s.x += s.speedX;
                         s.y += s.speedY;
                         s.rotation += s.rotSpeed;
-                        if (s.x < -30) s.x = w + 20;
-                        if (s.x > w + 30) s.x = -20;
-                        if (s.y < -30) s.y = h + 20;
-                        if (s.y > h + 30) s.y = -20;
+                        if (s.x < -25) s.x = w + 20;
+                        if (s.x > w + 25) s.x = -20;
+                        if (s.y < -25) s.y = h + 20;
+                        if (s.y > h + 25) s.y = -20;
                         animCtx.save();
                         animCtx.translate(s.x, s.y);
                         animCtx.rotate(s.rotation);
-                        animCtx.globalAlpha = s.glow * (0.6 + 0.4 * Math.sin(frame * 0.05 + s.x));
+                        animCtx.globalAlpha = s.glow * (0.5 + 0.5 * Math.sin(frame * 0.04 + s.x));
                         animCtx.shadowColor = s.color;
-                        animCtx.shadowBlur = 20;
+                        animCtx.shadowBlur = 16;
                         animCtx.font = `${s.size}px "Segoe UI", sans-serif`;
                         animCtx.textAlign = 'center';
                         animCtx.textBaseline = 'middle';
                         animCtx.fillStyle = s.color;
                         animCtx.fillText('⭐', 0, 0);
-                        animCtx.shadowBlur = 0;
-                        animCtx.globalAlpha = 1;
                         animCtx.restore();
                     });
                     const progress = frame / totalFrames;
-                    const scale = 0.6 + 0.4 * Math.min(1, progress * 1.5);
+                    const scale = 0.5 + 0.5 * Math.min(1, progress * 1.6);
                     animCtx.save();
-                    animCtx.translate(w / 2, h / 2 - 10);
+                    animCtx.translate(w / 2, h / 2 - 8);
                     animCtx.scale(scale, scale);
-                    animCtx.shadowColor = 'rgba(240, 185, 11, 0.5)';
-                    animCtx.shadowBlur = 40;
-                    animCtx.font = `bold ${48 + 8 * (1 - progress)}px "Segoe UI", sans-serif`;
+                    animCtx.shadowColor = 'rgba(240,185,11,0.5)';
+                    animCtx.shadowBlur = 35;
+                    animCtx.font = `bold ${42 + 6 * (1 - progress)}px "Segoe UI", sans-serif`;
                     animCtx.textAlign = 'center';
                     animCtx.textBaseline = 'middle';
                     animCtx.fillStyle = '#f0b90b';
                     animCtx.fillText(`+${Math.floor(currentReward)}`, 0, 0);
-                    animCtx.shadowBlur = 0;
                     animCtx.restore();
                     if (frame < totalFrames) {
                         currentReward += increment;
@@ -2217,12 +2325,10 @@
                 }
                 drawFrame();
             }
-
             closeOverlayBtn.addEventListener('click', () => {
                 caseOverlay.classList.remove('active');
                 overlayAnimRunning = false;
             });
-
             caseOverlay.addEventListener('click', (e) => {
                 if (e.target === caseOverlay && closeOverlayBtn.style.display !== 'none') {
                     caseOverlay.classList.remove('active');
@@ -2230,10 +2336,30 @@
                 }
             });
 
+            function drawCaseStatic() {
+                const w = caseCanvas.width,
+                    h = caseCanvas.height;
+                caseCtx.clearRect(0, 0, w, h);
+                caseCtx.fillStyle = '#111827';
+                caseCtx.fillRect(0, 0, w, h);
+                caseCtx.font = '36px "Segoe UI", sans-serif';
+                caseCtx.textAlign = 'center';
+                caseCtx.textBaseline = 'middle';
+                caseCtx.fillStyle = '#2a374d';
+                caseCtx.fillText('📦', w / 2, h / 2);
+                caseCtx.font = '12px "Segoe UI", sans-serif';
+                caseCtx.fillStyle = '#5a6680';
+                caseCtx.fillText('Выберите кейс ниже', w / 2, h / 2 + 38);
+            }
+            drawCaseStatic();
+
+            // ── Tabs ──
             document.querySelectorAll('.tab-btn').forEach(btn => {
                 btn.addEventListener('click', () => {
-                    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-                    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove(
+                        'active'));
+                    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove(
+                        'active'));
                     btn.classList.add('active');
                     document.getElementById(btn.dataset.tab + 'Tab').classList.add('active');
                     if (btn.dataset.tab === 'cases') drawCaseStatic();
@@ -2242,23 +2368,7 @@
                 });
             });
 
-            function drawCaseStatic() {
-                const w = caseCanvas.width,
-                    h = caseCanvas.height;
-                caseCtx.clearRect(0, 0, w, h);
-                caseCtx.fillStyle = '#161b22';
-                caseCtx.fillRect(0, 0, w, h);
-                caseCtx.font = '40px "Segoe UI", sans-serif';
-                caseCtx.textAlign = 'center';
-                caseCtx.textBaseline = 'middle';
-                caseCtx.fillStyle = '#2d3548';
-                caseCtx.fillText('📦', w / 2, h / 2);
-                caseCtx.font = '14px "Segoe UI", sans-serif';
-                caseCtx.fillStyle = '#5a6680';
-                caseCtx.fillText('Выберите кейс ниже', w / 2, h / 2 + 44);
-            }
-            drawCaseStatic();
-
+            // ── Profile & Modals ──
             const profileModal = document.getElementById('profileModal');
             document.getElementById('userName').addEventListener('click', openProfile);
             document.getElementById('avatar').addEventListener('click', openProfile);
@@ -2268,8 +2378,8 @@
                 document.getElementById('profileBalance').textContent = `⭐ ${stars}`;
                 profileModal.style.display = 'flex';
             }
-
-            document.getElementById('closeProfileBtn').addEventListener('click', () => profileModal.style.display = 'none');
+            document.getElementById('closeProfileBtn').addEventListener('click', () => profileModal.style.display =
+                'none');
             document.getElementById('profileDepositBtn').addEventListener('click', () => {
                 profileModal.style.display = 'none';
                 document.getElementById('depositModal').style.display = 'flex';
@@ -2280,9 +2390,8 @@
                 document.getElementById('withdrawError').textContent = '';
                 document.getElementById('withdrawAmount').value = '';
             });
-
-            document.getElementById('closeDepositBtn').addEventListener('click', () => document.getElementById('depositModal')
-                .style.display = 'none');
+            document.getElementById('closeDepositBtn').addEventListener('click', () => document.getElementById(
+                'depositModal').style.display = 'none');
             document.getElementById('simulateDepositBtn').addEventListener('click', () => {
                 const amount = parseInt(document.getElementById('depositAmount').value);
                 if (!amount || amount <= 0) return;
@@ -2295,9 +2404,8 @@
             document.getElementById('telegramDepositBtn').addEventListener('click', () => {
                 tg.openTelegramLink('https://t.me/CrushGiftSpin_bot?start=deposit');
             });
-
-            document.getElementById('closeWithdrawBtn').addEventListener('click', () => document.getElementById('withdrawModal')
-                .style.display = 'none');
+            document.getElementById('closeWithdrawBtn').addEventListener('click', () => document.getElementById(
+                'withdrawModal').style.display = 'none');
             document.getElementById('confirmWithdrawBtn').addEventListener('click', () => {
                 const amount = parseInt(document.getElementById('withdrawAmount').value);
                 const errorEl = document.getElementById('withdrawError');
@@ -2310,17 +2418,16 @@
                 alert(`✅ Заявка на вывод ${amount} ⭐ отправлена.`);
             });
 
+            // ── Admin ──
             function renderAdminPanel() {
                 if (!isAdmin) return;
                 const panel = document.getElementById('adminPanel');
                 let all = loadAllUsers().filter(u => !u.isBot);
                 const searchTerm = document.getElementById('adminSearch')?.value?.toLowerCase() || '';
-                const filtered = all.filter(u =>
-                    u.name.toLowerCase().includes(searchTerm) || u.id.includes(searchTerm)
-                );
+                const filtered = all.filter(u => u.name.toLowerCase().includes(searchTerm) || u.id.includes(
+                    searchTerm));
                 const totalUsers = all.length;
                 const totalStars = all.reduce((sum, u) => sum + (u.stars || 0), 0);
-
                 let html = `
               <h3>🛡️ Админ-панель</h3>
               <div class="admin-stats">
@@ -2328,100 +2435,71 @@
                 <div class="stat-card"><span class="num">⭐${totalStars}</span> <span class="label">всего звёзд</span></div>
               </div>
               <input type="text" id="adminSearch" class="search-box" placeholder="Поиск по нику или ID" value="${searchTerm}" oninput="renderAdminPanel()">
-              <div class="admin-user-list">
-            `;
-                if (filtered.length === 0) {
-                    html += '<div class="empty-feed">Пользователи не найдены</div>';
-                } else {
-                    filtered.forEach(u => {
-                        const blockedTag = u.blocked ? ' 🚫' : '';
-                        html += `
+              <div class="admin-user-list">`;
+                if (filtered.length === 0) html +=
+                    '<div class="empty-feed">Пользователи не найдены</div>';
+                else filtered.forEach(u => {
+                    html += `
                   <div class="admin-user-item">
-                    <div class="user-info">
-                      <span>${u.name}</span>
-                      <span class="badge">${u.id}</span>
-                      ${blockedTag}
-                      <span class="badge">⭐${u.stars}</span>
-                    </div>
+                    <div class="user-info"><span>${u.name}</span><span class="badge">${u.id}</span>${u.blocked?' 🚫':''}<span class="badge">⭐${u.stars}</span></div>
                     <div class="actions">
                       <button class="gold" onclick="adminGiveStars('${u.id}')">⭐ Выдать</button>
-                      <button onclick="adminBlockUser('${u.id}')" class="${u.blocked ? '' : 'danger'}">${u.blocked ? '🔓 Разблок.' : '🚫 Блок'}</button>
+                      <button onclick="adminBlockUser('${u.id}')" class="${u.blocked?'':'danger'}">${u.blocked?'🔓 Разблок.':'🚫 Блок'}</button>
                       <button onclick="adminWriteUser('${u.id}')">💬 Написать</button>
                     </div>
-                  </div>
-                `;
-                    });
-                }
-                html += `
-              </div>
+                  </div>`;
+                });
+                html += `</div>
               <div class="broadcast-area">
-                <textarea id="broadcastMsg" placeholder="Текст рассылки (получат все пользователи)"></textarea>
+                <textarea id="broadcastMsg" placeholder="Текст рассылки"></textarea>
                 <div class="btn-row">
                   <button class="btn-broadcast" onclick="adminBroadcast()">📢 Разослать</button>
                   <button class="btn-reset" onclick="adminResetGame()">🔥 Обнулить игру</button>
                 </div>
-              </div>
-            `;
+              </div>`;
                 panel.innerHTML = html;
             }
-
             window.adminGiveStars = function(targetId) {
                 const amount = parseInt(prompt('Сколько звёзд выдать?'));
                 if (!amount || amount <= 0) return;
                 let all = loadAllUsers();
                 const user = all.find(u => u.id === targetId && !u.isBot);
-                if (user) {
-                    user.stars = (user.stars || 0) + amount;
-                    saveAllUsers(all);
-                    if (targetId === userId) {
-                        stars = user.stars;
-                        updateBalanceUI();
-                    }
+                if (user) { user.stars = (user.stars || 0) + amount;
+                    saveAllUsers(all); if (targetId === userId) { stars = user.stars;
+                        updateBalanceUI(); }
                     renderAdminPanel();
-                    alert(`Выдано ${amount}⭐ пользователю ${user.name}`);
-                }
+                    alert(`Выдано ${amount}⭐ пользователю ${user.name}`); }
             };
-
             window.adminBlockUser = function(targetId) {
                 let all = loadAllUsers();
                 const user = all.find(u => u.id === targetId && !u.isBot);
-                if (user) {
-                    user.blocked = !user.blocked;
-                    saveAllUsers(all);
-                    if (targetId === userId) {
-                        currentUser.blocked = user.blocked;
-                        if (user.blocked) alert('🚫 Вы были заблокированы.');
-                    }
-                    renderAdminPanel();
-                }
+                if (user) { user.blocked = !user.blocked;
+                    saveAllUsers(all); if (targetId === userId) { currentUser.blocked = user.blocked; if (user
+                            .blocked) alert('🚫 Вы были заблокированы.'); }
+                    renderAdminPanel(); }
             };
-
-            window.adminWriteUser = function(targetId) {
-                tg.openTelegramLink(`https://t.me/${targetId}`);
-            };
-
+            window.adminWriteUser = function(targetId) { tg.openTelegramLink(`https://t.me/${targetId}`); };
             window.adminBroadcast = function() {
                 const msg = document.getElementById('broadcastMsg')?.value.trim();
                 if (!msg) return;
                 localStorage.setItem(BROADCAST_KEY, msg);
-                alert('✅ Рассылка сохранена. Все пользователи увидят её при следующем входе.');
+                alert('✅ Рассылка сохранена.');
             };
-
             window.adminResetGame = function() {
-                if (confirm('Сбросить ВСЕ данные? Это необратимо.')) {
-                    localStorage.clear();
-                    location.reload();
-                }
+                if (confirm('Сбросить ВСЕ данные? Это необратимо.')) { localStorage.clear();
+                    location.reload(); }
             };
 
+            // ── Init ──
             updateBalanceUI();
             updatePromoStatus();
-            updateTopWinsUI();
+            updateHistUI();
             renderInventory();
-            drawFlyingStar();
+            renderFeed();
+            drawCrashScene();
+            updateUnifiedButton();
             startBreak();
-
-            console.log('🎁 Crush Gift Spin загружен (все функции исправлены)');
+            console.log('🎁 Crush Gift Spin v4 загружен (синхронизация, единая кнопка, ускорение, современный дизайн)');
         })();
     </script>
 </body>
