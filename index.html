@@ -1295,16 +1295,6 @@
             font-family: var(--font-mono);
             font-weight: 600;
         }
-        .case-preview-content .preview-item .pi-chance {
-            font-size: 10px;
-            color: var(--text-muted);
-            background: #f0f1f4;
-            padding: 2px 8px;
-            border-radius: 10px;
-        }
-        [data-theme="dark"] .case-preview-content .preview-item .pi-chance {
-            background: #323848;
-        }
         .case-preview-content .preview-item.pi-highlight {
             background: #fefce8;
             border-color: rgba(232, 168, 23, 0.25);
@@ -2179,7 +2169,8 @@
                             inventory: [],
                             subscriptionVerified: false,
                             referralCount: 0,
-                            referralEarnings: 0
+                            referralEarnings: 0,
+                            usedVeloCode: false
                         });
                     }
                 });
@@ -2230,17 +2221,18 @@
                         inventory: [],
                         subscriptionVerified: false,
                         referralCount: 0,
-                        referralEarnings: 0
+                        referralEarnings: 0,
+                        usedVeloCode: false
                     };
                     all.push(user);
                     saveAllUsers(all);
-                } else if (user.name !== userName) {
-                    user.name = userName;
-                    saveAllUsers(all);
+                } else {
+                    if (user.name !== userName) user.name = userName;
+                    if (user.subscriptionVerified === undefined) user.subscriptionVerified = false;
+                    if (user.referralCount === undefined) user.referralCount = 0;
+                    if (user.referralEarnings === undefined) user.referralEarnings = 0;
+                    if (user.usedVeloCode === undefined) user.usedVeloCode = false;
                 }
-                if (user.subscriptionVerified === undefined) user.subscriptionVerified = false;
-                if (user.referralCount === undefined) user.referralCount = 0;
-                if (user.referralEarnings === undefined) user.referralEarnings = 0;
                 return user;
             }
 
@@ -2294,6 +2286,7 @@
             let subscriptionVerified = currentUser.subscriptionVerified || false;
             let referralCount = currentUser.referralCount || 0;
             let referralEarnings = currentUser.referralEarnings || 0;
+            let usedVeloCode = currentUser.usedVeloCode || false;
 
             function persistGameData() {
                 updateCurrentUserInStorage({
@@ -2307,7 +2300,8 @@
                     inventory,
                     subscriptionVerified,
                     referralCount,
-                    referralEarnings
+                    referralEarnings,
+                    usedVeloCode
                 });
             }
 
@@ -2771,9 +2765,9 @@
 
             function updateBalanceUI() { balanceDisplay.textContent = `⭐ ${stars}`; }
 
-            // Updated case configs
-            const casesConfig = { common: { price: 50, min: 1, max: 100 }, rare: { price: 200, min: 1, max: 400 },
-                epic: { price: 500, min: 50, max: 1200 } };
+            // Modified case configs
+            const casesConfig = { common: { price: 50, min: 1, max: 30 }, rare: { price: 200, min: 1, max: 150 },
+                epic: { price: 500, min: 50, max: 420 } };
 
             function openCaseCommon(type) { if (isBlockedCheck()) return; const cfg = casesConfig[type]; if (!cfg) return; if (
                     !isDemoMode && stars < cfg.price) { alert('Недостаточно звёзд!'); return; } if (!isDemoMode) { stars -=
@@ -2832,10 +2826,14 @@
                 addFeedItem(userName, 'легендарный кейс', selected.value, 'win', selected.icon);
                 showCaseAnimation(selected.value, `${selected.icon} ${selected.name}`); }
 
-            const uniqueItems = [{ name: 'Кирпич', icon: '🧱', value: 5622, weight: 50 }, { name: 'Мини Оскар',
-                    icon: '🏅', value: 6500, weight: 28 }, { name: 'Чёрная кошка', icon: '🐈‍⬛', value: 9775,
-                    weight: 15 }, { name: 'Кепка', icon: '🧢', value: 43500, weight: 5 }, { name: 'Плюш Пепе',
-                    icon: '🐸', value: 530000, weight: 2 }];
+            // Modified unique items (chance > Mini Oscar = 0.1%)
+            const uniqueItems = [
+                { name: 'Кирпич', icon: '🧱', value: 5622, weight: 299 },
+                { name: 'Мини Оскар', icon: '🏅', value: 6500, weight: 700 },
+                { name: 'Чёрная кошка', icon: '🐈‍⬛', value: 9775, weight: 0.5 },
+                { name: 'Кепка', icon: '🧢', value: 43500, weight: 0.3 },
+                { name: 'Плюш Пепе', icon: '🐸', value: 530000, weight: 0.2 }
+            ];
 
             function openUniqueCase() { if (isBlockedCheck()) return; if (!isDemoMode && stars < 8000) { alert(
                         'Недостаточно звёзд! Нужно 8.000 ⭐'); return; } if (!isDemoMode) { stars -= 8000;
@@ -2864,19 +2862,79 @@
                 { name: 'Пуш Пепе', icon: '🐸✨', value: 720000, weight: 5 }
             ];
 
-            function openVelodrunCase() { if (isBlockedCheck()) return; if (!isDemoMode && stars < 500) { alert(
-                        'Недостаточно звёзд! Нужно 500 ⭐'); return; } if (!isDemoMode) { stars -= 500;
-                updateBalanceUI();
-                persistGameData(); } const totalWeight = velodrunItems.reduce((s, i) => s + i.weight, 0); let rand = Math
-                    .random() * totalWeight; let selected = velodrunItems[0]; for (const item of velodrunItems) { rand -=
-                        item.weight; if (rand <= 0) { selected = item; break; } } if (!isDemoMode) { stars += selected.value;
-                updateBalanceUI();
-                persistGameData(); }
+            function openVelodrunCase() {
+                if (isBlockedCheck()) return;
+                if (usedVeloCode) {
+                    alert('Кейс ВелоДрун уже был открыт на этом аккаунте.');
+                    return;
+                }
+                const code = prompt('Введите промокод ВелоДрун:');
+                if (code !== 'ВелоДрун') {
+                    alert('Неверный промокод.');
+                    return;
+                }
+                if (!isDemoMode && stars < 500) {
+                    alert('Недостаточно звёзд! Нужно 500 ⭐');
+                    return;
+                }
+                if (!isDemoMode) {
+                    stars -= 500;
+                    updateBalanceUI();
+                    persistGameData();
+                }
+                const totalWeight = velodrunItems.reduce((s, i) => s + i.weight, 0);
+                let rand = Math.random() * totalWeight;
+                let selected = velodrunItems[0];
+                for (const item of velodrunItems) {
+                    rand -= item.weight;
+                    if (rand <= 0) { selected = item; break; }
+                }
+                if (!isDemoMode) {
+                    stars += selected.value;
+                    updateBalanceUI();
+                }
                 inventory.push({ ...selected, id: Date.now() + Math.random() });
+                usedVeloCode = true;
                 persistGameData();
                 renderInventory();
                 addFeedItem(userName, 'ВелоДрун кейс', selected.value, 'win', selected.icon);
-                showCaseAnimation(selected.value, `${selected.icon} ${selected.name}`); }
+                showCaseAnimation(selected.value, `${selected.icon} ${selected.name}`);
+                renderCaseGrid(activeCollection);
+            }
+
+            // New case 67 items
+            const case67Items = [
+                { name: 'Сердечко', icon: '❤️', value: 15, prob: 0.50 },
+                { name: 'Мишка', icon: '🧸', value: 15, prob: 0.48 },
+                { name: 'Алмаз', icon: '💎', value: 100, prob: 0.0001 },
+                { name: 'Роза', icon: '🌹', value: 25, prob: 0.019 }
+            ];
+
+            function openCase67() {
+                if (isBlockedCheck()) return;
+                if (!isDemoMode && stars < 80) {
+                    alert('Недостаточно звёзд! Нужно 80 ⭐');
+                    return;
+                }
+                if (!isDemoMode) {
+                    stars -= 80;
+                    updateBalanceUI();
+                }
+                const rand = Math.random();
+                let selected = case67Items[0];
+                let cumulative = 0;
+                for (const item of case67Items) {
+                    cumulative += item.prob;
+                    if (rand <= cumulative) { selected = item; break; }
+                }
+                inventory.push({ ...selected, id: Date.now() + Math.random() });
+                if (!isDemoMode) {
+                    persistGameData();
+                }
+                renderInventory();
+                addFeedItem(userName, 'кейс 67', selected.value, 'win', selected.icon);
+                showCaseAnimation(selected.value, `${selected.icon} ${selected.name}`);
+            }
 
             function renderInventory() { const grid = document.getElementById('inventoryGrid'); if (!inventory.length) { grid
                     .innerHTML = '<div class="empty-feed">Инвентарь пуст</div>'; return; } let html = '';
@@ -3001,45 +3059,42 @@
                     openFn = null; if (caseType === 'common-case') { title = 'Обычный кейс';
                     icon = '📦';
                     price = '50 ⭐';
-                    items = [{ name: 'Звёзды', icon: '⭐', value: '1-100', chance: '100%' }];
+                    items = [{ name: 'Звёзды', icon: '⭐', value: '1-30', chance: '' }];
                     openFn = () => { casePreviewOverlay.classList.remove('active');
                     openCaseCommon('common'); }; } else if (caseType === 'rare-case') { title = 'Редкий кейс';
                     icon = '💎';
                     price = '200 ⭐';
-                    items = [{ name: 'Звёзды', icon: '⭐', value: '1-400', chance: '100%' }];
+                    items = [{ name: 'Звёзды', icon: '⭐', value: '1-150', chance: '' }];
                     openFn = () => { casePreviewOverlay.classList.remove('active');
                     openCaseCommon('rare'); }; } else if (caseType === 'epic-case') { title = 'Эпический кейс';
                     icon = '🔥';
                     price = '500 ⭐';
-                    items = [{ name: 'Звёзды', icon: '⭐', value: '50-1200', chance: '100%' }];
+                    items = [{ name: 'Звёзды', icon: '⭐', value: '50-420', chance: '' }];
                     openFn = () => { casePreviewOverlay.classList.remove('active');
                     openCaseCommon('epic'); }; } else if (caseType === 'legendary-case') { title = 'Легендарный кейс';
                     icon = '👑';
                     price = '1500 ⭐';
-                    items = legendaryItems.map(i => ({ name: i.name, icon: i.icon, value: i.value, chance: (i.weight *
-                            100 / legendaryItems.reduce((s, x) => s + x.weight, 0)).toFixed(2) + '%' }));
+                    items = legendaryItems.map(i => ({ name: i.name, icon: i.icon, value: i.value, chance: '' }));
                     openFn = () => { casePreviewOverlay.classList.remove('active');
                     openLegendaryCase(); }; } else if (caseType === 'unique-case') { title = 'Уникальный кейс';
                     icon = '🌟';
                     price = '8.000 ⭐';
-                    items = uniqueItems.map(i => ({ name: i.name, icon: i.icon, value: i.value, chance: (i.weight * 100 /
-                            uniqueItems.reduce((s, x) => s + x.weight, 0)).toFixed(2) + '%' }));
+                    items = uniqueItems.map(i => ({ name: i.name, icon: i.icon, value: i.value, chance: '' }));
                     openFn = () => { casePreviewOverlay.classList.remove('active');
                     openUniqueCase(); }; } else if (caseType === 'burmalda-case') { title = 'Бурмалда кейс';
                     icon = '🌀';
                     price = '300 ⭐';
-                    items = [{ name: 'Звёзды', icon: '⭐', value: '15-200', chance: '100%' }];
+                    items = [{ name: 'Звёзды', icon: '⭐', value: '15-1000', chance: '' }];
                     openFn = () => { casePreviewOverlay.classList.remove('active');
                     openBurmaldaCase(); }; } else if (caseType === 'velodrun-case') { title = 'ВелоДрун кейс';
                     icon = '🚲';
                     price = '500 ⭐';
-                    items = velodrunItems.map(i => ({ name: i.name, icon: i.icon, value: i.value, chance: (i.weight *
-                            100 / velodrunItems.reduce((s, x) => s + x.weight, 0)).toFixed(2) + '%' }));
+                    items = velodrunItems.map(i => ({ name: i.name, icon: i.icon, value: i.value, chance: '' }));
                     openFn = () => { casePreviewOverlay.classList.remove('active');
                     openVelodrunCase(); }; } else if (caseType === 'daily-case') { title = 'Ежедневный кейс';
                     icon = '🎁';
                     price = 'Бесплатно';
-                    items = [{ name: 'Звёзды', icon: '⭐', value: '1-15', chance: '100%' }];
+                    items = [{ name: 'Звёзды', icon: '⭐', value: '1-15', chance: '' }];
                     openFn = () => { casePreviewOverlay.classList.remove('active'); const now = Date.now(); const
                             oneDay = 24 * 60 * 60 * 1000; if (now - lastDailyClaim < oneDay) { const remaining =
                                 oneDay - (now - lastDailyClaim); const hours = Math.floor(remaining / (60 * 60 *
@@ -3050,10 +3105,16 @@
                         lastDailyClaim = now;
                         persistGameData();
                         addFeedItem(userName, 'ежедневный кейс', reward, 'win', '🎁');
-                        showCaseAnimation(reward, 'Ежедневный кейс'); }; } if (title) { let itemsHtml = '';
+                        showCaseAnimation(reward, 'Ежедневный кейс'); }; } else if (caseType === 'case-67') { title =
+                        'Кейс 67';
+                    icon = '6️⃣7️⃣';
+                    price = '80 ⭐';
+                    items = case67Items.map(i => ({ name: i.name, icon: i.icon, value: i.value, chance: '' }));
+                    openFn = () => { casePreviewOverlay.classList.remove('active');
+                    openCase67(); }; } if (title) { let itemsHtml = '';
                     items.forEach(item => { const isHigh = typeof item.value === 'number' && item.value > 120;
                         itemsHtml +=
-                            `<div class="preview-item ${isHigh ? 'pi-highlight' : ''}"><span class="pi-icon">${item.icon}</span><div class="pi-info"><div class="pi-name">${item.name}</div><div class="pi-value">${typeof item.value === 'number' ? item.value.toLocaleString() : item.value} ⭐</div></div><span class="pi-chance">${item.chance}</span></div>`; });
+                            `<div class="preview-item ${isHigh ? 'pi-highlight' : ''}"><span class="pi-icon">${item.icon}</span><div class="pi-info"><div class="pi-name">${item.name}</div><div class="pi-value">${typeof item.value === 'number' ? item.value.toLocaleString() : item.value} ⭐</div></div></div>`; });
                     casePreviewContent.innerHTML =
                         `<div class="preview-header"><span class="preview-icon">${icon}</span><div><div class="preview-title">${title}</div><div class="preview-subtitle">Стоимость: ${price}</div></div></div><div class="preview-scroll">${itemsHtml}</div><div class="preview-buttons"><button class="btn btn-gold" id="previewOpenBtn">🔓 Открыть</button><button class="btn btn-cancel" id="previewCloseBtn">✕ Отмена</button></div>`;
                     casePreviewOverlay.classList.add('active');
@@ -3065,8 +3126,15 @@
 
             function renderCaseGrid(collection) { let html = ''; if (collection === 'common') { html +=
                     `<div class="case-card gold-border"><div class="case-icon">🎁</div><div class="case-name" style="color:#b8860b;">Ежедневный</div><div class="case-price free">Бесплатно</div><button id="dailyCaseBtn" class="preview-trigger-btn" data-preview="daily-case">Забрать</button></div><div class="case-card purple-border"><div class="case-icon">🔑</div><div class="case-name" style="color:#8b5cf6;">Промо</div><div class="case-price stars">🎟️ Код</div><button class="promo-btn" id="promoCaseBtn">Ввести код</button><span class="case-tag" id="promoStatus">доступен</span></div><div class="case-card"><div class="case-icon">📦</div><div class="case-name">Обычный</div><div class="case-price stars">50 ⭐</div><button class="preview-trigger-btn" data-preview="common-case">Открыть</button></div><div class="case-card purple-border"><div class="case-icon">💎</div><div class="case-name" style="color:#8b5cf6;">Редкий</div><div class="case-price stars">200 ⭐</div><button class="preview-trigger-btn" data-preview="rare-case">Открыть</button></div><div class="case-card orange-border"><div class="case-icon">🔥</div><div class="case-name" style="color:#f9733e;">Эпический</div><div class="case-price stars">500 ⭐</div><button class="preview-trigger-btn" data-preview="epic-case">Открыть</button></div><div class="case-card gold-border"><div class="case-icon">👑</div><div class="case-name" style="color:#b8860b;">Легендарный</div><div class="case-price stars">1500 ⭐</div><button class="preview-trigger-btn" data-preview="legendary-case">Открыть</button></div><div class="case-card unique-border"><div class="case-rarity" style="color:#ef4444;">ULTRA</div><div class="case-icon">🌟</div><div class="case-name" style="color:#ef4444;">Уникальный</div><div class="case-price stars">8.000 ⭐</div><button class="unique-btn preview-trigger-btn" data-preview="unique-case">Открыть</button><span class="case-tag">Джекпот 530K!</span></div><div class="case-card" style="border-color:rgba(139,92,246,0.4);"><div class="case-icon">🌀</div><div class="case-name" style="color:#8b5cf6;">Бурмалда</div><div class="case-price stars">300 ⭐</div><button class="burmalda-btn preview-trigger-btn" data-preview="burmalda-case">Открыть</button></div>`; } else if (collection === 'limited') { html =
-                    `<div class="case-card velodrun-border"><div class="case-rarity" style="color:#06b6d4;">LIMITED</div><div class="case-icon">🚲</div><div class="case-name" style="color:#0891b2;">ВелоДрун</div><div class="case-price stars">500 ⭐</div><button class="velodrun-btn preview-trigger-btn" data-preview="velodrun-case">Открыть</button><span class="case-tag">Джекпот 720K!</span></div>`; } else if (collection === 'unique') { html =
-                    '<div class="empty-feed">Уникальные кейсы появятся позже</div>'; }
+                    `<div class="case-card velodrun-border"><div class="case-rarity" style="color:#06b6d4;">LIMITED</div><div class="case-icon">🚲</div><div class="case-name" style="color:#0891b2;">ВелоДрун</div><div class="case-price stars">500 ⭐</div>`;
+                if (usedVeloCode) {
+                    html += `<button class="velodrun-btn" disabled>Уже открыт</button>`;
+                } else {
+                    html +=
+                    `<button class="velodrun-btn preview-trigger-btn" data-preview="velodrun-case">Открыть</button>`;
+                }
+                html += `<span class="case-tag">Джекпот 720K!</span></div>`; } else if (collection === 'unique') { html =
+                    `<div class="case-card" style="border-color:rgba(239,68,68,0.5);"><div class="case-rarity" style="color:#ef4444;">NEW</div><div class="case-icon">6️⃣7️⃣</div><div class="case-name" style="color:#ef4444;">Кейс 67</div><div class="case-price stars">80 ⭐</div><button class="unique-btn preview-trigger-btn" data-preview="case-67">Открыть</button><span class="case-tag">Алмаз 100⭐!</span></div>`; }
                 caseGrid.innerHTML = html; if (collection === 'common') { document.getElementById('dailyCaseBtn')
                     ?.addEventListener('click', () => { showCasePreview('daily-case'); }); const promoBtn = document
                         .getElementById('promoCaseBtn'); if (promoBtn) { promoBtn.addEventListener('click', () => { if (
@@ -3415,7 +3483,7 @@
             updateTasksUI();
             renderCaseGrid('common');
             startBreak();
-            console.log('🎁 Crush Gift Spin обновлён: темы, кейсы, оверлей-контролы, рефералы, админ-панель');
+            console.log('🎁 Crush Gift Spin обновлён: все правки применены.');
         })();
     </script>
 </body>
