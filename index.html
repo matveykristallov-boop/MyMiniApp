@@ -218,6 +218,34 @@ const urlParams=new URLSearchParams(location.search);
 const incomingRef=(urlParams.get("startapp")||urlParams.get("start")||"").replace(/^ref_/,"");
 
 
+
+/* ADMIN GAME CONTROL */
+const ADMIN_GAME_DEFAULTS={winChance:50,rocketMax:30};
+const ADMIN_GAME_CONFIG_KEY="needcrush_admin_game_config_v1";
+function getAdminGameConfig(){
+ let c={};try{c=JSON.parse(localStorage.getItem(ADMIN_GAME_CONFIG_KEY)||"{}")}catch(e){}
+ return {
+  rocket:{winChance:+(c.rocket?.winChance??50),rocketMax:+(c.rocket?.rocketMax??30)},
+  mines:{winChance:+(c.mines?.winChance??50)},ore:{winChance:+(c.ore?.winChance??50)},
+  plinko:{winChance:+(c.plinko?.winChance??50)},cases:{winChance:+(c.cases?.winChance??50)},
+  tower:{winChance:+(c.tower?.winChance??50)},upgrader:{winChance:+(c.upgrader?.winChance??50)},
+  hilo:{winChance:+(c.hilo?.winChance??50)},cups:{winChance:+(c.cups?.winChance??50)},
+  blackjack:{winChance:+(c.blackjack?.winChance??50)},dice:{winChance:+(c.dice?.winChance??50)}
+ };
+}
+function adminCfg(id){return getAdminGameConfig()[id]||{winChance:50}}
+function adminWin(id){return Math.random()*100<Math.max(0,Math.min(100,+adminCfg(id).winChance||0))}
+function saveAdminGameConfig(){
+ if(!isAdmin)return;
+ const old=getAdminGameConfig(),out={};
+ GAMES.forEach(g=>{
+   const chance=Math.max(0,Math.min(100,Number(document.getElementById("adminChance_"+g.id)?.value ?? old[g.id]?.winChance ?? 50)));
+   out[g.id]={...(old[g.id]||{}),winChance:chance};
+ });
+ out.rocket.rocketMax=Math.max(1.01,Number(document.getElementById("adminRocketMax")?.value ?? old.rocket.rocketMax ?? 30));
+ localStorage.setItem(ADMIN_GAME_CONFIG_KEY,JSON.stringify(out));toast("Настройки игр сохранены");
+}
+
 const GAMES=[
  {id:"rocket",icon:"🚀",title:"Ракета",desc:"Заберите выигрыш до взрыва"},
  {id:"mines",icon:"💣",title:"Мины",desc:"Откройте безопасные клетки"},
@@ -397,7 +425,7 @@ function mineOreBoard(){
  if(!spend(bet))return;
  // Один результат на раунд: алмаз имеет ровно 1% шанс.
  const r=Math.random();
- const result=r<0.01?"diamond":r<0.16?"gold":r<0.46?"stone":"empty";
+ const result=adminWin("ore") ? (r<0.06?"diamond":"gold") : (r<0.45?"stone":"empty");
  const values=Array(15).fill("empty");
  values[Math.floor(Math.random()*15)]=result;
  renderOreBoard(values);
@@ -455,7 +483,7 @@ function openCase(id){
   if(stage)stage.innerHTML=`<div class="case-open-stage"><div class="case-glow"></div><div class="case-box opening" id="caseBox">${c.icon}</div><div class="case-burst" id="caseBurst">✨</div><div class="case-reward" id="caseReward"></div></div>`;
   if(stage)stage.style.display="block"; if(out)out.textContent="Открываем кейс...";
   const weights=c.rewards.map((_,i)=>[52,23,12,6,4,2,1][i]);
-  let r=Math.random()*weights.reduce((a,b)=>a+b,0),idx=0;
+  let r=(adminWin("cases")?Math.random()*.55:0.55+Math.random()*.45)*weights.reduce((a,b)=>a+b,0),idx=0;
   for(let i=0;i<weights.length;i++){r-=weights[i];if(r<=0){idx=i;break}}
   const n=c.rewards[idx];
   setTimeout(()=>{
@@ -762,8 +790,10 @@ function renderPromo(){
 }
 function renderAdmin(){
  if(!isAdmin){document.getElementById("adminBox").innerHTML="";return}
- const arr=getChecks().slice(0,8);
- document.getElementById("adminBox").innerHTML=`<section class="hero admin"><h2 style="margin:0 0 5px">🛠 Панель создателя</h2><p>Создание чеков на виртуальные фишки.</p><div class="row"><div><label>Фишек</label><input id="checkAmount" type="number" min="1" value="100"></div><div><label>Макс. активаций</label><input id="checkMax" type="number" min="1" value="10"></div></div><label>Срок действия, часы (0 = без срока)</label><input id="checkHours" type="number" min="0" value="24"><button class="btn" onclick="createCheck()">Создать чек</button><div id="checkOut"></div>${arr.length?`<div class="msg"><b>Последние чеки</b>${arr.map(c=>`<div class="check-row"><span>${c.code}<br><small>${c.used}/${c.max} активаций</small></span><span style="display:flex;gap:6px"><button class="copy" onclick="copyText('${c.code}')">Копировать</button><button class="copy" style="background:#5a202b;color:#ffb2c0" onclick="deleteCheck('${c.code}')">Удалить</button></span></div>`).join("")}</div>`:""}</section>`;
+ const arr=getChecks().slice(0,8),cfg=getAdminGameConfig();
+ document.getElementById("adminBox").innerHTML=`<section class="hero admin"><h2 style="margin:0 0 5px">🛠 Панель администратора</h2><p>Чеки и управление вероятностями. По умолчанию у всех игр 50%.</p>
+ <div class="msg"><b>🎮 Настройки игр</b>${GAMES.filter(g=>g.id!=="clicker").map(g=>`<label>${g.icon} ${g.title}: шанс выигрыша, %</label><input id="adminChance_${g.id}" type="number" min="0" max="100" step="0.1" value="${cfg[g.id]?.winChance??50}">`).join("")}<label>🚀 Ракета: максимальный X</label><input id="adminRocketMax" type="number" min="1.01" step="0.01" value="${cfg.rocket.rocketMax??30}"><button class="btn" onclick="saveAdminGameConfig()">Сохранить настройки игр</button></div>
+ <div class="row"><div><label>Фишек</label><input id="checkAmount" type="number" min="1" value="100"></div><div><label>Макс. активаций</label><input id="checkMax" type="number" min="1" value="10"></div></div><label>Срок действия, часы (0 = без срока)</label><input id="checkHours" type="number" min="0" value="24"><button class="btn" onclick="createCheck()">Создать чек</button><div id="checkOut"></div>${arr.length?`<div class="msg"><b>Последние чеки</b>${arr.map(c=>`<div class="check-row"><span>${c.code}<br><small>${c.used}/${c.max} активаций</small></span><span style="display:flex;gap:6px"><button class="copy" onclick="copyText('${c.code}')">Копировать</button><button class="copy" style="background:#5a202b;color:#ffb2c0" onclick="deleteCheck('${c.code}')">Удалить</button></span></div>`).join("")}</div>`:""}</section>`;
 }
 function showHistory(){
  const rows=state.history.slice(0,20).map(x=>`<div><span>${x.r}<br><small>${x.t}</small></span><span class="${x.n>=0?"plus":"minus"}">${x.n>=0?"+":""}${fmt(x.n)}</span></div>`).join("");
