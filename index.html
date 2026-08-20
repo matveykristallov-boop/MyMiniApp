@@ -822,27 +822,36 @@ function openNeedCrashChannel(){
   try{tg?.openTelegramLink?.(NEEDCRUSH_CHANNEL_URL)}catch(e){}
   if(!tg?.openTelegramLink)window.open(NEEDCRUSH_CHANNEL_URL,"_blank");
 }
+// URL сервера проверки. Если фронтенд и сервер на одном домене, оставь как есть.
+const SUBSCRIPTION_CHECK_API=window.NEEDCRUSH_SUBSCRIPTION_API||"/api/check-subscription";
 async function checkNeedCrashSubscription(){
   if((state.claimed||[]).includes("needcrush_channel")){toast("Награда уже получена");return}
-  const btn=document.getElementById("subCheckBtn");if(btn){btn.disabled=true;btn.textContent="Проверяем..."}
+  const btn=document.getElementById("subCheckBtn");
+  if(btn){btn.disabled=true;btn.textContent="Проверяем..."}
   try{
-    const resp=await fetch("/api/check-subscription",{
-      method:"POST",headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({user_id:userId,channel:"@"+NEEDCRUSH_CHANNEL,initData:tg?.initData||""})
+    if(!tg?.initData){throw new Error("NO_TELEGRAM_INIT_DATA")}
+    const resp=await fetch(SUBSCRIPTION_CHECK_API,{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({user_id:userId,channel:"@"+NEEDCRUSH_CHANNEL,initData:tg.initData})
     });
-    const data=await resp.json();
-    if(data.ok&&data.subscribed){
-      state.claimed=state.claimed||[];state.claimed.push("needcrush_channel");
+    let data=null;
+    try{data=await resp.json()}catch(_){throw new Error("BAD_SERVER_RESPONSE")}
+    if(!resp.ok)throw new Error(data?.error||("HTTP_"+resp.status));
+    if(data?.ok&&data?.subscribed){
+      state.claimed=state.claimed||[];
+      state.claimed.push("needcrush_channel");
       add(TASK_REWARD,"Задание: подписка на @NeedCrash");
       if(btn){btn.textContent="✓ Награда получена"}
       toast("+5000 фишек за подписку");
-    }else{
-      if(btn){btn.disabled=false;btn.textContent="Проверить подписку"}
-      toast("Подписка не подтверждена. Подпишитесь на @NeedCrash и попробуйте ещё раз.");
+      return;
     }
+    if(btn){btn.disabled=false;btn.textContent="Проверить подписку"}
+    toast(data?.message||"Подписка не подтверждена. Подпишитесь на @NeedCrash и попробуйте ещё раз.");
   }catch(e){
     if(btn){btn.disabled=false;btn.textContent="Проверить подписку"}
-    toast("Сервер проверки недоступен");
+    if(e?.message==="NO_TELEGRAM_INIT_DATA")toast("Проверка работает только при запуске через Telegram Web App");
+    else toast("Не удалось проверить подписку: "+(e?.message||"сервер недоступен"));
   }
 }
 
