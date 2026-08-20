@@ -3,101 +3,125 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#090b12">
-<title>NeedCrush — Mini App</title>
+<meta name="theme-color" content="#070910">
+<title>NeedCrush — Virtual Lounge</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
 :root{
-  --bg:#080a10;--panel:#11151e;--panel2:#171c27;--line:#2a3040;
-  --text:#f5f7fb;--muted:#8d96a8;--gold:#77e6ff;--gold2:#a8f0ff;
-  --green:#56e39f;--red:#ff5d75;--blue:#5d8dff;--shadow:0 16px 40px #0008;
+  --bg:#070910;--panel:#0d111b;--panel2:#131927;--line:#242c3b;
+  --text:#f7f8fc;--muted:#8791a5;--gold:#ffd76a;--gold2:#ffedaa;
+  --green:#43e0a0;--red:#ff5575;--blue:#72a7ff;--cyan:#68e5ff;
+  --shadow:0 20px 55px #0009;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif}
-button,input{font:inherit}
-button{border:0;color:inherit;cursor:pointer}
-.app{min-height:100vh;padding-bottom:92px;background:
- radial-gradient(600px 260px at 80% 0,#15344555,transparent 65%),
- radial-gradient(500px 300px at 10% 35%,#19273b55,transparent 70%)}
-.top{position:sticky;top:0;z-index:20;background:#080a10eF;backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
-.head{height:76px;display:flex;align-items:center;justify-content:space-between;padding:0 16px}
-.brand{display:flex;align-items:center;gap:10px;font-size:22px;font-weight:800}
-.logo{width:38px;height:38px;border-radius:13px;display:grid;place-items:center;background:linear-gradient(145deg,#173b48,#0c111b);border:1px solid #3b6f7f;font-size:21px}
-.balance{display:flex;align-items:center;gap:8px;background:#101722;border:1px solid #2c4050;border-radius:18px;padding:8px 13px;font-weight:800}
-.coin{color:var(--gold)}
-.tabs{display:flex;gap:10px;padding:10px 14px 14px;overflow:auto}
-.tab{flex:1;min-width:105px;padding:12px;border-radius:18px;background:#10131a;border:1px solid #252a35;color:#9da5b4;font-weight:750}
-.tab.active{background:linear-gradient(180deg,#a8f0ff,#56cde8);color:#061016;border-color:#c9f6ff;box-shadow:0 5px 22px #4bd8f733}
-.page{padding:14px}
-.hero{border:1px solid var(--line);background:linear-gradient(145deg,#111822,#0d1119);border-radius:24px;padding:17px;box-shadow:var(--shadow);margin-bottom:14px}
-.hero h1{margin:0 0 6px;font-size:25px}.hero p{margin:0;color:var(--muted);line-height:1.45}
-.section-title{display:flex;justify-content:space-between;align-items:center;margin:18px 2px 10px;font-size:18px;font-weight:850}
+html,body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+body{overflow-x:hidden}button,input,select{font:inherit}button{border:0;color:inherit;cursor:pointer}
+.app{min-height:100vh;padding-bottom:96px;background:
+ radial-gradient(650px 300px at 90% -5%,#3158a833,transparent 68%),
+ radial-gradient(500px 330px at -5% 25%,#4d315d2a,transparent 70%),
+ linear-gradient(180deg,#070910,#090c13 55%,#070910)}
+.top{position:sticky;top:0;z-index:20;background:#080a10e8;backdrop-filter:blur(18px);border-bottom:1px solid #1d2431}
+.head{height:72px;display:flex;align-items:center;justify-content:space-between;padding:0 15px}
+.brand{display:flex;align-items:center;gap:10px;font-size:21px;font-weight:900;letter-spacing:-.4px}
+.logo{width:39px;height:39px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(145deg,#2d2548,#111827);border:1px solid #5a4e80;box-shadow:0 0 25px #8b5cff22;font-size:20px}
+.balance{display:flex;align-items:center;gap:7px;background:#10151f;border:1px solid #30384a;border-radius:17px;padding:8px 12px;font-weight:900;box-shadow:0 8px 25px #0005}
+.coin{color:var(--gold);text-shadow:0 0 10px #ffd76a66}
+.tabs{display:flex;gap:8px;padding:8px 13px 13px;overflow:auto}
+.tab{flex:1;min-width:105px;padding:11px;border-radius:16px;background:#0d1119;border:1px solid #202735;color:#9099aa;font-weight:800}
+.tab.active{background:linear-gradient(180deg,#ffe99c,#eab84c);color:#17120a;border-color:#ffe9a3;box-shadow:0 6px 24px #e4b64c33}
+.page{padding:14px;max-width:980px;margin:auto}
+.hero{border:1px solid #293143;background:
+ radial-gradient(250px 120px at 85% 10%,#314c8333,transparent 70%),
+ linear-gradient(145deg,#121826,#0c1018);border-radius:25px;padding:17px;box-shadow:var(--shadow);margin-bottom:14px;overflow:hidden}
+.hero h1{margin:0 0 6px;font-size:25px;letter-spacing:-.5px}.hero p{margin:0;color:var(--muted);line-height:1.45}
+.section-title{display:flex;justify-content:space-between;align-items:center;margin:19px 2px 10px;font-size:18px;font-weight:900}
 .games{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.card{min-height:174px;border:1px solid #2b303c;border-radius:22px;overflow:hidden;background:linear-gradient(145deg,#151923,#0e1118);box-shadow:0 10px 25px #0005;transition:.16s}
+.card{min-height:174px;border:1px solid #252d3d;border-radius:23px;overflow:hidden;background:linear-gradient(145deg,#121722,#0b0e15);box-shadow:0 12px 32px #0006;transition:.16s}
 .card:active{transform:scale(.985)}
-.art{height:102px;display:grid;place-items:center;font-size:48px;background:
- radial-gradient(circle at 50% 45%,#2d6074,transparent 30%),linear-gradient(145deg,#15232c,#0c1017)}
-.card:nth-child(3n) .art{background:radial-gradient(circle,#36554e,transparent 32%),linear-gradient(145deg,#17241f,#0b1110)}
-.card:nth-child(3n+1) .art{background:radial-gradient(circle,#24485a,transparent 32%),linear-gradient(145deg,#1a202d,#0b0e14)}
+.art{height:104px;display:grid;place-items:center;font-size:49px;background:
+ radial-gradient(circle at 50% 45%,#7a4de433,transparent 31%),linear-gradient(145deg,#1a2030,#0b0e15)}
+.card:nth-child(3n) .art{background:radial-gradient(circle,#35a98233,transparent 32%),linear-gradient(145deg,#12241f,#0b1110)}
+.card:nth-child(3n+1) .art{background:radial-gradient(circle,#4d77c933,transparent 32%),linear-gradient(145deg,#171d2d,#0b0e14)}
 .card-body{padding:11px 13px 13px}.card h3{margin:0 0 4px;font-size:17px}.card p{margin:0;color:#8992a2;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.bottom{position:fixed;z-index:30;bottom:10px;left:14px;right:14px;border:1px solid #303846;border-radius:28px;background:#11151eeF;backdrop-filter:blur(20px);display:flex;justify-content:space-around;padding:8px;box-shadow:0 12px 40px #000b}
-.nav{flex:1;text-align:center;color:#788292;padding:6px;border-radius:20px;font-size:11px;font-weight:700}.nav b{display:block;font-size:22px;margin-bottom:2px}.nav.active{background:#1c2d35;color:var(--gold)}
-.modal{position:fixed;inset:0;z-index:50;display:none;align-items:flex-end;background:#0009}.modal.show{display:flex}
-.sheet{width:100%;max-height:92vh;overflow:auto;background:#0e121a;border:1px solid #303847;border-radius:28px 28px 0 0;padding:18px;box-shadow:0 -20px 60px #000b}
+.bottom{position:fixed;z-index:30;bottom:10px;left:10px;right:10px;border:1px solid #2a3343;border-radius:26px;background:#0e131deF;backdrop-filter:blur(22px);display:flex;justify-content:space-around;padding:7px;box-shadow:0 15px 45px #000c}
+.nav{flex:1;text-align:center;color:#707b8e;padding:6px 3px;border-radius:19px;font-size:10px;font-weight:800}.nav b{display:block;font-size:21px;margin-bottom:2px}.nav.active{background:#24202a;color:var(--gold)}
+.modal{position:fixed;inset:0;z-index:50;display:none;align-items:flex-end;background:#000b}.modal.show{display:flex}
+.sheet{width:100%;max-height:94vh;overflow:auto;background:#0b0f17;border:1px solid #303949;border-radius:29px 29px 0 0;padding:17px;box-shadow:0 -25px 70px #000c}
 .sheet-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}.sheet h2{margin:0;font-size:23px}
-.close{width:38px;height:38px;border-radius:50%;background:#1b202a;color:#aeb7c6;font-size:22px}
-.btn{width:100%;padding:13px 15px;border-radius:15px;background:linear-gradient(180deg,#b3f4ff,#55d0ea);color:#061116;font-weight:850;margin-top:10px}
-.btn.alt{background:#1b222e;color:#dce2eb;border:1px solid #323b4a}.btn.danger{background:#ff5d75;color:#fff}
+.close{width:39px;height:39px;border-radius:50%;background:#191f2b;color:#b5bfce;font-size:23px}
+.btn{width:100%;padding:14px 15px;border-radius:16px;background:linear-gradient(180deg,#ffe69a,#e8b846);color:#17120a;font-weight:900;margin-top:10px;box-shadow:0 7px 22px #d9aa4030}
+.btn.alt{background:#171e2a;color:#e2e7ef;border:1px solid #30394a;box-shadow:none}.btn.danger{background:#e85370;color:#fff}.btn.green{background:linear-gradient(180deg,#69efba,#32c88c);color:#07150f}
 .row{display:flex;gap:10px}.row>*{flex:1}
-input,select{width:100%;padding:12px;border-radius:13px;background:#0a0e15;border:1px solid #313847;color:#fff;outline:none}
-label{display:block;color:#9ba4b4;font-size:12px;margin:10px 0 5px}
-.statgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin:12px 0}.stat{background:#141a23;border:1px solid #28303d;border-radius:15px;padding:12px}.stat small{color:#8992a1}.stat strong{display:block;font-size:20px;margin-top:3px}
-.msg{padding:11px;border-radius:13px;background:#141a23;color:#aeb7c6;margin-top:10px;line-height:1.4}
-.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.cell{aspect-ratio:1;border-radius:16px;background:#171d28;border:1px solid #303847;display:grid;place-items:center;font-size:28px;font-weight:800}.cell.safe{background:#173d32;border-color:#45c895}.cell.mine{background:#4b1823;border-color:#ff5d75}
-.range{width:100%}
-.check{display:flex;gap:8px;align-items:center;background:#131923;padding:10px;border-radius:13px;margin-top:8px}
-.history{max-height:180px;overflow:auto}.history div{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #252c38;color:#aeb6c3;font-size:13px}
-.notice{font-size:12px;color:#788393;margin-top:10px;line-height:1.45}
-.admin{border:1px solid #4d7680;background:linear-gradient(145deg,#10252c,#111820)}
-@media(min-width:760px){.page{max-width:900px;margin:auto}.games{grid-template-columns:repeat(3,1fr)}.bottom{left:50%;right:auto;width:680px;transform:translateX(-50%)}}
+input,select{width:100%;padding:13px;border-radius:14px;background:#080c13;border:1px solid #30394a;color:#fff;outline:none}
+input:focus,select:focus{border-color:#637ba5;box-shadow:0 0 0 3px #617ca51c}
+label{display:block;color:#9ca6b7;font-size:12px;margin:11px 0 5px}
+.statgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin:12px 0}.stat{background:#121823;border:1px solid #283142;border-radius:16px;padding:12px}.stat small{color:#8993a4}.stat strong{display:block;font-size:20px;margin-top:3px}
+.msg{padding:12px;border-radius:14px;background:#121823;border:1px solid #222b3a;color:#b6bfce;margin-top:10px;line-height:1.4}
+.notice{font-size:12px;color:#778294;margin-top:10px;line-height:1.45}
+.admin{border-color:#725e2b;background:linear-gradient(145deg,#211b0d,#121820)}
+.promo-code{display:flex;align-items:center;gap:8px;margin-top:10px}.promo-code code{flex:1;display:block;padding:13px;border-radius:13px;background:#070a10;border:1px solid #3a4353;font-size:18px;font-weight:900;letter-spacing:1px;text-align:center;color:var(--gold)}
+.copy{padding:12px;border-radius:13px;background:#242c3b;font-weight:900}
+.check-row{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid #222a38;font-size:13px;color:#aeb7c6}
+.history{max-height:150px;overflow:auto}.history div{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #242b38;color:#aeb7c3;font-size:12px}
+.history .plus{color:var(--green);font-weight:800}.history .minus{color:var(--red);font-weight:800}
+.mult-history{display:flex;gap:7px;overflow:hidden;margin:10px 0}.mh{flex:0 0 auto;padding:8px 11px;border-radius:12px;background:#321c23;border:1px solid #55303a;color:#ff899b;font-size:12px;font-weight:900}.mh.good{background:#103b2d;border-color:#216f54;color:#65e4ad}
+.rocket-box{height:330px;border-radius:25px;border:1px solid #293345;position:relative;overflow:hidden;background:
+ radial-gradient(circle at 20% 18%,#fff9 0 1px,transparent 2px),
+ radial-gradient(circle at 78% 28%,#fff7 0 1px,transparent 2px),
+ radial-gradient(circle at 62% 65%,#fff5 0 1px,transparent 2px),
+ linear-gradient(180deg,#090d15,#070a10)}
+.rocket-box:before,.rocket-box:after{content:"";position:absolute;inset:0;background-image:linear-gradient(#1d2432 1px,transparent 1px),linear-gradient(90deg,#1d2432 1px,transparent 1px);background-size:100% 20%,20% 100%;opacity:.35;transform:perspective(400px) rotateX(58deg) scale(1.7) translateY(35%)}
+.rocket-content{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:2}
+.rocket-x{font-size:61px;font-weight:1000;letter-spacing:-3px;text-shadow:0 0 25px #ffe27c55}
+.rocket-sub{color:#8d98aa;font-size:12px}.rocket-ship{font-size:50px;position:absolute;left:9%;bottom:12%;filter:drop-shadow(0 0 16px #ffcb4b);transition:.15s}
+.rocket-box.live .rocket-ship{animation:fly .7s ease-in-out infinite alternate}
+@keyframes fly{from{transform:translate(0,5px) rotate(-8deg)}to{transform:translate(110px,-120px) rotate(-18deg)}}
+.crash{color:#ff647f}.live{color:#68e5ff}
+.cashout-bar{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.cashout-bar .btn{margin-top:0}
+.cardface{width:105px;height:145px;border-radius:18px;background:#f6f6f4;color:#171a20;display:grid;place-items:center;font-size:39px;font-weight:1000;margin:0 auto;box-shadow:0 15px 35px #0007;position:relative}
+.cardface.red{color:#e24461}.cardface:after{content:"";position:absolute;inset:8px;border:1px solid #d4d4d0;border-radius:12px}
+.hilo-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px}.hilo-actions .btn{margin-top:0}
+.mult-big{text-align:center;font-size:31px;font-weight:1000;color:var(--gold);margin:7px 0}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.cell{aspect-ratio:1;border-radius:17px;background:#151c28;border:1px solid #30394a;display:grid;place-items:center;font-size:28px;font-weight:800}.cell.safe{background:#123e31;border-color:#45d6a0}.cell.mine{background:#471925;border-color:#ff5d75}
+@media(min-width:760px){.page{padding:20px}.games{grid-template-columns:repeat(3,1fr)}.bottom{left:50%;right:auto;width:720px;transform:translateX(-50%)}}
 </style>
 </head>
 <body>
 <div class="app">
-  <header class="top">
-    <div class="head">
-      <div class="brand"><div class="logo">✦</div> NeedCrush</div>
-      <div class="balance"><span class="coin">◈</span><span id="balance">0</span></div>
+<header class="top">
+  <div class="head">
+    <div class="brand"><div class="logo">✦</div> NeedCrush</div>
+    <div class="balance"><span class="coin">◈</span><span id="balance">0</span></div>
+  </div>
+  <div class="tabs">
+    <button class="tab active" data-mode="quick">Быстрые игры</button>
+    <button class="tab" data-mode="live">Активности</button>
+    <button class="tab" data-mode="duel">Дуэли</button>
+  </div>
+</header>
+
+<main class="page">
+  <section class="hero">
+    <h1 id="greeting">Добро пожаловать</h1>
+    <p>Игровая версия только на виртуальных фишках. Без покупок и вывода денег.</p>
+    <div class="statgrid">
+      <div class="stat"><small>Баланс</small><strong id="heroBalance">0</strong></div>
+      <div class="stat"><small>Уровень</small><strong id="level">1</strong></div>
     </div>
-    <div class="tabs">
-      <button class="tab active" data-mode="quick">Быстрые игры</button>
-      <button class="tab" data-mode="live">Активности</button>
-      <button class="tab" data-mode="duel">Дуэли</button>
-    </div>
-  </header>
+  </section>
+  <div id="adminBox"></div>
+  <div class="section-title"><span>Игры</span><span id="modeTitle" style="color:#7f8a9b;font-size:12px">Быстрые</span></div>
+  <div class="games" id="games"></div>
+</main>
 
-  <main class="page">
-    <section class="hero">
-      <h1 id="greeting">Добро пожаловать</h1>
-      <p>Играем только на виртуальных фишках. Никаких покупок, донатов и вывода денег.</p>
-      <div class="statgrid">
-        <div class="stat"><small>Фишки</small><strong id="heroBalance">0</strong></div>
-        <div class="stat"><small>Уровень</small><strong id="level">1</strong></div>
-      </div>
-    </section>
-
-    <div id="adminBox"></div>
-    <div class="section-title"><span>Игры</span><span id="modeTitle" style="color:#7f8a9b;font-size:12px">Быстрые</span></div>
-    <div class="games" id="games"></div>
-  </main>
-
-  <nav class="bottom">
-    <button class="nav active" data-nav="games"><b>▦</b>Игры</button>
-    <button class="nav" data-nav="friends"><b>♧</b>Друзья</button>
-    <button class="nav" data-nav="tasks"><b>◇</b>Задания</button>
-    <button class="nav" data-nav="shop"><b>◎</b>Магазин</button>
-    <button class="nav" data-nav="profile"><b>♙</b>Профиль</button>
-  </nav>
+<nav class="bottom">
+  <button class="nav active" data-nav="games"><b>▦</b>Игры</button>
+  <button class="nav" data-nav="promo"><b>♢</b>Промокод</button>
+  <button class="nav" data-nav="tasks"><b>◇</b>Задания</button>
+  <button class="nav" data-nav="friends"><b>♧</b>Друзья</button>
+  <button class="nav" data-nav="profile"><b>♙</b>Профиль</button>
+</nav>
 </div>
 
 <div class="modal" id="modal"><div class="sheet">
@@ -117,216 +141,255 @@ const isAdmin=userId===ADMIN_ID;
 const GAMES=[
  {id:"rocket",icon:"🚀",title:"Ракета",desc:"Заберите выигрыш до взрыва"},
  {id:"mines",icon:"💣",title:"Мины",desc:"Откройте безопасные клетки"},
- {id:"ore",icon:"⛏️",title:"Шахта",desc:"Киньте кирку и добудьте руду"},
+ {id:"ore",icon:"⛏️",title:"Шахта",desc:"Добудьте виртуальную руду"},
  {id:"plinko",icon:"🔵",title:"Плинко",desc:"Шарик падает через множитель"},
  {id:"cases",icon:"📦",title:"Кейсы",desc:"Откройте кейс и найдите награду"},
  {id:"tower",icon:"🏰",title:"Башня",desc:"3 ячейки, одна с бомбой"},
  {id:"upgrader",icon:"🎯",title:"Апгрейдер",desc:"Попробуйте улучшить фишки"},
  {id:"clicker",icon:"⚡",title:"Кликер",desc:"1 клик = 1 фишка"},
- {id:"hilo",icon:"🃏",title:"Hi-Lo",desc:"Угадайте следующую карту"},
- {id:"cups",icon:"🥤",title:"Стаканчики",desc:"Найдите шарик"},
+ {id:"hilo",icon:"🃏",title:"Hi-Lo",desc:"Играйте сериями и забирайте в любой момент"},
+ {id:"cups",icon:"🥤",title:"Стаканчики",desc:"Найдите спрятанный шар"},
  {id:"blackjack",icon:"♠️",title:"Блэкджек",desc:"Наберите ближе к 21"},
  {id:"dice",icon:"🎲",title:"Кости",desc:"Бросьте больше дилера"}
 ];
+
 let state=JSON.parse(localStorage.getItem("needcrush_"+userId)||"null")||{
  balance:100,level:1,clicks:0,ore:0,history:[],claimed:[],stats:{played:0,wins:0}
 };
 function save(){localStorage.setItem("needcrush_"+userId,JSON.stringify(state));updateUI()}
 function fmt(n){return Math.floor(n).toLocaleString("ru-RU")}
-function add(n,reason){state.balance=Math.max(0,state.balance+n);state.history.unshift({t:new Date().toLocaleTimeString(),r:reason,n});state.history=state.history.slice(0,30);save()}
-function spend(n){if(state.balance<n){toast("Не хватает фишек");return false}state.balance-=n;save();return true}
-function toast(s){const x=document.createElement("div");x.textContent=s;x.style.cssText="position:fixed;z-index:100;left:50%;bottom:105px;transform:translateX(-50%);background:#e9fbff;color:#071017;padding:12px 16px;border-radius:14px;font-weight:800;box-shadow:0 8px 30px #0008";document.body.appendChild(x);setTimeout(()=>x.remove(),1800)}
+function add(n,reason){if(n<=0)return;state.balance+=Math.floor(n);state.history.unshift({t:new Date().toLocaleTimeString(),r:reason,n:Math.floor(n)});state.history=state.history.slice(0,40);save()}
+function spend(n){n=Math.floor(+n);if(!Number.isFinite(n)||n<1){toast("Введите корректную ставку");return false}if(state.balance<n){toast("Не хватает фишек");return false}state.balance-=n;save();return true}
+function toast(s){const x=document.createElement("div");x.textContent=s;x.style.cssText="position:fixed;z-index:100;left:50%;bottom:108px;transform:translateX(-50%);background:#f4f0df;color:#11151d;padding:12px 16px;border-radius:14px;font-weight:900;box-shadow:0 10px 35px #0009;max-width:88%;text-align:center";document.body.appendChild(x);setTimeout(()=>x.remove(),1900)}
 function updateUI(){
  document.getElementById("balance").textContent=fmt(state.balance);
  document.getElementById("heroBalance").textContent=fmt(state.balance);
  document.getElementById("level").textContent=state.level;
  document.getElementById("greeting").textContent=tgUser?.first_name?`Привет, ${tgUser.first_name}!`:"Добро пожаловать";
 }
+
 function renderGames(filter="quick"){
- const wrap=document.getElementById("games");
- wrap.innerHTML="";
+ const wrap=document.getElementById("games");wrap.innerHTML="";
  let arr=GAMES;
  if(filter==="live")arr=GAMES.filter(g=>["rocket","mines","ore","plinko","tower","upgrader"].includes(g.id));
  if(filter==="duel")arr=GAMES.filter(g=>["hilo","cups","blackjack","dice"].includes(g.id));
  arr.forEach(g=>{
-  const el=document.createElement("button");el.className="card";el.innerHTML=`<div class="art">${g.icon}</div><div class="card-body"><h3>${g.title}</h3><p>${g.desc}</p></div>`;
+  const el=document.createElement("button");el.className="card";
+  el.innerHTML=`<div class="art">${g.icon}</div><div class="card-body"><h3>${g.title}</h3><p>${g.desc}</p></div>`;
   el.onclick=()=>openGame(g.id);wrap.appendChild(el);
  });
  document.getElementById("modeTitle").textContent=filter==="quick"?"Быстрые":filter==="live"?"Активности":"Дуэли";
 }
 function openModal(title,html){document.getElementById("modalTitle").textContent=title;document.getElementById("modalBody").innerHTML=html;document.getElementById("modal").classList.add("show")}
-function closeModal(){document.getElementById("modal").classList.remove("show")}
+function closeModal(){if(rocket.run)rocketCashout(true);document.getElementById("modal").classList.remove("show")}
 document.getElementById("modal").addEventListener("click",e=>{if(e.target.id==="modal")closeModal()});
-
 function openGame(id){
  const map={rocket:gameRocket,mines:gameMines,ore:gameOre,plinko:gamePlinko,cases:gameCases,tower:gameTower,upgrader:gameUpgrader,clicker:gameClicker,hilo:gameHiLo,cups:gameCups,blackjack:gameBlackjack,dice:gameDice};
  map[id]?.();
 }
 
-/* 1. ROCKET */
+/* ROCKET */
+let rocket={run:false,bet:0,x:1,timer:null,crash:0};
+let rocketHistory=[1.26,1.22,9.74,15.12,1.32,1.49,2.04,3.18];
 function gameRocket(){
- openModal("🚀 Ракета",`<div class="hero"><h1 id="rocketX">1.00x</h1><p>Запусти раунд. Множитель растёт, но ракета может улететь в любой момент.</p></div>
- <label>Ставка</label><input id="rocketBet" type="number" min="1" value="10">
- <button class="btn" onclick="rocketStart()">Запустить</button><button class="btn alt" id="rocketCash" disabled onclick="rocketCashout()">Забрать</button><div class="msg" id="rocketMsg">Кэшаут доступен после старта.</div>`);
+ openModal("🚀 Ракета",`
+  <div class="mult-history" id="rocketHistory">${rocketHistory.slice(-8).map(x=>`<span class="mh ${x>=2?"good":""}">${x.toFixed(2)}x</span>`).join("")}</div>
+  <div class="rocket-box" id="rocketBox">
+   <div class="rocket-content"><div class="rocket-x" id="rocketX">1.00x</div><div class="rocket-sub" id="rocketMsg">Приём ставок</div></div>
+   <div class="rocket-ship" id="rocketShip">🚀</div>
+  </div>
+  <label>Ставка</label><input id="rocketBet" type="number" min="1" value="10">
+  <div class="cashout-bar" style="margin-top:10px">
+   <button class="btn" id="rocketStartBtn" onclick="rocketStart()">🚀 Запустить</button>
+   <button class="btn alt" id="rocketCash" disabled onclick="rocketCashout()">Забрать 0</button>
+  </div>
+  <div class="msg">Множитель растёт постепенно. Забрать можно в любой момент до взрыва.</div>`);
 }
-let rocket={run:false,bet:0,x:1,timer:null};
 function rocketStart(){
- if(rocket.run)return;if(!spend(+rocketBet.value))return;
- rocket={run:true,bet:+rocketBet.value,x:1,timer:null};
- const crash=1.05+Math.random()*8;
+ if(rocket.run)return;
+ const bet=+document.getElementById("rocketBet").value;if(!spend(bet))return;
+ const crash=1.02+Math.pow(Math.random(),1.65)*14;
+ rocket={run:true,bet,x:1,timer:null,crash};
+ rocketX.textContent="1.00x";rocketMsg.textContent="🚀 Полёт начался";rocketMsg.className="live";
+ rocketBox.classList.add("live");rocketCash.disabled=true;rocketStartBtn.disabled=true;
  rocket.timer=setInterval(()=>{
-   rocket.x+=0.03+rocket.x*0.018;
-   rocketX.textContent=rocket.x.toFixed(2)+"x";
-   rocketCash.disabled=false;
-   if(rocket.x>=crash){clearInterval(rocket.timer);rocket.run=false;rocketCash.disabled=true;rocketMsg.textContent="💥 Ракета взорвалась на "+crash.toFixed(2)+"x";state.stats.played++;save()}
- },180);
+  rocket.x+=0.022+rocket.x*0.012;
+  rocketX.textContent=rocket.x.toFixed(2)+"x";
+  rocketCash.textContent="Забрать "+fmt(Math.floor(rocket.bet*rocket.x));
+  if(rocket.x>=1.15)rocketCash.disabled=false;
+  if(rocket.x>=rocket.crash)rocketCrash();
+ },100);
 }
-function rocketCashout(){
- if(!rocket.run)return;clearInterval(rocket.timer);rocket.run=false;rocketCash.disabled=true;
- const win=Math.floor(rocket.bet*rocket.x);add(win,"Ракета "+rocket.x.toFixed(2)+"x");state.stats.played++;state.stats.wins++;save();rocketMsg.textContent="Вы забрали "+fmt(win)+" фишек.";
+function rocketCrash(){
+ if(!rocket.run)return;
+ clearInterval(rocket.timer);rocket.run=false;rocketCash.disabled=true;rocketStartBtn.disabled=false;rocketBox.classList.remove("live");
+ rocketX.textContent=rocket.crash.toFixed(2)+"x";rocketMsg.textContent="💥 Взрыв на "+rocket.crash.toFixed(2)+"x";rocketMsg.className="crash";
+ rocketHistory.push(rocket.crash);rocketHistory=rocketHistory.slice(-16);
+ const h=document.getElementById("rocketHistory");if(h)h.innerHTML=rocketHistory.slice(-8).map(x=>`<span class="mh ${x>=2?"good":""}">${x.toFixed(2)}x</span>`).join("");
+ state.stats.played++;save();
+}
+function rocketCashout(silent=false){
+ if(!rocket.run)return;
+ clearInterval(rocket.timer);rocket.run=false;rocketCash.disabled=true;rocketStartBtn.disabled=false;rocketBox.classList.remove("live");
+ const win=Math.floor(rocket.bet*rocket.x);add(win,"Ракета "+rocket.x.toFixed(2)+"x");state.stats.played++;state.stats.wins++;
+ rocketMsg.textContent="✅ Забрано "+fmt(win)+" фишек на "+rocket.x.toFixed(2)+"x";rocketMsg.className="live";
+ rocketHistory.push(rocket.x);rocketHistory=rocketHistory.slice(-16);
+ const h=document.getElementById("rocketHistory");if(h)h.innerHTML=rocketHistory.slice(-8).map(x=>`<span class="mh ${x>=2?"good":""}">${x.toFixed(2)}x</span>`).join("");
+ if(!silent)toast("Вы забрали "+fmt(win)+" фишек");
 }
 
-/* 2. MINES */
-function gameMines(){
- openModal("💣 Мины",`<div class="row"><div><label>Ставка</label><input id="mineBet" type="number" min="1" value="10"></div><div><label>Мин</label><select id="mineCount"><option>3</option><option>5</option><option>7</option></select></div></div><div class="msg" id="mineInfo">Выберите безопасные клетки.</div><div class="grid3" id="mineGrid" style="margin-top:12px"></div><button class="btn" onclick="mineNew()">Новый раунд</button>`);
- mineNew();
-}
+/* MINES */
 let mineGame=null;
+function gameMines(){
+ openModal("💣 Мины",`<div class="row"><div><label>Ставка</label><input id="mineBet" type="number" min="1" value="10"></div><div><label>Мин</label><select id="mineCount"><option>3</option><option>5</option><option>7</option></select></div></div><div class="msg" id="mineInfo">Новый раунд — нажмите кнопку.</div><div class="grid3" id="mineGrid" style="margin-top:12px"></div><div class="cashout-bar" style="margin-top:10px"><button class="btn" onclick="mineNew()">Новый раунд</button><button class="btn alt" onclick="mineCashout()">Забрать</button></div>`);
+}
 function mineNew(){
- if(mineGame?.active){toast("Сначала закончи текущий раунд");return}
+ if(mineGame?.active){toast("Сначала заберите выигрыш или откройте клетку");return}
  const bet=+mineBet.value;if(!spend(bet))return;
  const count=+mineCount.value;let mines=[];while(mines.length<count){let n=Math.floor(Math.random()*9);if(!mines.includes(n))mines.push(n)}
  mineGame={bet,mines,active:true,safe:0,mult:1};
- const grid=document.getElementById("mineGrid");grid.innerHTML="";
- for(let i=0;i<9;i++){const b=document.createElement("button");b.className="cell";b.textContent="?";b.onclick=()=>minePick(i,b);grid.appendChild(b)}
- mineInfo.textContent=`Ставка ${bet}. Безопасных клеток: ${9-count}.`;
+ mineGrid.innerHTML="";for(let i=0;i<9;i++){const b=document.createElement("button");b.className="cell";b.textContent="?";b.onclick=()=>minePick(i,b);mineGrid.appendChild(b)}
+ mineInfo.textContent=`Ставка ${bet}. Забрать можно после первой безопасной клетки.`;
 }
 function minePick(i,b){
  if(!mineGame?.active||b.textContent!=="?")return;
- if(mineGame.mines.includes(i)){b.classList.add("mine");b.textContent="💣";mineGame.active=false;mineInfo.textContent="💥 Мина! Раунд проигран.";[...mineGrid.children].forEach((x,j)=>{if(mineGame.mines.includes(j))x.textContent="💣"});save();return}
- mineGame.safe++;mineGame.mult*=1+(+mineCount.value*0.07);
- b.classList.add("safe");b.textContent="✓";
- const win=Math.floor(mineGame.bet*mineGame.mult);
- mineInfo.textContent=`Безопасно! Множитель ${mineGame.mult.toFixed(2)}x · Забрать ${win}`;
- if(mineGame.safe===9-mineGame.mines.length){mineGame.active=false;add(win,"Мины — полный проход")}
+ if(mineGame.mines.includes(i)){b.classList.add("mine");b.textContent="💣";mineGame.active=false;mineInfo.textContent="💥 Мина! Раунд проигран.";[...mineGrid.children].forEach((x,j)=>{if(mineGame.mines.includes(j))x.textContent="💣"});state.stats.played++;save();return}
+ mineGame.safe++;mineGame.mult*=1+(+mineCount.value*.07);b.classList.add("safe");b.textContent="✓";
+ const win=Math.floor(mineGame.bet*mineGame.mult);mineInfo.textContent=`Безопасно! ${mineGame.mult.toFixed(2)}x · забрать ${win}`;
+ if(mineGame.safe===9-mineGame.mines.length){mineGame.active=false;add(win,"Мины — полный проход");state.stats.played++;state.stats.wins}
+ save();
 }
+function mineCashout(){if(!mineGame?.active||mineGame.safe<1){toast("Сначала откройте безопасную клетку");return}const win=Math.floor(mineGame.bet*mineGame.mult);mineGame.active=false;add(win,"Мины — кэшаут");state.stats.played++;state.stats.wins;mineInfo.textContent="Вы забрали "+win+" фишек.";}
 
-/* 3. ORE MINE */
-function gameOre(){
- openModal("⛏️ Шахта",`<div class="hero"><h1 id="oreOut">Готово к добыче</h1><p>Каждый бросок кирки добывает случайное количество виртуальной руды.</p></div><div class="statgrid"><div class="stat"><small>Руда</small><strong id="oreCount">${fmt(state.ore)}</strong></div><div class="stat"><small>Цена руды</small><strong>1 фишка</strong></div></div><button class="btn" onclick="swingPick()">⛏️ Кинуть кирку</button>`);
-}
+/* ORE */
+function gameOre(){openModal("⛏️ Шахта",`<div class="hero"><h1 id="oreOut">Готово к добыче</h1><p>Каждый бросок кирки добывает случайное количество виртуальной руды.</p></div><div class="statgrid"><div class="stat"><small>Руда</small><strong id="oreCount">${fmt(state.ore)}</strong></div><div class="stat"><small>Цена</small><strong>1 фишка</strong></div></div><button class="btn" onclick="swingPick()">⛏️ Кинуть кирку</button>`)}
 function swingPick(){const n=1+Math.floor(Math.random()*12);state.ore+=n;add(n,"Добыча руды");oreOut.textContent=`+${n} руды`;oreCount.textContent=fmt(state.ore);save()}
 
-/* 4. PLINKO */
-function gamePlinko(){
- openModal("🔵 Плинко",`<label>Ставка</label><input id="plinkoBet" type="number" min="1" value="10"><label>Риск</label><select id="plinkoRisk"><option value="low">Низкий</option><option value="mid">Средний</option><option value="high">Высокий</option></select><div class="msg" id="plinkoResult">Нажмите «Бросить».</div><button class="btn" onclick="dropPlinko()">Бросить шар</button>`);
-}
-function dropPlinko(){
- const bet=+plinkoBet.value;if(!spend(bet))return;
- const risk=plinkoRisk.value;
- const arr=risk==="low"?[0.5,0.8,1,1.2,1.5]:risk==="mid"?[0.2,0.5,1,1.8,2.8]:[0,0.2,0.7,2.5,5];
- const x=arr[Math.floor(Math.random()*arr.length)],win=Math.floor(bet*x);if(win)add(win,"Плинко "+x+"x");
- plinkoResult.textContent=`Шар упал в ${x}x → ${win? "+"+win:"0"} фишек`;
-}
+/* PLINKO */
+function gamePlinko(){openModal("🔵 Плинко",`<label>Ставка</label><input id="plinkoBet" type="number" min="1" value="10"><label>Риск</label><select id="plinkoRisk"><option value="low">Низкий</option><option value="mid">Средний</option><option value="high">Высокий</option></select><div class="msg" id="plinkoResult">Нажмите «Бросить».</div><button class="btn" onclick="dropPlinko()">Бросить шар</button>`)}
+function dropPlinko(){const bet=+plinkoBet.value;if(!spend(bet))return;const risk=plinkoRisk.value;const arr=risk==="low"?[0.5,.8,1,1.2,1.5]:risk==="mid"?[.2,.5,1,1.8,2.8]:[0,.2,.7,2.5,5];const x=arr[Math.floor(Math.random()*arr.length)],win=Math.floor(bet*x);if(win)add(win,"Плинко "+x+"x");plinkoResult.textContent=`Шар упал в ${x}x → ${win?"+":""}${win} фишек`}
 
-/* 5. CASES */
-function gameCases(){
- openModal("📦 Кейсы",`<div class="msg">Кейс стоит 20 фишек. Внутри — одна из виртуальных наград.</div><div class="statgrid"><div class="stat"><small>Цена</small><strong>20</strong></div><div class="stat"><small>Шанс</small><strong>случайный</strong></div></div><button class="btn" onclick="openCase()">Открыть кейс</button><div class="msg" id="caseResult">Результат появится здесь.</div>`);
-}
-function openCase(){if(!spend(20))return;const rewards=[0,5,10,15,25,40,60,100];const n=rewards[Math.floor(Math.random()*rewards.length)];if(n)add(n,"Кейс");caseResult.textContent=n?`📦 Внутри было +${n} фишек!`:"📦 Кейс пустой."}
+/* CASES */
+function gameCases(){openModal("📦 Кейсы",`<div class="msg">Кейс стоит 20 виртуальных фишек.</div><div class="statgrid"><div class="stat"><small>Цена</small><strong>20</strong></div><div class="stat"><small>Награды</small><strong>0–100</strong></div></div><button class="btn" onclick="openCase()">Открыть кейс</button><div class="msg" id="caseResult">Результат появится здесь.</div>`)}
+function openCase(){if(!spend(20))return;const rewards=[0,5,10,15,25,40,60,100],n=rewards[Math.floor(Math.random()*rewards.length)];if(n)add(n,"Кейс");caseResult.textContent=n?`📦 Внутри было +${n} фишек!`:"📦 Кейс пустой."}
 
-/* 6. TOWER */
-function gameTower(){
- openModal("🏰 Башня",`<div class="hero"><h1 id="towerX">1.00x</h1><p>На каждом этаже 3 ячейки. Одна — бомба. Угадайте безопасную и поднимитесь выше.</p></div><label>Ставка</label><input id="towerBet" type="number" min="1" value="10"><div class="grid3" id="towerGrid" style="margin-top:12px"></div><button class="btn" onclick="towerStart()">Начать / новый этаж</button><div class="msg" id="towerMsg">До 8 этажей.</div>`);
- towerState={active:false,floor:0,mine:0,bet:0,x:1};
-}
+/* TOWER */
 let towerState={};
-function towerStart(){if(towerState.active){toast("Вы уже в башне");return}if(!spend(+towerBet.value))return;towerState={active:true,floor:1,mine:Math.floor(Math.random()*3),bet:+towerBet.value,x:1};renderTower()}
-function renderTower(){
- towerX.textContent=towerState.x.toFixed(2)+"x";towerMsg.textContent=`Этаж ${towerState.floor}/8 · забрать ${Math.floor(towerState.bet*towerState.x)}`;
- towerGrid.innerHTML="";for(let i=0;i<3;i++){const b=document.createElement("button");b.className="cell";b.textContent="✦";b.onclick=()=>towerPick(i,b);towerGrid.appendChild(b)}
-}
-function towerPick(i,b){
- if(!towerState.active)return;
- if(i===towerState.mine){b.className="cell mine";b.textContent="💣";towerState.active=false;towerMsg.textContent="💥 Бомба! Башня закончена.";return}
- b.className="cell safe";b.textContent="✓";towerState.x*=1.35;
- if(towerState.floor>=8){const win=Math.floor(towerState.bet*towerState.x);add(win,"Башня");towerState.active=false;towerMsg.textContent="🏆 Башня пройдена: +"+win;return}
- towerState.floor++;towerState.mine=Math.floor(Math.random()*3);renderTower();
-}
+function gameTower(){openModal("🏰 Башня",`<div class="hero"><h1 id="towerX">1.00x</h1><p>На каждом этаже 3 ячейки. Одна — бомба. После безопасного выбора можно забрать выигрыш.</p></div><label>Ставка</label><input id="towerBet" type="number" min="1" value="10"><div class="grid3" id="towerGrid" style="margin-top:12px"></div><div class="cashout-bar" style="margin-top:10px"><button class="btn" onclick="towerStart()">Начать</button><button class="btn alt" onclick="towerCashout()">Забрать</button></div><div class="msg" id="towerMsg">До 8 этажей.</div>`);towerState={active:false}}
+function towerStart(){if(towerState.active){toast("Вы уже в башне");return}const bet=+towerBet.value;if(!spend(bet))return;towerState={active:true,floor:1,mine:Math.floor(Math.random()*3),bet,x:1};renderTower()}
+function renderTower(){towerX.textContent=towerState.x.toFixed(2)+"x";towerMsg.textContent=`Этаж ${towerState.floor}/8 · забрать ${Math.floor(towerState.bet*towerState.x)}`;towerGrid.innerHTML="";for(let i=0;i<3;i++){const b=document.createElement("button");b.className="cell";b.textContent="✦";b.onclick=()=>towerPick(i,b);towerGrid.appendChild(b)}}
+function towerPick(i,b){if(!towerState.active)return;if(i===towerState.mine){b.className="cell mine";b.textContent="💣";towerState.active=false;towerMsg.textContent="💥 Бомба!";state.stats.played++;save();return}b.className="cell safe";b.textContent="✓";towerState.x*=1.35;if(towerState.floor>=8){const win=Math.floor(towerState.bet*towerState.x);add(win,"Башня — полный проход");towerState.active=false;state.stats.played++;state.stats.wins;towerMsg.textContent="🏆 Пройдено: +"+win;return}towerState.floor++;towerState.mine=Math.floor(Math.random()*3);renderTower()}
+function towerCashout(){if(!towerState.active||towerState.floor===1&&towerState.x===1){toast("Сначала выберите безопасную ячейку");return}const win=Math.floor(towerState.bet*towerState.x);towerState.active=false;add(win,"Башня — кэшаут");state.stats.played++;state.stats.wins;towerMsg.textContent="Вы забрали "+win+" фишек."}
 
-/* 7. UPGRADER */
-function gameUpgrader(){
- openModal("🎯 Апгрейдер",`<div class="hero"><h1 id="upX">1.00x</h1><p>Выберите цель. Чем выше множитель, тем меньше шанс успеха.</p></div><label>Ставка</label><input id="upBet" type="number" min="1" value="10"><label>Цель: <span id="upTargetText">2.00x</span></label><input id="upTarget" class="range" type="range" min="1.1" max="10" step=".1" value="2" oninput="upTargetText.textContent=(+this.value).toFixed(2)+'x'"><button class="btn" onclick="upgrade()">Крутить</button><div class="msg" id="upMsg">Шанс успеха приблизительно 1 / цель.</div>`);
-}
+/* UPGRADER */
+function gameUpgrader(){openModal("🎯 Апгрейдер",`<div class="hero"><h1 id="upX">1.00x</h1><p>Чем выше множитель, тем ниже шанс успеха.</p></div><label>Ставка</label><input id="upBet" type="number" min="1" value="10"><label>Цель: <span id="upTargetText">2.00x</span></label><input id="upTarget" type="range" min="1.1" max="10" step=".1" value="2" oninput="upTargetText.textContent=(+this.value).toFixed(2)+'x'"><button class="btn" onclick="upgrade()">Крутить</button><div class="msg" id="upMsg">Шанс успеха приблизительно 1 / цель.</div>`)}
 function upgrade(){const bet=+upBet.value,target=+upTarget.value;if(!spend(bet))return;const success=Math.random()<1/target;if(success){const win=Math.floor(bet*target);add(win,"Апгрейдер "+target.toFixed(2)+"x");upMsg.textContent=`🎯 Успех! +${win} фишек`;}else upMsg.textContent="💥 Не повезло. Ставка потеряна."}
 
-/* 8. CLICKER */
-function gameClicker(){
- openModal("⚡ Кликер",`<div class="hero"><h1 id="clickCount">${fmt(state.clicks)}</h1><p>Каждое нажатие даёт ровно <b>1 фишку</b>. Без таймеров и покупок.</p></div><button class="btn" style="font-size:28px;padding:22px" onclick="clickMine()">+1 ◈</button><div class="msg">Всего кликов: <span id="clickCount2">${fmt(state.clicks)}</span></div>`);
-}
+/* CLICKER */
+function gameClicker(){openModal("⚡ Кликер",`<div class="hero"><h1 id="clickCount">${fmt(state.clicks)}</h1><p>Каждое нажатие даёт ровно <b>1 фишку</b>.</p></div><button class="btn" style="font-size:28px;padding:23px" onclick="clickMine()">+1 ◈</button><div class="msg">Всего кликов: <span id="clickCount2">${fmt(state.clicks)}</span></div>`)}
 function clickMine(){state.clicks++;add(1,"Кликер");clickCount.textContent=fmt(state.clicks);clickCount2.textContent=fmt(state.clicks)}
 
-/* 9. HI-LO */
+/* HI-LO WITH CASHOUT ANY MOMENT */
+let hi={current:7,started:false,bet:0,mult:1};
+const ranks=["A",2,3,4,5,6,7,8,9,10,"J","Q","K"];
 function gameHiLo(){
- openModal("🃏 Hi-Lo",`<div class="hero"><h1 id="cards">?</h1><p>Текущая карта скрыта. Угадайте: следующая будет выше или ниже.</p></div><div class="row"><button class="btn" onclick="hiLo('high')">Выше ↑</button><button class="btn" onclick="hiLo('low')">Ниже ↓</button></div><button class="btn alt" onclick="hiLoStart()">Начать</button><div class="msg" id="hiloMsg">Ставка 5 фишек за попытку.</div>`);
- hi={current:Math.ceil(Math.random()*13),started:false}
+ openModal("🃏 Hi-Lo",`
+  <div class="hero"><div class="mult-big" id="hiloMult">1.00x</div><div class="cardface" id="cards">?</div><p style="text-align:center;margin-top:12px">Угадайте следующую карту: выше или ниже. После каждого успеха множитель растёт.</p></div>
+  <label>Ставка</label><input id="hiloBet" type="number" min="1" value="10">
+  <div class="hilo-actions" style="margin-top:10px"><button class="btn" onclick="hiLo('high')">Выше ↑</button><button class="btn" onclick="hiLo('low')">Ниже ↓</button></div>
+  <div class="cashout-bar" style="margin-top:10px"><button class="btn green" id="hiloCash" onclick="hiLoCashout()">Забрать 0</button><button class="btn alt" onclick="hiLoStart()">Новый раунд</button></div>
+  <div class="msg" id="hiloMsg">Стартуйте раунд — забрать можно после первого правильного ответа.</div>`);
+ hi={current:7,started:false,bet:0,mult:1};
 }
-let hi={current:7,started:false};
-function hiLoStart(){hi.current=1+Math.floor(Math.random()*13);hi.started=true;cards.textContent=["A",2,3,4,5,6,7,8,9,10,"J","Q","K"][hi.current-1];hiloMsg.textContent="Выбирайте выше или ниже."}
-function hiLo(dir){if(!hi.started){hiLoStart();return}if(!spend(5))return;const next=1+Math.floor(Math.random()*13);const win=(dir==="high"?next>hi.current:next<hi.current);if(win){add(10,"Hi-Lo")}cards.textContent=["A",2,3,4,5,6,7,8,9,10,"J","Q","K"][next-1];hiloMsg.textContent=win?"✅ +10 фишек":"❌ Не угадали";hi.current=next}
+function hiLoStart(){
+ if(hi.started){toast("Сначала завершите текущий раунд");return}
+ const bet=+hiloBet.value;if(!spend(bet))return;
+ hi={current:1+Math.floor(Math.random()*13),started:true,bet,mult:1};
+ renderHi();hiloMsg.textContent="Выбирайте выше или ниже.";
+}
+function renderHi(){cards.textContent=ranks[hi.current-1];hiloMult.textContent=hi.mult.toFixed(2)+"x";hiloCash.textContent="Забрать "+fmt(Math.floor(hi.bet*hi.mult));}
+function hiLo(dir){
+ if(!hi.started){hiLoStart();return}
+ const next=1+Math.floor(Math.random()*13);
+ const win=dir==="high"?next>hi.current:next<hi.current;
+ cards.textContent=ranks[next-1];
+ if(win){
+   hi.mult*=1.45;hi.current=next;renderHi();
+   hiloMsg.textContent=`✅ Верно! ${ranks[next-1]} · множитель ${hi.mult.toFixed(2)}x`;
+   if(hi.mult>=8)hiLoCashout();
+ }else{
+   hi.started=false;hiloCash.disabled=true;hiloMsg.textContent=`❌ Не угадали. Выпала ${ranks[next-1]}. Раунд закончен.`;
+   state.stats.played++;save();
+ }
+}
+function hiLoCashout(){
+ if(!hi.started||hi.mult<=1){toast("Сначала правильно угадайте карту");return}
+ const win=Math.floor(hi.bet*hi.mult);hi.started=false;add(win,"Hi-Lo — кэшаут "+hi.mult.toFixed(2)+"x");state.stats.played++;state.stats.wins;
+ hiloMsg.textContent=`💰 Забрано ${win} фишек на ${hi.mult.toFixed(2)}x`;hiloCash.disabled=true;
+}
 
-/* 10. CUPS */
-function gameCups(){
- openModal("🥤 Стаканчики",`<div class="hero"><p>Шарик спрятан под одним из трёх стаканчиков.</p></div><label>Ставка</label><input id="cupsBet" type="number" min="1" value="10"><div class="grid3" id="cupsGrid" style="margin-top:12px"></div><div class="msg" id="cupsMsg">Выберите стаканчик.</div>`);
- const ball=Math.floor(Math.random()*3);cupsState={ball,bet:0,active:false};
- cupsGrid.innerHTML="";for(let i=0;i<3;i++){const b=document.createElement("button");b.className="cell";b.textContent="🥤";b.onclick=()=>pickCup(i,b);cupsGrid.appendChild(b)}
-}
+/* CUPS */
 let cupsState={};
-function pickCup(i,b){if(cupsState.active)return;if(!spend(+cupsBet.value))return;cupsState.active=true;const win=i===cupsState.ball?Math.floor(+cupsBet.value*2.8):0;if(win)add(win,"Стаканчики");b.textContent=i===cupsState.ball?"⚽":"❌";cupsMsg.textContent=win?`🎉 Шарик найден: +${win}`:"Промах. Шарик был под другим стаканом."}
+function gameCups(){openModal("🥤 Стаканчики",`<div class="hero"><p>Шарик спрятан под одним из трёх стаканчиков.</p></div><label>Ставка</label><input id="cupsBet" type="number" min="1" value="10"><div class="grid3" id="cupsGrid" style="margin-top:12px"></div><div class="msg" id="cupsMsg">Выберите стаканчик.</div>`);const ball=Math.floor(Math.random()*3);cupsState={ball,active:false};cupsGrid.innerHTML="";for(let i=0;i<3;i++){const b=document.createElement("button");b.className="cell";b.textContent="🥤";b.onclick=()=>pickCup(i,b);cupsGrid.appendChild(b)}}
+function pickCup(i,b){if(cupsState.active)return;if(!spend(+cupsBet.value))return;cupsState.active=true;const win=i===cupsState.ball?Math.floor(+cupsBet.value*2.8):0;if(win){add(win,"Стаканчики");state.stats.wins++}state.stats.played++;b.textContent=i===cupsState.ball?"⚽":"❌";cupsMsg.textContent=win?`🎉 Шарик найден: +${win}`:"Промах. Шарик был под другим стаканом.";save()}
 
-/* 11. BLACKJACK */
-function card(){return 1+Math.floor(Math.random()*13)}
-function val(a){return a.reduce((s,x)=>s+(x>10?10:x),0)}
-function gameBlackjack(){
- openModal("♠️ Блэкджек",`<div class="statgrid"><div class="stat"><small>Вы</small><strong id="bjYou">—</strong></div><div class="stat"><small>Дилер</small><strong id="bjDealer">—</strong></div></div><label>Ставка</label><input id="bjBet" type="number" min="1" value="10"><div class="row"><button class="btn" onclick="bjStart()">Новая раздача</button><button class="btn alt" onclick="bjHit()">Ещё</button></div><button class="btn alt" onclick="bjStand()">Стоп</button><div class="msg" id="bjMsg">Цель — ближе к 21.</div>`);
- bj={p:[],d:[],active:false}
-}
+/* BLACKJACK */
+function card(){return 1+Math.floor(Math.random()*13)}function val(a){return a.reduce((s,x)=>s+(x>10?10:x),0)}
 let bj={p:[],d:[],active:false};
+function gameBlackjack(){openModal("♠️ Блэкджек",`<div class="statgrid"><div class="stat"><small>Вы</small><strong id="bjYou">—</strong></div><div class="stat"><small>Дилер</small><strong id="bjDealer">—</strong></div></div><label>Ставка</label><input id="bjBet" type="number" min="1" value="10"><div class="row"><button class="btn" onclick="bjStart()">Новая раздача</button><button class="btn alt" onclick="bjHit()">Ещё</button></div><button class="btn alt" onclick="bjStand()">Стоп</button><div class="msg" id="bjMsg">Цель — ближе к 21.</div>`);bj={p:[],d:[],active:false}}
 function bjStart(){if(!spend(+bjBet.value))return;bj={p:[card(),card()],d:[card(),card()],active:true};bjRender();if(val(bj.p)===21)bjStand()}
 function bjRender(){bjYou.textContent=val(bj.p);bjDealer.textContent=bj.active?bj.d[0]+" + ?":val(bj.d);bjMsg.textContent="Ваша сумма: "+val(bj.p)}
 function bjHit(){if(!bj.active)return;if(val(bj.p)>=21)return bjStand();bj.p.push(card());bjRender();if(val(bj.p)>21)bjStand()}
-function bjStand(){if(!bj.active)return;while(val(bj.d)<17)bj.d.push(card());bj.active=false;const p=val(bj.p),d=val(bj.d);let win=0;if(p<=21&&(d>21||p>d))win=Math.floor(+bjBet.value*2);else if(p===d)win=+bjBet.value;if(win)add(win,"Блэкджек");bjDealer.textContent=d;bjYou.textContent=p;bjMsg.textContent=win?`Результат: +${win}`:"Результат: проигрыш"}
+function bjStand(){if(!bj.active)return;while(val(bj.d)<17)bj.d.push(card());bj.active=false;const p=val(bj.p),d=val(bj.d);let win=0;if(p<=21&&(d>21||p>d))win=Math.floor(+bjBet.value*2);else if(p===d)win=+bjBet.value;if(win){add(win,"Блэкджек");state.stats.wins++}state.stats.played++;bjDealer.textContent=d;bjYou.textContent=p;bjMsg.textContent=win?`Результат: +${win}`:"Результат: проигрыш";save()}
 
-/* 12. DICE */
+/* DICE */
 function gameDice(){openModal("🎲 Кости",`<label>Ставка</label><input id="diceBet" type="number" min="1" value="10"><button class="btn" onclick="rollDice()">Бросить</button><div class="statgrid"><div class="stat"><small>Вы</small><strong id="diceYou">—</strong></div><div class="stat"><small>Дилер</small><strong id="diceD">—</strong></div></div><div class="msg" id="diceMsg">Кто выбросит больше?</div>`)}
-function rollDice(){const bet=+diceBet.value;if(!spend(bet))return;const a=1+Math.floor(Math.random()*6)+1+Math.floor(Math.random()*6),d=1+Math.floor(Math.random()*6)+1+Math.floor(Math.random()*6);diceYou.textContent=a;diceD.textContent=d;const win=a>d?bet*2:a===d?bet:0;if(win)add(win,"Кости");diceMsg.textContent=a>d?`🎉 Победа +${win}`:a===d?"Ничья — ставка возвращена":"❌ Дилер сильнее"}
+function rollDice(){const bet=+diceBet.value;if(!spend(bet))return;const a=2+Math.floor(Math.random()*11),d=2+Math.floor(Math.random()*11);diceYou.textContent=a;diceD.textContent=d;const win=a>d?bet*2:a===d?bet:0;if(win){add(win,"Кости");if(a>d)state.stats.wins++}state.stats.played++;diceMsg.textContent=a>d?`🎉 Победа +${win}`:a===d?"Ничья — ставка возвращена":"❌ Дилер сильнее";save()}
 
-/* ADMIN CHECKS */
-function renderAdmin(){
- if(!isAdmin)return;
- adminBox.innerHTML=`<section class="hero admin"><h2 style="margin:0 0 5px">🛠 Панель создателя</h2><p>Telegram ID: ${ADMIN_ID}. Создание чеков с виртуальными фишками.</p><div class="row"><div><label>Фишек на человека</label><input id="checkAmount" type="number" min="1" value="100"></div><div><label>Макс. активаций</label><input id="checkMax" type="number" min="1" value="10"></div></div><label>Срок действия (часы, 0 = без срока)</label><input id="checkHours" type="number" min="0" value="24"><button class="btn" onclick="createCheck()">Создать чек</button><div id="checkOut"></div></section>`;
-}
+/* PROMO CHECKS */
 function getChecks(){return JSON.parse(localStorage.getItem("needcrush_checks")||"[]")}
 function setChecks(a){localStorage.setItem("needcrush_checks",JSON.stringify(a))}
-function createCheck(){
- const amount=+checkAmount.value,max=+checkMax.value,hours=+checkHours.value;if(amount<1||max<1)return toast("Проверь значения");
- const code="NC-"+cryptoRandom(4)+"-"+cryptoRandom(4);const c={code,amount,max,used:0,created:Date.now(),expires:hours?Date.now()+hours*3600000:0,users:[]};const arr=getChecks();arr.unshift(c);setChecks(arr);
- checkOut.innerHTML=`<div class="msg"><b>${code}</b><br>${amount} фишек · максимум ${max} активаций<br><button class="btn alt" onclick="claimCheck('${code}')">Активировать на этом аккаунте</button></div>`;
-}
 function cryptoRandom(n){const a=new Uint32Array(n);crypto.getRandomValues(a);return [...a].map(x=>(x%36).toString(36).toUpperCase()).join("")}
+function createCheck(){
+ const amount=+checkAmount.value,max=+checkMax.value,hours=+checkHours.value;
+ if(amount<1||max<1)return toast("Проверьте значения");
+ const code="NC-"+cryptoRandom(5)+"-"+cryptoRandom(5);
+ const c={code,amount,max,used:0,created:Date.now(),expires:hours?Date.now()+hours*3600000:0,users:[]};
+ const arr=getChecks();arr.unshift(c);setChecks(arr);renderAdmin();
+ checkOut.innerHTML=`<div class="msg"><b>Чек создан</b><div class="promo-code"><code>${code}</code><button class="copy" onclick="copyText('${code}')">Копировать</button></div><div class="notice">${amount} фишек · активаций: ${max} · ${hours?("срок "+hours+" ч."): "без срока"}<br>Каждый Telegram-пользователь сможет активировать этот код только один раз.</div></div>`;
+}
+async function copyText(text){try{await navigator.clipboard.writeText(text);toast("Код скопирован")}catch(e){prompt("Скопируйте код:",text)}}
 function claimCheck(code){
- const arr=getChecks(),c=arr.find(x=>x.code===code);if(!c)return toast("Чек не найден");if(c.expires&&Date.now()>c.expires)return toast("Срок чека истёк");if(c.used>=c.max)return toast("Лимит активаций исчерпан");if(c.users.includes(userId))return toast("Этот аккаунт уже активировал чек");
- c.users.push(userId);c.used++;add(c.amount,"Активация чека "+code);setChecks(arr);toast("Чек активирован: +"+c.amount);
+ const arr=getChecks(),c=arr.find(x=>x.code.toUpperCase()===code.trim().toUpperCase());
+ if(!c)return toast("Промокод не найден");
+ if(c.expires&&Date.now()>c.expires)return toast("Срок действия истёк");
+ if(c.used>=c.max)return toast("Лимит активаций исчерпан");
+ if(c.users.includes(userId))return toast("Этот аккаунт уже использовал код");
+ c.users.push(userId);c.used++;add(c.amount,"Промокод "+c.code);setChecks(arr);toast("Промокод активирован: +"+c.amount);
+ renderPromo();
+}
+function renderPromo(){
+ openModal("♢ Промокод",`<div class="hero"><h1>Активировать чек</h1><p>Введите код, который вы получили. Один аккаунт может использовать каждый промокод только один раз.</p></div><label>Промокод</label><input id="promoInput" maxlength="32" placeholder="NC-XXXXX-XXXXX" autocapitalize="characters"><button class="btn" onclick="claimCheck(document.getElementById('promoInput').value)">Активировать</button><div class="msg">После успешной активации фишки сразу добавятся на баланс.</div>`);
+}
+function renderAdmin(){
+ if(!isAdmin){document.getElementById("adminBox").innerHTML="";return}
+ const arr=getChecks().slice(0,8);
+ document.getElementById("adminBox").innerHTML=`<section class="hero admin"><h2 style="margin:0 0 5px">🛠 Панель создателя</h2><p>Создание чеков на виртуальные фишки.</p><div class="row"><div><label>Фишек</label><input id="checkAmount" type="number" min="1" value="100"></div><div><label>Макс. активаций</label><input id="checkMax" type="number" min="1" value="10"></div></div><label>Срок действия, часы (0 = без срока)</label><input id="checkHours" type="number" min="0" value="24"><button class="btn" onclick="createCheck()">Создать чек</button><div id="checkOut"></div>${arr.length?`<div class="msg"><b>Последние чеки</b>${arr.map(c=>`<div class="check-row"><span>${c.code}<br><small>${c.used}/${c.max} активаций</small></span><button class="copy" onclick="copyText('${c.code}')">Копировать</button></div>`).join("")}</div>`:""}</section>`;
+}
+function showHistory(){
+ const rows=state.history.slice(0,20).map(x=>`<div><span>${x.r}<br><small>${x.t}</small></span><span class="${x.n>=0?"plus":"minus"}">${x.n>=0?"+":""}${fmt(x.n)}</span></div>`).join("");
+ openModal("История",`<div class="history">${rows||"<div>История пока пуста.</div>"}</div>`);
 }
 
-/* bottom navigation */
+/* NAV */
 document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));b.classList.add("active");renderGames(b.dataset.mode)});
 document.querySelectorAll(".nav").forEach(b=>b.onclick=()=>{
  document.querySelectorAll(".nav").forEach(x=>x.classList.remove("active"));b.classList.add("active");
  if(b.dataset.nav==="games"){renderGames("quick");return}
- const titles={friends:"Друзья",tasks:"Задания",shop:"Магазин",profile:"Профиль"};
- if(b.dataset.nav==="profile")openModal("Профиль",`<div class="statgrid"><div class="stat"><small>Telegram ID</small><strong style="font-size:13px">${userId}</strong></div><div class="stat"><small>Фишки</small><strong>${fmt(state.balance)}</strong></div><div class="stat"><small>Игр</small><strong>${state.stats.played}</strong></div><div class="stat"><small>Побед</small><strong>${state.stats.wins}</strong></div></div><button class="btn alt" onclick="resetLocal()">Сбросить локальный прогресс</button><div class="notice">В этой версии нет доната, покупки фишек, вывода денег или платных функций.</div>`);
- else openModal(titles[b.dataset.nav],`<div class="hero"><h1>${titles[b.dataset.nav]}</h1><p>${b.dataset.nav==="shop"?"Магазин отключён: NeedCrush не использует донат.":b.dataset.nav==="tasks"?"Задания можно расширить без монетизации.":"Раздел подготовлен для будущих социальных функций."}</p></div>`);
+ if(b.dataset.nav==="promo"){renderPromo();return}
+ const titles={friends:"Друзья",tasks:"Задания",profile:"Профиль"};
+ if(b.dataset.nav==="profile")openModal("Профиль",`<div class="statgrid"><div class="stat"><small>Telegram ID</small><strong style="font-size:13px">${userId}</strong></div><div class="stat"><small>Фишки</small><strong>${fmt(state.balance)}</strong></div><div class="stat"><small>Игр</small><strong>${state.stats.played}</strong></div><div class="stat"><small>Побед</small><strong>${state.stats.wins}</strong></div></div><button class="btn alt" onclick="showHistory()">История операций</button><button class="btn alt" onclick="resetLocal()">Сбросить локальный прогресс</button><div class="notice">Это демо на виртуальных фишках. Для настоящего многопользовательского учёта промокодов нужен сервер и база данных.</div>`);
+ else openModal(titles[b.dataset.nav],`<div class="hero"><h1>${titles[b.dataset.nav]}</h1><p>${b.dataset.nav==="tasks"?"Раздел заданий готов для расширения.":"Социальные функции можно подключить отдельно."}</p></div>`);
 });
 function resetLocal(){if(confirm("Удалить локальный прогресс?")){localStorage.removeItem("needcrush_"+userId);location.reload()}}
 
