@@ -220,22 +220,21 @@ const incomingRef=(urlParams.get("startapp")||urlParams.get("start")||"").replac
 
 
 /* ADMIN GAME CONTROL */
-const ADMIN_GAME_DEFAULTS={winChance:0,rocketMax:30};
-const ADMIN_GAME_CONFIG_KEY="needcrash_admin_game_config_v2";
-const ADMIN_GAME_IDS=["rocket","mines","ore","plinko","upgrader","dice"];
+const ADMIN_GAME_DEFAULTS={winChance:50,rocketMax:30};
+const ADMIN_GAME_CONFIG_KEY="needcrash_admin_game_config_v1";
 function getAdminGameConfig(){
  let c={};try{c=JSON.parse(localStorage.getItem(ADMIN_GAME_CONFIG_KEY)||"{}")}catch(e){}
  return {
-  rocket:{winChance:+(c.rocket?.winChance??0),rocketMax:+(c.rocket?.rocketMax??30)},
-  mines:{winChance:+(c.mines?.winChance??0)},ore:{winChance:+(c.ore?.winChance??0)},
-  plinko:{winChance:+(c.plinko?.winChance??0)},cases:{winChance:+(c.cases?.winChance??0)},
-  tower:{winChance:+(c.tower?.winChance??0)},upgrader:{winChance:+(c.upgrader?.winChance??0)},
-  hilo:{winChance:+(c.hilo?.winChance??0)},cups:{winChance:+(c.cups?.winChance??0)},
-  blackjack:{winChance:+(c.blackjack?.winChance??0)},dice:{winChance:+(c.dice?.winChance??0)}
+  rocket:{winChance:+(c.rocket?.winChance??50),rocketMax:+(c.rocket?.rocketMax??30)},
+  mines:{winChance:+(c.mines?.winChance??50)},ore:{winChance:+(c.ore?.winChance??50)},
+  plinko:{winChance:+(c.plinko?.winChance??50)},cases:{winChance:+(c.cases?.winChance??50)},
+  tower:{winChance:+(c.tower?.winChance??50)},upgrader:{winChance:+(c.upgrader?.winChance??50)},
+  hilo:{winChance:+(c.hilo?.winChance??50)},cups:{winChance:+(c.cups?.winChance??50)},
+  blackjack:{winChance:+(c.blackjack?.winChance??50)},dice:{winChance:+(c.dice?.winChance??50)}
  };
 }
 function adminCfg(id){return getAdminGameConfig()[id]||{winChance:50}}
-function adminWin(id){const v=+adminCfg(id).winChance; if(v===0)return null; return Math.random()*100<Math.max(0,Math.min(100,v))}
+function adminWin(id){return Math.random()*100<Math.max(0,Math.min(100,+adminCfg(id).winChance||0))}
 function saveAdminGameConfig(){
  if(!isAdmin)return;
  const old=getAdminGameConfig(),out={};
@@ -426,7 +425,7 @@ function mineOreBoard(){
  if(!spend(bet))return;
  // Один результат на раунд: алмаз имеет ровно 1% шанс.
  const r=Math.random();
- const forced=adminWin("ore"); const result=forced===null ? (r<0.01?"diamond":r<0.16?"gold":r<0.46?"stone":"empty") : (forced ? (r<0.06?"diamond":"gold") : (r<0.45?"stone":"empty"));
+ const result=adminWin("ore") ? (r<0.06?"diamond":"gold") : (r<0.45?"stone":"empty");
  const values=Array(15).fill("empty");
  values[Math.floor(Math.random()*15)]=result;
  renderOreBoard(values);
@@ -456,7 +455,7 @@ function mineOreBoard(){
 /* PLINKO */
 function gamePlinko(){openModal("🔵 Плинко",`<label>Ставка</label><input id="plinkoBet" type="number" min="1" value="10"><label>Риск</label><select id="plinkoRisk"><option value="low">Низкий</option><option value="mid">Средний</option><option value="high">Высокий</option></select><div class="msg" id="plinkoResult">Нажмите «Бросить».</div><button class="btn" onclick="dropPlinko()">Бросить шар</button>`)}
 function weightedPick(items,weights){let r=Math.random()*weights.reduce((a,b)=>a+b,0);for(let i=0;i<items.length;i++){r-=weights[i];if(r<=0)return items[i]}return items[items.length-1]}
-function dropPlinko(){const bet=+plinkoBet.value;if(!spend(bet))return;const risk=plinkoRisk.value;const cfg=risk==="low"?[[0.2,0.5,0.8,1,1.2,1.5],[30,25,20,13,9,3]]:risk==="mid"?[[0.1,0.3,0.7,1.2,1.8,2.8],[40,28,17,9,5,1]]:[[0,0.1,0.4,0.8,1.5,3,5],[48,25,14,7,4,1.5,.5]];let x=weightedPick(cfg[0],cfg[1]); const forced=adminWin("plinko"); if(forced===true)x=cfg[0].find(v=>v>=1)||cfg[0][cfg[0].length-1]; if(forced===false)x=cfg[0].find(v=>v<1)??cfg[0][0]; const win=Math.floor(bet*x);if(win)add(win,"Плинко "+x+"x");plinkoResult.textContent=`Шар упал в ${x}x → ${win?"+":""}${win} фишек`}
+function dropPlinko(){const bet=+plinkoBet.value;if(!spend(bet))return;const risk=plinkoRisk.value;const cfg=risk==="low"?[[0.2,0.5,0.8,1,1.2,1.5],[30,25,20,13,9,3]]:risk==="mid"?[[0.1,0.3,0.7,1.2,1.8,2.8],[40,28,17,9,5,1]]:[[0,0.1,0.4,0.8,1.5,3,5],[48,25,14,7,4,1.5,.5]];const x=weightedPick(cfg[0],cfg[1]),win=Math.floor(bet*x);if(win)add(win,"Плинко "+x+"x");plinkoResult.textContent=`Шар упал в ${x}x → ${win?"+":""}${win} фишек`}
 
 /* CASES */
 const CASES=[
@@ -542,7 +541,7 @@ let upgradeTarget=2,upgradeBusy=false,upgradeAmount=1000;
 const UPGRADE_CHANCES={2:42,5:15,10:6,25:2.4,50:1.2,100:0.5};
 function gameUpgrader(){
   const target=upgradeTarget;
-  const chance=(+adminCfg("upgrader").winChance||0)>0 ? +adminCfg("upgrader").winChance : (UPGRADE_CHANCES[target]??49.5);
+  const chance=UPGRADE_CHANCES[target]??49.5;
   const possible=Math.floor(upgradeAmount*target);
   openModal("🎯 Апгрейдер",`
     <div class="upgrade-v2">
@@ -567,7 +566,7 @@ function gameUpgrader(){
 function chooseUpgradeV2(x,el){
   if(upgradeBusy)return;
   upgradeTarget=x;
-  const chance=(+adminCfg("upgrader").winChance||0)>0 ? +adminCfg("upgrader").winChance : (UPGRADE_CHANCES[x]??49.5);
+  const chance=UPGRADE_CHANCES[x]??49.5;
   const bet=Math.max(1,Math.floor(+document.getElementById("upBet")?.value||upgradeAmount));
   upgradeAmount=bet;
   document.querySelectorAll(".upgrade-amount").forEach(b=>b.classList.remove("active"));
@@ -594,14 +593,13 @@ function upgradeV2(){
   upgradeAmount=bet; upgradeBusy=true;
   const ring=document.getElementById("upRing"),btn=document.getElementById("upBtn"),msg=document.getElementById("upMsg");
   const result=document.getElementById("upResult");
-  const chance=(+adminCfg("upgrader").winChance||0)>0 ? +adminCfg("upgrader").winChance : (UPGRADE_CHANCES[target]??(99/target));
+  const chance=UPGRADE_CHANCES[target]??(99/target);
 
   // The wheel is purely visual now: there is no green winning area.
   // The final sector is used to determine the result according to the selected chance.
   const finalRotation=1440 + Math.random()*360;
   const pointerAngle=(360-(finalRotation%360))%360;
-  const forced=adminWin("upgrader");
-  const success=forced===null ? pointerAngle < (360*(chance/100)) : forced;
+  const success=pointerAngle < (360*(chance/100));
 
   if(result){result.textContent="";result.className="upgrade-result";}
   btn.disabled=true;
@@ -762,7 +760,7 @@ function bjStand(){if(!bj.active)return;while(val(bj.d)<17)bj.d.push(card());bj.
 
 /* DICE */
 function gameDice(){openModal("🎲 Кости",`<label>Ставка</label><input id="diceBet" type="number" min="1" value="10"><button class="btn" onclick="rollDice()">Бросить</button><div class="statgrid"><div class="stat"><small>Вы</small><strong id="diceYou">—</strong></div><div class="stat"><small>Дилер</small><strong id="diceD">—</strong></div></div><div class="msg" id="diceMsg">Кто выбросит больше?</div>`)}
-function rollDice(){const bet=+diceBet.value;if(!spend(bet))return;let a=2+Math.floor(Math.random()*11),d=2+Math.floor(Math.random()*11);const forced=adminWin("dice");if(forced===true&&a<=d)a=Math.min(12,d+1);if(forced===false&&a>d)a=Math.max(2,d-1);diceYou.textContent=a;diceD.textContent=d;const win=a>d?Math.floor(bet*1.7):a===d?Math.floor(bet*.5):0;if(win){add(win,"Кости");if(a>d)state.stats.wins++}state.stats.played++;diceMsg.textContent=a>d?`🎉 Победа +${win}`:a===d?"Ничья — ставка возвращена":"❌ Дилер сильнее";save()}
+function rollDice(){const bet=+diceBet.value;if(!spend(bet))return;const a=2+Math.floor(Math.random()*11),d=2+Math.floor(Math.random()*11);diceYou.textContent=a;diceD.textContent=d;const win=a>d?Math.floor(bet*1.7):a===d?Math.floor(bet*.5):0;if(win){add(win,"Кости");if(a>d)state.stats.wins++}state.stats.played++;diceMsg.textContent=a>d?`🎉 Победа +${win}`:a===d?"Ничья — ставка возвращена":"❌ Дилер сильнее";save()}
 
 /* PROMO CHECKS */
 function getChecks(){return JSON.parse(localStorage.getItem("needcrash_checks")||"[]")}
@@ -792,9 +790,10 @@ function renderPromo(){
 }
 function renderAdmin(){
  if(!isAdmin){document.getElementById("adminBox").innerHTML="";return}
- const cfg=getAdminGameConfig();
- const labels={rocket:"🚀 Ракета — точка полёта (0 = обычный режим)",mines:"💣 Мины — шанс выигрыша % (0 = обычный режим)",ore:"⛏️ Шахта — шанс выигрыша % (0 = обычный режим)",plinko:"🔵 Плинко — шанс выигрыша % (0 = обычный режим)",upgrader:"🎯 Апгрейдер — шанс выигрыша % (0 = обычный режим)",dice:"🎲 Кости — шанс выигрыша % (0 = обычный режим)"};
- document.getElementById("adminBox").innerHTML=`<section class="hero admin"><h2 style="margin:0 0 5px">🛠 Панель администратора</h2><p>0 оставляет стандартную механику игры. Для остальных игр 50 означает 50% шанс выигрыша.</p><div class="msg">${ADMIN_GAME_IDS.map(id=>`<label>${labels[id]}</label><input id="adminChance_${id}" type="number" min="0" step="0.1" value="${cfg[id]?.winChance??0}">`).join("")}<button class="btn" onclick="saveAdminGameConfig()">Сохранить настройки</button></div></section>`;
+ const arr=getChecks().slice(0,8),cfg=getAdminGameConfig();
+ document.getElementById("adminBox").innerHTML=`<section class="hero admin"><h2 style="margin:0 0 5px">🛠 Панель администратора</h2><p>Чеки и управление вероятностями. По умолчанию у всех игр 50%.</p>
+ <div class="msg"><b>🎮 Настройки игр</b>${GAMES.filter(g=>g.id!=="clicker").map(g=>`<label>${g.icon} ${g.title}: шанс выигрыша, %</label><input id="adminChance_${g.id}" type="number" min="0" max="100" step="0.1" value="${cfg[g.id]?.winChance??50}">`).join("")}<label>🚀 Ракета: максимальный X</label><input id="adminRocketMax" type="number" min="1.01" step="0.01" value="${cfg.rocket.rocketMax??30}"><button class="btn" onclick="saveAdminGameConfig()">Сохранить настройки игр</button></div>
+ <div class="row"><div><label>Фишек</label><input id="checkAmount" type="number" min="1" value="100"></div><div><label>Макс. активаций</label><input id="checkMax" type="number" min="1" value="10"></div></div><label>Срок действия, часы (0 = без срока)</label><input id="checkHours" type="number" min="0" value="24"><button class="btn" onclick="createCheck()">Создать чек</button><div id="checkOut"></div>${arr.length?`<div class="msg"><b>Последние чеки</b>${arr.map(c=>`<div class="check-row"><span>${c.code}<br><small>${c.used}/${c.max} активаций</small></span><span style="display:flex;gap:6px"><button class="copy" onclick="copyText('${c.code}')">Копировать</button><button class="copy" style="background:#5a202b;color:#ffb2c0" onclick="deleteCheck('${c.code}')">Удалить</button></span></div>`).join("")}</div>`:""}</section>`;
 }
 function showHistory(){
  const rows=state.history.slice(0,20).map(x=>`<div><span>${x.r}<br><small>${x.t}</small></span><span class="${x.n>=0?"plus":"minus"}">${x.n>=0?"+":""}${fmt(x.n)}</span></div>`).join("");
