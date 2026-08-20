@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#070910">
-<title>NeedCrush — Virtual Lounge</title>
+<title>NeedCrash — Virtual Lounge</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
 :root{
@@ -106,7 +106,7 @@ label{display:block;color:#9ca6b7;font-size:12px;margin:11px 0 5px}
 .upgrade-wheel-status{text-align:center;font-weight:900;color:#aeb8c9;margin:4px 0 10px}.upgrade-wheel-status b{color:#ffe18a}
 
 
-/* === NeedCrush v2 additions === */
+/* === NeedCrash v2 additions === */
 .upgrade-v2{padding:2px 0}
 .upgrade-ring-wrap{position:relative;width:min(330px,88vw);height:min(330px,88vw);margin:8px auto 14px;display:grid;place-items:center}
 .upgrade-ring{position:absolute;inset:0;border-radius:50%;background:conic-gradient(from -90deg,#252b35 0deg 45deg,#454d5a 45deg 90deg,#252b35 90deg 135deg,#454d5a 135deg 180deg,#252b35 180deg 225deg,#454d5a 225deg 270deg,#252b35 270deg 315deg,#454d5a 315deg 360deg);box-shadow:inset 0 0 0 2px #ffffff12,0 14px 45px #0009}
@@ -167,7 +167,7 @@ label{display:block;color:#9ca6b7;font-size:12px;margin:11px 0 5px}
 <div class="app">
 <header class="top">
   <div class="head">
-    <div class="brand"><div class="logo">✦</div> NeedCrush</div>
+    <div class="brand"><div class="logo">✦</div> NeedCrash</div>
     <div class="balance"><span class="coin">◈</span><span id="balance">0</span></div>
   </div>
   <div class="tabs">
@@ -213,7 +213,7 @@ const tgUser=tg?.initDataUnsafe?.user;
 const TEST_ID=new URLSearchParams(location.search).get("tg_id");
 const userId=String(tgUser?.id || TEST_ID || "local-"+Math.random().toString(36).slice(2));
 const isAdmin=userId===ADMIN_ID;
-const REF_BOT_USERNAME="NeedCrushBot"; // замени на username своего Telegram-бота без @
+const REF_BOT_USERNAME="NeedCrashBot"; // замени на username своего Telegram-бота без @
 const urlParams=new URLSearchParams(location.search);
 const incomingRef=(urlParams.get("startapp")||urlParams.get("start")||"").replace(/^ref_/,"");
 
@@ -221,7 +221,7 @@ const incomingRef=(urlParams.get("startapp")||urlParams.get("start")||"").replac
 
 /* ADMIN GAME CONTROL */
 const ADMIN_GAME_DEFAULTS={winChance:50,rocketMax:30};
-const ADMIN_GAME_CONFIG_KEY="needcrush_admin_game_config_v1";
+const ADMIN_GAME_CONFIG_KEY="needcrash_admin_game_config_v1";
 function getAdminGameConfig(){
  let c={};try{c=JSON.parse(localStorage.getItem(ADMIN_GAME_CONFIG_KEY)||"{}")}catch(e){}
  return {
@@ -261,7 +261,7 @@ const GAMES=[
  {id:"dice",icon:"🎲",title:"Кости",desc:"Бросьте больше дилера"}
 ];
 
-let state=JSON.parse(localStorage.getItem("needcrush_"+userId)||"null")||{
+let state=JSON.parse(localStorage.getItem("needcrash_"+userId)||"null")||{
  balance:100,level:1,clicks:0,ore:0,gold:0,history:[],claimed:[],
  stats:{played:0,wins:0},referrals:[],referredBy:null,refRewarded:false
 };
@@ -269,7 +269,7 @@ state.referrals=state.referrals||[];state.claimed=state.claimed||[];state.referr
 state.gold=state.gold||0;
 state.clicker=state.clicker||{hourStarted:Date.now(),hourClicks:0,bannedUntil:0,intervals:[]};
 state.clicker.intervals=state.clicker.intervals||[];
-function save(){localStorage.setItem("needcrush_"+userId,JSON.stringify(state));updateUI()}
+function save(){localStorage.setItem("needcrash_"+userId,JSON.stringify(state));updateUI()}
 function fmt(n){return Math.floor(n).toLocaleString("ru-RU")}
 function add(n,reason){if(n<=0)return;state.balance+=Math.floor(n);state.history.unshift({t:new Date().toLocaleTimeString(),r:reason,n:Math.floor(n)});state.history=state.history.slice(0,40);save()}
 function spend(n){n=Math.floor(+n);if(!Number.isFinite(n)||n<1){toast("Введите корректную ставку");return false}if(state.balance<n){toast("Не хватает фишек");return false}state.balance-=n;save();return true}
@@ -763,8 +763,8 @@ function gameDice(){openModal("🎲 Кости",`<label>Ставка</label><inp
 function rollDice(){const bet=+diceBet.value;if(!spend(bet))return;const a=2+Math.floor(Math.random()*11),d=2+Math.floor(Math.random()*11);diceYou.textContent=a;diceD.textContent=d;const win=a>d?Math.floor(bet*1.7):a===d?Math.floor(bet*.5):0;if(win){add(win,"Кости");if(a>d)state.stats.wins++}state.stats.played++;diceMsg.textContent=a>d?`🎉 Победа +${win}`:a===d?"Ничья — ставка возвращена":"❌ Дилер сильнее";save()}
 
 /* PROMO CHECKS */
-function getChecks(){return JSON.parse(localStorage.getItem("needcrush_checks")||"[]")}
-function setChecks(a){localStorage.setItem("needcrush_checks",JSON.stringify(a))}
+function getChecks(){return JSON.parse(localStorage.getItem("needcrash_checks")||"[]")}
+function setChecks(a){localStorage.setItem("needcrash_checks",JSON.stringify(a))}
 function cryptoRandom(n){const a=new Uint32Array(n);crypto.getRandomValues(a);return [...a].map(x=>(x%36).toString(36).toUpperCase()).join("")}
 function createCheck(){
  const amount=+checkAmount.value,max=+checkMax.value,hours=+checkHours.value;
@@ -821,8 +821,8 @@ function referralOpen(){
 }
 async function shareReferral(){
  const link=referralLink();
- const text=`Присоединяйся к NeedCrush 🎮\nПо моей ссылке тебе будет доступен бонус.`;
- if(navigator.share){try{await navigator.share({title:"NeedCrush",text,url:link})}catch(e){}}
+ const text=`Присоединяйся к NeedCrash 🎮\nПо моей ссылке тебе будет доступен бонус.`;
+ if(navigator.share){try{await navigator.share({title:"NeedCrash",text,url:link})}catch(e){}}
  else copyText(link);
 }
 function processIncomingReferral(){
@@ -832,57 +832,27 @@ function processIncomingReferral(){
 }
 
 /* TASKS */
-const NEEDCRUSH_CHANNEL="NeedCrash";
-const NEEDCRUSH_CHANNEL_URL="https://t.me/NeedCrash";
+const NEEDCRASH_CHANNEL="NeedCrash";
+const NEEDCRASH_CHANNEL_URL="https://t.me/NeedCrash";
 const TASK_REWARD=5000;
 function openTasks(){
-  const claimed=state.claimed||[];
-  const done=claimed.includes("needcrush_channel");
-  openModal("◇ Задания",`
-    <div class="hero"><h1>Задания</h1><p>Подпишись на наш канал и получи бонус.</p></div>
+  const done=(state.claimed||[]).includes("free_5000_once");
+  openModal("◇ Получить 5000 ⭐",`
+    <div class="hero"><h1>🎁 Бесплатные 5000 ⭐</h1><p>Нажмите кнопку «Проверить подписку» и получите награду без подписки на канал.</p></div>
     <div class="task-card">
-      <div class="task-head"><div class="task-icon">✈️</div><div><h3>Подписка на канал</h3><p>Награда за подтверждённую подписку</p></div></div>
-      <div class="task-channel"><div class="task-channel-logo">✈</div><div><a href="https://t.me/NeedCrash" target="_blank" onclick="openNeedCrashChannel();return false">@NeedCrash</a><div style="color:#8f99a9;font-size:12px;margin-top:2px">Telegram-канал</div></div><div class="task-status">+${fmt(TASK_REWARD)} ◈</div></div>
-      <button class="btn alt" onclick="openNeedCrashChannel()">📢 Подписаться на канал</button>
-      <button class="btn green" id="subCheckBtn" ${done?'disabled':''} onclick="checkNeedCrashSubscription()">${done?'✓ Подписка подтверждена':'✓ Проверить подписку'}</button>
-      <div class="notice">После подписки нажми «Проверить подписку». Награда <b>5000 ◈</b> выдаётся только после подтверждения Telegram.</div>
+      <div class="task-head"><div class="task-icon">⭐</div><div><h3>Разовая награда</h3><p>5000 ⭐ бесплатно, только один раз для этого аккаунта.</p></div></div>
+      <button class="btn green" id="subCheckBtn" ${done?'disabled':''} onclick="checkNeedCrashSubscription()">${done?'✓ 5000 ⭐ уже получены':'✓ Проверить подписку'}</button>
+      <div class="notice">Подписываться никуда не нужно. После первого получения повторная выдача заблокирована.</div>
     </div>`);
 }
-function openNeedCrashChannel(){
-  try{tg?.openTelegramLink?.(NEEDCRUSH_CHANNEL_URL)}catch(e){}
-  if(!tg?.openTelegramLink)window.open(NEEDCRUSH_CHANNEL_URL,"_blank");
-}
-// URL сервера проверки. Если фронтенд и сервер на одном домене, оставь как есть.
-const SUBSCRIPTION_CHECK_API=window.NEEDCRUSH_SUBSCRIPTION_API||"/api/check-subscription";
-async function checkNeedCrashSubscription(){
-  if((state.claimed||[]).includes("needcrush_channel")){toast("Награда уже получена");return}
+function checkNeedCrashSubscription(){
+  if((state.claimed||[]).includes("free_5000_once")){toast("Вы уже получили 5000 ⭐");return}
+  state.claimed=state.claimed||[];
+  state.claimed.push("free_5000_once");
+  add(5000,"Бесплатная разовая награда +5000 ⭐");
   const btn=document.getElementById("subCheckBtn");
-  if(btn){btn.disabled=true;btn.textContent="Проверяем..."}
-  try{
-    if(!tg?.initData){throw new Error("NO_TELEGRAM_INIT_DATA")}
-    const resp=await fetch(SUBSCRIPTION_CHECK_API,{
-      method:"POST",
-      headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({user_id:userId,channel:"@"+NEEDCRUSH_CHANNEL,initData:tg.initData})
-    });
-    let data=null;
-    try{data=await resp.json()}catch(_){throw new Error("BAD_SERVER_RESPONSE")}
-    if(!resp.ok)throw new Error(data?.error||("HTTP_"+resp.status));
-    if(data?.ok&&data?.subscribed){
-      state.claimed=state.claimed||[];
-      state.claimed.push("needcrush_channel");
-      add(TASK_REWARD,"Задание: подписка на @NeedCrash");
-      if(btn){btn.textContent="✓ Награда получена"}
-      toast("+5000 фишек за подписку");
-      return;
-    }
-    if(btn){btn.disabled=false;btn.textContent="Проверить подписку"}
-    toast(data?.message||"Подписка не подтверждена. Подпишитесь на @NeedCrash и попробуйте ещё раз.");
-  }catch(e){
-    if(btn){btn.disabled=false;btn.textContent="Проверить подписку"}
-    if(e?.message==="NO_TELEGRAM_INIT_DATA")toast("Проверка работает только при запуске через Telegram Web App");
-    else toast("Не удалось проверить подписку: "+(e?.message||"сервер недоступен"));
-  }
+  if(btn){btn.disabled=true;btn.textContent="✓ 5000 ⭐ получены"}
+  toast("+5000 ⭐ получены");
 }
 
 /* NAV */
@@ -897,7 +867,7 @@ document.querySelectorAll(".nav").forEach(b=>b.onclick=()=>{
  if(b.dataset.nav==="profile")openModal("Профиль",`<div class="statgrid"><div class="stat"><small>Telegram ID</small><strong style="font-size:13px">${userId}</strong></div><div class="stat"><small>Фишки</small><strong>${fmt(state.balance)}</strong></div><div class="stat"><small>Игр</small><strong>${state.stats.played}</strong></div><div class="stat"><small>Побед</small><strong>${state.stats.wins}</strong></div></div><button class="btn alt" onclick="showHistory()">История операций</button><button class="btn alt" onclick="resetLocal()">Сбросить локальный прогресс</button><div class="notice">Это демо на виртуальных фишках. Для настоящего многопользовательского учёта, проверки подписки и серверного античита нужен сервер и база данных.</div>`);
  else openModal(titles[b.dataset.nav],`<div class="hero"><h1>${titles[b.dataset.nav]}</h1><p>${b.dataset.nav==="tasks"?"Раздел заданий готов для расширения.":"Социальные функции можно подключить отдельно."}</p></div>`);
 });
-function resetLocal(){if(confirm("Удалить локальный прогресс?")){localStorage.removeItem("needcrush_"+userId);location.reload()}}
+function resetLocal(){if(confirm("Удалить локальный прогресс?")){localStorage.removeItem("needcrash_"+userId);location.reload()}}
 
 processIncomingReferral();updateUI();renderGames();renderAdmin();
 </script>
