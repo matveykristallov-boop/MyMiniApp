@@ -213,7 +213,7 @@ const tgUser=tg?.initDataUnsafe?.user;
 const TEST_ID=new URLSearchParams(location.search).get("tg_id");
 const userId=String(tgUser?.id || TEST_ID || "local-"+Math.random().toString(36).slice(2));
 const isAdmin=userId===ADMIN_ID;
-const REF_BOT_USERNAME="NeedCrashBot"; // замени на username своего Telegram-бота без @
+const REF_BOT_USERNAME="CrushGiftSpin_bot"; // замени на username своего Telegram-бота без @
 const urlParams=new URLSearchParams(location.search);
 const incomingRef=(urlParams.get("startapp")||urlParams.get("start")||"").replace(/^ref_/,"");
 
