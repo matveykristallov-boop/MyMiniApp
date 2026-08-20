@@ -165,6 +165,17 @@ label{display:block;color:#9ca6b7;font-size:12px;margin:11px 0 5px}
 
 /* v4 upgrader/case UI */
 .upgrader-v4{padding:2px 0}.upgrade-canvas-wrap{position:relative;width:min(330px,88vw);height:min(330px,88vw);margin:8px auto 14px;display:grid;place-items:center}.upgrade-canvas-wrap canvas{width:100%;height:100%;display:block;filter:drop-shadow(0 18px 30px #000b)}.upgrade-canvas-pointer{position:absolute;top:4px;left:50%;width:7px;height:38px;transform:translateX(-50%);border-radius:8px;background:#ffe28a;box-shadow:0 0 16px #ffe28a,0 3px 7px #000;z-index:5}.upgrade-canvas-core{position:absolute;inset:50% auto auto 50%;transform:translate(-50%,-50%);width:116px;height:116px;border-radius:50%;display:grid;place-items:center;text-align:center;background:#11151e;border:1px solid #394252;box-shadow:0 10px 35px #000b;pointer-events:none}.upgrade-canvas-core strong{font-size:34px;line-height:1;font-weight:1000}.upgrade-canvas-core span{display:block;margin-top:6px;color:#9da8b8;font-size:12px}.upgrade-slider{accent-color:#43e0a0}.upgrade-result-v4{text-align:center;min-height:42px;font-size:27px;font-weight:1000;margin:8px 0}.upgrade-result-v4.win{color:#5fe09a}.upgrade-result-v4.lose{color:#ff667e}.upgrade-x-row{display:flex;justify-content:space-between;align-items:center;margin:4px 0;color:#9da8b8;font-size:12px}.upgrade-x-row b{color:#fff;font-size:15px}.upgrade-disabled-note{font-size:11px;color:#778294;line-height:1.4;text-align:center;margin-top:8px}.case-detail{padding:2px 0}.case-detail-head{display:flex;align-items:center;gap:10px;margin-bottom:12px}.case-back{width:42px;height:42px;border-radius:14px;background:#171e2a;border:1px solid #30394a;font-weight:900}.case-detail-title h3{margin:0}.case-detail-title p{margin:3px 0 0;color:#8e98aa;font-size:12px}.case-open-stage.v4{height:270px;margin:8px 0 14px}.case-open-stage.v4 .case-box{font-size:105px}.case-reward-v4{font-size:31px;font-weight:1000;text-align:center;min-height:42px}.case-reward-v4.win{color:#5fe09a}.case-reward-v4.empty{color:#ff9aab}.case-detail-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px}@media(max-width:430px){.case-detail-actions{grid-template-columns:1fr}}
+/* === NeedCrash fix pack === */
+.modal.cases-modal{align-items:stretch;padding:8px}
+.modal.cases-modal .sheet{height:calc(100vh - 16px);max-height:calc(100vh - 16px);border-radius:24px;padding:14px}
+.cases-scroll{height:calc(100vh - 250px);min-height:280px;overflow-y:auto;overflow-x:hidden;padding:2px 3px 18px}
+.cases-scroll .case-item{display:block;width:100%;margin:0 0 10px}
+.cases-scroll::-webkit-scrollbar{width:5px}.cases-scroll::-webkit-scrollbar-thumb{background:#384354;border-radius:10px}
+.admin-checks{margin-top:12px}.admin-check-list{max-height:230px;overflow:auto;margin-top:8px}
+.admin-check{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;padding:9px 0;border-bottom:1px solid #242b38}
+.admin-check small{display:block;color:#8d97a8;margin-top:2px}
+.upgrade-bet-row{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:8px}
+.upgrade-bet-row .btn{margin-top:0}
 </style>
 </head>
 <body>
@@ -299,7 +310,7 @@ function renderGames(filter="quick"){
  });
  document.getElementById("modeTitle").textContent=filter==="quick"?"Быстрые":filter==="live"?"Активности":"Дуэли";
 }
-function openModal(title,html){document.getElementById("modalTitle").textContent=title;document.getElementById("modalBody").innerHTML=html;document.getElementById("modal").classList.add("show")}
+function openModal(title,html){const m=document.getElementById("modal");m.classList.remove("cases-modal");document.getElementById("modalTitle").textContent=title;document.getElementById("modalBody").innerHTML=html;m.classList.add("show")}
 function closeModal(){if(rocket.run)rocketCashout(true);document.getElementById("modal").classList.remove("show")}
 document.getElementById("modal").addEventListener("click",e=>{if(e.target.id==="modal")closeModal()});
 function openGame(id){
@@ -402,7 +413,7 @@ function mineCashout(){if(!mineGame?.active||mineGame.safe<1){toast("Снача�
 let oreCells=[];
 function gameOre(){
  openModal("⛏️ Шахта",`
-  <div class="hero"><h1 id="oreOut">Золотая шахта</h1><p>Чем выше ставка, тем выше награда. Золото: <b>+20% от ставки</b>. Алмаз: <b>+50% от ставки</b> и шанс <b>1%</b>.</p></div>
+  <div class="hero"><h1 id="oreOut">Золотая шахта</h1><p>Каждая клетка может дать золото или алмаз. За один раунд может выпасть несколько наград.</p></div>
   <label>Ставка</label><input id="oreBet" type="number" min="1" value="100">
   <div id="oreBoard" class="grid3" style="grid-template-columns:repeat(5,1fr);margin-top:12px"></div>
   <div class="statgrid">
@@ -411,8 +422,8 @@ function gameOre(){
    <div class="stat"><small>Шанс алмаза</small><strong>1%</strong></div>
   </div>
   <button class="btn" onclick="mineOreBoard()">⛏️ Сделать ставку</button>
-  <div class="msg" id="oreMsg">Золото: +20% ставки. Алмаз: 1% шанс, +50% ставки. Камень и пустота — проигрыш.</div>`);
- renderOreBoard(Array(15).fill(null));
+  <div class="msg" id="oreMsg">Несколько клеток могут одновременно дать золото и алмазы. Камень и пустота — без награды.</div>`);
+ renderOreBoard(Array(9).fill(null));
  document.getElementById("oreBet").oninput=e=>{document.getElementById("oreStake").textContent=fmt(+e.target.value||0)+" ◈"};
 }
 function oreRollCell(){
@@ -435,36 +446,38 @@ function mineOreBoard(){
  const bet=Math.floor(+document.getElementById("oreBet").value);
  if(!Number.isFinite(bet)||bet<1){toast("Введите корректную ставку");return}
  if(!spend(bet))return;
- // Один результат на раунд: алмаз имеет ровно 1% шанс.
- const r=Math.random();
- const forced=adminWin("ore"); const result=forced===null ? (r<0.01?"diamond":r<0.16?"gold":r<0.46?"stone":"empty") : (forced ? (r<0.06?"diamond":"gold") : (r<0.45?"stone":"empty"));
- const values=Array(15).fill("empty");
- values[Math.floor(Math.random()*15)]=result;
+ const forced=adminWin("ore");
+ const values=Array.from({length:9},()=>{
+   const r=Math.random();
+   if(forced===true && r<0.08)return "diamond";
+   if(forced===true && r<0.34)return "gold";
+   if(forced===false && r<0.28)return "stone";
+   if(r<0.025)return "diamond";
+   if(r<0.25)return "gold";
+   if(r<0.55)return "stone";
+   return "empty";
+ });
  renderOreBoard(values);
- let reward=0;
- if(result==="diamond"){
-  reward=Math.floor(bet*0.50);
-  add(bet+reward,"Шахта — алмаз +50%");
-  oreOut.textContent=`💎 АЛМАЗ! +${fmt(reward)} ◈`;
-  oreMsg.textContent=`💎 Алмаз! Ставка ${fmt(bet)} ◈ → прибыль +${fmt(reward)} ◈.`;
- }else if(result==="gold"){
-  state.gold=(state.gold||0)+1;
-  reward=Math.floor(bet*0.20);
-  add(bet+reward,"Шахта — золото +20%");
-  oreOut.textContent=`🥇 ЗОЛОТО! +${fmt(reward)} ◈`;
-  oreMsg.textContent=`🥇 Золото! Ставка ${fmt(bet)} ◈ → прибыль +${fmt(reward)} ◈.`;
- }else if(result==="stone"){
-  oreOut.textContent="🪨 Камень — 0x";
-  oreMsg.textContent=`🪨 Камень. Ставка ${fmt(bet)} ◈ проиграна.`;
+ const goldCount=values.filter(v=>v==="gold").length;
+ const diamondCount=values.filter(v=>v==="diamond").length;
+ const reward=Math.floor(bet*(goldCount*0.20+diamondCount*0.50));
+ if(goldCount)state.gold=(state.gold||0)+goldCount;
+ if(reward>0){
+   add(bet+reward,"Шахта — "+goldCount+" золото, "+diamondCount+" алмаз");
+   state.stats.wins++;
+   oreOut.textContent=`⛏️ Найдено: ${goldCount}🥇 ${diamondCount}💎 · +${fmt(reward)} ◈`;
+   oreMsg.textContent=`Золото: ${goldCount} · Алмазы: ${diamondCount} · прибыль +${fmt(reward)} ◈.`;
  }else{
-  oreOut.textContent="💨 Пустая порода — 0x";
-  oreMsg.textContent=`💨 Ничего не найдено. Ставка ${fmt(bet)} ◈ проиграна.`;
+   oreOut.textContent="⛏️ В этот раз ничего ценного";
+   oreMsg.textContent="Пустая порода и камень. Попробуйте ещё раз.";
  }
+ state.stats.played++;
  oreGold.textContent=fmt(state.gold||0)+" 🪙";
  save();
 }
 
 /* PLINKO */
+
 function gamePlinko(){openModal("🔵 Плинко",`<label>Ставка</label><input id="plinkoBet" type="number" min="1" value="10"><label>Риск</label><select id="plinkoRisk"><option value="low">Низкий</option><option value="mid">Средний</option><option value="high">Высокий</option></select><div class="msg" id="plinkoResult">Нажмите «Бросить».</div><button class="btn" onclick="dropPlinko()">Бросить шар</button>`)}
 function weightedPick(items,weights){let r=Math.random()*weights.reduce((a,b)=>a+b,0);for(let i=0;i<items.length;i++){r-=weights[i];if(r<=0)return items[i]}return items[items.length-1]}
 function dropPlinko(){const bet=+plinkoBet.value;if(!spend(bet))return;const risk=plinkoRisk.value;const cfg=risk==="low"?[[0.2,0.5,0.8,1,1.2,1.5],[30,25,20,13,9,3]]:risk==="mid"?[[0.1,0.3,0.7,1.2,1.8,2.8],[40,28,17,9,5,1]]:[[0,0.1,0.4,0.8,1.5,3,5],[48,25,14,7,4,1.5,.5]];let x=weightedPick(cfg[0],cfg[1]); const forced=adminWin("plinko"); if(forced===true)x=cfg[0].find(v=>v>=1)||cfg[0][cfg[0].length-1]; if(forced===false)x=cfg[0].find(v=>v<1)??cfg[0][0]; const win=Math.floor(bet*x);if(win)add(win,"Плинко "+x+"x");plinkoResult.textContent=`Шар упал в ${x}x → ${win?"+":""}${win} фишек`}
@@ -482,7 +495,33 @@ let selectedCaseId=null;
 function gameCases(){
   selectedCaseId=null;
   const daily=canOpenDailyCase();
-  openModal("📦 Кейсы",`<div class="daily-case"><h3 style="margin:0 0 5px">🎁 Ежедневный кейс</h3><p style="margin:0;color:#9aa4b5">До 3000 ◈ · открыть можно 1 раз в день.</p><div class="case-price">Бесплатно</div><button class="btn ${daily?'green':'alt'}" ${daily?'':'disabled'} onclick="openDailyCase()">${daily?'Открыть ежедневный кейс':'✓ Сегодня уже открыт'}</button></div><p class="notice">Листайте кейсы по горизонтали. На экране одновременно 2 кейса.</p><div class="cases-carousel">${CASES.map(c=>`<button class="case-item" onclick="openCasePage('${c.id}')"><div class="case-icon">${c.icon}</div><h3>${c.name}</h3><p>До ${fmt(Math.max(...c.rewards))} ◈</p><div class="case-price">${fmt(c.price)} ◈</div></button>`).join("")}</div>`);
+  openModal("📦 Кейсы",`<div class="daily-case"><h3 style="margin:0 0 5px">🎁 Ежедневный кейс</h3><p style="margin:0;color:#9aa4b5">До 3000 ◈ · открыть можно 1 раз в день.</p><div class="case-price">Бесплатно</div><button class="btn ${daily?'green':'alt'}" ${daily?'':'disabled'} onclick="openDailyCase()">${daily?'Открыть ежедневный кейс':'✓ Сегодня уже открыт'}</button></div><p class="notice">Кейсы листаются вертикально. Окно занимает почти весь экран.</p><div class="cases-scroll">${CASES.map(c=>`<button class="case-item" onclick="openCasePage('${c.id}')"><div class="case-icon">${c.icon}</div><h3>${c.name}</h3><p>До ${fmt(Math.max(...c.rewards))} ◈</p><div class="case-price">${fmt(c.price)} ◈</div></button>`).join("")}</div>`);
+  document.getElementById("modal").classList.add("cases-modal");
+}
+function openCasePage(id){
+  const c=CASES.find(x=>x.id===id); if(!c)return;
+  selectedCaseId=id;
+  openModal("📦 "+c.name,`<div class="case-detail">
+    <div class="case-detail-head"><button class="case-back" onclick="gameCases()">←</button><div class="case-detail-title"><h3>${c.icon} ${c.name}</h3><p>Стоимость: ${fmt(c.price)} ◈ · максимум: ${fmt(Math.max(...c.rewards))} ◈</p></div></div>
+    <div class="case-open-stage v4"><div class="case-glow"></div><div class="case-box" id="caseBox">📦</div><div class="case-burst" id="caseBurst">✨</div></div>
+    <div class="case-reward-v4" id="caseReward"></div>
+    <div class="msg" id="caseMsg">Откройте кейс — награда будет определена случайно.</div>
+    <div class="case-detail-actions"><button class="btn" onclick="openSelectedCase()">📦 Открыть за ${fmt(c.price)} ◈</button><button class="btn alt" onclick="gameCases()">← К кейсам</button></div>
+  </div>`);
+  document.getElementById("modal").classList.add("cases-modal");
+}
+function openSelectedCase(){
+  const c=CASES.find(x=>x.id===selectedCaseId); if(!c)return;
+  if(!spend(c.price))return;
+  const reward=c.rewards[Math.floor(Math.random()*c.rewards.length)];
+  const box=document.getElementById("caseBox"),burst=document.getElementById("caseBurst"),out=document.getElementById("caseReward"),msg=document.getElementById("caseMsg");
+  if(box){box.classList.add("opening");setTimeout(()=>box.classList.remove("opening"),750)}
+  if(burst){burst.classList.remove("show");void burst.offsetWidth;burst.classList.add("show")}
+  setTimeout(()=>{
+    if(reward>0){add(reward,"📦 "+c.name);state.stats.wins++;out.className="case-reward-v4 win";out.textContent="🎉 +"+fmt(reward)+" ◈";msg.textContent="Награда зачислена на игровой баланс."}
+    else{out.className="case-reward-v4 empty";out.textContent="😔 Пусто";msg.textContent="В этот раз кейс оказался пустым."}
+    state.stats.played++;save();
+  },650);
 }
 function dailyKey(){return "needcrash_daily_case_"+userId}
 function canOpenDailyCase(){const d=localStorage.getItem(dailyKey());return !d||new Date(+d).toDateString()!==new Date().toDateString()}
@@ -503,15 +542,144 @@ function renderTower(){const build=document.getElementById("towerBuilding");if(!
 function towerPick(i,b){if(!towerState.active)return;const floor=b.parentElement;if(towerState.mines.includes(i)){b.className="tower-cell mine";b.textContent="💣";[...floor.children].forEach((cell,idx)=>{if(idx!==i){cell.classList.add("reveal");cell.textContent=towerState.mines.includes(idx)?"💣":"✦"}});towerState.active=false;document.querySelector(".tower-wrap")?.classList.add("tower-shake");towerMsg.textContent="💥 БОМБА! Раунд проигран.";state.stats.played++;save();return}b.className="tower-cell safe";b.textContent="✓";[...floor.children].forEach(cell=>cell.disabled=true);towerState.x*=towerState.stepX;towerState.history.push(towerState.x);towerX.textContent=towerState.x.toFixed(2)+"x";towerMsg.textContent=`✅ Безопасно! ${towerState.x.toFixed(2)}x · можно забрать ${Math.floor(towerState.bet*towerState.x)} ◈`;if(towerState.floor>=8){setTimeout(()=>{const win=Math.floor(towerState.bet*towerState.x);add(win,"Башня — полный проход");towerState.active=false;state.stats.played++;state.stats.wins++;towerMsg.textContent="🏆 Башня пройдена: +"+win+" ◈"},650);return}setTimeout(()=>{if(!towerState.active)return;towerState.floor++;towerState.mines=pickTowerMines(towerState.mineCount);renderTower()},650)}
 function towerCashout(){if(!towerState.active||towerState.floor===1&&towerState.x===1){toast("Сначала выберите безопасную ячейку");return}const win=Math.floor(towerState.bet*towerState.x);towerState.active=false;add(win,"Башня — кэшаут");state.stats.played++;state.stats.wins++;towerMsg.textContent="Вы забрали "+win+" фишек."}
 
-/* UPGRADER — visual-only */
-let upgradeX=1,upgradeBusy=false;
-function upgradeChanceByX(x){return Math.max(75,100/x)}
-function gameUpgrader(){const x=upgradeX,chance=upgradeChanceByX(x);openModal("🎯 Апгрейдер",`<div class="upgrader-v4"><div class="upgrade-canvas-wrap"><canvas id="upgradeCanvas" width="660" height="660"></canvas><div class="upgrade-canvas-pointer"></div><div class="upgrade-canvas-core"><div><strong id="upChance">${chance.toFixed(1)}%</strong><span id="upXLabel">X = ${x}</span></div></div></div><div class="upgrade-x-row"><span>Сложность</span><b id="upgradeXValue">X = ${x}</b></div><input class="upgrade-slider" id="upgradeXSlider" type="range" min="2" max="10" step="1" value="${x}" oninput="setUpgradeX(this.value)"><div class="statgrid"><div class="stat"><small>Текущий шанс</small><strong id="upChanceStat">${chance.toFixed(1)}%</strong></div><div class="stat"><small>Формула</small><strong>50 / X</strong></div></div><div class="upgrade-result-v4" id="upResult"></div><button class="btn" id="upBtn" onclick="runUpgradeVisual()">🎯 Апгрейд</button><div class="upgrade-disabled-note">Только интерфейс: ставка и игровой баланс здесь не изменяются.</div></div>`);requestAnimationFrame(()=>drawUpgradeCanvas(0))}
-function drawUpgradeCanvas(angle=0){const c=document.getElementById("upgradeCanvas");if(!c)return;const ctx=c.getContext("2d"),size=660,cx=330,cy=330,r=280;ctx.clearRect(0,0,size,size);ctx.save();ctx.translate(cx,cy);ctx.beginPath();ctx.arc(0,0,r+24,0,Math.PI*2);ctx.fillStyle="#111722";ctx.fill();ctx.beginPath();ctx.arc(0,0,r+11,0,Math.PI*2);ctx.strokeStyle="#3a4352";ctx.lineWidth=16;ctx.stroke();const x=+document.getElementById("upgradeXSlider")?.value||upgradeX,span=Math.PI*2*(upgradeChanceByX(x)/100);ctx.beginPath();ctx.moveTo(0,0);ctx.arc(0,0,r,-Math.PI/2,-Math.PI/2+span);ctx.closePath();ctx.fillStyle="#43e0a0";ctx.shadowColor="#43e0a0";ctx.shadowBlur=28;ctx.fill();ctx.shadowBlur=0;ctx.beginPath();ctx.arc(0,0,r,0,Math.PI*2);ctx.strokeStyle="#5a6474";ctx.lineWidth=7;ctx.stroke();for(let i=0;i<20;i++){const a=-Math.PI/2+i*Math.PI*2/20;ctx.beginPath();ctx.moveTo(Math.cos(a)*(r+8),Math.sin(a)*(r+8));ctx.lineTo(Math.cos(a)*(r+22),Math.sin(a)*(r+22));ctx.strokeStyle="#697487";ctx.lineWidth=4;ctx.stroke()}const ma=-Math.PI/2+angle;ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(Math.cos(ma)*(r-10),Math.sin(ma)*(r-10));ctx.strokeStyle="#ffe28a";ctx.lineWidth=12;ctx.lineCap="round";ctx.shadowColor="#ffe28a";ctx.shadowBlur=20;ctx.stroke();ctx.restore()}
-function setUpgradeX(v){if(upgradeBusy)return;upgradeX=Math.max(1,Math.min(10,+v));const chance=upgradeChanceByX(upgradeX);document.getElementById("upgradeXValue").textContent="X = "+upgradeX;document.getElementById("upChance").textContent=chance.toFixed(1)+"%";document.getElementById("upChanceStat").textContent=chance.toFixed(1)+"%";document.getElementById("upXLabel").textContent="X = "+upgradeX;document.getElementById("upResult").textContent="";drawUpgradeCanvas(0)}
-function runUpgradeVisual(){if(upgradeBusy)return;upgradeBusy=true;const btn=document.getElementById("upBtn"),result=document.getElementById("upResult");if(btn)btn.disabled=true;if(result){result.className="upgrade-result-v4";result.textContent="Вращение…"}const chance=upgradeChanceByX(upgradeX),start=performance.now(),duration=3100,turns=5+Math.random()*2,finalAngle=turns*Math.PI*2+Math.random()*Math.PI*2;function ease(t){return 1-Math.pow(1-t,4)}function frame(now){const t=Math.min(1,(now-start)/duration);drawUpgradeCanvas(finalAngle*ease(t)%(Math.PI*2));if(t<1){requestAnimationFrame(frame);return}const normalized=((finalAngle%(Math.PI*2))+Math.PI*2)%(Math.PI*2),hit=normalized<Math.PI*2*(chance/100);if(result){result.textContent=hit?"Успех!":"Провал!";result.className="upgrade-result-v4 "+(hit?"win":"lose")}if(btn)btn.disabled=false;upgradeBusy=false}requestAnimationFrame(frame)}
+/* UPGRADER */
+let upgradeX=2,upgradeBusy=false;
+function upgradeChanceByX(x){return Math.max(1,Math.min(100,100/x))}
+function gameUpgrader(){
+ const x=upgradeX,chance=upgradeChanceByX(x);
+ openModal("🎯 Апгрейдер",`<div class="upgrader-v4">
+  <div class="upgrade-canvas-wrap"><canvas id="upgradeCanvas" width="660" height="660"></canvas><div class="upgrade-canvas-pointer"></div><div class="upgrade-canvas-core"><div><strong id="upChance">${chance.toFixed(1)}%</strong><span id="upXLabel">X = ${x}</span></div></div></div>
+  <div class="upgrade-x-row"><span>Сложность</span><b id="upgradeXValue">X = ${x}</b></div>
+  <input class="upgrade-slider" id="upgradeXSlider" type="range" min="2" max="10" step="1" value="${x}" oninput="setUpgradeX(this.value)">
+  <div class="statgrid"><div class="stat"><small>Текущий шанс</small><strong id="upChanceStat">${chance.toFixed(1)}%</strong></div><div class="stat"><small>При выигрыше</small><strong id="upWinValue">0 ◈</strong></div></div>
+  <div class="upgrade-bet-row"><div><label>Ставка</label><input id="upgradeBet" type="number" min="1" value="10" oninput="updateUpgradeWin()"></div><button class="btn" id="upBtn" onclick="runUpgrade()">🎯 Апгрейд</button></div>
+  <div class="upgrade-result-v4" id="upResult"></div>
+  <div class="upgrade-disabled-note">Ставка списывается перед раундом. При успехе возвращается ставка × множитель.</div>
+ </div>`);
+ requestAnimationFrame(()=>{drawUpgradeCanvas(0);updateUpgradeWin()});
+}
+function drawUpgradeCanvas(angle=0){
+ const c=document.getElementById("upgradeCanvas");if(!c)return;
+ const ctx=c.getContext("2d"),size=660,cx=330,cy=330,r=280;
+ ctx.clearRect(0,0,size,size);ctx.save();ctx.translate(cx,cy);
+
+ ctx.beginPath();ctx.arc(0,0,r+24,0,Math.PI*2);ctx.fillStyle="#111722";ctx.fill();
+ ctx.beginPath();ctx.arc(0,0,r+11,0,Math.PI*2);ctx.strokeStyle="#3a4352";ctx.lineWidth=16;ctx.stroke();
+
+ const x=+document.getElementById("upgradeXSlider")?.value||upgradeX;
+ const greenFraction=upgradeChanceByX(x)/100;
+ const greenStart=-Math.PI/2;
+ const greenEnd=greenStart+greenFraction*Math.PI*2;
+
+ // GREEN ZONE — exactly the same angular interval used by the hit test.
+ ctx.beginPath();
+ ctx.moveTo(0,0);
+ ctx.arc(0,0,r,greenStart,greenEnd,false);
+ ctx.closePath();
+ ctx.fillStyle="#43e0a0";
+ ctx.shadowColor="#43e0a0";
+ ctx.shadowBlur=28;
+ ctx.fill();
+ ctx.shadowBlur=0;
+
+ ctx.beginPath();ctx.arc(0,0,r,0,Math.PI*2);
+ ctx.strokeStyle="#5a6474";ctx.lineWidth=7;ctx.stroke();
+
+ for(let i=0;i<20;i++){
+   const aa=-Math.PI/2+i*Math.PI*2/20;
+   ctx.beginPath();
+   ctx.moveTo(Math.cos(aa)*(r+8),Math.sin(aa)*(r+8));
+   ctx.lineTo(Math.cos(aa)*(r+22),Math.sin(aa)*(r+22));
+   ctx.strokeStyle="#697487";ctx.lineWidth=4;ctx.stroke();
+ }
+
+ // `angle` is measured from the TOP (-PI/2), exactly like the green zone.
+ const ma=greenStart+angle;
+ ctx.beginPath();
+ ctx.moveTo(0,0);
+ ctx.lineTo(Math.cos(ma)*(r-10),Math.sin(ma)*(r-10));
+ ctx.strokeStyle="#ffe28a";ctx.lineWidth=12;ctx.lineCap="round";
+ ctx.shadowColor="#ffe28a";ctx.shadowBlur=20;ctx.stroke();
+
+ ctx.restore();
+}
+function setUpgradeX(v){
+ if(upgradeBusy)return;
+ upgradeX=Math.max(2,Math.min(10,+v));
+ const chance=upgradeChanceByX(upgradeX);
+ const xVal=document.getElementById("upgradeXValue"),chanceEl=document.getElementById("upChance"),stat=document.getElementById("upChanceStat"),label=document.getElementById("upXLabel");
+ if(xVal)xVal.textContent="X = "+upgradeX;if(chanceEl)chanceEl.textContent=chance.toFixed(1)+"%";if(stat)stat.textContent=chance.toFixed(1)+"%";if(label)label.textContent="X = "+upgradeX;
+ const result=document.getElementById("upResult");if(result){result.textContent="";result.className="upgrade-result-v4"} drawUpgradeCanvas(0);updateUpgradeWin();
+}
+function updateUpgradeWin(){
+ const bet=Math.floor(+document.getElementById("upgradeBet")?.value||0),out=document.getElementById("upWinValue");
+ if(out)out.textContent=fmt(Math.floor(bet*upgradeX))+" ◈";
+}
+function runUpgrade(){
+ if(upgradeBusy)return;
+ const bet=Math.floor(+document.getElementById("upgradeBet")?.value);
+ if(!Number.isFinite(bet)||bet<1){toast("Введите ставку");return}
+ if(!spend(bet))return;
+
+ upgradeBusy=true;
+ const btn=document.getElementById("upBtn"),result=document.getElementById("upResult");
+ const chance=upgradeChanceByX(upgradeX);
+ const greenFraction=chance/100;
+ if(btn)btn.disabled=true;
+ if(result){result.className="upgrade-result-v4";result.textContent="Вращение…"}
+
+ const start=performance.now(),duration=2100,turns=4+Math.random()*2;
+
+ // Choose the FINAL POSITION, measured from the top, in [0, 1).
+ // This is the only source of truth for the result.
+ const forced=adminWin("upgrader");
+ let finalFraction;
+ if(forced===true){
+   finalFraction=Math.random()*greenFraction;
+ }else if(forced===false){
+   finalFraction=greenFraction+(1-greenFraction)*Math.random();
+ }else{
+   finalFraction=Math.random();
+ }
+
+ // Animation angle is also measured from the top.
+ const finalAngle=finalFraction*Math.PI*2+turns*Math.PI*2;
+
+ function ease(t){return 1-Math.pow(1-t,4)}
+
+ function frame(now){
+   const t=Math.min(1,(now-start)/duration);
+   drawUpgradeCanvas(finalAngle*ease(t));
+
+   if(t<1){requestAnimationFrame(frame);return}
+
+   // EXACTLY the same coordinate system as the drawing:
+   // green = [0, greenFraction * 2PI] from the TOP.
+   const normalized=((finalAngle%(Math.PI*2))+Math.PI*2)%(Math.PI*2);
+   const pointerFraction=normalized/(Math.PI*2);
+   const hit=pointerFraction>=0 && pointerFraction<=greenFraction;
+
+   if(hit){
+     const payout=Math.floor(bet*upgradeX);
+     add(payout,"Апгрейдер X"+upgradeX);
+     state.stats.wins++;
+     result.textContent=`Успех! Стрелка попала в зелёную зону — +${fmt(payout)} ◈`;
+     result.className="upgrade-result-v4 win";
+   }else{
+     result.textContent=`Провал! Стрелка не попала в зелёную зону — -${fmt(bet)} ◈`;
+     result.className="upgrade-result-v4 lose";
+   }
+
+   state.stats.played++;
+   save();
+   if(btn)btn.disabled=false;
+   upgradeBusy=false;
+ }
+ requestAnimationFrame(frame);
+}
 
 /* CLICKER */
+
 const CLICKER_HOURLY_LIMIT=500, CLICKER_BAN_MS=30*60*1000;
 let clickerLastAt=0;
 function clickerResetWindow(){
@@ -669,9 +837,15 @@ function renderPromo(){
 }
 function renderAdmin(){
  if(!isAdmin){document.getElementById("adminBox").innerHTML="";return}
- const cfg=getAdminGameConfig();
+ const cfg=getAdminGameConfig(),checks=getChecks();
  const labels={rocket:"🚀 Ракета — точка полёта (0 = обычный режим)",mines:"💣 Мины — шанс выигрыша % (0 = обычный режим)",ore:"⛏️ Шахта — шанс выигрыша % (0 = обычный режим)",plinko:"🔵 Плинко — шанс выигрыша % (0 = обычный режим)",upgrader:"🎯 Апгрейдер — шанс выигрыша % (0 = обычный режим)",dice:"🎲 Кости — шанс выигрыша % (0 = обычный режим)"};
- document.getElementById("adminBox").innerHTML=`<section class="hero admin"><h2 style="margin:0 0 5px">🛠 Панель администратора</h2><p>0 оставляет стандартную механику игры. Для остальных игр 50 означает 50% шанс выигрыша.</p><div class="msg">${ADMIN_GAME_IDS.map(id=>`<label>${labels[id]}</label><input id="adminChance_${id}" type="number" min="0" step="0.1" value="${cfg[id]?.winChance??0}">`).join("")}<button class="btn" onclick="saveAdminGameConfig()">Сохранить настройки</button></div></section>`;
+ const checkRows=checks.slice(0,12).map(c=>`<div class="admin-check"><div><b>${c.code}</b><small>${fmt(c.amount)} ◈ · ${c.used}/${c.max} активаций${c.expires?` · до ${new Date(c.expires).toLocaleString()}`:""}</small></div><button class="copy" onclick="deleteCheck('${c.code}')">Удалить</button></div>`).join("")||`<div class="notice">Чеков пока нет.</div>`;
+ document.getElementById("adminBox").innerHTML=`<section class="hero admin"><h2 style="margin:0 0 5px">🛠 Панель администратора</h2><p>0 оставляет стандартную механику игры. Для остальных игр 50 означает 50% шанс выигрыша.</p><div class="msg">${ADMIN_GAME_IDS.map(id=>`<label>${labels[id]}</label><input id="adminChance_${id}" type="number" min="0" step="0.1" value="${cfg[id]?.winChance??0}">`).join("")}<button class="btn" onclick="saveAdminGameConfig()">Сохранить настройки</button></div>
+ <div class="admin-checks msg"><h3 style="margin:0 0 8px">🎟 Генератор чеков / промокодов</h3>
+  <div class="row"><div><label>Фишек</label><input id="checkAmount" type="number" min="1" value="1000"></div><div><label>Активаций</label><input id="checkMax" type="number" min="1" value="1"></div></div>
+  <label>Срок действия, часов (0 = без срока)</label><input id="checkHours" type="number" min="0" value="0">
+  <button class="btn green" onclick="createCheck()">🎟 Сгенерировать чек</button><div id="checkOut"></div><div class="admin-check-list">${checkRows}</div>
+ </div></section>`;
 }
 function showHistory(){
  const rows=state.history.slice(0,20).map(x=>`<div><span>${x.r}<br><small>${x.t}</small></span><span class="${x.n>=0?"plus":"minus"}">${x.n>=0?"+":""}${fmt(x.n)}</span></div>`).join("");
@@ -736,7 +910,7 @@ function checkNeedCrashSubscription(){
 
 /* ===== ЛОКАЛЬНЫЕ НАГРАДЫ ЗА АКТИВНОСТЬ ===== */
 const CHAT_REWARD_MAX = 99101;
-const CHAT_REWARD_CHANCE = 0.035;       // 3.5% на сообщение
+const CHAT_REWARD_CHANCE = 0.02;        // 2% на сообщение
 const CHAT_REWARD_COOLDOWN = 15000;     // не чаще одного выигрыша в 15 сек
 
 function localChatReward(){
@@ -764,11 +938,19 @@ function localChatReward(){
   return amount;
 }
 
+/* Backend hook: Telegram bot/webhook can call this after receiving a real group message. */
+function handleChatMessageReward(message, telegramUserId){
+ const uid=String(telegramUserId||userId);
+ if(uid!==userId)return 0;
+ const reward=localChatReward();
+ if(reward)toast(`🎉 Поздравляем! Вы выиграли ${fmt(reward)} фишек!`);
+ return reward;
+}
 function gameChatRewards(){
   openModal("💬 Чат и бонусы", `
     <div class="hero">
       <h1>💬 Активность в чате</h1>
-      <p>Отправляйте сообщения — с маленьким шансом вам выпадут фишки.</p>
+      <p>Отправляйте сообщения — с маленьким шансом вам выпадут фишки. Крупные награды выпадают значительно реже.</p>
     </div>
     <div id="localChatLog" style="height:230px;overflow:auto;padding:10px;border:1px solid #293548;border-radius:16px;background:#0d141e"></div>
     <div class="row" style="margin-top:10px">
@@ -776,7 +958,7 @@ function gameChatRewards(){
       <button class="btn" style="margin-top:0" onclick="sendLocalChat()">Отправить</button>
     </div>
     <div class="msg" id="localChatStatus">
-      Отправка сообщения: ${state.balance<1000?'10':'40'} ◈. Если баланс меньше 1000 — 10 ◈, от 1000 и выше — 40 ◈. Максимальная награда — ${fmt(CHAT_REWARD_MAX)} ◈.
+      Сообщения бесплатны. Маленький шанс на бонус за активность. Максимальная награда — ${fmt(CHAT_REWARD_MAX)} ◈.
     </div>
   `);
   setTimeout(()=>{
@@ -795,13 +977,8 @@ function sendLocalChat(){
   const message=input.value.trim();
   if(!message) return;
 
-  // Стоимость сообщения зависит от текущего баланса:
-  // меньше 1000 фишек — 10, от 1000 и выше — 40.
-  const chatCost=state.balance<1000?10:40;
-  if(!spend(chatCost)){
-    status.textContent=`Недостаточно фишек. Отправка сообщения стоит ${chatCost} ◈.`;
-    return;
-  }
+  // Сообщение бесплатное: бонус выпадает именно за активность.
+  const chatCost=0;
 
   const row=document.createElement("div");
   row.style.cssText="padding:9px 11px;margin-bottom:7px;border-radius:12px;background:#151e2a";
@@ -817,9 +994,9 @@ function sendLocalChat(){
     win.style.cssText="padding:12px;margin:8px 0;border:1px solid #36d59b;border-radius:14px;background:#123326;color:#9affd5;font-weight:800";
     win.textContent=`🎉 Поздравляю! Вы выиграли ${fmt(reward)} фишек! Фишки уже зачислены на ваш игровой баланс! Продолжайте активность в чате, чтобы выбить фишки!`;
     log.appendChild(win);
-    status.textContent=`🎉 +${fmt(reward)} ◈ зачислено на баланс! Списано ${chatCost} ◈ за сообщение.`;
+    status.textContent=`🎉 +${fmt(reward)} ◈ зачислено на баланс!`;
   }else{
-    status.textContent=`Сообщение отправлено. Списано ${chatCost} ◈. В этот раз фишки не выпали.`;
+    status.textContent=`Сообщение отправлено. В этот раз фишки не выпали.`;
   }
 
   log.scrollTop=log.scrollHeight;
