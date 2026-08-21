@@ -453,11 +453,166 @@ function mineOreBoard(){
 
 /* PLINKO */
 
-function gamePlinko(){openModal("🔵 Плинко",`<label>Ставка</label><input id="plinkoBet" type="number" min="1" value="10"><label>Риск</label><select id="plinkoRisk"><option value="low">Низкий</option><option value="mid">Средний</option><option value="high">Высокий</option></select><div class="plinko-stage" id="plinkoStage"><div class="plinko-ball" id="plinkoBall"></div><div class="plinko-slots" id="plinkoSlots"></div></div><div class="msg" id="plinkoResult">Шарик готов. Нажмите «Бросить».</div><button class="btn" id="plinkoBtn" onclick="dropPlinko()">🔵 Бросить шар</button>`);renderPlinkoBoard()}
-function renderPlinkoBoard(){const stage=document.getElementById("plinkoStage"),slots=document.getElementById("plinkoSlots");if(!stage||!slots)return;stage.querySelectorAll(".plinko-peg").forEach(x=>x.remove());const rows=9,w=stage.clientWidth||330;for(let r=0;r<rows;r++){const count=r%2?8:9;for(let c=0;c<count;c++){const peg=document.createElement("i");peg.className="plinko-peg";peg.style.left=((c+.5)*(w/count)-4.5)+"px";peg.style.top=(40+r*28)+"px";stage.appendChild(peg)}}const risk=document.getElementById("plinkoRisk")?.value||"mid";const vals=risk==="low"?[0.5,0.7,0.85,1,1.15,1.3,1.5]:risk==="mid"?[0.2,0.5,0.8,1,1.4,2,2.8]:[0,0.2,0.5,1,1.8,3,5];slots.innerHTML=vals.map((v,i)=>`<div class="plinko-slot" data-i="${i}">${v}x</div>`).join("")}
-function dropPlinko(){const bet=+plinkoBet.value;if(!spend(bet))return;const btn=document.getElementById("plinkoBtn");if(btn)btn.disabled=true;const risk=plinkoRisk.value;const cfg=risk==="low"?[[0.5,0.7,0.85,1,1.15,1.3,1.5],[24,22,18,16,10,7,3]]:risk==="mid"?[[0.2,0.5,0.8,1,1.4,2,2.8],[30,24,18,12,8,5,3]]:[[0,0.2,0.5,1,1.8,3,5],[42,26,15,8,5,3,1]];let x=weightedPick(cfg[0],cfg[1]);const forced=adminWin("plinko");if(forced===true)x=cfg[0].find(v=>v>=1)||cfg[0][cfg[0].length-1];if(forced===false)x=cfg[0].find(v=>v<1)??cfg[0][0];const vals=cfg[0],slot=vals.indexOf(x),stage=document.getElementById("plinkoStage"),ball=document.getElementById("plinkoBall"),result=document.getElementById("plinkoResult");if(!stage||!ball){if(btn)btn.disabled=false;return}stage.querySelectorAll(".plinko-slot").forEach(x=>x.classList.remove("hit"));ball.classList.add("drop");ball.style.left=(stage.clientWidth/2-9)+"px";ball.style.top="8px";const steps=9,startX=stage.clientWidth/2-9,endX=stage.clientWidth*((slot+.5)/vals.length)-9;let path=[],px=startX;for(let r=1;r<=steps;r++){const py=12+r*28;px+=(endX-startX)/steps+(Math.random()-.5)*26;px=Math.max(5,Math.min(stage.clientWidth-23,px));path.push([px,py])}path.push([endX,stage.clientHeight-55]);let i=0;function next(){if(i>=path.length){ball.classList.remove("drop");stage.querySelector(`.plinko-slot[data-i="${slot}"]`)?.classList.add("hit");const win=Math.floor(bet*x);if(win>0)add(win,"Плинко "+x+"x");state.stats.played++;if(x>=1)state.stats.wins++;save();result.textContent=`🎯 Шарик упал в ${x}x → ${win?"+":""}${fmt(win)} ◈`;if(btn)btn.disabled=false;return}const [nx,ny]=path[i++];ball.style.transition="left .14s ease, top .14s ease";ball.style.left=nx+"px";ball.style.top=ny+"px";setTimeout(next,140)}next()}
-document.addEventListener("change",e=>{if(e.target?.id==="plinkoRisk")renderPlinkoBoard()});
+function gamePlinko(){
+ openModal("🔵 Плинко",`
+  <label>Ставка</label>
+  <input id="plinkoBet" type="number" min="1" value="10">
+  <label>Риск</label>
+  <select id="plinkoRisk">
+   <option value="low">Низкий</option>
+   <option value="mid" selected>Средний</option>
+   <option value="high">Высокий</option>
+  </select>
+  <div class="plinko-stage" id="plinkoStage">
+   <div class="plinko-ball" id="plinkoBall"></div>
+   <div class="plinko-slots" id="plinkoSlots"></div>
+  </div>
+  <div class="msg" id="plinkoResult">Шарик готов. Нажмите «Бросить шар».</div>
+  <button class="btn" id="plinkoBtn" onclick="dropPlinko()">🔵 Бросить шар</button>`);
+ setTimeout(renderPlinkoBoard,0);
+}
 
+function getPlinkoConfig(){
+ const risk=document.getElementById("plinkoRisk")?.value||"mid";
+ if(risk==="low") return {values:[0.5,0.7,0.85,1,1.15,1.3,1.5],weights:[24,22,18,16,10,7,3]};
+ if(risk==="high") return {values:[0,0.2,0.5,1,1.8,3,5],weights:[42,26,15,8,5,3,1]};
+ return {values:[0.2,0.5,0.8,1,1.4,2,2.8],weights:[30,24,18,12,8,5,3]};
+}
+
+function renderPlinkoBoard(){
+ const stage=document.getElementById("plinkoStage");
+ const slots=document.getElementById("plinkoSlots");
+ if(!stage||!slots)return;
+
+ stage.querySelectorAll(".plinko-peg").forEach(el=>el.remove());
+
+ const width=stage.clientWidth||330;
+ const rows=9;
+
+ for(let row=0;row<rows;row++){
+  const count=row%2?8:9;
+  for(let col=0;col<count;col++){
+   const peg=document.createElement("i");
+   peg.className="plinko-peg";
+   peg.style.left=((col+0.5)*(width/count)-4.5)+"px";
+   peg.style.top=(38+row*28)+"px";
+   stage.appendChild(peg);
+  }
+ }
+
+ const cfg=getPlinkoConfig();
+ slots.innerHTML=cfg.values.map((v,i)=>
+  `<div class="plinko-slot" data-i="${i}">${v}x</div>`
+ ).join("");
+}
+
+function plinkoWeightedIndex(weights){
+ let total=weights.reduce((a,b)=>a+b,0);
+ let r=Math.random()*total;
+ for(let i=0;i<weights.length;i++){
+  r-=weights[i];
+  if(r<=0)return i;
+ }
+ return weights.length-1;
+}
+
+function dropPlinko(){
+ const betInput=document.getElementById("plinkoBet");
+ const stage=document.getElementById("plinkoStage");
+ const ball=document.getElementById("plinkoBall");
+ const result=document.getElementById("plinkoResult");
+ const btn=document.getElementById("plinkoBtn");
+
+ if(!betInput||!stage||!ball||!result)return;
+
+ const bet=Math.floor(Number(betInput.value));
+ if(!Number.isFinite(bet)||bet<1){
+  result.textContent="Введите корректную ставку.";
+  return;
+ }
+ if(typeof spend!=="function"){
+  result.textContent="Ошибка игры: функция ставки недоступна.";
+  return;
+ }
+ if(!spend(bet))return;
+
+ if(btn)btn.disabled=true;
+
+ const cfg=getPlinkoConfig();
+ let slotIndex=plinkoWeightedIndex(cfg.weights);
+
+ // Сохраняем поддержку админского режима, но не делаем его обязательным.
+ if(typeof adminWin==="function"){
+  const forced=adminWin("plinko");
+  if(forced===true){
+   const good=cfg.values.map((v,i)=>v>=1?i:-1).filter(i=>i>=0);
+   if(good.length)slotIndex=good[Math.floor(Math.random()*good.length)];
+  }else if(forced===false){
+   const bad=cfg.values.map((v,i)=>v<1?i:-1).filter(i=>i>=0);
+   if(bad.length)slotIndex=bad[Math.floor(Math.random()*bad.length)];
+  }
+ }
+
+ stage.querySelectorAll(".plinko-slot").forEach(el=>el.classList.remove("hit"));
+
+ // Reset ball before every throw.
+ ball.classList.remove("drop");
+ ball.style.transition="none";
+ ball.style.left=(stage.clientWidth/2-9)+"px";
+ ball.style.top="8px";
+ void ball.offsetWidth;
+ ball.classList.add("drop");
+
+ const endX=stage.clientWidth*((slotIndex+0.5)/cfg.values.length)-9;
+ const steps=10;
+ const path=[];
+ let x=stage.clientWidth/2-9;
+
+ for(let row=1;row<=steps;row++){
+  const y=10+row*27;
+  const targetDelta=(endX-x)/(steps-row+1);
+  x+=targetDelta+(Math.random()-0.5)*22;
+  x=Math.max(5,Math.min(stage.clientWidth-23,x));
+  path.push([x,y]);
+ }
+ path.push([endX,stage.clientHeight-57]);
+
+ let step=0;
+ const tick=()=>{
+  if(step>=path.length){
+   ball.classList.remove("drop");
+   ball.style.transition="left .16s ease, top .16s ease";
+   const hit=stage.querySelector(`.plinko-slot[data-i="${slotIndex}"]`);
+   if(hit)hit.classList.add("hit");
+
+   const multiplier=cfg.values[slotIndex];
+   const payout=Math.floor(bet*multiplier);
+
+   if(payout>0&&typeof add==="function")add(payout,"Плинко "+multiplier+"x");
+
+   if(state?.stats){
+    state.stats.played=(state.stats.played||0)+1;
+    if(multiplier>=1)state.stats.wins=(state.stats.wins||0)+1;
+   }
+   if(typeof save==="function")save();
+
+   result.textContent=`🎯 Шарик упал в ${multiplier}x → ${payout>0?"+":""}${fmt(payout)} ◈`;
+   if(btn)btn.disabled=false;
+   return;
+  }
+
+  const [nx,ny]=path[step++];
+  ball.style.transition="left .13s ease, top .13s ease";
+  ball.style.left=nx+"px";
+  ball.style.top=ny+"px";
+  setTimeout(tick,130);
+ };
+ tick();
+}
+
+document.addEventListener("change",e=>{
+ if(e.target&&e.target.id==="plinkoRisk")renderPlinkoBoard();
+});
 
 /* CASES */
 const CASES=[
