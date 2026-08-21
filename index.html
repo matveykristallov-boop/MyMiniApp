@@ -176,6 +176,21 @@ label{display:block;color:#9ca6b7;font-size:12px;margin:11px 0 5px}
 .admin-check small{display:block;color:#8d97a8;margin-top:2px}
 .upgrade-bet-row{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:8px}
 .upgrade-bet-row .btn{margin-top:0}
+
+/* === v4 polish === */
+.app{padding-bottom:88px}.top{transition:transform .22s ease,opacity .22s ease;will-change:transform}
+.head{height:58px;padding:0 12px}.brand{font-size:18px;gap:8px}.logo{width:34px;height:34px;border-radius:11px;font-size:17px}
+.balance{padding:6px 9px;border-radius:13px;font-size:14px}.tabs{gap:6px;padding:5px 10px 8px}.tab{min-width:0;padding:8px 9px;border-radius:13px;font-size:12px}
+.top.scrolled{transform:translateY(-12px);opacity:.96}.top.scrolled .head{height:43px}.top.scrolled .logo{width:29px;height:29px;border-radius:9px}.top.scrolled .brand{font-size:15px}.top.scrolled .balance{padding:4px 7px;font-size:12px;border-radius:10px}.top.scrolled .tabs{padding:3px 8px 5px}.top.scrolled .tab{padding:6px 8px;border-radius:10px}
+.bottom{left:8px;right:8px;bottom:8px;border-radius:22px;padding:5px;background:linear-gradient(180deg,#121a27ee,#0a0f17f5);border-color:#354055;box-shadow:0 12px 38px #000d,0 0 0 1px #ffffff08 inset}
+.nav{padding:7px 3px;border-radius:16px;font-size:9px;transition:.18s;position:relative}.nav b{font-size:19px;line-height:20px}.nav.active{background:linear-gradient(145deg,#2a3040,#191e29);color:var(--gold);box-shadow:0 5px 16px #0008,inset 0 1px #ffffff12}.nav.active:after{content:"";position:absolute;left:28%;right:28%;bottom:2px;height:2px;border-radius:2px;background:var(--gold);box-shadow:0 0 8px #ffd76a}
+@media(min-width:760px){.bottom{width:680px}}
+.profile-promo{margin-top:12px;padding:14px;border-radius:19px;border:1px solid #3c4658;background:linear-gradient(145deg,#151c29,#0c1119);box-shadow:0 12px 28px #0007}.profile-promo h3{margin:0 0 4px}.profile-promo p{margin:0;color:#8f99aa;font-size:12px;line-height:1.4}.profile-promo .btn{margin-top:9px}
+.rocket-box.v4-win{animation:rocketWinFlash .65s ease}.rocket-box.v4-crash{animation:rocketCrashShake .55s ease}.rocket-result{position:absolute;z-index:6;left:50%;top:58%;transform:translate(-50%,-50%) scale(.55);opacity:0;pointer-events:none;text-align:center;font-size:30px;font-weight:1000;white-space:nowrap;text-shadow:0 3px 15px #000}.rocket-result.show{animation:rocketResultPop .75s cubic-bezier(.15,1.4,.25,1) forwards}.rocket-result.win{color:#69f0ba}.rocket-result.lose{color:#ff7189}.rocket-particle{position:absolute;z-index:4;left:50%;top:50%;width:7px;height:7px;border-radius:50%;background:#ffe28a;opacity:0;pointer-events:none}.rocket-particle.show{animation:rocketParticle .8s ease-out forwards}
+@keyframes rocketWinFlash{0%{filter:brightness(1)}35%{filter:brightness(1.8)}100%{filter:brightness(1)}}@keyframes rocketCrashShake{0%,100%{transform:translate(0)}20%{transform:translate(-6px,2px) rotate(-1deg)}40%{transform:translate(7px,-2px) rotate(1deg)}60%{transform:translate(-4px,1px)}80%{transform:translate(3px,-1px)}}@keyframes rocketResultPop{0%{opacity:0;transform:translate(-50%,-50%) scale(.45)}55%{opacity:1;transform:translate(-50%,-50%) scale(1.12)}100%{opacity:1;transform:translate(-50%,-50%) scale(1)}}@keyframes rocketParticle{0%{opacity:1;transform:translate(0,0) scale(1)}100%{opacity:0;transform:translate(var(--dx),var(--dy)) scale(.1)}}
+.plinko-stage{position:relative;height:370px;border-radius:24px;border:1px solid #2c3748;overflow:hidden;background:radial-gradient(circle at 50% 15%,#26364b55,transparent 35%),linear-gradient(180deg,#0d1420,#080b12);box-shadow:inset 0 0 35px #0009}.plinko-stage:before{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 35%,#ffffff06 50%,transparent 65%);animation:plinkoSheen 2.5s linear infinite}@keyframes plinkoSheen{from{transform:translateX(-80%)}to{transform:translateX(80%)}}
+.plinko-peg{position:absolute;width:9px;height:9px;border-radius:50%;background:#b9c5d8;box-shadow:0 0 9px #91a8c955,0 2px 4px #000;z-index:2}.plinko-ball{position:absolute;width:18px;height:18px;border-radius:50%;background:radial-gradient(circle at 32% 28%,#fff,#76e5ff 32%,#2772ff 72%,#17306c);box-shadow:0 0 18px #4fbfff,0 4px 10px #000b;z-index:5;left:calc(50% - 9px);top:8px}.plinko-ball.drop{animation:plinkoBallGlow .3s ease-in-out infinite alternate}@keyframes plinkoBallGlow{from{filter:brightness(1)}to{filter:brightness(1.35)}}.plinko-slots{position:absolute;left:7px;right:7px;bottom:8px;height:44px;display:grid;grid-template-columns:repeat(7,1fr);gap:4px;z-index:3}.plinko-slot{display:grid;place-items:center;border-radius:10px 10px 13px 13px;border:1px solid #334052;background:linear-gradient(180deg,#182130,#0d131d);font-size:12px;font-weight:1000;color:#aeb9ca}.plinko-slot.hit{background:linear-gradient(180deg,#ffe89b,#d9a63b);color:#17120a;border-color:#fff0b0;box-shadow:0 0 24px #ffd76a77;animation:plinkoSlotHit .6s ease}@keyframes plinkoSlotHit{0%{transform:scale(.9)}50%{transform:scale(1.12)}100%{transform:scale(1)}}@media(max-width:430px){.plinko-stage{height:335px}.rocket-result{font-size:24px}}
+
 </style>
 </head>
 <body>
@@ -208,10 +223,9 @@ label{display:block;color:#9ca6b7;font-size:12px;margin:11px 0 5px}
 
 <nav class="bottom">
   <button class="nav active" data-nav="games"><b>▦</b>Игры</button>
-  <button class="nav" data-nav="promo"><b>♢</b>Промокод</button>
   <button class="nav" data-nav="tasks"><b>◇</b>Задания</button>
   <button class="nav" data-nav="friends"><b>♧</b>Друзья</button>
-  <button class="nav" data-nav="clicker"><b>⚡</b>Кликер</button>
+  <button class="nav" data-nav="profile"><b>◉</b>Профиль</button>
 </nav>
 </div>
 
@@ -338,7 +352,7 @@ function gameRocket(){
   <div class="mult-history" id="rocketHistory">${rocketHistory.slice(-8).map(x=>`<span class="mh ${x>=2?"good":""}">${x.toFixed(2)}x</span>`).join("")}</div>
   <div class="rocket-box" id="rocketBox">
    <div class="rocket-content"><div class="rocket-x" id="rocketX">1.00x</div><div class="rocket-sub" id="rocketMsg">Приём ставок</div></div>
-   <div class="rocket-ship" id="rocketShip">🚀</div>
+   <div class="rocket-ship" id="rocketShip">🚀</div><div class="rocket-result" id="rocketResult"></div>
   </div>
   <label>Ставка</label><input id="rocketBet" type="number" min="1" value="10">
   <div class="cashout-bar" style="margin-top:10px">
@@ -348,37 +362,23 @@ function gameRocket(){
   <div class="msg">Множитель растёт постепенно. Забрать можно в любой момент до взрыва.</div>`);
 }
 function rocketStart(){
- if(rocket.run)return;
- const bet=+document.getElementById("rocketBet").value;if(!spend(bet))return;
- const crash=rocketCrashPoint();
- rocket={run:true,bet,x:1,timer:null,crash};
- rocketX.textContent="1.00x";rocketMsg.textContent="🚀 Полёт начался";rocketMsg.className="live";
+ if(rocket.run)return;const bet=+document.getElementById("rocketBet").value;if(!spend(bet))return;
+ const crash=rocketCrashPoint();rocket={run:true,bet,x:1,timer:null,crash};rocketX.textContent="1.00x";rocketMsg.textContent="🚀 Полёт начался";rocketMsg.className="live";rocketBox.classList.remove("v4-win","v4-crash");
+ const rr=document.getElementById("rocketResult");if(rr){rr.className="rocket-result";rr.textContent=""}
  rocketBox.classList.add("live");rocketCash.disabled=true;rocketStartBtn.disabled=true;
- rocket.timer=setInterval(()=>{
-  rocket.x+=0.022+rocket.x*0.012;
-  rocketX.textContent=rocket.x.toFixed(2)+"x";
-  rocketCash.textContent="Забрать "+fmt(Math.floor(rocket.bet*rocket.x));
-  if(rocket.x>=1.15)rocketCash.disabled=false;
-  if(rocket.x>=rocket.crash)rocketCrash();
- },100);
+ rocket.timer=setInterval(()=>{rocket.x+=0.022+rocket.x*0.012;rocketX.textContent=rocket.x.toFixed(2)+"x";rocketCash.textContent="Забрать "+fmt(Math.floor(rocket.bet*rocket.x));if(rocket.x>=1.05)rocketCash.disabled=false;if(rocket.x>=rocket.crash)rocketCrash()},100);
 }
+function rocketParticles(kind){const box=document.getElementById("rocketBox");if(!box)return;for(let i=0;i<14;i++){const p=document.createElement("i");p.className="rocket-particle show";const a=Math.PI*2*i/14,d=70+Math.random()*120;p.style.setProperty("--dx",Math.cos(a)*d+"px");p.style.setProperty("--dy",Math.sin(a)*d+"px");if(kind==="crash")p.style.background="#ff607b";box.appendChild(p);setTimeout(()=>p.remove(),850)}}
 function rocketCrash(){
- if(!rocket.run)return;
- clearInterval(rocket.timer);rocket.run=false;rocketCash.disabled=true;rocketStartBtn.disabled=false;rocketBox.classList.remove("live");
- rocketX.textContent=rocket.crash.toFixed(2)+"x";rocketMsg.textContent="💥 Взрыв на "+rocket.crash.toFixed(2)+"x";rocketMsg.className="crash";
- rocketHistory.push(rocket.crash);rocketHistory=rocketHistory.slice(-16);
- const h=document.getElementById("rocketHistory");if(h)h.innerHTML=rocketHistory.slice(-8).map(x=>`<span class="mh ${x>=2?"good":""}">${x.toFixed(2)}x</span>`).join("");
- state.stats.played++;save();
+ if(!rocket.run)return;clearInterval(rocket.timer);rocket.run=false;rocketCash.disabled=true;rocketStartBtn.disabled=false;rocketBox.classList.remove("live");rocketBox.classList.add("v4-crash");rocketX.textContent=rocket.crash.toFixed(2)+"x";rocketMsg.textContent="💥 Крах на "+rocket.crash.toFixed(2)+"x";rocketMsg.className="crash";
+ const rr=document.getElementById("rocketResult");if(rr){rr.textContent="💥 КРАХ";rr.className="rocket-result lose show"}rocketParticles("crash");rocketHistory.push(rocket.crash);rocketHistory=rocketHistory.slice(-16);const h=document.getElementById("rocketHistory");if(h)h.innerHTML=rocketHistory.slice(-8).map(x=>`<span class="mh ${x>=2?"good":""}">${x.toFixed(2)}x</span>`).join("");state.stats.played++;save();
 }
 function rocketCashout(silent=false){
- if(!rocket.run)return;
- clearInterval(rocket.timer);rocket.run=false;rocketCash.disabled=true;rocketStartBtn.disabled=false;rocketBox.classList.remove("live");
- const win=Math.floor(rocket.bet*rocket.x);add(win,"Ракета "+rocket.x.toFixed(2)+"x");state.stats.played++;state.stats.wins++;
- rocketMsg.textContent="✅ Забрано "+fmt(win)+" фишек на "+rocket.x.toFixed(2)+"x";rocketMsg.className="live";
- rocketHistory.push(rocket.x);rocketHistory=rocketHistory.slice(-16);
- const h=document.getElementById("rocketHistory");if(h)h.innerHTML=rocketHistory.slice(-8).map(x=>`<span class="mh ${x>=2?"good":""}">${x.toFixed(2)}x</span>`).join("");
- if(!silent)toast("Вы забрали "+fmt(win)+" фишек");
+ if(!rocket.run)return;clearInterval(rocket.timer);rocket.run=false;rocketCash.disabled=true;rocketStartBtn.disabled=false;rocketBox.classList.remove("live");rocketBox.classList.add("v4-win");
+ const win=Math.floor(rocket.bet*rocket.x);add(win,"Ракета "+rocket.x.toFixed(2)+"x");state.stats.played++;state.stats.wins++;rocketMsg.textContent="✅ Выигрыш забран на "+rocket.x.toFixed(2)+"x";rocketMsg.className="live";
+ const rr=document.getElementById("rocketResult");if(rr){rr.textContent="🎉 +"+fmt(win)+" ◈";rr.className="rocket-result win show"}rocketParticles("win");rocketHistory.push(rocket.x);rocketHistory=rocketHistory.slice(-16);const h=document.getElementById("rocketHistory");if(h)h.innerHTML=rocketHistory.slice(-8).map(x=>`<span class="mh ${x>=2?"good":""}>${x.toFixed(2)}x</span>`).join("");if(!silent)toast("Вы забрали "+fmt(win)+" фишек");
 }
+
 
 /* MINES */
 let mineGame=null;
@@ -443,44 +443,21 @@ function renderOreBoard(values){
  }).join("");
 }
 function mineOreBoard(){
- const bet=Math.floor(+document.getElementById("oreBet").value);
- if(!Number.isFinite(bet)||bet<1){toast("Введите корректную ставку");return}
- if(!spend(bet))return;
- const forced=adminWin("ore");
- const values=Array.from({length:9},()=>{
-   const r=Math.random();
-   if(forced===true && r<0.08)return "diamond";
-   if(forced===true && r<0.34)return "gold";
-   if(forced===false && r<0.28)return "stone";
-   if(r<0.025)return "diamond";
-   if(r<0.25)return "gold";
-   if(r<0.55)return "stone";
-   return "empty";
- });
- renderOreBoard(values);
- const goldCount=values.filter(v=>v==="gold").length;
- const diamondCount=values.filter(v=>v==="diamond").length;
- const reward=Math.floor(bet*(goldCount*0.20+diamondCount*0.50));
- if(goldCount)state.gold=(state.gold||0)+goldCount;
- if(reward>0){
-   add(bet+reward,"Шахта — "+goldCount+" золото, "+diamondCount+" алмаз");
-   state.stats.wins++;
-   oreOut.textContent=`⛏️ Найдено: ${goldCount}🥇 ${diamondCount}💎 · +${fmt(reward)} ◈`;
-   oreMsg.textContent=`Золото: ${goldCount} · Алмазы: ${diamondCount} · прибыль +${fmt(reward)} ◈.`;
- }else{
-   oreOut.textContent="⛏️ В этот раз ничего ценного";
-   oreMsg.textContent="Пустая порода и камень. Попробуйте ещё раз.";
- }
- state.stats.played++;
- oreGold.textContent=fmt(state.gold||0)+" 🪙";
- save();
+ const bet=Math.floor(+document.getElementById("oreBet").value);if(!Number.isFinite(bet)||bet<1){toast("Введите корректную ставку");return}if(!spend(bet))return;
+ const profitable=Math.random()<0.20;let values;
+ if(profitable){const reward=Math.max(bet+1,Math.floor(bet*(1.55+Math.random()*0.85)));values=Array.from({length:9},()=>Math.random()<0.5?"gold":"empty");values[Math.floor(Math.random()*9)]=Math.random()<0.15?"diamond":"gold";renderOreBoard(values);add(reward,"Шахта — прибыльный раунд");state.stats.wins++;oreOut.textContent=`⛏️ Удача! +${fmt(reward-bet)} ◈ прибыли`;oreMsg.textContent=`🎉 Выплата ${fmt(reward)} ◈ при ставке ${fmt(bet)} ◈. Шанс выйти в плюс — 20%.`;
+ }else{values=Array.from({length:9},()=>{const r=Math.random();if(r<0.45)return "stone";if(r<0.62)return "gold";return "empty"});renderOreBoard(values);const partial=Math.random()<0.28?Math.max(0,Math.floor(bet*(0.15+Math.random()*0.55))):0;if(partial)add(partial,"Шахта — частичная награда");oreOut.textContent=partial?`⛏️ Найдено ${fmt(partial)} ◈`:"⛏️ В этот раз без прибыли";oreMsg.textContent=partial?`Выплата ${fmt(partial)} ◈ — меньше ставки ${fmt(bet)} ◈.`:"80% сценарий: выплата не превышает ставку."}
+ state.stats.played++;oreGold.textContent=fmt(state.gold||0)+" 🪙";save();
 }
+
 
 /* PLINKO */
 
-function gamePlinko(){openModal("🔵 Плинко",`<label>Ставка</label><input id="plinkoBet" type="number" min="1" value="10"><label>Риск</label><select id="plinkoRisk"><option value="low">Низкий</option><option value="mid">Средний</option><option value="high">Высокий</option></select><div class="msg" id="plinkoResult">Нажмите «Бросить».</div><button class="btn" onclick="dropPlinko()">Бросить шар</button>`)}
-function weightedPick(items,weights){let r=Math.random()*weights.reduce((a,b)=>a+b,0);for(let i=0;i<items.length;i++){r-=weights[i];if(r<=0)return items[i]}return items[items.length-1]}
-function dropPlinko(){const bet=+plinkoBet.value;if(!spend(bet))return;const risk=plinkoRisk.value;const cfg=risk==="low"?[[0.2,0.5,0.8,1,1.2,1.5],[30,25,20,13,9,3]]:risk==="mid"?[[0.1,0.3,0.7,1.2,1.8,2.8],[40,28,17,9,5,1]]:[[0,0.1,0.4,0.8,1.5,3,5],[48,25,14,7,4,1.5,.5]];let x=weightedPick(cfg[0],cfg[1]); const forced=adminWin("plinko"); if(forced===true)x=cfg[0].find(v=>v>=1)||cfg[0][cfg[0].length-1]; if(forced===false)x=cfg[0].find(v=>v<1)??cfg[0][0]; const win=Math.floor(bet*x);if(win)add(win,"Плинко "+x+"x");plinkoResult.textContent=`Шар упал в ${x}x → ${win?"+":""}${win} фишек`}
+function gamePlinko(){openModal("🔵 Плинко",`<label>Ставка</label><input id="plinkoBet" type="number" min="1" value="10"><label>Риск</label><select id="plinkoRisk"><option value="low">Низкий</option><option value="mid">Средний</option><option value="high">Высокий</option></select><div class="plinko-stage" id="plinkoStage"><div class="plinko-ball" id="plinkoBall"></div><div class="plinko-slots" id="plinkoSlots"></div></div><div class="msg" id="plinkoResult">Шарик готов. Нажмите «Бросить».</div><button class="btn" id="plinkoBtn" onclick="dropPlinko()">🔵 Бросить шар</button>`);renderPlinkoBoard()}
+function renderPlinkoBoard(){const stage=document.getElementById("plinkoStage"),slots=document.getElementById("plinkoSlots");if(!stage||!slots)return;stage.querySelectorAll(".plinko-peg").forEach(x=>x.remove());const rows=9,w=stage.clientWidth||330;for(let r=0;r<rows;r++){const count=r%2?8:9;for(let c=0;c<count;c++){const peg=document.createElement("i");peg.className="plinko-peg";peg.style.left=((c+.5)*(w/count)-4.5)+"px";peg.style.top=(40+r*28)+"px";stage.appendChild(peg)}}const risk=document.getElementById("plinkoRisk")?.value||"mid";const vals=risk==="low"?[0.5,0.7,0.85,1,1.15,1.3,1.5]:risk==="mid"?[0.2,0.5,0.8,1,1.4,2,2.8]:[0,0.2,0.5,1,1.8,3,5];slots.innerHTML=vals.map((v,i)=>`<div class="plinko-slot" data-i="${i}">${v}x</div>`).join("")}
+function dropPlinko(){const bet=+plinkoBet.value;if(!spend(bet))return;const btn=document.getElementById("plinkoBtn");if(btn)btn.disabled=true;const risk=plinkoRisk.value;const cfg=risk==="low"?[[0.5,0.7,0.85,1,1.15,1.3,1.5],[24,22,18,16,10,7,3]]:risk==="mid"?[[0.2,0.5,0.8,1,1.4,2,2.8],[30,24,18,12,8,5,3]]:[[0,0.2,0.5,1,1.8,3,5],[42,26,15,8,5,3,1]];let x=weightedPick(cfg[0],cfg[1]);const forced=adminWin("plinko");if(forced===true)x=cfg[0].find(v=>v>=1)||cfg[0][cfg[0].length-1];if(forced===false)x=cfg[0].find(v=>v<1)??cfg[0][0];const vals=cfg[0],slot=vals.indexOf(x),stage=document.getElementById("plinkoStage"),ball=document.getElementById("plinkoBall"),result=document.getElementById("plinkoResult");if(!stage||!ball){if(btn)btn.disabled=false;return}stage.querySelectorAll(".plinko-slot").forEach(x=>x.classList.remove("hit"));ball.classList.add("drop");ball.style.left=(stage.clientWidth/2-9)+"px";ball.style.top="8px";const steps=9,startX=stage.clientWidth/2-9,endX=stage.clientWidth*((slot+.5)/vals.length)-9;let path=[],px=startX;for(let r=1;r<=steps;r++){const py=12+r*28;px+=(endX-startX)/steps+(Math.random()-.5)*26;px=Math.max(5,Math.min(stage.clientWidth-23,px));path.push([px,py])}path.push([endX,stage.clientHeight-55]);let i=0;function next(){if(i>=path.length){ball.classList.remove("drop");stage.querySelector(`.plinko-slot[data-i="${slot}"]`)?.classList.add("hit");const win=Math.floor(bet*x);if(win>0)add(win,"Плинко "+x+"x");state.stats.played++;if(x>=1)state.stats.wins++;save();result.textContent=`🎯 Шарик упал в ${x}x → ${win?"+":""}${fmt(win)} ◈`;if(btn)btn.disabled=false;return}const [nx,ny]=path[i++];ball.style.transition="left .14s ease, top .14s ease";ball.style.left=nx+"px";ball.style.top=ny+"px";setTimeout(next,140)}next()}
+document.addEventListener("change",e=>{if(e.target?.id==="plinkoRisk")renderPlinkoBoard()});
+
 
 /* CASES */
 const CASES=[
@@ -770,26 +747,10 @@ function hiLoStart(){
  hi={current:1+Math.floor(Math.random()*13),started:true,bet,mult:1};
  renderHi();hiloMsg.textContent="Выбирайте выше или ниже.";
 }
-function renderHi(){cards.textContent=ranks[hi.current-1];hiloMult.textContent=hi.mult.toFixed(2)+"x";hiloCash.textContent="Забрать "+fmt(Math.floor(hi.bet*hi.mult));}
-function hiLo(dir){
- if(!hi.started){hiLoStart();return}
- const next=1+Math.floor(Math.random()*13);
- const win=dir==="high"?next>hi.current:next<hi.current;
- cards.textContent=ranks[next-1];
- if(win){
-   hi.mult*=1.30;hi.current=next;renderHi();
-   hiloMsg.textContent=`✅ Верно! ${ranks[next-1]} · множитель ${hi.mult.toFixed(2)}x`;
-   if(hi.mult>=8)hiLoCashout();
- }else{
-   hi.started=false;hiloCash.disabled=true;hiloMsg.textContent=`❌ Не угадали. Выпала ${ranks[next-1]}. Раунд закончен.`;
-   state.stats.played++;save();
- }
-}
-function hiLoCashout(){
- if(!hi.started||hi.mult<=1){toast("Сначала правильно угадайте карту");return}
- const win=Math.floor(hi.bet*hi.mult);hi.started=false;add(win,"Hi-Lo — кэшаут "+hi.mult.toFixed(2)+"x");state.stats.played++;state.stats.wins;
- hiloMsg.textContent=`💰 Забрано ${win} фишек на ${hi.mult.toFixed(2)}x`;hiloCash.disabled=true;
-}
+function renderHi(){cards.textContent=ranks[hi.current-1];hiloMult.textContent=hi.mult.toFixed(2)+"x";hiloCash.textContent="Забрать "+fmt(Math.floor(hi.bet*hi.mult));hiloCash.disabled=!(hi.started&&hi.mult>1)}
+function hiLo(dir){if(!hi.started){hiLoStart();return}const next=1+Math.floor(Math.random()*13),win=dir==="high"?next>hi.current:next<hi.current;cards.textContent=ranks[next-1];if(win){hi.mult*=1.30;hi.current=next;renderHi();hiloMsg.textContent=`✅ Верно! ${ranks[next-1]} · ${hi.mult.toFixed(2)}x · теперь можно забрать`}else{hi.started=false;hiloCash.disabled=true;hiloMsg.textContent=`❌ Не угадали. Выпала ${ranks[next-1]}. Раунд закончен.`;state.stats.played++;save()}}
+function hiLoCashout(){if(!hi.started||hi.mult<=1){toast("Сначала правильно угадайте карту");return}const win=Math.floor(hi.bet*hi.mult);hi.started=false;add(win,"Hi-Lo — кэшаут "+hi.mult.toFixed(2)+"x");state.stats.played++;state.stats.wins++;hiloMsg.textContent=`💰 Забрано ${win} фишек на ${hi.mult.toFixed(2)}x`;hiloCash.disabled=true;save()}
+
 
 /* CUPS */
 let cupsState={};
@@ -833,7 +794,7 @@ function claimCheck(code){
  renderPromo();
 }
 function renderPromo(){
- openModal("♢ Промокод",`<div class="hero"><h1>Активировать чек</h1><p>Введите код, который вы получили. Один аккаунт может использовать каждый промокод только один раз.</p></div><label>Промокод</label><input id="promoInput" maxlength="32" placeholder="NC-XXXXX-XXXXX" autocapitalize="characters"><button class="btn" onclick="claimCheck(document.getElementById('promoInput').value)">Активировать</button><div class="msg">После успешной активации фишки сразу добавятся на баланс.</div>`);
+ openModal("🎟 Промокод",`<div class="hero"><h1>Активировать чек</h1><p>Введите код, который вы получили. Один аккаунт может использовать каждый промокод только один раз.</p></div><label>Промокод</label><input id="promoInput" maxlength="32" placeholder="NC-XXXXX-XXXXX" autocapitalize="characters"><button class="btn" onclick="claimCheck(document.getElementById('promoInput').value)">Активировать</button><div class="msg">После успешной активации фишки сразу добавятся на баланс.</div>`);
 }
 function renderAdmin(){
  if(!isAdmin){document.getElementById("adminBox").innerHTML="";return}
@@ -1003,21 +964,20 @@ function sendLocalChat(){
 }
 
 /* NAV */
-function openProfile(){
-  openModal("Профиль",`<div class="statgrid"><div class="stat"><small>Telegram ID</small><strong style="font-size:13px">${userId}</strong></div><div class="stat"><small>Фишки</small><strong>${fmt(state.balance)}</strong></div><div class="stat"><small>Игр</small><strong>${state.stats.played}</strong></div><div class="stat"><small>Побед</small><strong>${state.stats.wins}</strong></div></div><button class="btn alt" onclick="showHistory()">История операций</button><button class="btn alt" onclick="resetLocal()">Сбросить локальный прогресс</button><div class="notice">Это демо на виртуальных фишках. Для настоящего многопользовательского учёта, проверки подписки и серверного античита нужен сервер и база данных.</div>`);
-}
+function openProfile(){openModal("Профиль",`<div class="statgrid"><div class="stat"><small>Telegram ID</small><strong style="font-size:13px">${userId}</strong></div><div class="stat"><small>Фишки</small><strong>${fmt(state.balance)}</strong></div><div class="stat"><small>Игр</small><strong>${state.stats.played}</strong></div><div class="stat"><small>Побед</small><strong>${state.stats.wins}</strong></div></div><div class="profile-promo"><h3>🎟 Промокод</h3><p>Активируйте полученный код прямо из профиля. Каждый код можно использовать один раз.</p><button class="btn" onclick="renderPromo()">Активировать промокод</button></div><button class="btn alt" onclick="showHistory()">История операций</button><button class="btn alt" onclick="resetLocal()">Сбросить локальный прогресс</button><div class="notice">Это демо на виртуальных фишках. Для настоящего многопользовательского учёта, проверки подписки и серверного античита нужен сервер и база данных.</div>`)}
+
 document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));b.classList.add("active");renderGames(b.dataset.mode)});
 document.querySelectorAll(".nav").forEach(b=>b.onclick=()=>{
  document.querySelectorAll(".nav").forEach(x=>x.classList.remove("active"));b.classList.add("active");
- if(b.dataset.nav==="games"){renderGames("quick");return}
- if(b.dataset.nav==="promo"){renderPromo();return}
+ if(b.dataset.nav==="games"){renderGames("quick");window.scrollTo({top:0,behavior:"smooth"});return}
+ if(b.dataset.nav==="profile"){openProfile();return}
  if(b.dataset.nav==="friends"){referralOpen();return}
  if(b.dataset.nav==="tasks"){openTasks();return}
- if(b.dataset.nav==="clicker"){gameClicker();return}
 });
+window.addEventListener("scroll",()=>{document.querySelector(".top")?.classList.toggle("scrolled",window.scrollY>45)},{passive:true});
 function resetLocal(){if(confirm("Удалить локальный прогресс?")){localStorage.removeItem("needcrash_"+userId);location.reload()}}
 
-processIncomingReferral();updateUI();renderGames();renderAdmin();
+processIncomingReferral();updateUI();renderGames();renderAdmin();window.addEventListener("resize",()=>{if(document.getElementById("plinkoStage"))renderPlinkoBoard()});
 </script>
 </body>
 </html>
