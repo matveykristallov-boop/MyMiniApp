@@ -1,0 +1,806 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#090b14">
+<title>NeedCrash — Evolution</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+:root {
+  --bg: #05070a; --panel: #0d121c; --panel2: #161e2d; --line: #26334a;
+  --text: #f0f4f8; --muted: #7b8a9d; --gold: #ffd76a; --gold2: #ffedaa;
+  --green: #20e08b; --red: #ff3860; --blue: #4b8af5; --cyan: #36d6f5;
+  --shadow-lg: 0 24px 60px rgba(0,0,0,0.8);
+  --glow: 0 0 20px rgba(255, 215, 106, 0.4);
+}
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; user-select: none; }
+html, body { margin: 0; background: var(--bg); color: var(--text); font-family: Inter, -apple-system, sans-serif; overflow-x: hidden; }
+body { background: radial-gradient(circle at 50% 0%, #152238 0%, #05070a 60%); min-height: 100vh; padding-bottom: 96px; }
+button, input, select { font: inherit; outline: none; }
+button { border: 0; cursor: pointer; transition: transform 0.1s, filter 0.1s; }
+button:active { transform: scale(0.96); filter: brightness(1.2); }
+
+/* Animations */
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes pulseGlow { 0% { box-shadow: 0 0 15px rgba(255,215,106,0.3); } 50% { box-shadow: 0 0 30px rgba(255,215,106,0.6); } 100% { box-shadow: 0 0 15px rgba(255,215,106,0.3); } }
+@keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-8px); } 100% { transform: translateY(0px); } }
+
+/* Layout & Header */
+.top { position: sticky; top: 0; z-index: 20; background: rgba(9, 11, 20, 0.85); backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); }
+.head { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; }
+.brand { display: flex; align-items: center; gap: 10px; font-size: 22px; font-weight: 900; background: linear-gradient(90deg, #fff, #a2b4ce); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.logo { width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center; background: linear-gradient(135deg, #1e2840, #0a0d14); border: 1px solid #384663; box-shadow: 0 4px 12px rgba(0,0,0,0.5); font-size: 22px; color: #fff; }
+.balance { display: flex; align-items: center; gap: 8px; background: rgba(13, 18, 28, 0.9); border: 1px solid var(--line); border-radius: 14px; padding: 8px 14px; font-weight: 900; box-shadow: 0 8px 20px rgba(0,0,0,0.4); }
+.coin { color: var(--gold); text-shadow: 0 0 10px rgba(255,215,106,0.5); }
+.tabs { display: flex; gap: 8px; padding: 0 16px 12px; overflow-x: auto; scrollbar-width: none; }
+.tabs::-webkit-scrollbar { display: none; }
+.tab { flex: 1; min-width: 110px; padding: 10px; border-radius: 12px; background: rgba(22, 30, 45, 0.6); border: 1px solid var(--line); color: var(--muted); font-weight: 800; font-size: 13px; text-align: center; }
+.tab.active { background: linear-gradient(180deg, #ffe99c, #eab84c); color: #17120a; border-color: #ffe9a3; box-shadow: var(--glow); }
+
+/* Main Content */
+.page { padding: 16px; max-width: 800px; margin: auto; animation: fadeIn 0.4s ease-out; }
+.hero { border: 1px solid rgba(255,255,255,0.08); background: linear-gradient(145deg, rgba(28,40,62,0.8), rgba(12,17,26,0.9)); border-radius: 20px; padding: 20px; box-shadow: 0 12px 30px rgba(0,0,0,0.5); margin-bottom: 16px; position: relative; overflow: hidden; }
+.hero::before { content: ""; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 60%); pointer-events: none; }
+.hero h1 { margin: 0 0 8px; font-size: 26px; font-weight: 900; }
+.hero p { margin: 0; color: var(--muted); line-height: 1.5; font-size: 14px; }
+.section-title { display: flex; justify-content: space-between; align-items: center; margin: 24px 4px 12px; font-size: 19px; font-weight: 900; }
+.games { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+.card { background: linear-gradient(145deg, #141c2b, #0a0e15); border: 1px solid var(--line); border-radius: 20px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.6); display: flex; flex-direction: column; text-align: left; }
+.art { height: 110px; display: grid; place-items: center; font-size: 54px; background: radial-gradient(circle at 50% 50%, rgba(75, 138, 245, 0.15), transparent 60%); }
+.card-body { padding: 12px 14px 16px; }
+.card h3 { margin: 0 0 4px; font-size: 16px; font-weight: 800; }
+.card p { margin: 0; color: #6b7a90; font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* Navigation Bottom */
+.bottom { position: fixed; z-index: 30; bottom: 12px; left: 12px; right: 12px; max-width: 600px; margin: 0 auto; background: rgba(12, 17, 26, 0.95); backdrop-filter: blur(20px); border: 1px solid var(--line); border-radius: 24px; display: flex; justify-content: space-around; padding: 6px; box-shadow: 0 20px 50px rgba(0,0,0,0.8); }
+.nav { flex: 1; text-align: center; color: #5c6a82; padding: 8px 4px; border-radius: 18px; font-size: 10px; font-weight: 800; background: transparent; }
+.nav b { display: block; font-size: 22px; margin-bottom: 4px; transition: transform 0.2s; }
+.nav.active { background: rgba(255,255,255,0.05); color: var(--gold); }
+.nav.active b { transform: translateY(-2px); text-shadow: 0 0 15px rgba(255,215,106,0.6); }
+
+/* Modals */
+.modal { position: fixed; inset: 0; z-index: 50; display: none; align-items: flex-end; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); }
+.modal.show { display: flex; animation: fadeIn 0.25s ease-out; }
+.sheet { width: 100%; max-height: 92vh; overflow-y: auto; background: var(--bg); border-top: 1px solid var(--line); border-radius: 28px 28px 0 0; padding: 20px; box-shadow: var(--shadow-lg); position: relative; }
+.sheet-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.sheet h2 { margin: 0; font-size: 24px; font-weight: 900; }
+.close { width: 36px; height: 36px; border-radius: 50%; background: #192336; color: #a4b2c6; font-size: 22px; display: grid; place-items: center; }
+
+/* UI Elements */
+.btn { width: 100%; padding: 14px; border-radius: 16px; background: linear-gradient(180deg, #ffe99c, #e8b846); color: #17120a; font-weight: 900; font-size: 15px; margin-top: 12px; box-shadow: 0 6px 20px rgba(232, 184, 70, 0.3); text-transform: uppercase; letter-spacing: 0.5px; }
+.btn.alt { background: #1a2333; color: #d1d8e0; border: 1px solid #2f3d54; box-shadow: none; }
+.btn.danger { background: linear-gradient(180deg, #ff6b82, #e83a55); color: #fff; box-shadow: 0 6px 20px rgba(232, 58, 85, 0.3); }
+.btn.green { background: linear-gradient(180deg, #4ef0a3, #21c97c); color: #0a2617; box-shadow: 0 6px 20px rgba(33, 201, 124, 0.3); }
+.btn:disabled { opacity: 0.5; pointer-events: none; }
+
+.row { display: flex; gap: 10px; } .row > * { flex: 1; }
+input, select { width: 100%; padding: 14px; border-radius: 14px; background: #0c111a; border: 1px solid #2b364a; color: #fff; font-weight: 700; transition: border-color 0.2s; }
+input:focus, select:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(75, 138, 245, 0.2); }
+label { display: block; color: var(--muted); font-size: 12px; font-weight: 700; margin: 12px 0 6px 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+.statgrid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin: 12px 0; }
+.stat { background: rgba(255,255,255,0.03); border: 1px solid var(--line); border-radius: 16px; padding: 12px 14px; }
+.stat small { color: var(--muted); font-size: 11px; text-transform: uppercase; font-weight: 700; }
+.stat strong { display: block; font-size: 20px; font-weight: 900; margin-top: 4px; }
+
+.msg { padding: 14px; border-radius: 14px; background: rgba(33, 150, 243, 0.08); border: 1px solid rgba(33, 150, 243, 0.2); color: #a4c2f4; margin-top: 12px; line-height: 1.5; font-size: 13px; font-weight: 600; }
+.notice { font-size: 12px; color: #6b7a90; margin-top: 12px; line-height: 1.5; text-align: center; }
+
+/* Admin & Profile */
+.admin { border-color: #634b17; background: linear-gradient(145deg, #261c0a, #11141a); }
+.admin-input { margin-bottom: 12px; }
+
+/* Inventory Grid */
+.inv-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 12px; }
+.inv-slot { aspect-ratio: 1; background: #131a26; border: 2px dashed #2d3b52; border-radius: 14px; display: grid; place-items: center; position: relative; font-size: 28px; transition: 0.2s; }
+.inv-slot.has-item { border: 1px solid #3d4f6e; background: linear-gradient(145deg, #1b2536, #101621); box-shadow: inset 0 2px 10px rgba(255,255,255,0.02); }
+.inv-slot.selected { border-color: var(--gold); box-shadow: 0 0 15px rgba(255,215,106,0.4); transform: scale(1.05); z-index: 2; }
+.inv-slot .inv-qty { position: absolute; bottom: 4px; right: 6px; font-size: 10px; font-weight: 900; background: var(--bg); padding: 2px 6px; border-radius: 8px; color: var(--gold); }
+.item-info-panel { margin-top: 16px; padding: 16px; background: #111824; border-radius: 16px; border: 1px solid var(--line); display: none; text-align: center; animation: fadeIn 0.2s; }
+.item-info-panel h3 { margin: 0 0 6px; font-size: 18px; }
+.item-info-panel p { margin: 0 0 12px; color: var(--gold); font-weight: 800; }
+
+/* Games Specific Styles */
+.rocket-box { height: 300px; border-radius: 24px; position: relative; overflow: hidden; background: linear-gradient(180deg, #0f1522, #05070a); border: 1px solid var(--line); display: grid; place-items: center; box-shadow: inset 0 0 50px rgba(0,0,0,0.8); }
+.rocket-x { font-size: 72px; font-weight: 900; background: linear-gradient(to bottom, #fff, #ffd76a); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 20px rgba(255,215,106,0.3)); z-index: 2; }
+.rocket-ship { font-size: 64px; position: absolute; bottom: 20px; left: 20px; z-index: 3; transition: 0.1s; filter: drop-shadow(0 10px 10px rgba(0,0,0,0.5)); }
+.rocket-box.live .rocket-ship { animation: float 1s ease-in-out infinite; }
+.crash-text { color: var(--red) !important; -webkit-text-fill-color: var(--red); filter: drop-shadow(0 0 20px rgba(255,56,96,0.4)); }
+
+/* Cases */
+.cases-scroll { display: grid; gap: 12px; }
+.case-item { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; background: linear-gradient(90deg, #131a26, #0d121c); border: 1px solid var(--line); border-radius: 16px; text-align: left; transition: 0.2s; }
+.case-item:active { transform: scale(0.98); }
+.case-icon { font-size: 36px; margin-right: 16px; animation: float 3s infinite ease-in-out; }
+.case-info { flex: 1; }
+.case-info h3 { margin: 0 0 4px; font-size: 16px; font-weight: 800; }
+.case-info p { margin: 0; color: var(--muted); font-size: 12px; }
+.case-price { font-weight: 900; color: var(--gold); background: rgba(255,215,106,0.1); padding: 6px 12px; border-radius: 10px; }
+
+/* Wheel Game */
+.wheel-wrap { position: relative; width: 280px; height: 280px; margin: 20px auto; border-radius: 50%; box-shadow: 0 0 40px rgba(0,0,0,0.8), 0 0 0 8px #151e2d; overflow: hidden; }
+.wheel { width: 100%; height: 100%; border-radius: 50%; background: conic-gradient(#e83a55 0 90deg, #4b8af5 90deg 180deg, #20e08b 180deg 270deg, #e8b846 270deg 360deg); transition: transform 4s cubic-bezier(0.1, 0.8, 0.1, 1); }
+.wheel-pointer { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-top: 30px solid #fff; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.5)); z-index: 5; }
+.wheel-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 60px; height: 60px; background: #0c111a; border-radius: 50%; border: 4px solid #fff; z-index: 4; display: grid; place-items: center; font-size: 24px; box-shadow: inset 0 0 10px rgba(0,0,0,0.8); }
+
+/* Coin Flip Game */
+.coin-stage { height: 200px; display: grid; place-items: center; perspective: 1000px; }
+.coin-3d { width: 120px; height: 120px; position: relative; transform-style: preserve-3d; transition: transform 2.5s cubic-bezier(0.1, 0.8, 0.1, 1); }
+.coin-side { position: absolute; width: 100%; height: 100%; border-radius: 50%; display: grid; place-items: center; font-size: 50px; font-weight: 900; backface-visibility: hidden; border: 4px solid #ffd76a; box-shadow: 0 10px 20px rgba(0,0,0,0.5), inset 0 0 20px rgba(255,215,106,0.3); }
+.coin-heads { background: radial-gradient(circle, #e8b846, #b0811e); transform: rotateY(0deg); color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+.coin-tails { background: radial-gradient(circle, #8ea1b8, #4c5d73); transform: rotateY(180deg); color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.5); border-color: #a2b4ce; }
+
+.settings-row { display: flex; justify-content: space-between; align-items: center; padding: 14px; background: rgba(255,255,255,0.03); border: 1px solid var(--line); border-radius: 14px; margin-bottom: 10px; }
+.toggle { appearance: none; width: 50px; height: 28px; background: #1c2638; border-radius: 20px; position: relative; cursor: pointer; outline: none; transition: 0.3s; }
+.toggle::after { content: ''; position: absolute; top: 2px; left: 2px; width: 24px; height: 24px; background: #fff; border-radius: 50%; transition: 0.3s; box-shadow: 0 2px 5px rgba(0,0,0,0.3); }
+.toggle:checked { background: var(--green); }
+.toggle:checked::after { transform: translateX(22px); }
+
+/* Case Opening Animation */
+.case-open-area { height: 250px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background: radial-gradient(circle at 50% 50%, rgba(255,215,106,0.1), transparent 70%); border-radius: 20px; border: 1px solid rgba(255,215,106,0.2); margin: 20px 0; }
+.case-prize { font-size: 80px; opacity: 0; transform: scale(0.5); transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+.case-prize.show { opacity: 1; transform: scale(1); animation: pulseGlow 2s infinite; }
+</style>
+</head>
+<body>
+<div class="app">
+<header class="top">
+  <div class="head">
+    <div class="brand"><button class="logo" onclick="openProfile()">✦</button> NeedCrash</div>
+    <div class="balance"><span class="coin">◈</span><span id="balance">0</span></div>
+  </div>
+  <div class="tabs">
+    <button class="tab active" data-mode="quick">Быстрые игры</button>
+    <button class="tab" data-mode="live">Кейсы & Инвентарь</button>
+    <button class="tab" data-mode="duel">Новые Игры</button>
+  </div>
+</header>
+
+<main class="page">
+  <section class="hero">
+    <h1 id="greeting">Добро пожаловать</h1>
+    <p>Игровая версия с улучшенной графикой, звуком и инвентарем.</p>
+    <div class="statgrid">
+      <div class="stat"><small>Баланс</small><strong id="heroBalance">0</strong></div>
+      <div class="stat"><small>Уровень</small><strong id="level">1</strong></div>
+    </div>
+  </section>
+  <div id="adminBox"></div>
+  <div class="section-title"><span id="modeTitle">Быстрые игры</span></div>
+  <div class="games" id="games"></div>
+</main>
+
+<nav class="bottom">
+  <button class="nav active" data-nav="games"><b>▦</b>Игры</button>
+  <button class="nav" data-nav="inventory"><b>🎒</b>Инвентарь</button>
+  <button class="nav" data-nav="settings"><b>⚙️</b>Настройки</button>
+  <button class="nav" data-nav="profile"><b>◉</b>Профиль</button>
+</nav>
+</div>
+
+<div class="modal" id="modal"><div class="sheet">
+  <div class="sheet-head"><h2 id="modalTitle">Окно</h2><button class="close" onclick="closeModal()">×</button></div>
+  <div id="modalBody"></div>
+</div></div>
+
+<script>
+// --- Initialization & State ---
+const ADMIN_ID = "8183675472";
+const tg = window.Telegram?.WebApp;
+try { tg?.ready(); tg?.expand(); } catch(e){}
+const tgUser = tg?.initDataUnsafe?.user;
+const userId = String(tgUser?.id || new URLSearchParams(location.search).get("tg_id") || "test-" + Math.floor(Math.random()*1000));
+const isAdmin = userId === ADMIN_ID;
+
+let state = JSON.parse(localStorage.getItem("nc_v2_" + userId)) || {
+  balance: 1000, level: 1, history: [],
+  stats: { played: 0, wins: 0 },
+  inventory: [], // Array of { id, icon, name, val }
+  settings: { sound: true, vibe: true }
+};
+state.inventory = state.inventory || [];
+state.settings = state.settings || { sound: true, vibe: true };
+
+function save() {
+  localStorage.setItem("nc_v2_" + userId, JSON.stringify(state));
+  updateUI();
+}
+function fmt(n) { return Math.floor(n).toLocaleString("ru-RU"); }
+function add(n) { state.balance += Math.floor(n); save(); }
+function spend(n) {
+  n = Math.floor(+n);
+  if(!Number.isFinite(n) || n < 1) { toast("Неверная сумма"); return false; }
+  if(state.balance < n) { toast("Недостаточно фишек"); return false; }
+  state.balance -= n; save(); return true;
+}
+
+// --- Audio & Haptics Engine ---
+const AudioContext = window.AudioContext || window.webkitAudioContext;
+let actx = null;
+
+function initAudio() {
+  if(!actx) actx = new AudioContext();
+  if(actx.state === 'suspended') actx.resume();
+}
+
+function playTone(freq, type, duration) {
+  if(!state.settings.sound) return;
+  initAudio();
+  const osc = actx.createOscillator();
+  const gain = actx.createGain();
+  osc.type = type;
+  osc.frequency.setValueAtTime(freq, actx.currentTime);
+  osc.connect(gain);
+  gain.connect(actx.destination);
+  osc.start();
+  gain.exponentialRampToValueAtTime(0.0001, actx.currentTime + duration);
+  osc.stop(actx.currentTime + duration);
+}
+
+function playSound(type) {
+  if(type === 'click') playTone(400, 'sine', 0.1);
+  if(type === 'win') { playTone(600, 'triangle', 0.1); setTimeout(()=>playTone(800, 'triangle', 0.25), 100); }
+  if(type === 'lose') { playTone(250, 'sawtooth', 0.3); }
+  if(type === 'spin') playTone(900, 'sine', 0.05);
+}
+
+function vibe(pattern) {
+  if(state.settings.vibe && navigator.vibrate) navigator.vibrate(pattern);
+}
+
+// --- UI Helpers ---
+function toast(msg) {
+  const t = document.createElement("div");
+  t.textContent = msg;
+  t.style.cssText = "position:fixed;z-index:999;bottom:100px;left:50%;transform:translateX(-50%);background:rgba(255,255,255,0.95);color:#000;padding:12px 20px;border-radius:30px;font-weight:800;box-shadow:0 10px 30px rgba(0,0,0,0.5);font-size:14px;animation:fadeIn 0.2s;text-align:center;";
+  document.body.appendChild(t);
+  setTimeout(() => { t.style.opacity = 0; setTimeout(()=>t.remove(), 200); }, 2000);
+  vibe(50);
+}
+
+function updateUI() {
+  document.getElementById("balance").textContent = fmt(state.balance);
+  document.getElementById("heroBalance").textContent = fmt(state.balance);
+  document.getElementById("level").textContent = state.level;
+  const gr = document.getElementById("greeting");
+  if(gr) gr.textContent = tgUser?.first_name ? `Привет, ${tgUser.first_name}!` : "Добро пожаловать";
+}
+
+function openModal(title, html) {
+  playSound('click');
+  const m = document.getElementById("modal");
+  document.getElementById("modalTitle").textContent = title;
+  document.getElementById("modalBody").innerHTML = html;
+  m.classList.add("show");
+}
+
+function closeModal() {
+  if(rocket.run) rocketCashout(true);
+  document.getElementById("modal").classList.remove("show");
+  playSound('click');
+}
+
+// --- Admin Panel ---
+function getAdminConfig() {
+  let c = {}; try { c = JSON.parse(localStorage.getItem("nc_admin") || "{}"); } catch(e){}
+  return { rocketX: +(c.rocketX || 0) };
+}
+function saveAdminConfig() {
+  const rx = +(document.getElementById("adminRocketX")?.value || 0);
+  localStorage.setItem("nc_admin", JSON.stringify({ rocketX: rx }));
+  toast("Сохранено!");
+}
+function renderAdmin() {
+  if(!isAdmin) return;
+  const cfg = getAdminConfig();
+  const box = document.getElementById("adminBox");
+  box.innerHTML = `
+    <section class="hero admin">
+      <h2 style="margin:0 0 10px; color:var(--gold)">🛠 Панель Админа</h2>
+      <label>Ракета X (0 = случайный)</label>
+      <input type="number" step="0.1" id="adminRocketX" value="${cfg.rocketX}" class="admin-input">
+      <button class="btn" onclick="saveAdminConfig()">Сохранить</button>
+    </section>
+  `;
+}
+
+// --- Games Registry ---
+const GAMES = [
+  { id: "rocket", icon: "🚀", title: "Ракета", desc: "Успей забрать куш", tab: "quick" },
+  { id: "mines", icon: "💣", title: "Мины", desc: "Не подорвись", tab: "quick" },
+  { id: "wheel", icon: "🎡", title: "Колесо Фортуны", desc: "Крути барабан", tab: "duel" },
+  { id: "coin", icon: "🪙", title: "Монетка", desc: "Орел или решка", tab: "duel" },
+  { id: "cases", icon: "📦", title: "Кейсы", desc: "Легендарный лут", tab: "live" }
+];
+
+function renderGames(filter = "quick") {
+  const wrap = document.getElementById("games");
+  wrap.innerHTML = "";
+  GAMES.filter(g => g.tab === filter).forEach(g => {
+    const el = document.createElement("button"); el.className = "card";
+    el.innerHTML = `<div class="art">${g.icon}</div><div class="card-body"><h3>${g.title}</h3><p>${g.desc}</p></div>`;
+    el.onclick = () => openGame(g.id);
+    wrap.appendChild(el);
+  });
+  document.getElementById("modeTitle").textContent = filter === "quick" ? "Быстрые игры" : filter === "live" ? "Кейсы" : "Новые Игры";
+}
+
+function openGame(id) {
+  const map = { rocket: gameRocket, cases: gameCases, wheel: gameWheel, coin: gameCoin, mines: gameMines };
+  map[id]?.();
+}
+
+// --- GAME: Rocket ---
+let rocket = { run: false, bet: 0, x: 1, timer: null, crash: 0 };
+function rocketCrashPoint() {
+  const cfg = getAdminConfig();
+  if (cfg.rocketX > 0) return cfg.rocketX;
+  const r = Math.random();
+  if(r < 0.35) return 1.05 + Math.random()*0.3;
+  if(r < 0.70) return 1.35 + Math.random()*0.65;
+  if(r < 0.90) return 2.00 + Math.random()*2.0;
+  return 4.00 + Math.random()*6.0;
+}
+
+function gameRocket() {
+  openModal("🚀 Ракета", `
+    <div class="rocket-box" id="rocketBox">
+      <div class="rocket-x" id="rocketX">1.00x</div>
+      <div class="rocket-ship" id="rocketShip">🚀</div>
+    </div>
+    <div class="msg" id="rocketMsg" style="text-align:center;font-size:16px;">Прием ставок</div>
+    <label>Ставка</label><input id="rocketBet" type="number" min="1" value="50">
+    <div class="row">
+      <button class="btn green" id="rocketStartBtn" onclick="rocketStart()">Запуск</button>
+      <button class="btn alt" id="rocketCashBtn" disabled onclick="rocketCashout()">Вывести</button>
+    </div>
+  `);
+}
+
+function rocketStart() {
+  if(rocket.run) return;
+  const bet = +document.getElementById("rocketBet").value;
+  if(!spend(bet)) return;
+  rocket = { run: true, bet, x: 1, timer: null, crash: rocketCrashPoint() };
+  document.getElementById("rocketX").textContent = "1.00x";
+  document.getElementById("rocketX").className = "rocket-x";
+  document.getElementById("rocketBox").classList.add("live");
+  document.getElementById("rocketMsg").textContent = "Полет начался!";
+  document.getElementById("rocketStartBtn").disabled = true;
+  document.getElementById("rocketCashBtn").disabled = false;
+  playSound('click');
+
+  let tick = 0;
+  rocket.timer = setInterval(() => {
+    tick++;
+    if(tick % 5 === 0) playSound('spin'); // ticking sound
+    rocket.x += 0.015 + (rocket.x * 0.008);
+    document.getElementById("rocketX").textContent = rocket.x.toFixed(2) + "x";
+    document.getElementById("rocketCashBtn").textContent = `Забрать ${fmt(rocket.bet * rocket.x)}`;
+    if(rocket.x >= rocket.crash) {
+      rocketCrash();
+    }
+  }, 50);
+}
+
+function rocketCrash() {
+  clearInterval(rocket.timer);
+  rocket.run = false;
+  document.getElementById("rocketBox").classList.remove("live");
+  const rx = document.getElementById("rocketX");
+  rx.textContent = rocket.crash.toFixed(2) + "x";
+  rx.className = "rocket-x crash-text";
+  document.getElementById("rocketMsg").innerHTML = `<span style="color:var(--red)">💥 Взрыв на ${rocket.crash.toFixed(2)}x</span>`;
+  document.getElementById("rocketStartBtn").disabled = false;
+  document.getElementById("rocketCashBtn").disabled = true;
+  document.getElementById("rocketCashBtn").textContent = "Вывести";
+  state.stats.played++; save();
+  playSound('lose'); vibe([100, 50, 100]);
+}
+
+function rocketCashout(silent = false) {
+  if(!rocket.run) return;
+  clearInterval(rocket.timer);
+  rocket.run = false;
+  document.getElementById("rocketBox").classList.remove("live");
+  const win = Math.floor(rocket.bet * rocket.x);
+  add(win);
+  document.getElementById("rocketMsg").innerHTML = `<span style="color:var(--green)">✅ Выведено: ${fmt(win)} ◈</span>`;
+  document.getElementById("rocketStartBtn").disabled = false;
+  document.getElementById("rocketCashBtn").disabled = true;
+  document.getElementById("rocketCashBtn").textContent = "Вывести";
+  state.stats.played++; state.stats.wins++; save();
+  if(!silent) { playSound('win'); vibe(100); }
+}
+
+// --- GAME: Mines (Simplified) ---
+function gameMines() {
+  openModal("💣 Мины", `
+    <div class="msg" style="text-align:center">Демо режим мин. Ставка 100 ◈, шанс 50% на удвоение.</div>
+    <button class="btn green" onclick="playMinesDemo()">Испытать удачу (100 ◈)</button>
+  `);
+}
+function playMinesDemo() {
+  if(!spend(100)) return;
+  const win = Math.random() > 0.5;
+  if(win) { add(200); playSound('win'); toast("✅ Разминировано! +200 ◈"); }
+  else { playSound('lose'); toast("💥 Мина! Вы проиграли."); }
+}
+
+// --- GAME: Wheel of Fortune ---
+let wheelSpinning = false;
+function gameWheel() {
+  openModal("🎡 Колесо", `
+    <div class="wheel-wrap">
+      <div class="wheel-pointer"></div>
+      <div class="wheel" id="wheelObj"></div>
+      <div class="wheel-center">◈</div>
+    </div>
+    <div class="msg" id="wheelMsg" style="text-align:center">Сектора: 0x, 0.5x, 2x, 5x</div>
+    <label>Ставка</label><input id="wheelBet" type="number" min="1" value="100">
+    <button class="btn green" id="wheelBtn" onclick="spinWheel()">Крутить!</button>
+  `);
+}
+function spinWheel() {
+  if(wheelSpinning) return;
+  const bet = +document.getElementById("wheelBet").value;
+  if(!spend(bet)) return;
+  wheelSpinning = true;
+  document.getElementById("wheelBtn").disabled = true;
+  playSound('click');
+
+  const segments = [
+    { mult: 0, color: 'red' },     // 0-90
+    { mult: 0.5, color: 'blue' },  // 90-180
+    { mult: 2, color: 'green' },   // 180-270
+    { mult: 5, color: 'gold' }     // 270-360
+  ];
+  
+  // Weights (bias towards lower)
+  const r = Math.random();
+  let stopSegment = 0;
+  if(r > 0.5) stopSegment = 1;
+  if(r > 0.8) stopSegment = 2;
+  if(r > 0.95) stopSegment = 3;
+
+  const degPerSeg = 90;
+  const baseRotation = 360 * 4; // 4 extra spins
+  const stopAngle = baseRotation + (stopSegment * degPerSeg) + (degPerSeg / 2); // Center of segment
+  
+  const wheel = document.getElementById("wheelObj");
+  // reset
+  wheel.style.transition = 'none';
+  wheel.style.transform = `rotate(0deg)`;
+  setTimeout(() => {
+    wheel.style.transition = 'transform 3s cubic-bezier(0.1, 0.8, 0.1, 1)';
+    wheel.style.transform = `rotate(-${stopAngle}deg)`; // Spin counter-clockwise relative to segments
+    
+    // play ticking sound
+    let ticks = 0;
+    let tInt = setInterval(()=>{
+      ticks++; playSound('spin'); vibe(10);
+      if(ticks > 25) clearInterval(tInt);
+    }, 100);
+
+    setTimeout(() => {
+      clearInterval(tInt);
+      wheelSpinning = false;
+      document.getElementById("wheelBtn").disabled = false;
+      const win = Math.floor(bet * segments[stopSegment].mult);
+      if(win > 0) {
+        add(win); playSound('win'); vibe([100,50,100]);
+        document.getElementById("wheelMsg").innerHTML = `<span style="color:var(--green)">Выигрыш: ${fmt(win)} ◈ (${segments[stopSegment].mult}x)</span>`;
+      } else {
+        playSound('lose'); vibe(200);
+        document.getElementById("wheelMsg").innerHTML = `<span style="color:var(--red)">Мимо! (0x)</span>`;
+      }
+      state.stats.played++; save();
+    }, 3000);
+  }, 50);
+}
+
+// --- GAME: Coin Flip ---
+let coinFlipping = false;
+function gameCoin() {
+  openModal("🪙 Орел или Решка", `
+    <div class="coin-stage">
+      <div class="coin-3d" id="coinObj">
+        <div class="coin-side coin-heads">О</div>
+        <div class="coin-side coin-tails">Р</div>
+      </div>
+    </div>
+    <div class="msg" id="coinMsg" style="text-align:center">Угадайте сторону. Коэффициент 1.9x</div>
+    <label>Ставка</label><input id="coinBet" type="number" min="1" value="100">
+    <div class="row">
+      <button class="btn" id="btnHeads" onclick="flipCoin('heads')">Орел</button>
+      <button class="btn alt" id="btnTails" onclick="flipCoin('tails')">Решка</button>
+    </div>
+  `);
+}
+function flipCoin(choice) {
+  if(coinFlipping) return;
+  const bet = +document.getElementById("coinBet").value;
+  if(!spend(bet)) return;
+  coinFlipping = true;
+  document.getElementById("btnHeads").disabled = true;
+  document.getElementById("btnTails").disabled = true;
+  playSound('spin');
+
+  const isHeads = Math.random() > 0.5;
+  const resultStr = isHeads ? 'heads' : 'tails';
+  const won = choice === resultStr;
+
+  const coin = document.getElementById("coinObj");
+  const spins = 5; 
+  const endRotate = isHeads ? (spins * 360) : (spins * 360 + 180);
+
+  coin.style.transition = 'none';
+  coin.style.transform = 'rotateY(0deg)';
+  setTimeout(() => {
+    coin.style.transition = 'transform 2s cubic-bezier(0.2, 0.8, 0.2, 1)';
+    coin.style.transform = `rotateY(${endRotate}deg)`;
+    
+    setTimeout(() => {
+      coinFlipping = false;
+      document.getElementById("btnHeads").disabled = false;
+      document.getElementById("btnTails").disabled = false;
+      if(won) {
+        const winAmount = Math.floor(bet * 1.9);
+        add(winAmount); playSound('win'); vibe([100,50,100]);
+        document.getElementById("coinMsg").innerHTML = `<span style="color:var(--green)">Победа! Выпал ${isHeads?'Орел':'Решка'}. +${fmt(winAmount)} ◈</span>`;
+      } else {
+        playSound('lose'); vibe(200);
+        document.getElementById("coinMsg").innerHTML = `<span style="color:var(--red)">Проигрыш. Выпал ${isHeads?'Орел':'Решка'}.</span>`;
+      }
+    }, 2000);
+  }, 50);
+}
+
+// --- CASES & LEGEND ITEM DROP ---
+const LEGEND_CASE_PRICE = 5000;
+const LEGEND_ITEMS = [
+  { id: '67', icon: '🔥', name: '67', val: 67000000, chance: 0.1 },
+  { id: 'diamond', icon: '💎', name: 'Алмаз', val: 10000, chance: 2 },
+  { id: 'rocket', icon: '🚀', name: 'Ракета', val: 100000, chance: 2 },
+  { id: 'cap', icon: '🧢', name: 'Кепка', val: 200, chance: 25.9 }, // Adjusted to equal 100%
+  { id: 'heart', icon: '❤️', name: 'Сердечко', val: 150, chance: 35 },
+  { id: 'bear', icon: '🧸', name: 'Мишка', val: 150, chance: 35 }
+];
+
+function getLegendDrop() {
+  const r = Math.random() * 100;
+  let sum = 0;
+  for(let i=0; i<LEGEND_ITEMS.length; i++) {
+    sum += LEGEND_ITEMS[i].chance;
+    if(r <= sum) return { ...LEGEND_ITEMS[i], uid: Date.now() + Math.random() };
+  }
+  return { ...LEGEND_ITEMS[LEGEND_ITEMS.length-1], uid: Date.now() + Math.random() };
+}
+
+function gameCases() {
+  openModal("📦 Кейсы", `
+    <div class="cases-scroll">
+      <div class="case-item" onclick="openLegendCase()">
+        <div class="case-icon">👑</div>
+        <div class="case-info">
+          <h3>Legend Case</h3>
+          <p>Эксклюзивные предметы в инвентарь</p>
+        </div>
+        <div class="case-price">${fmt(LEGEND_CASE_PRICE)} ◈</div>
+      </div>
+      <div class="case-item">
+        <div class="case-icon">🥈</div>
+        <div class="case-info"><h3>Silver (Скоро)</h3><p>Обычные фишки</p></div>
+        <div class="case-price">100 ◈</div>
+      </div>
+    </div>
+  `);
+}
+
+function openLegendCase() {
+  if(!spend(LEGEND_CASE_PRICE)) return;
+  
+  openModal("👑 Открытие Legend Case", `
+    <div class="case-open-area">
+      <div id="caseBoxDisplay" style="font-size:80px; animation: float 1s infinite;">📦</div>
+      <div id="casePrizeDisplay" class="case-prize"></div>
+    </div>
+    <div class="msg" id="caseOpenMsg" style="text-align:center;">Распаковываем...</div>
+    <button class="btn alt" id="caseBackBtn" disabled onclick="gameCases()">Назад к кейсам</button>
+  `);
+  
+  playSound('spin');
+  let t = setInterval(()=>{ vibe(20); playSound('spin'); }, 150);
+
+  setTimeout(() => {
+    clearInterval(t);
+    const drop = getLegendDrop();
+    state.inventory.push(drop); // Add to inventory array
+    save();
+
+    const cb = document.getElementById("caseBoxDisplay");
+    cb.style.display = 'none';
+
+    const cp = document.getElementById("casePrizeDisplay");
+    cp.textContent = drop.icon;
+    cp.classList.add("show");
+
+    document.getElementById("caseOpenMsg").innerHTML = `
+      <b style="color:var(--gold);font-size:18px;">${drop.name}</b><br>
+      Стоимость: ${fmt(drop.val)} ◈<br>
+      <small style="color:var(--green)">Предмет добавлен в ваш инвентарь!</small>
+    `;
+    
+    document.getElementById("caseBackBtn").disabled = false;
+    playSound('win'); vibe([100,50,200]);
+  }, 1500);
+}
+
+// --- INVENTORY ---
+let invSelectedIdx = null;
+
+function renderInventory() {
+  invSelectedIdx = null;
+  const slots = 16; // Display a grid of 16 slots minimum
+  let html = `<div class="msg" style="text-align:center">Ваши предметы. Нажмите на два предмета, чтобы поменять их местами, или выберите один для продажи.</div>`;
+  html += `<div class="inv-grid" id="invGrid">`;
+  
+  for(let i=0; i < Math.max(slots, state.inventory.length + (4 - state.inventory.length % 4)); i++) {
+    const item = state.inventory[i];
+    if(item) {
+      html += `<div class="inv-slot has-item" data-idx="${i}" onclick="handleInvClick(${i})">
+                 ${item.icon}
+               </div>`;
+    } else {
+      html += `<div class="inv-slot" data-idx="${i}" onclick="handleInvClick(${i})"></div>`;
+    }
+  }
+  html += `</div>`;
+  
+  html += `
+    <div id="itemInfoPanel" class="item-info-panel">
+       <h3 id="infoName">-</h3>
+       <p id="infoVal">-</p>
+       <button class="btn green" id="sellBtn" onclick="sellSelected()">Продать за фишки</button>
+    </div>
+  `;
+  
+  openModal("🎒 Инвентарь", html);
+}
+
+function handleInvClick(idx) {
+  playSound('click');
+  const grid = document.getElementById("invGrid");
+  const slots = grid.querySelectorAll('.inv-slot');
+  const infoPanel = document.getElementById("itemInfoPanel");
+  
+  // Swap Logic
+  if(invSelectedIdx !== null && invSelectedIdx !== idx) {
+    // Swap items in array
+    const temp = state.inventory[invSelectedIdx];
+    state.inventory[invSelectedIdx] = state.inventory[idx];
+    state.inventory[idx] = temp;
+    
+    // Clean array from trailing undefineds
+    while(state.inventory.length > 0 && !state.inventory[state.inventory.length-1]) {
+      state.inventory.pop();
+    }
+    
+    save();
+    vibe(30);
+    renderInventory(); // re-render completely
+    return;
+  }
+  
+  // Select Logic
+  if(invSelectedIdx === idx) {
+    // Deselect
+    invSelectedIdx = null;
+    slots[idx].classList.remove('selected');
+    infoPanel.style.display = 'none';
+  } else {
+    // Select new
+    if(invSelectedIdx !== null) slots[invSelectedIdx].classList.remove('selected');
+    
+    const item = state.inventory[idx];
+    if(item) {
+      invSelectedIdx = idx;
+      slots[idx].classList.add('selected');
+      document.getElementById("infoName").textContent = item.icon + " " + item.name;
+      document.getElementById("infoVal").textContent = "Цена: " + fmt(item.val) + " ◈";
+      infoPanel.style.display = 'block';
+    } else {
+      invSelectedIdx = null;
+      infoPanel.style.display = 'none';
+    }
+  }
+}
+
+function sellSelected() {
+  if(invSelectedIdx === null) return;
+  const item = state.inventory[invSelectedIdx];
+  if(!item) return;
+  
+  add(item.val);
+  state.inventory.splice(invSelectedIdx, 1);
+  save();
+  playSound('win'); vibe([50,50]);
+  toast(`Продано за ${fmt(item.val)} ◈`);
+  renderInventory();
+}
+
+// --- SETTINGS ---
+function renderSettings() {
+  openModal("⚙️ Настройки", `
+    <div class="settings-row">
+      <span style="font-weight:700">Звуковые эффекты</span>
+      <input type="checkbox" class="toggle" id="toggleSound" ${state.settings.sound ? 'checked' : ''} onchange="toggleSetting('sound', this.checked)">
+    </div>
+    <div class="settings-row">
+      <span style="font-weight:700">Вибрация (Haptic)</span>
+      <input type="checkbox" class="toggle" id="toggleVibe" ${state.settings.vibe ? 'checked' : ''} onchange="toggleSetting('vibe', this.checked)">
+    </div>
+    <div class="msg" style="text-align:center; margin-top:20px;">
+      Настройки сохраняются на вашем устройстве автоматически.
+    </div>
+  `);
+}
+
+function toggleSetting(key, val) {
+  state.settings[key] = val;
+  save();
+  if(key === 'sound' && val) { initAudio(); playSound('click'); }
+  if(key === 'vibe' && val) vibe(50);
+}
+
+// --- PROFILE ---
+function openProfile() {
+  openModal("◉ Профиль", `
+    <div class="statgrid">
+      <div class="stat"><small>ID Игрока</small><strong style="font-size:14px">${userId}</strong></div>
+      <div class="stat"><small>Фишки</small><strong>${fmt(state.balance)}</strong></div>
+      <div class="stat"><small>Сыграно Игр</small><strong>${state.stats.played}</strong></div>
+      <div class="stat"><small>Предметов</small><strong>${state.inventory.length}</strong></div>
+    </div>
+    <button class="btn alt" onclick="renderInventory()">Открыть Инвентарь</button>
+    <button class="btn alt" onclick="renderSettings()">Настройки</button>
+    <button class="btn danger" onclick="if(confirm('Сбросить весь прогресс?')) { localStorage.removeItem('nc_v2_'+userId); location.reload(); }">Сброс аккаунта</button>
+  `);
+}
+
+// --- Setup Navigation ---
+document.querySelectorAll(".tab").forEach(b => {
+  b.onclick = () => {
+    document.querySelectorAll(".tab").forEach(x => x.classList.remove("active"));
+    b.classList.add("active");
+    playSound('click');
+    renderGames(b.dataset.mode);
+  };
+});
+
+document.querySelectorAll(".nav").forEach(b => {
+  b.onclick = () => {
+    document.querySelectorAll(".nav").forEach(x => x.classList.remove("active"));
+    b.classList.add("active");
+    playSound('click');
+    const nav = b.dataset.nav;
+    if(nav === "games") { closeModal(); window.scrollTo({top:0, behavior:"smooth"}); }
+    else if(nav === "inventory") renderInventory();
+    else if(nav === "settings") renderSettings();
+    else if(nav === "profile") openProfile();
+  };
+});
+
+// Init
+updateUI();
+renderGames();
+renderAdmin();
+
+// Handle touch interaction initializations
+document.body.addEventListener('touchstart', initAudio, { once: true });
+document.body.addEventListener('click', initAudio, { once: true });
+
+</script>
+</body>
+</html>
